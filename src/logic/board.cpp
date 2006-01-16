@@ -32,7 +32,7 @@ Board::Board(PlayerIF * white, PlayerIF * black)
 		turn = WHITE;
 		
 		// init board
-		for(byte i=0; i<64; i++) {
+		for(int i=0; i<64; i++) {
 			_map[i] = NULL;
 		}
 		
@@ -88,7 +88,7 @@ Board::Board(PlayerIF * white, PlayerIF * black)
 Board::~Board()
 {
     // distruggi tutti i pezzi!
-    for(byte i=0; i<64; i++) {
+    for(int i=0; i<64; i++) {
 		if( _map[i] != NULL)
 			delete _map[i];
     }
@@ -257,11 +257,11 @@ void Board::switchAutoThinking(const colour_t colour)
   if( tmpPlayer == NULL ) {
     if( colour == WHITE ) {
       tmpPlayer    = _blackPlayer;
-      _blackPlayer = new CPUPlayer(BLACK);
+      _blackPlayer = new CPUPlayer(BLACK,6,1);
     }
     else {
       tmpPlayer = _whitePlayer;
-      _whitePlayer = new CPUPlayer(WHITE);
+      _whitePlayer = new CPUPlayer(WHITE,6,1);
     }
   }
 
@@ -434,7 +434,7 @@ int Board::evaluate()
     int val = 0;
 	int gameStat = 0;
     
-    for(byte i=0; i<64; i++) {
+    for(int i=0; i<64; i++) {
 		if(_map[i] != NULL) {			
 			val += _map[i]->getRank()          * _map[i]->getColour();
 			val += _map[i]->getPosEvaluation() * _map[i]->getColour();   
@@ -475,19 +475,18 @@ int Board::getMoveCount()
 /////////////////////////////////////////////////////////////////////
 BoardValue::BoardValue(Board *b, byte depth, unsigned int dstTableSize)
 {
+	int base = 127;
     this->depth = depth;
     
     hashkey = 0;
-    for(byte i=0; i<64; i++) {
+    for(int i=0; i<64; i++) {
 		if( b->getPiece(i) != NULL )
 			map[i] = b->getPiece(i)->getValue();
 		else
 			map[i] = 0;
 		
-		hashkey += (map[i] * i) % 97;
+		hashkey = (base * hashkey + map[i]) % dstTableSize;
     }
-	
-    hashkey = hashkey % dstTableSize;
 }
 
 BoardValue::~BoardValue()
@@ -511,7 +510,7 @@ byte * BoardValue::getMap()
 
 bool BoardValue::usableFor(BoardValue *b)
 {
-    for(byte i=0; i<64; i++) {
+    for(int i=0; i<64; i++) {
 		if( map[i] != b->getMap()[i] ) return false;
     }
 	
