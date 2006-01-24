@@ -32,7 +32,6 @@ CPUPlayer::CPUPlayer(colour_t colour, int plyDeep, int moveSeconds) : PlayerIF(c
 	this->evc = new HashCache(1102317);
 	this->timec = new TimeControl();
 	this->moveCalcTime = moveSeconds;
-	this->ffprob = true;
 }
 
 // class destructor
@@ -82,7 +81,7 @@ void CPUPlayer::doYourMove() /* throws ... */
 		
 		cerr << "Mossa scelta." << endl;
 		printf("da x:%d,y:%d    a x:%d,y:%d\n", m->getSourceX(), m->getSourceY(), m->getX(), m->getY());
-		printf("time   req:%d real:%d\n", timec->getRequestedTime(), timec->getRealTime());
+		printf("time   req:%d real:%d\n", int(timec->getRequestedTime()), int(timec->getRealTime()) );
 		printf("hashtable hit:%d miss:%d\n", evc->getStatsHit(), evc->getStatsMiss());
     }
     catch(InvalidMoveException *e) {
@@ -110,9 +109,10 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
     list<Piece *>::iterator pList_iter;
     list<Move *> mList;
     list<Move *>::iterator mList_iter;
-    int val = 0, best = 0, alfab = 0, betab = 0, thiseval = 0;
-    Move * myBest, *currMove;
-    BoardValue *thisBoardVal, *hashBoardVal;
+    int val = 0, best = 0, alfab = 0, betab = 0;
+    Move * myBest = NULL, *currMove = NULL;
+    BoardValue *thisBoardVal = NULL, *hashBoardVal = NULL;
+	static bool ffprob = true;
 	
 	
     //

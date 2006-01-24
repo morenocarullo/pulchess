@@ -43,7 +43,7 @@ namespace pulchess { namespace logic {
   
 byte Knight::getPosEvaluation()
 {
-	return posvaltbl[ colour == WHITE ? 0 : 1 ][pos];
+	return posvaltbl[ colour == WHITE ? 0 : 1 ][int(pos)];
 }
 
   bool Knight::isValidMove(byte newpos, Board* b) 

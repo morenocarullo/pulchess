@@ -34,7 +34,7 @@ namespace pulchess { namespace logic {
   public:
     Move();
     Move(byte src, byte dst);
-    ~Move();
+    virtual ~Move();
 
     byte    getSrcIdx();
     byte    getDstIdx();

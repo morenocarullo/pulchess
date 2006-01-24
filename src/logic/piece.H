@@ -42,7 +42,7 @@ namespace pulchess { namespace logic {
   public:
     Piece();
     Piece(colour_t colour);
-    ~Piece();
+    virtual ~Piece();
     
     colour_t getColour();
     bool isEnemy(Piece *p);

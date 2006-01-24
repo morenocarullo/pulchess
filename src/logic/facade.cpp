@@ -44,7 +44,7 @@ public:
     CoordsMove * getCoordsMove()
     {
 		string moveCmd;
-		CoordsMove * move;
+		CoordsMove * move = NULL;
 		bool mossaOk = false;
 		
 		// ripete la richiesta di una mossa finche' non ne viene data una
@@ -96,9 +96,10 @@ public:
 				break;
 				
 			default:
-				return NULL;
 				break;
 		}
+
+		return NULL;
     }
     
 };
@@ -136,8 +137,7 @@ void Facade::setController(HumanControllerFacade * c, int colour)
 // inizializza il gioco
 void Facade::init()
 {
-    PlayerIF *whitePlayer, *blackPlayer;
-    Board * b;
+    PlayerIF *whitePlayer = NULL, *blackPlayer = NULL;
 	
     // seleziona la modalita' di gioco.
     switch( gameMode )
