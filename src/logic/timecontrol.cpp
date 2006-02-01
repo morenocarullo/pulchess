@@ -1,4 +1,4 @@
-#include "logic/timecontrol.H"
+#include "timecontrol.H"
 
 namespace pulchess { namespace logic {
   
