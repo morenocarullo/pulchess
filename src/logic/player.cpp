@@ -19,7 +19,7 @@
  * Created on 15-lug-2005
  * $Id$
  */
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
 namespace pulchess { namespace logic {
 
@@ -31,7 +31,6 @@ namespace pulchess { namespace logic {
 
   PlayerIF::~PlayerIF()
   {
-
   }
   
   colour_t PlayerIF::getColour() {
@@ -52,7 +51,7 @@ namespace pulchess { namespace logic {
   
   list<Piece *> * PlayerIF::getPieceList()
   {
-    _board->listPieces(getColour());
+    return _board->listPieces(getColour());
   }
 
 };

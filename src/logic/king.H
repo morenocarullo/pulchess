@@ -20,7 +20,7 @@
 * $Id$
 */
 
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
 #ifndef _pulchess_logic_king_h_
 #define _pulchess_logic_king_h
@@ -36,10 +36,10 @@ namespace pulchess { namespace logic {
 
     int getKind();
     int getRank();
-    byte getValue();
-	byte getPosEvaluation();
+    coord_t getValue();
+	int getPosEvaluation();
     list<Move *> * listMoves(Board* b);
-    bool    isValidMove(byte pos, Board * b);
+    bool    isValidMove(coord_t pos, Board * b);
   };
 
 };

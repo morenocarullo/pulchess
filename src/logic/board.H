@@ -19,7 +19,7 @@
  * Created on 15-lug-2005
  * $Id$
  */
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
 #ifndef _pulchess_logic_board_h_
 #define _pulchess_logic_board_h_
@@ -63,8 +63,8 @@ namespace pulchess { namespace logic {
     int moveCount;
     
     Piece * getPiece(const coord_t x, const coord_t y);
-    Piece * getPiece(const byte idx);
-    void    setPiece(const byte pos, Piece *p);
+    Piece * getPiece(const coord_t idx);
+    void    setPiece(const coord_t pos, Piece *p);
     void    pieceListAdd(Piece *p);
     void    pieceListDel(Piece *p);
 
@@ -93,18 +93,18 @@ namespace pulchess { namespace logic {
   /////////////////////////////////////////////
   class BoardValue {
   private:
-    byte map[64];
-    byte depth;
+    coord_t map[64];
+    coord_t depth;
     int hashkey;
 
   public:
-    BoardValue(Board *b, byte depth, unsigned int dstTableSize);
+    BoardValue(Board *b, coord_t depth, unsigned int dstTableSize);
     ~BoardValue();
 
     unsigned int getHashKey();
-    byte getDepth();
+    coord_t getDepth();
     bool usableFor(BoardValue *b);
-    byte* getMap();
+    coord_t* getMap();
   };
 
 };

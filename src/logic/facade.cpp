@@ -20,8 +20,8 @@
 * $Id$
 */
 
-#include "logic/stdheader.h"
-#include "logic/facade.H"
+#include "stdheader.h"
+#include "facade.H"
 
 namespace pulchess { namespace logic {
 

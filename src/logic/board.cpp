@@ -18,7 +18,7 @@
  * Created on 15-lug-2005
  * $Id$
  */
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
 #define piece_at(X,Y)  _map[ (Y)*8 + (X) ]
 #define piece_dr(I)    _map[ (I) ]
@@ -215,7 +215,7 @@ Piece * Board::getPiece(const coord_t x, const coord_t y)
 //
 // costo: O(1)
 /////////////////////////////////////
-Piece * Board::getPiece(const byte idx)
+Piece * Board::getPiece(const coord_t idx)
 {
     return piece_dr(idx);
 }
@@ -225,7 +225,7 @@ Piece * Board::getPiece(const byte idx)
 //
 // costo: O(1)
 /////////////////////////////////////  
-void Board::setPiece(const byte pos, Piece *p)
+void Board::setPiece(const coord_t pos, Piece *p)
 {
     piece_dr(pos) = p;
 }  
@@ -485,7 +485,7 @@ int Board::getMoveCount()
 // Start of BoardValue class implementation
 //
 /////////////////////////////////////////////////////////////////////
-BoardValue::BoardValue(Board *b, byte depth, unsigned int dstTableSize)
+BoardValue::BoardValue(Board *b, coord_t depth, unsigned int dstTableSize)
 {
 	int base = 127;
     this->depth = depth;
@@ -510,12 +510,12 @@ unsigned int BoardValue::getHashKey()
     return hashkey;
 }
 
-byte BoardValue::getDepth()
+coord_t BoardValue::getDepth()
 {
     return depth;
 }
 
-byte * BoardValue::getMap()
+coord_t * BoardValue::getMap()
 {
     return map;
 }

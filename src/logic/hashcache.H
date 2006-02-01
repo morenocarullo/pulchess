@@ -22,7 +22,7 @@
 #ifndef _pulchess_util_hash_
 #define _pulchess_util_hash_
 
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
 namespace pulchess { namespace logic {
 

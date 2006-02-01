@@ -19,7 +19,7 @@
 * Created on 15-lug-2005
 * $Id$
 */
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
 #define ACCEPTMOVE() ( ffprob = ffprob ? false : true )
 
@@ -79,10 +79,10 @@ void CPUPlayer::doYourMove() /* throws ... */
 		m->commit();
 		timec->resetTimer();
 		
-		cerr << "Mossa scelta." << endl;
-		printf("da x:%d,y:%d    a x:%d,y:%d\n", m->getSourceX(), m->getSourceY(), m->getX(), m->getY());
-		printf("time   req:%d real:%d\n", int(timec->getRequestedTime()), int(timec->getRealTime()) );
-		printf("hashtable hit:%d miss:%d\n", evc->getStatsHit(), evc->getStatsMiss());
+		//cerr << "Mossa scelta." << endl;
+		//printf("da x:%d,y:%d    a x:%d,y:%d\n", m->getSourceX(), m->getSourceY(), m->getX(), m->getY());
+		//printf("time   req:%d real:%d\n", int(timec->getRequestedTime()), int(timec->getRealTime()) );
+		//printf("hashtable hit:%d miss:%d\n", evc->getStatsHit(), evc->getStatsMiss());
     }
     catch(InvalidMoveException *e) {
 		cerr << "Errore nella generazione della mossa:" << endl;

@@ -19,7 +19,7 @@
  * Created on 15-lug-2005
  * $Id$
  */
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
 #ifndef _PULCHESS_LOGIC_TOWER_H_
 #define _PULCHESS_LOGIC_TOWER_H_
@@ -35,8 +35,8 @@ class Tower : public Piece {
   string getName();
   int getRank();
   int getKind();
-  byte getValue();
-  bool isValidMove(byte pos, Board * b);
+  coord_t getValue();
+  bool isValidMove(coord_t pos, Board * b);
   list<Move *> * listMoves(Board * b);  
 };
  

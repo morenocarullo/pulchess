@@ -2,7 +2,7 @@
  * Created on 24-gen-2005
  * $Id$
  */
-#include "logic/stdheader.h"
+#include "stdheader.h"
  
 #ifndef _pulchess_logic_move_h_
 #define _pulchess_logic_move_h_
@@ -25,19 +25,19 @@ namespace pulchess { namespace logic {
   {
 
   protected:
-    byte    src;
-    byte    dst;
+    coord_t src;
+    coord_t dst;
 
     Piece * deadPiece;		
     Piece * promotedSoldier;
     
   public:
     Move();
-    Move(byte src, byte dst);
+    Move(coord_t src, coord_t dst);
     virtual ~Move();
 
-    byte    getSrcIdx();
-    byte    getDstIdx();
+    coord_t    getSrcIdx();
+    coord_t    getDstIdx();
 
     coord_t getX();
     coord_t getY();
@@ -62,12 +62,12 @@ namespace pulchess { namespace logic {
   class EPMove : public Move {
 
   private:
-    byte eat;
+    coord_t eat;
     
   public:
-    EPMove(byte dst, byte src, byte eat);
+    EPMove(coord_t dst, coord_t src, coord_t eat);
 
-    byte    getEatIdx();
+    coord_t    getEatIdx();
     coord_t getEatX();
     coord_t getEatY();
 
@@ -89,7 +89,7 @@ namespace pulchess { namespace logic {
   
   class RookMove : public Move {
   private:
-    byte kind;
+    coord_t kind;
     colour_t pcol;
 
   public:

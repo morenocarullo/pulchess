@@ -1,6 +1,6 @@
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
-static byte posvaltbl[2][64] = 
+static coord_t posvaltbl[2][64] = 
 {
 {
 	0,8,0,0,0,0,8,0,
@@ -36,21 +36,21 @@ namespace pulchess { namespace logic {
     return 3;
   }
 
-  byte Knight::getValue()
+  coord_t Knight::getValue()
   {
-    return (byte)7 + colour*2;
+    return (coord_t)7 + colour*2;
   }
   
-byte Knight::getPosEvaluation()
+int Knight::getPosEvaluation()
 {
 	return posvaltbl[ colour == WHITE ? 0 : 1 ][int(pos)];
 }
 
-  bool Knight::isValidMove(byte newpos, Board* b) 
+  bool Knight::isValidMove(coord_t newpos, Board* b) 
   {
     bool result = false;
     Piece* p;
-    int newx  = pos2x(newpos), newy = pos2y(newpos);
+    coord_t newx  = pos2x(newpos), newy = pos2y(newpos);
 
     // se le nuove coordinate sono non valide... niente da fare.
     if( !OKCOORDS(newpos) )

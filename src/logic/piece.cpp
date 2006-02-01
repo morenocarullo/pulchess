@@ -1,8 +1,25 @@
+/*
+ * PROJECT: PulCHESS, a Computer Chess program
+ * LICENSE: GPL, see license.txt in project root
+ * FILE:	Piece implementation
+ **********************************************************************
+ * This program is free software; you can redistribute it and/or modify         
+ * it under the terms of the GNU General Public License as published by      
+ * the Free Software Foundation; either version 2 of the License, or         
+ * (at your option) any later version.                                       
+ *                                                                           
+ * This program is distributed in the hope that it will be useful,           
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of            
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
+ * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
+ * for more details.                                                         
+ **********************************************************************
+ * Created on 15-lug-2005
+ * $Id$
+ */
 #include "stdheader.h"
 
 namespace pulchess { namespace logic {
-
-  int Piece::allocStat = 0;
 
   Piece::Piece()
   {
@@ -10,6 +27,7 @@ namespace pulchess { namespace logic {
     x = -1;
     y = -1;
     pos = -1;
+	this->colour = WHITE;
   }
 
   Piece::Piece(colour_t colour)
@@ -89,17 +107,17 @@ namespace pulchess { namespace logic {
     return y;
   }
 
-  byte Piece::getPos()
+  coord_t Piece::getPos()
   {
     return pos;
   }
   
-  byte Piece::getPosEvaluation()
+  int Piece::getPosEvaluation()
   {
 	return 0;
   }
 
-  void Piece::moveTo(byte newpos)
+  void Piece::moveTo(coord_t newpos)
   {
     this->x   = pos2x(newpos);
     this->y   = pos2y(newpos);
@@ -107,7 +125,7 @@ namespace pulchess { namespace logic {
     moveCount++;
   }
 
-  void Piece::rollback(byte newpos)
+  void Piece::rollback(coord_t newpos)
   {
     this->x   = pos2x(newpos);
     this->y   = pos2y(newpos);
@@ -125,14 +143,14 @@ namespace pulchess { namespace logic {
     moveCount = ct;
   }
 
-  bool Piece::isValidMove_diag(byte newpos, Board *b)
+  bool Piece::isValidMove_diag(coord_t newpos, Board *b)
   {
     int
       int_x    = x,
       int_y    = y,
       int_newx = pos2x(newpos),
       int_newy = pos2y(newpos);
-
+	  
     Piece *p;
 
     if( !OKCOORDS(newpos)  ) return false;
@@ -159,7 +177,7 @@ namespace pulchess { namespace logic {
     return false;
   }
 
-  bool Piece::isValidMove_croce(byte newpos, Board *b)
+  bool Piece::isValidMove_croce(coord_t newpos, Board *b)
   {
     int
       int_x    = x,

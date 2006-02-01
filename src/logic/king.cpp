@@ -19,9 +19,9 @@
  * Created on 15-lug-2005
  * $Id$
  */
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
-static byte posvaltbl[2][64] = 
+static coord_t posvaltbl[2][64] = 
 {
 {
 	9,9,9,9,9,9,9,9,
@@ -57,20 +57,20 @@ int King::getRank()
     return 200; // king's rank
 }
 
-byte King::getValue()
+coord_t King::getValue()
 {
-    return (byte)7 + colour*6;
+    return (coord_t)7 + colour*6;
 }
 
-byte King::getPosEvaluation()
+int King::getPosEvaluation()
 {
 	return posvaltbl[ colour == WHITE ? 0 : 1 ][pos];
 }
 
-bool King::isValidMove(byte newpos, Board * b)
+bool King::isValidMove(coord_t newpos, Board * b)
 {
-    int newx = pos2x(newpos), newy = pos2y(newpos);
-    int diffX = x - newx, diffY = y - newy;
+    coord_t newx = pos2x(newpos), newy = pos2y(newpos);
+    int diffX = int(x) - newx, diffY = int(y) - newy;
 	
     // rimanere fermi non va bene!
     if( newpos == pos ) {

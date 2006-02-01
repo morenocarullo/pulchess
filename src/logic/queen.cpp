@@ -19,7 +19,7 @@
  * Created on 15-lug-2005
  * $Id$
  */
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
 namespace pulchess { namespace logic {
 
@@ -35,7 +35,7 @@ namespace pulchess { namespace logic {
     return 9; // queen's rank
   }
 
-  byte Queen::getValue()
+  coord_t Queen::getValue()
   {
     return 7 + colour*5;
   }
@@ -43,7 +43,7 @@ namespace pulchess { namespace logic {
   // La mossa della regina e' valida se e' in diagonale oppure
   // in orizzontale / verticale.
   //
-  bool Queen::isValidMove(byte newpos, Board * b)
+  bool Queen::isValidMove(coord_t newpos, Board * b)
   {
     if( isValidMove_diag(newpos, b) )
       return true;
@@ -74,7 +74,7 @@ namespace pulchess { namespace logic {
    Piece * p = NULL;
    int i,j;
 
-  loop_1: // diagonale verso nord-est
+    // diagonale verso nord-est
     for(i=1; i<8; i++) {
       queen_add_move(i,i,loop_2);
     }

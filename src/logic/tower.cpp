@@ -38,12 +38,12 @@ namespace pulchess { namespace logic {
     return 8;
   }
 
-  byte Tower::getValue()
+  coord_t Tower::getValue()
   {
     return 7 + colour*4;
   }
 
-  bool Tower::isValidMove(byte pos, Board * b)
+  bool Tower::isValidMove(coord_t pos, Board * b)
   {
     return isValidMove_croce(pos, b);
   }
@@ -68,22 +68,22 @@ namespace pulchess { namespace logic {
  } \
 
     // proviamo a spostare la torre alla sua destra.
-    for(int i=1; i< 8-x ; i++) {
+    for(coord_t i=1; i< 8-x ; i++) {
       tower_add_move(x+i, y);
     }
     
     // proviamo a spostare la torre alla sua sinistra
-    for(int i=8-x; i>0; i--) {
+    for(coord_t i=8-x; i>0; i--) {
       tower_add_move(x-i, y); 
     }
 
     // proviamo a spostare la torre in basso
-    for(int i=1; i<8-y; i++) {
+    for(coord_t i=1; i<8-y; i++) {
       tower_add_move(x, y+i);
     }
 
     // proviamo a spostare la torre in alto
-    for(int i=8-y; i>0; i--) {
+    for(coord_t i=8-y; i>0; i--) {
       tower_add_move(x, y-i);
     }
 

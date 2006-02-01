@@ -6,7 +6,7 @@
  * Created on 15-lug-2005
  * $Id$
  */
-#include "logic/stdheader.h"
+#include "stdheader.h"
 #include <stdio.h>  // C stdio
 
 #define CANCPIECE(X) b->pieceListDel((X));
@@ -58,7 +58,7 @@ Move::Move()
 }
 
 
-Move::Move(byte newpos, byte startpos)
+Move::Move(coord_t newpos, coord_t startpos)
 {
     this->dst = newpos;
     this->src = startpos;
@@ -89,13 +89,13 @@ Move * Move::copy()
 }
 
 
-byte Move::getSrcIdx()
+coord_t Move::getSrcIdx()
 {
     return src;
 }
 
 
-byte Move::getDstIdx()
+coord_t Move::getDstIdx()
 {
     return dst;
 }
@@ -149,7 +149,7 @@ coord_t Move::getY()
 
 void Move::play(Board* b)
 {
-    byte
+    coord_t
 	srcI = getSrcIdx(),
 	dstI = getDstIdx();
 	
@@ -225,7 +225,7 @@ void Move::play(Board* b)
 
 void Move::rewind(Board* b)
 {
-    byte
+    coord_t
 	srcI = getDstIdx(),
 	dstI = getSrcIdx();
 	
@@ -277,7 +277,7 @@ void Move::commit()
     }
 }
 
-EPMove::EPMove(byte newpos, byte startpos, byte eat) : Move(newpos, startpos)
+EPMove::EPMove(coord_t newpos, coord_t startpos, coord_t eat) : Move(newpos, startpos)
 {
 	this->dst = newpos;
 	this->src = startpos;
@@ -305,7 +305,7 @@ void EPMove::play(Board *b)
     CANCPIECE( pEaten );    
 }
 
-byte EPMove::getEatIdx()
+coord_t EPMove::getEatIdx()
 {
     return eat;
 }

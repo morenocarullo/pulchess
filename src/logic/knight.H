@@ -6,7 +6,7 @@
  * Created on 15-lug-2005
  * $Id$
  */
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
 #ifndef _pulchess_logic_knight_h_
 #define _pulchess_logic_knight_h
@@ -20,10 +20,10 @@ namespace pulchess { namespace logic {
     Knight(colour_t colour) : Piece(colour) {};
     int getKind();
     int getRank();
-    byte getValue();
+    coord_t getValue();
     list<Move *> * listMoves(Board* b);
-    bool isValidMove(byte pos, Board * b);
-	byte getPosEvaluation();
+    bool isValidMove(coord_t pos, Board * b);
+	int getPosEvaluation();
   };
 
 };

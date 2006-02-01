@@ -19,7 +19,7 @@
 * Created on 15-lug-2005
 * $Id$
 */
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
 #ifndef _pulchess_logic_humancontroller_h
 #define _pulchess_logic_humancontroller_h

@@ -1,3 +1,24 @@
+/*
+* PROJECT: PulCHESS, a Computer Chess program
+* LICENSE: GPL, see license.txt in project root
+* FILE:    pulchess::logic "module" global header
+*
+**********************************************************************
+* This program is free software; you can redistribute it and/or modify         
+* it under the terms of the GNU General Public License as published by      
+* the Free Software Foundation; either version 2 of the License, or         
+* (at your option) any later version.                                       
+*                                                                           
+* This program is distributed in the hope that it will be useful,           
+* but WITHOUT ANY WARRANTY; without even the implied warranty of            
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
+* GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
+* for more details.                                                         
+********************************************************************** 
+*
+* Created on 15-lug-2005
+* $Id$
+*/
 #ifndef _PULCHESS_LOGIC_STDHEADER_H_
 #define _PULCHESS_LOGIC_STDHEADER_H_
 
@@ -7,8 +28,8 @@
 #include <iostream> // DEBUG
 #include <cstdio>  // DEBUG
 
-typedef char coord_t;
-typedef char byte;
+typedef signed char coord_t;
+typedef unsigned char byte;
 typedef signed char colour_t ;
 
 #define WHITE 1
@@ -26,23 +47,21 @@ typedef signed char colour_t ;
 
 #define NOT_A_COORD   11
 
-#include "logic/piece.H"
-#include "logic/tower.H"
-#include "logic/queen.H"
-#include "logic/king.H"
-#include "logic/knight.H"
-#include "logic/soldier.H"
-#include "logic/bishop.H"
-#include "logic/board.H"
-#include "logic/move.H"
-#include "logic/cpuplayer.H"
-#include "logic/humanplayer.H"
-#include "logic/humancontroller.H"
-#include "logic/playerif.H"
-#include "logic/CoordsException.h"
-#include "logic/InvalidMoveException.h"
-#include "logic/hashcache.H"
-
-
+#include "piece.H"
+#include "tower.H"
+#include "queen.H"
+#include "king.H"
+#include "knight.H"
+#include "soldier.H"
+#include "bishop.H"
+#include "board.H"
+#include "move.H"
+#include "cpuplayer.H"
+#include "humanplayer.H"
+#include "humancontroller.H"
+#include "playerif.H"
+#include "CoordsException.h"
+#include "InvalidMoveException.h"
+#include "hashcache.H"
 
 #endif //_PULCHESS_LOGIC_STDHEADER_H_

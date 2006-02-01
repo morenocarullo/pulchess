@@ -1,4 +1,4 @@
-#include "logic/facade.H"
+#include "facade.H"
 #include <iostream>
 #include <cstdio>
 #include <ctype.h> // toupper()

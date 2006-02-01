@@ -19,7 +19,7 @@
  * Created on 22-lug-2005
  * $Id$
  */
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
 #ifndef _pulchess_logic_bishop_h_
 #define _pulchess_logic_bishop_h_
@@ -35,10 +35,10 @@ public:
 	
     int getKind();
     int getRank();
-    byte getValue();
+    coord_t getValue();
 	
 	//! is the specified pos move a valid one?
-    bool isValidMove(byte pos, Board * b);
+    bool isValidMove(coord_t pos, Board * b);
 	
 	//! get a list of possible moves
     list<Move *> * listMoves(Board* b);

@@ -1,8 +1,7 @@
 /*
  * PROJECT: PulCHESS, a Computer Chess program
  * LICENSE: GPL, see license.txt in project root
- * FILE: Soldier interface
- *
+ * FILE:	Pawn interface
  **********************************************************************
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
@@ -15,32 +14,44 @@
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
  * for more details.                                                         
  **********************************************************************
- * 
  * Created on 15-lug-2005
  * $Id$
  */
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
 #ifndef _pulchess_logic_soldier_h_
 #define _pulchess_logic_soldier_h
 
 namespace pulchess { namespace logic {
 
+  //! A pawn piece
   class Soldier : public Piece
   {
     
   public:
+    //! Create a new pawn, given its colour
     Soldier(colour_t colour) : Piece(colour) {};
 
+	//! What kind of piece am i?
     int getKind();
+	
+	//! This piece's rank
     int getRank();
-    byte getValue();
+	
+	//! Piece position
+    coord_t getValue();
+	
+	//! Get valid moves list
     list<Move *> * listMoves(Board* b);
-    bool isValidMove(byte pos, Board * b);
-	byte getPosEvaluation();
+	
+	//! Is the specified one a valid move?
+    bool isValidMove(coord_t pos, Board * b);
+	
+	//! Give an evaluation of current position
+	int getPosEvaluation();
   };
 
-};
-};
+}; // end logic namespace
+}; // end pulchess namespace
 
 #endif

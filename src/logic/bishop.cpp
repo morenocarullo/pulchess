@@ -19,7 +19,7 @@
 * Created on 22-lug-2005
 * $Id$
 */
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
 namespace pulchess { namespace logic {
 
@@ -33,12 +33,12 @@ namespace pulchess { namespace logic {
     return 3; // bishop's rank
   }
 
-  byte Bishop::getValue()
+  coord_t Bishop::getValue()
   {
-    return (byte)7 + colour*3;
+    return (coord_t)7 + colour*3;
   }
 
-  bool Bishop::isValidMove(byte newpos, Board * b)
+  bool Bishop::isValidMove(coord_t newpos, Board * b)
   {
     return isValidMove_diag(newpos, b);
   }
@@ -71,44 +71,47 @@ namespace pulchess { namespace logic {
     list<Move *> * mList = new list<Move *>();
     Piece * p;
     
-    // diagonale 1
+    /* diagonale 1
     //  x
     //   \
     //    \
-    /////////////////////////			    
+    //////////////////////// */
     for(int i=x+1, j=y+1; i<8 && j<8; i++, j++) {
       bishop_add_move(end_diag_1);
     }
 
   end_diag_1:
 
-    // diagonale 2
+    /* diagonale 2
     //  \
     //   \
     //    x
-    /////////////////////////			    
+    /////////////////////////
+	*/		    
     for(int i=x-1, j=y-1; i>=0 && j>=0; i--, j--) {
       bishop_add_move(end_diag_2);
     }
 
   end_diag_2:
 
-    // diagonale 3
+    /*  diagonale 3
     //     x
     //    /
     //   /
-    /////////////////////////			    
+    /////////////////////////
+	*/
     for(int i=x, j=y; i>=0 && j<8; i--, j++) {
       bishop_add_move(end_diag_3);
     }
 
   end_diag_3:
 
-    // diagonale 3
+    /* diagonale 3
     //     /
     //    /
     //   x
     /////////////////////////			    
+	*/
     for(int i=x+1, j=y-1; i<8 && j>=0; i++, j--) {
       bishop_add_move(end_moves);
     }

@@ -20,14 +20,14 @@
 * $Id$
 */
 
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
 #ifndef _pulchess_logic_cpuplayer_h_
 #define _pulchess_logic_cpuplayer_h_
 
-#include "logic/playerif.H"
-#include "logic/hashcache.H"
-#include "logic/timecontrol.H"
+#include "playerif.H"
+#include "hashcache.H"
+#include "timecontrol.H"
 
 namespace pulchess { namespace logic {
 	

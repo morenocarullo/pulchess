@@ -19,9 +19,9 @@
  * Created on 15-lug-2005
  * $Id$
  */
-#include "logic/stdheader.h"
+#include "stdheader.h"
 
-static byte posvaltbl[2][64] = 
+static coord_t posvaltbl[2][64] = 
 {
 {
 	0,0,0,0,0,0,0,0,
@@ -57,21 +57,21 @@ int Soldier::getRank()
     return 3; // soldier's rank
 }
 
-byte Soldier::getValue()
+coord_t Soldier::getValue()
 {
-    return (byte)7 + colour;
+    return (coord_t)7 + colour;
 }
 
-byte Soldier::getPosEvaluation()
+int Soldier::getPosEvaluation()
 {
 	return posvaltbl[ colour == WHITE ? 0 : 1 ][pos];
 }
 
-bool Soldier::isValidMove(byte newpos, Board * b)
+bool Soldier::isValidMove(coord_t newpos, Board * b)
 {
     Piece *p;
-    int newx  = pos2x(newpos), newy = pos2y(newpos);
-    int diffX = newx > x ? newx - x : x - newx;
+    coord_t newx  = pos2x(newpos), newy = pos2y(newpos);
+    int diffX = newx > x ? int(newx) - x : int(x) - newx;
 	
     // se stiamo provando a spostare il pezzo fuori dalla scacchiera...
     // ... la mossa non e' valida !
