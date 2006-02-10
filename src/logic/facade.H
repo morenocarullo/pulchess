@@ -2,6 +2,7 @@
 #define _pulchess_logic_facade_h_
 
 #include <string>
+#include "playerif.H"
 
 #define CPU_VS_CPU 0
 #define HUM_VS_CPU 1
@@ -41,8 +42,8 @@ namespace pulchess { namespace logic {
     gamemode_t gameMode;
     HumanControllerFacade * whiteController;
     HumanControllerFacade * blackController;
-    void * whitePlayer;
-    void * blackPlayer;
+    PlayerIF * whitePlayer;
+    PlayerIF * blackPlayer;
 
   public:
 
@@ -66,9 +67,12 @@ namespace pulchess { namespace logic {
 
     // a chi tocca?
     int whoPlaysNow();
+	
+	// il prossimo giocatore e' umano?
+	bool isHuman();
 
     // gioca la mossa del turno attuale
-    void requestPlay();
+    bool requestPlay();
 
     // chi vince?
     int gameInfo();

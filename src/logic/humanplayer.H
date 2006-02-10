@@ -39,10 +39,11 @@ private:
 		Move * getMove();
 		
 public:
-			HumanPlayer(colour_t colour, HumanController * controller);
+		HumanPlayer(colour_t colour, HumanController * controller);
 		~HumanPlayer();
 		
-		void doYourMove();
+		bool doYourMove();
+		bool isHuman();
 		Piece * chooseSoldierPiece();
 	};
 	

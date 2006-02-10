@@ -33,7 +33,6 @@ namespace pulchess { namespace logic {
 
   protected:
     Board* _board;
-    static bool _isHuman;
     colour_t _colour;
     Move* _lastMoveReport;      
 
@@ -45,7 +44,7 @@ namespace pulchess { namespace logic {
     colour_t getColour();
     virtual Piece * chooseSoldierPiece() = 0;
     virtual bool isHuman();	
-    virtual void doYourMove() = 0;
+    virtual bool doYourMove() = 0;
     Move*  lastMoveReport();
     void setBoard(Board* b);
     list<Piece *> * getPieceList();

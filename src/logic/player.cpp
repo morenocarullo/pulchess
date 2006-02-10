@@ -23,8 +23,6 @@
 
 namespace pulchess { namespace logic {
 
-  bool PlayerIF::_isHuman = false;
-
   PlayerIF::PlayerIF(colour_t colour) {
     _colour = colour;
   }
@@ -38,7 +36,7 @@ namespace pulchess { namespace logic {
   }	
   
   bool PlayerIF::isHuman() {
-    return _isHuman;
+    return false;
   }
   
   void PlayerIF::setBoard(Board* b) {

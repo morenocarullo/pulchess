@@ -42,7 +42,7 @@ CPUPlayer::~CPUPlayer()
 }
 
 // play a move!
-void CPUPlayer::doYourMove() /* throws ... */
+bool CPUPlayer::doYourMove() /* throws ... */
 {
     Move * m = NULL;
     bestMove = NULL;
@@ -91,6 +91,8 @@ void CPUPlayer::doYourMove() /* throws ... */
     }
 	
     _lastMoveReport = m;
+	
+	return true;
 }
 
 
@@ -111,8 +113,12 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
     list<Move *>::iterator mList_iter;
     int val = 0, best = 0, alfab = 0, betab = 0;
     Move * myBest = NULL, *currMove = NULL;
-    BoardValue *thisBoardVal = NULL, *hashBoardVal = NULL;
 	static bool ffprob = true;
+	
+#ifdef PULCHESS_USEHASHTABLE	
+    BoardValue *thisBoardVal = NULL, *hashBoardVal = NULL;
+#endif
+	
 	
 	
     //

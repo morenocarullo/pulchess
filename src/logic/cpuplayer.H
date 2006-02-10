@@ -61,7 +61,7 @@ namespace pulchess { namespace logic {
 		~CPUPlayer();
 		
 		//! Request move
-		void doYourMove();
+		bool doYourMove();
 		
 		//! Do alphabeta search
 		int alfabeta(int depth, colour_t turnColour, int alfa, int beta);

@@ -137,8 +137,6 @@ void Facade::setController(HumanControllerFacade * c, int colour)
 // inizializza il gioco
 void Facade::init()
 {
-    PlayerIF *whitePlayer = NULL, *blackPlayer = NULL;
-	
     // seleziona la modalita' di gioco.
     switch( gameMode )
 	{
@@ -159,9 +157,6 @@ void Facade::init()
     }
 	
     board = (void *)new Board(whitePlayer, blackPlayer);
-	
-    this->whitePlayer = (PlayerIF * ) whitePlayer;
-    this->blackPlayer = (PlayerIF * ) blackPlayer;
 }
 
 
@@ -210,19 +205,28 @@ int Facade::whoPlaysNow()
 }
 
 // richiede di giocare a chi di turno
-void Facade::requestPlay()
-{
-    PlayerIF
-	*whitePlayer = (PlayerIF *)this->whitePlayer,
-	*blackPlayer = (PlayerIF *)this->blackPlayer;
+bool Facade::requestPlay()
+{	
+	bool retval;
 	
     if( turn == WHITE ) {
-		whitePlayer->doYourMove();
+		retval = whitePlayer->doYourMove();
     }
     else {
-		blackPlayer->doYourMove();
+		retval = blackPlayer->doYourMove();
     }
-    turn = ENEMY(turn);
+	
+	// la mossa e' stata effettivamente fatta, passiamo il turno
+    if( retval ) turn = ENEMY(turn);
+	
+	return retval;
+}
+
+//! Il prossimo giocatore e' umano?
+bool Facade::isHuman()
+{
+	if( turn == WHITE )		return whitePlayer->isHuman();
+	else					return blackPlayer->isHuman();
 }
 
 

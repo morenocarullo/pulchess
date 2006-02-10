@@ -40,7 +40,7 @@ HumanPlayer::~HumanPlayer()
 
 //! Play a move!
 //
-void HumanPlayer::doYourMove()
+bool HumanPlayer::doYourMove()
 {
 	Move * coords = NULL;
 	
@@ -49,7 +49,7 @@ void HumanPlayer::doYourMove()
 			coords = getMove();
 			if( coords == NULL ) {
 				cerr << "Mossa non valida" << endl;
-				continue;
+				return false;
 			}
 			coords->play( _board );
 			if( _board->isInCheck( getColour() ) ) {
@@ -59,16 +59,18 @@ void HumanPlayer::doYourMove()
 				// segnala mossa non valida x' in scacco
 				//
 				cerr << "Mossa non valida, sei in scacco!" << endl;			
-				continue;
+				return false;
 			}
 			coords->commit();
 			delete coords;
-			return;
+			return true;
 		}
 		catch(InvalidMoveException *e) {
 			cerr << "Eccezione: mossa non valida!" << endl;
 		}			  
 	}
+	
+	return false;
 }
 
 //! Get a move out of legal ones
@@ -106,6 +108,11 @@ Move * HumanPlayer::getMove()
 Piece * HumanPlayer::chooseSoldierPiece()
 {
     return controller->getSoldierPiece();
+}
+
+bool HumanPlayer::isHuman()
+{
+	return true;
 }
 
 };
