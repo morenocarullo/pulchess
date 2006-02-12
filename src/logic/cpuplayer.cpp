@@ -2,7 +2,6 @@
 * PROJECT: PulCHESS, a Computer Chess program
 * LICENSE: GPL, see license.txt in project root
 * FILE: CpuPlayer implementation 
-*
 **********************************************************************
 * This program is free software; you can redistribute it and/or modify         
 * it under the terms of the GNU General Public License as published by      
@@ -15,11 +14,11 @@
 * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
 * for more details.                                                         
 **********************************************************************
-*                                                                           
 * Created on 15-lug-2005
 * $Id$
 */
 #include "stdheader.h"
+#include "book.H"
 
 #define ACCEPTMOVE() ( ffprob = ffprob ? false : true )
 
@@ -29,7 +28,10 @@ namespace pulchess { namespace logic {
 CPUPlayer::CPUPlayer(colour_t colour, int plyDeep, int moveSeconds) : PlayerIF(colour)
 {
 	this->plyDeep = plyDeep;
+// TODO: permettere di creare cpuplayer senza hashcache per l'autothinking	
+#ifdef PULCHESS_USEHASHTABLE
 	this->evc = new HashCache(1102317);
+#endif	
 	this->timec = new TimeControl();
 	this->moveCalcTime = moveSeconds;
 }
@@ -37,7 +39,9 @@ CPUPlayer::CPUPlayer(colour_t colour, int plyDeep, int moveSeconds) : PlayerIF(c
 // class destructor
 CPUPlayer::~CPUPlayer()
 {
+#ifdef PULCHESS_USEHASHTABLE
 	delete this->evc;
+#endif	
 	delete this->timec;
 }
 
@@ -48,31 +52,27 @@ bool CPUPlayer::doYourMove() /* throws ... */
     bestMove = NULL;
 	
     try {
-      _board->switchAutoThinking(getColour());
+      
 		timec->startTimer(moveCalcTime);
 		
-		//
-		// se non siamo in scacco, generiamo una mossa con l'algoritmo alfa-beta.
-		//
-		// WARNING:  bisogna testare che il nuovo codice di valutazione
-		//			 del check e checkmate imponga alla AI di proteggere
-		//			 sempre il re!
-		//
-		// if( !_board->isInCheck( getColour() ) ) {
-			this->alfabeta( plyDeep, getColour(), BLACK_WINS, WHITE_WINS );
-      _board->switchAutoThinking(getColour());
-		// }
-		//
-		// altrimenti, usiamo una delle mosse per evitare lo scacco matto.
-		// TODO: scegliere la MIGLIORE delle mosse per evitare lo scacco matto!
-		//
-		//else {
-		//	bestMove = _board->checkDefenseMove( getColour() );
-		//}
+		// Prova a cercare la mossa nel libro
+		m = Book::search( new BoardValue(_board, 99, Book::bookSize) );
 		
-		m = bestMove;   
+		// Se non c'e', usa alphabeta
 		if( m == NULL ) {
-			cerr << "Errore : non e' stata trovata alcuna mossa!" << endl;
+			cerr << "Mossa non trovata nel libro." << endl;
+			
+			_board->switchAutoThinking(getColour());
+			this->alfabeta( plyDeep, getColour(), BLACK_WINS, WHITE_WINS );
+			_board->switchAutoThinking(getColour());
+		
+			m = bestMove;   
+			if( m == NULL ) {
+				cerr << "Errore : non e' stata trovata alcuna mossa!" << endl;
+			}
+		}
+		else {
+			cerr << "Trovata mossa da libro!" << endl;
 		}
 		
 		m->play(_board);
@@ -119,8 +119,6 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
     BoardValue *thisBoardVal = NULL, *hashBoardVal = NULL;
 #endif
 	
-	
-	
     //
     // fase di lettura dalla cache
     //
@@ -158,10 +156,7 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
     // preleva tutte le mosse possibili, ed aggiungile alla lista (mList)
     //
     for(pList_iter = pList->begin(); pList_iter != pList->end(); pList_iter++) {
-		list<Move *> * pMoveList = (*pList_iter)->listMoves( _board );
-		mList.splice(mList.end(), *pMoveList);
-		moveListDestroy(pMoveList);
-		delete pMoveList;
+		(*pList_iter)->listMoves( _board, &mList );
     }
 	
     // ripetendo piu' volte con profondita' crescente e' possibile

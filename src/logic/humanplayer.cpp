@@ -78,7 +78,7 @@ bool HumanPlayer::doYourMove()
 Move * HumanPlayer::getMove()
 {
 	CoordsMove *coords;
-	list<Move *> *mList;
+	list<Move *> mList;
 	list<Move *>::iterator mListIt;
 	Piece      *srcp;
 	
@@ -87,19 +87,17 @@ Move * HumanPlayer::getMove()
 	
 	if( srcp == NULL ) return NULL;
 	
-	mList = srcp->listMoves(_board);
-	for(mListIt = mList->begin(); mListIt != mList->end(); mListIt++) {
+	srcp->listMoves(_board, &mList);
+	for(mListIt = mList.begin(); mListIt != mList.end(); mListIt++) {
 		if( (*mListIt)->getSrcIdx() == coords->getSrcIdx() &&
 			(*mListIt)->getDstIdx() == coords->getDstIdx() ) {
 			Move * copy = (*mListIt)->copy();
-			moveListDestroy(mList);
-			delete mList;
+			moveListDestroy(&mList);
 			return copy;
 		}
 	}
 	
-	moveListDestroy(mList);
-	delete mList;
+	moveListDestroy(&mList);
 	return NULL;
 }
 

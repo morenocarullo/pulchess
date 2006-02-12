@@ -1,11 +1,24 @@
 /*
- * PROJECT: PulCHESS, a Computer Chess program
- * LICENSE: GPL, see license.txt in project root
- * FILE: Move implementations
- *
- * Created on 15-lug-2005
- * $Id$
- */
+* PROJECT: PulCHESS, a Computer Chess program
+* LICENSE: GPL, see license.txt in project root
+* FILE: Move implementations
+*
+**********************************************************************
+* This program is free software; you can redistribute it and/or modify         
+* it under the terms of the GNU General Public License as published by      
+* the Free Software Foundation; either version 2 of the License, or         
+* (at your option) any later version.                                       
+*                                                                           
+* This program is distributed in the hope that it will be useful,           
+* but WITHOUT ANY WARRANTY; without even the implied warranty of            
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
+* GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
+* for more details.                                                         
+********************************************************************** 
+* 
+* Created on 15-lug-2005
+* $Id$
+*/
 #include "stdheader.h"
 #include <stdio.h>  // C stdio
 
@@ -176,7 +189,6 @@ void Move::play(Board* b)
 #ifdef DEBUG
 		cerr << " Errore: tentata mossa non valida! " << endl;
 		printf("da x:%d,y:%d    a x:%d,y:%d\n", pos2x(srcI), pos2y(srcI), pos2x(dstI), pos2y(dstI));
-		b->printBoard();
 #endif
 		
 		throw new InvalidMoveException("Mossa non valida!");
@@ -277,6 +289,7 @@ void Move::commit()
     }
 }
 
+// En passant
 EPMove::EPMove(coord_t newpos, coord_t startpos, coord_t eat) : Move(newpos, startpos)
 {
 	this->dst = newpos;

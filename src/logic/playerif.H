@@ -1,6 +1,5 @@
 /*
  * Created on 24-gen-2005
- *
  **********************************************************************
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
@@ -12,8 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
  * for more details.                                                         
- **********************************************************************
- * 
+ ********************************************************************** 
  * $Id$
  */
 #include "stdheader.h"

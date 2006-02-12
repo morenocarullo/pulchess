@@ -1,5 +1,5 @@
-CXXFLAGS= -O2 -Wall -fno-rtti -I src/logic -I src/ -DPULCHESS_USEHASHTABLE
-#CXXFLAGS= -g3 -O2 -fno-rtti -I src/ -DDEBUG -DPULCHESS_USEHASHTABLE
+#CXXFLAGS= -O2 -Wall -fno-rtti -I src/logic -I src/ #-DPULCHESS_USEHASHTABLE
+CXXFLAGS= -g3 -O2 -fno-rtti -I src/logic -I src/ -DDEBUG #-DPULCHESS_USEHASHTABLE
 LOGICPATH=src/logic/
 TXTUIPATH=src/ui/txt/
 
@@ -7,7 +7,7 @@ PULCHESSLOGIC=${LOGICPATH}tower.o ${LOGICPATH}queen.o ${LOGICPATH}king.o ${LOGIC
 	${LOGICPATH}bishop.o ${LOGICPATH}piece.o ${LOGICPATH}board.o ${LOGICPATH}move.o \
 	${LOGICPATH}cpuplayer.o ${LOGICPATH}timecontrol.o ${LOGICPATH}player.o ${LOGICPATH}knight.o \
 	${LOGICPATH}humanplayer.o ${LOGICPATH}facade.o \
-	${LOGICPATH}hashcache.o
+	${LOGICPATH}hashcache.o ${LOGICPATH}book.o \
 
 FPULCHESSLOGIC=${LOGICPATH}logic.o
 
@@ -18,7 +18,7 @@ all: pulchess
 
 pulchess: ${PULCHESSTXT} ${PULCHESSLOGIC}
 	g++ ${CXXFLAGS} -o pulchess ${PULCHESSTXT} ${PULCHESSLOGIC}
-	strip pulchess
+	#strip pulchess
 
 clean:
 	@rm -f pulchess ${LOGICPATH}*.o ${TXTUIPATH}*.o

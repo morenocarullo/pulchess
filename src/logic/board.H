@@ -2,7 +2,6 @@
  * PROJECT: PulCHESS, a Computer Chess program
  * LICENSE: GPL, see license.txt in project root
  * FILE: Board and BoardValue interfaces
- *
  **********************************************************************
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
@@ -15,7 +14,6 @@
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
  * for more details.                                                         
  **********************************************************************
- *
  * Created on 15-lug-2005
  * $Id$
  */
@@ -80,13 +78,6 @@ namespace pulchess { namespace logic {
     bool canDefendCheck(const colour_t colour);
     Move * checkDefenseMove(const colour_t colour);
     void switchAutoThinking(const colour_t colour);
-
-    //
-#ifdef DEBUG
-    void printBoard();
-    void checkBoard();
-#endif
-
   };
 
   // Rappresenta la scacchiera in modo compatto

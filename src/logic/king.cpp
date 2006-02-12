@@ -45,11 +45,13 @@ static coord_t posvaltbl[2][64] =
 }
 };
 
+//static coord_t movetbl[64][
+
 namespace pulchess { namespace logic {
 	
 int King::getKind()
 {
-		return PIECE_KING;
+	return PIECE_KING;
 }
 
 int King::getRank()
@@ -77,7 +79,7 @@ bool King::isValidMove(coord_t newpos, Board * b)
 		return false;
     }
 	
-    // controllare che la mossa non metta il re in check!
+    // TODO: controllare che la mossa non metta il re in check!
     if( abs(diffX) <= 1 && abs(diffY) <= 1 && OKCOORDS(newpos)) {
 		return true;
     }
@@ -85,9 +87,8 @@ bool King::isValidMove(coord_t newpos, Board * b)
     return false;
 }
 
-list<Move *> * King::listMoves(Board* b)
+list<Move *> * King::listMoves(Board* b, list<Move *> *mList)
 {
-    list<Move *> * mList = new list<Move *>();
     Piece *p;
 	
     // mosse normali

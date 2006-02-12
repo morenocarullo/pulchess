@@ -89,9 +89,9 @@ namespace pulchess { namespace logic {
 		
 		//! What kind of piece am i?
 		virtual int     getKind() = 0;
-		
-		//! Get list of valid moves
-		virtual list<Move *> * listMoves(Board* b) = 0;
+
+		//! Get list of valid moves, providing an already allocated list
+		virtual list<Move *> * listMoves(Board *b, list<Move *> *mList) = 0;
 		
 		//! Says whether this move is valid or not
 		virtual bool    isValidMove(coord_t pos, Board * b) = 0;

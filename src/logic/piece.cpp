@@ -229,11 +229,10 @@ namespace pulchess { namespace logic {
   //
   bool Piece::hasNextMove(Board* b)
   {
-    list<Move *> * mList = listMoves(b);
-    list<Move *>::iterator mListIter;
-    bool val = !mList->empty();
-	moveListDestroy(mList);
-    delete mList;
+    list<Move *> mList;
+	listMoves(b, &mList);
+    bool val = !mList.empty();
+	moveListDestroy(&mList);
     return val;
   }
 };

@@ -42,7 +42,7 @@ namespace pulchess { namespace logic {
     coord_t getValue();
 	
 	//! Get valid moves list
-    list<Move *> * listMoves(Board* b);
+    list<Move *> * listMoves(Board* b, list<Move *> *mList);
 	
 	//! Is the specified one a valid move?
     bool isValidMove(coord_t pos, Board * b);

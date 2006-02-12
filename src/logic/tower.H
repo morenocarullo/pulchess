@@ -2,7 +2,6 @@
  * PROJECT: PulCHESS, a Computer Chess program
  * LICENSE: GPL, see license.txt in project root
  * FILE:    Tower interface
- *
  **********************************************************************
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
@@ -15,7 +14,6 @@
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
  * for more details.                                                         
  **********************************************************************
- * 
  * Created on 15-lug-2005
  * $Id$
  */
@@ -37,7 +35,7 @@ class Tower : public Piece {
   int getKind();
   coord_t getValue();
   bool isValidMove(coord_t pos, Board * b);
-  list<Move *> * listMoves(Board * b);  
+  list<Move *> * listMoves(Board * b, list<Move *> *mList);  
 };
  
 };

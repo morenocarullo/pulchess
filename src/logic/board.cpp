@@ -2,7 +2,6 @@
  * PROJECT: PulCHESS, a Computer Chess program
  * LICENSE: GPL, see license.txt in project root
  * FILE: Board and BoardValue implementation
- *
  **********************************************************************
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
@@ -86,10 +85,6 @@ Board::Board(PlayerIF * white, PlayerIF * black)
 			_putPiece(5, 7, new Bishop(BLACK));
 			_putPiece(6, 7, new Knight(BLACK));
 			_putPiece(7, 7, new Tower(BLACK));
-			
-#ifdef DEBUG
-			checkBoard();
-#endif
 		}
 		catch(CoordsException e) {
 			cerr << "Aggiunto pezzo in posizione errata!" << endl;
@@ -105,59 +100,6 @@ Board::~Board()
 			delete _map[i];
     }
 }
-
-
-#ifdef DEBUG
-void Board::printBoard()
-{
-    Piece * p;
-    cout << "" << endl;
-    for(int y=7; y>=0; y--) {
-		for(int x=0; x<8; x++) {
-			p = getPiece(x,y);
-			if( p == NULL ) {
-				cout << "-";
-			}
-			else {
-				cout << p->getKindChr();
-			}
-			cout << " ";
-		}
-		cout << endl;
-    }
-    cout << "" << endl;
-}
-
-void Board::checkBoard()
-{
-    list<Piece *> * lP = listPieces(WHITE), * lPb = listPieces(BLACK);
-    list<Piece *>::iterator lPiter;
-    Piece * p;
-    bool error = false;
-	
-    for(lPiter = lP->begin(); lPiter != lP->end(); lPiter++) {
-		p = piece_at( (*lPiter)->getX(), (*lPiter)->getY());
-		if( (*lPiter) != p ) {
-			cerr << "Errore: scacchiera inconsistente!" << endl;
-			error = true;
-		}
-    }
-	
-    for(lPiter = lPb->begin(); lPiter != lPb->end(); lPiter++) {
-		p = piece_at( (*lPiter)->getX(), (*lPiter)->getY());
-		if( (*lPiter) != p ) {
-			cerr << "Errore: scacchiera inconsistente!" << endl;
-			error = true;
-		}
-    }
-	
-    if( !error ) {
-		cerr << "Scacchiera ok, pezzi ok." << endl;
-    } else {
-		exit(1);
-    }
-}
-#endif
 
 void Board::_checkCoords(const coord_t x, const coord_t y)
 {
@@ -280,10 +222,12 @@ void Board::switchAutoThinking(const colour_t colour)
   // stop auto-think
   else {
     if( colour == WHITE ) {
+	  delete _blackPlayer;
       _blackPlayer = tmpPlayer;
       tmpPlayer = NULL;
     }
     else {
+	  delete _whitePlayer;
       _whitePlayer = tmpPlayer;
       tmpPlayer = NULL;
     }    
@@ -356,7 +300,6 @@ bool Board::canEatThis(coord_t pos, const colour_t colour)
 	// mangiare, mettere in pericolo questo pezzo.
     for(lpIter = lp->begin(); lpIter != lp->end(); lpIter++) {
 		if( (*lpIter)->isValidMove(pos, this) ) {
-			//Piece * p = (*lpIter);
 			return true;
 		}
     }
@@ -389,13 +332,10 @@ Move * Board::checkDefenseMove(const colour_t colour)
     colour_t backupTurn = turn;
     turn = colour;
     
-    // prova, per tutti i nostri pezzi
+    // genera le mosse di tutti i pezzi
     for(lpIter = lp->begin(); lpIter != lp->end(); lpIter++) {
 		Piece * p = (*lpIter);
-		list<Move *> * lMoves = p->listMoves(this);
-		mList.splice(mList.end(), *lMoves);
-		moveListDestroy(lMoves);
-		delete lMoves;
+		p->listMoves(this, &mList);
     }
 	
     // a vedere tra tutte le mosse fattibili, se qualcuna ci toglie
@@ -425,9 +365,6 @@ Move * Board::checkDefenseMove(const colour_t colour)
 				   (*lmit)->getSourceY(),
 				   getPiece((*lmit)->getSourceX(), (*lmit)->getSourceY())->getKind());
 			cerr << endl;
-#ifdef DEBUG
-			printBoard();
-#endif
 			exit(1);
 		}
     }
