@@ -53,7 +53,7 @@ namespace pulchess { namespace logic {
 		
 	public:
 		//! Class constructor
-		CPUPlayer(colour_t colour, int plyDeep, int moveSeconds);
+		CPUPlayer(colour_t colour, int plyDeep, int moveSeconds, bool hashtbl);
 		
 		//! Class destructor
 		~CPUPlayer();

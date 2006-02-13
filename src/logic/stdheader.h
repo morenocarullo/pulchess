@@ -20,6 +20,10 @@
 #ifndef _PULCHESS_LOGIC_STDHEADER_H_
 #define _PULCHESS_LOGIC_STDHEADER_H_
 
+#ifndef PULCHESS_NOTABLES
+#define PULCHESS_USEHASHTABLE
+#endif
+
 #include <string>
 #include <list>
 #include <vector>
@@ -43,7 +47,7 @@ typedef signed char colour_t ;
 #define COORDSOK(X,Y) ( (X) >=0 && (X) <8 && (Y) >= 0 && (Y) < 8 )
 #define OKCOORDS(I)   ( (I) >=0 && (I) <64 )
 
-#define NOT_A_COORD   11
+#define pulchess_log(S) { cerr << S << endl; }
 
 #include "piece.H"
 #include "tower.H"

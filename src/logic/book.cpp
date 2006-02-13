@@ -18,20 +18,82 @@
 * $Id$
 */
 #include "book.H"
+#include <stdio.h>
 
 namespace pulchess { namespace logic {
 
-int					Book::bookSize = 1197;
+int					Book::bookSize = 97;
 list<BookMove *> *	Book::map = NULL;
 bool				Book::usable = false;
 
-// Load an book file
+// Load default books
+bool Book::load()
+{
+	return load("data/book");
+}
+
+// Load a book file
 bool Book::load(const char *filename)
 {
-	int i;
+	FILE *fp;
+	int ct=0;
+	coord_t buff[67];
+	BoardValue *bv;
+	Move *move;
+	
 	map = new list<BookMove *>[bookSize];
-	usable = true;
-	return true;
+	fp  = fopen(filename, "rb");
+	if( fp == NULL ) {
+		return false;
+	}
+	while(!feof(fp)) {
+		if( fread(buff, sizeof(coord_t), 67, fp) < 67 ) {
+			return false;
+		}
+		bv   = new BoardValue(buff, Book::bookSize);
+		move = new Move(*(buff+65), *(buff+66));
+		//printf("%d %d\n", move->getSourceX(), move->getSourceY());
+		insert(bv, move);
+		ct++;
+	}
+	
+	fclose(fp);
+	
+	if( ct>0 ) {		
+		usable = true;
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool Book::save(const char *filename)
+{
+	FILE *fp;
+	int i;
+	coord_t buff[2];
+	list<BookMove *> * lst;
+	list<BookMove *>::iterator it;
+	
+	fp = fopen(filename, "wb+");
+	
+	for(i=0; i<bookSize; i++) {
+		lst = &map[i];
+		for(it=lst->begin(); it!=lst->end(); it++) {
+			// scrive la boardvalue
+			buff[0] = 0;
+			fwrite((*it)->b->getMap(), sizeof(coord_t), 64, fp);
+			fwrite(buff, sizeof(coord_t), 1, fp);	// TODO: castling state + turn state
+			
+			// scrive la mossa			
+			buff[0] = (*it)->m->getSrcIdx();
+			buff[1] = (*it)->m->getDstIdx();
+			fwrite(buff, sizeof(coord_t), 2, fp);
+		}
+	}
+	
+	fclose(fp);
 }
 
 // Insert a new move

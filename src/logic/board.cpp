@@ -211,11 +211,11 @@ void Board::switchAutoThinking(const colour_t colour)
   if( tmpPlayer == NULL ) {
     if( colour == WHITE ) {
       tmpPlayer    = _blackPlayer;
-      _blackPlayer = new CPUPlayer(BLACK,6,1);
+      _blackPlayer = new CPUPlayer(BLACK,6,1,false);
     }
     else {
       tmpPlayer = _whitePlayer;
-      _whitePlayer = new CPUPlayer(WHITE,6,1);
+      _whitePlayer = new CPUPlayer(WHITE,6,1,false);
     }
   }
 
@@ -436,6 +436,18 @@ BoardValue::BoardValue(Board *b, coord_t depth, unsigned int dstTableSize)
 		
 		hashkey = (base * hashkey + map[i]) % dstTableSize;
     }
+}
+
+
+// "Deserializza" una boardvalue
+BoardValue::BoardValue(const coord_t * rec, unsigned int dstTableSize)
+{
+	int base = 127;
+	
+	for(int i=0; i<64; i++) {
+		map[i] = rec[i];
+		hashkey = (base * hashkey + map[i]) % dstTableSize;
+	}
 }
 
 BoardValue::~BoardValue()

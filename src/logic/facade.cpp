@@ -43,19 +43,13 @@ public:
     {
 		string moveCmd;
 		CoordsMove * move = NULL;
-		bool mossaOk = false;
-		
-		// ripete la richiesta di una mossa finche' non ne viene data una
-		// sintatticamente valida.
-		while(!mossaOk) {
-			try {
-				moveCmd = controller->getMove();
-				move = new CoordsMove(moveCmd);
-				mossaOk = true;
-			}
-			catch(InvalidMoveException *e) {
-				// segnalare sintassi di mossa errata
-			}
+
+		try {
+			moveCmd = controller->getMove();
+			move = new CoordsMove(moveCmd);
+		}
+		catch(InvalidMoveException *e) {
+			return NULL;
 		}
 		
 		return move;
@@ -142,7 +136,7 @@ void Facade::init()
 		case HUM_VS_CPU:
 			whitePlayer = new HumanPlayer(WHITE,
 										  new RealHumanController(whiteController, WHITE));
-			blackPlayer = new CPUPlayer(BLACK, 6, 20);
+			blackPlayer = new CPUPlayer(BLACK, 6, 20, true);
 			break;
 			
 			// umano vs umano
@@ -155,7 +149,13 @@ void Facade::init()
     }
 	
     board = (void *)new Board(whitePlayer, blackPlayer);
-	Book::load(NULL);
+	Book::load();	
+#ifdef PULCHESS_USEHASHTABLE
+	pulchess_log("[info] engine is using hashtables.");
+#endif
+#ifdef DEBUG
+	pulchess_log("[warn] engine is in DEBUG mode!");
+#endif
 }
 
 

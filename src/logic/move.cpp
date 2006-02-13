@@ -56,8 +56,9 @@ CoordsMove::CoordsMove(string move) /* throw InvalidMoveException */
 	this->promotedSoldier = NULL;
 	
 	if( !OKCOORDS(dst) || !OKCOORDS(src) ) {
-		cout << "Hai richiesto una mossa anomala!" << endl;
+		cerr << "Hai richiesto una mossa anomala!" << endl;
 		printf("da:%d   a:%d\n", src, dst);
+		throw new InvalidMoveException();
 	}
 	
 	if( rexp != 4 ) {

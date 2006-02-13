@@ -32,19 +32,20 @@ HashCache::HashCache(unsigned int hashsize)
 
 HashCache::HashCache()
 {
-	size = 110023;
+	size = 97;
 	_init();
 }
 
 HashCache::~HashCache()
 {
+	for(int i=0; i<size; i++) {
+		if( _vals[i] != NULL )
+			delete _vals[i];
+	}
 }
 
 void HashCache::_init()
 {
-#ifdef DEBUG
-	printf("hashcache table size: %d\n", size);
-#endif
 	statsmissct = 0;
 	statshitct  = 0;
 	

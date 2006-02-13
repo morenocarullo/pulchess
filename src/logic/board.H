@@ -90,12 +90,14 @@ namespace pulchess { namespace logic {
 
   public:
     BoardValue(Board *b, coord_t depth, unsigned int dstTableSize);
+	BoardValue(const coord_t * rec, unsigned int dstTableSize);
     ~BoardValue();
 
     unsigned int getHashKey();
     coord_t getDepth();
     bool usableFor(BoardValue *b);
-    coord_t* getMap();
+    coord_t* getMap();		
+	void print();
   };
 
 };

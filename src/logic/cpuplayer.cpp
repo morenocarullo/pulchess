@@ -25,12 +25,17 @@
 namespace pulchess { namespace logic {
 	
 // class constructor
-CPUPlayer::CPUPlayer(colour_t colour, int plyDeep, int moveSeconds) : PlayerIF(colour)
+CPUPlayer::CPUPlayer(colour_t colour, int plyDeep, int moveSeconds, bool hashtbl) : PlayerIF(colour)
 {
 	this->plyDeep = plyDeep;
 // TODO: permettere di creare cpuplayer senza hashcache per l'autothinking	
 #ifdef PULCHESS_USEHASHTABLE
-	this->evc = new HashCache(1102317);
+	if( hashtbl ) {
+		this->evc = new HashCache(12317);
+	}
+	else {
+		this->evc = new HashCache(1);
+	}
 #endif	
 	this->timec = new TimeControl();
 	this->moveCalcTime = moveSeconds;
@@ -60,7 +65,7 @@ bool CPUPlayer::doYourMove() /* throws ... */
 		
 		// Se non c'e', usa alphabeta
 		if( m == NULL ) {
-			cerr << "Mossa non trovata nel libro." << endl;
+			pulchess_log("[info] move not found in book.");
 			
 			_board->switchAutoThinking(getColour());
 			this->alfabeta( plyDeep, getColour(), BLACK_WINS, WHITE_WINS );
@@ -68,25 +73,20 @@ bool CPUPlayer::doYourMove() /* throws ... */
 		
 			m = bestMove;   
 			if( m == NULL ) {
-				cerr << "Errore : non e' stata trovata alcuna mossa!" << endl;
+				pulchess_log("[warn] no move was found!");
 			}
 		}
 		else {
-			cerr << "Trovata mossa da libro!" << endl;
+			pulchess_log("[info] trovata mossa da libro!");
 		}
 		
 		m->play(_board);
 		m->commit();
 		timec->resetTimer();
-		
-		//cerr << "Mossa scelta." << endl;
-		//printf("da x:%d,y:%d    a x:%d,y:%d\n", m->getSourceX(), m->getSourceY(), m->getX(), m->getY());
-		//printf("time   req:%d real:%d\n", int(timec->getRequestedTime()), int(timec->getRealTime()) );
-		//printf("hashtable hit:%d miss:%d\n", evc->getStatsHit(), evc->getStatsMiss());
     }
     catch(InvalidMoveException *e) {
-		cerr << "Errore nella generazione della mossa:" << endl;
-		cerr << e->getMsg() << endl;
+		pulchess_log("Errore nella generazione della mossa:");
+		pulchess_log( e->getMsg() );
 		exit(1);
     }
 	

@@ -44,31 +44,29 @@ bool HumanPlayer::doYourMove()
 {
 	Move * coords = NULL;
 	
-	while(true) {
-		try {
-			coords = getMove();
-			if( coords == NULL ) {
-				cerr << "Mossa non valida" << endl;
-				return false;
-			}
-			coords->play( _board );
-			if( _board->isInCheck( getColour() ) ) {
-				coords->rewind( _board );
-				delete coords;
-				//
-				// segnala mossa non valida x' in scacco
-				//
-				cerr << "Mossa non valida, sei in scacco!" << endl;			
-				return false;
-			}
-			coords->commit();
-			delete coords;
-			return true;
+	try {
+		coords = getMove();
+		if( coords == NULL ) {
+			cerr << "Mossa non valida" << endl;
+			return false;
 		}
-		catch(InvalidMoveException *e) {
-			cerr << "Eccezione: mossa non valida!" << endl;
-		}			  
+		coords->play( _board );
+		if( _board->isInCheck( getColour() ) ) {
+			coords->rewind( _board );
+			delete coords;
+			//
+			// segnala mossa non valida x' in scacco
+			//
+			cerr << "Mossa non valida, sei in scacco!" << endl;			
+			return false;
+		}
+		coords->commit();
+		delete coords;
+		return true;
 	}
+	catch(InvalidMoveException *e) {
+		cerr << "Eccezione: mossa non valida!" << endl;
+	}			  
 	
 	return false;
 }
@@ -82,10 +80,17 @@ Move * HumanPlayer::getMove()
 	list<Move *>::iterator mListIt;
 	Piece      *srcp;
 	
-	coords = controller->getCoordsMove();
+	// errore: non e' stata data una mossa valida (sintatticamente)
+	if( (coords = controller->getCoordsMove()) == NULL ) 
+		return NULL;
+	
 	srcp = _board->getPiece( coords->getSrcIdx() );
 	
+	// errore: qui non c'e' nessun pezzo
 	if( srcp == NULL ) return NULL;
+	
+	// errore: non possiamo muovere pezzi di altri!
+	if( srcp->getColour() != this->getColour() ) return NULL;
 	
 	srcp->listMoves(_board, &mList);
 	for(mListIt = mList.begin(); mListIt != mList.end(); mListIt++) {
