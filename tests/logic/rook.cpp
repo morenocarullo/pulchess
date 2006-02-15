@@ -5,12 +5,12 @@
 using namespace pulchess::logic;
 using namespace std;
 
-static char * suitename = "soldier suite";
+static char * suitename = "rook suite";
 
 static void testListMoves_start()
 {
   Board b(new CPUPlayer(WHITE,6,1,false), new CPUPlayer(BLACK,6,1,false));
-  Soldier * s;
+  Rook * s;
   Move * m;
 
   s = (Soldier *)b.getPiece(0,1);
@@ -28,6 +28,6 @@ static void testListMoves_start()
   }
 }
 
-void testSuiteSoldier() {
-	PULCHESS_CALLCASE(testListMoves_start, "soldier::testListMoves_start");
+void testSuiteRook() {
+	PULCHESS_CALLCASE(testListMoves_start, "rook::testListMoves_start");
 }

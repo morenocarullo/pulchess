@@ -55,18 +55,17 @@ namespace pulchess { namespace logic {
 #define bishop_add_move(GOTOLABEL) {\
         p = b->getPiece(i,j); \
         if( i==x && j==y ) continue; \
-	if( p != NULL ) { \
-	  if( isEnemy(p) ) { \
-	    mList->push_back( new Move( xy2pos(i,j), pos) ); \
-	  } \
-	  goto GOTOLABEL; \
-	} \
-	if( p == NULL ) { \
-	  mList->push_front( new Move( xy2pos(i,j), pos) ); \
+		if( p != NULL ) { \
+			if( isEnemy(p) ) { \
+				mList->push_back( new Move( xy2pos(i,j), pos) ); \
+			} \
+			goto GOTOLABEL; \
+		} \
+		if( p == NULL ) { \
+			mList->push_front( new Move( xy2pos(i,j), pos) ); \
+		}\
 	}\
-    }\
 
-    //list<Move *> * mList = new list<Move *>();
     Piece * p;
     
     /* diagonale 1
@@ -81,9 +80,9 @@ namespace pulchess { namespace logic {
   end_diag_1:
 
     /* diagonale 2
-    //  \
-    //   \
-    //    x
+    //     x
+    //    /
+    //   /	
     /////////////////////////
 	*/		    
     for(int i=x-1, j=y-1; i>=0 && j>=0; i--, j--) {
@@ -93,12 +92,12 @@ namespace pulchess { namespace logic {
   end_diag_2:
 
     /*  diagonale 3
-    //     x
-    //    /
-    //   /
-    /////////////////////////
+    //  \
+    //   \
+    //    x
+	/////////////////////////
 	*/
-    for(int i=x, j=y; i>=0 && j<8; i--, j++) {
+    for(int i=x-1, j=y+1; i>=0 && j<8; i--, j++) {
       bishop_add_move(end_diag_3);
     }
 

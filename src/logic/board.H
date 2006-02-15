@@ -92,6 +92,7 @@ namespace pulchess { namespace logic {
     BoardValue(Board *b, coord_t depth, unsigned int dstTableSize);
 	BoardValue(const coord_t * rec, unsigned int dstTableSize);
     ~BoardValue();
+	bool operator== (BoardValue &a);
 
     unsigned int getHashKey();
     coord_t getDepth();

@@ -139,7 +139,7 @@ list<Move *> * King::listMoves(Board* b, list<Move *> *mList)
 		b->getPiece(pos-3) == NULL )
 	{
 		p = b->getPiece(pos-4);
-		if( p != NULL &
+		if( p != NULL &&
 		    p->getKind() == PIECE_TOWER &&
 		    p->getMoveCount() == 0 &&
 		    !b->canEatThis(pos-1, ENEMY(colour)) &&

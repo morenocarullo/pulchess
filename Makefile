@@ -2,6 +2,7 @@
 CXXFLAGS= -g3 -O2 -fno-rtti -I src/logic -I src/ -DDEBUG #-DPULCHESS_NOTABLES
 LOGICPATH=src/logic/
 TXTUIPATH=src/ui/txt/
+TESTSPATH=tests/logic/
 
 PULCHESSLOGIC=${LOGICPATH}tower.o ${LOGICPATH}queen.o ${LOGICPATH}king.o ${LOGICPATH}soldier.o \
 	${LOGICPATH}bishop.o ${LOGICPATH}piece.o ${LOGICPATH}board.o ${LOGICPATH}move.o \
@@ -9,9 +10,9 @@ PULCHESSLOGIC=${LOGICPATH}tower.o ${LOGICPATH}queen.o ${LOGICPATH}king.o ${LOGIC
 	${LOGICPATH}humanplayer.o ${LOGICPATH}facade.o \
 	${LOGICPATH}hashcache.o ${LOGICPATH}book.o \
 
-FPULCHESSLOGIC=${LOGICPATH}logic.o
-
 PULCHESSTXT=${TXTUIPATH}main.o
+
+PULCHESSTEST=${TESTSPATH}soldier.o ${TESTSPATH}king.o ${TESTSPATH}main.o
 
 all: deploy
 	@echo "Making pulchess..."
@@ -22,9 +23,17 @@ pulchess: ${PULCHESSTXT} ${PULCHESSLOGIC}
 	
 deploy: pulchess
 	@cp -R data build
-
+	
+run: deploy
+	@build/pulchess
+	
+# unit testing	
+test: ${PULCHESSTEST} ${PULCHESSLOGIC}
+	@g++ ${CXXFLAGS} -o build/autotest ${PULCHESSLOGIC} ${PULCHESSTEST}
+	@build/autotest
+	
 clean:
-	@rm -f pulchess ${LOGICPATH}*.o ${TXTUIPATH}*.o ; \
+	@rm -f ${LOGICPATH}*.o ${TXTUIPATH}*.o ${TESTSPATH}*.o; \
 	 rm -rf build/*
 
 count:

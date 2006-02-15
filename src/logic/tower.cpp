@@ -65,23 +65,23 @@ namespace pulchess { namespace logic {
  } \
 
     // proviamo a spostare la torre alla sua destra.
-    for(coord_t i=1; i< 8-x ; i++) {
-      tower_add_move(x+i, y);
+    for(coord_t i=x+1; i<8 ; i++) {
+      tower_add_move(i, y);
     }
     
     // proviamo a spostare la torre alla sua sinistra
-    for(coord_t i=8-x; i>0; i--) {
-      tower_add_move(x-i, y); 
+    for(coord_t i=x+1; i>=0; i--) {
+      tower_add_move(i, y); 
     }
 
     // proviamo a spostare la torre in basso
-    for(coord_t i=1; i<8-y; i++) {
-      tower_add_move(x, y+i);
+    for(coord_t i=y+1; i>=0; i--) {
+      tower_add_move(x, i);
     }
 
     // proviamo a spostare la torre in alto
-    for(coord_t i=8-y; i>0; i--) {
-      tower_add_move(x, y-i);
+    for(coord_t i=y+1; i<8; i++) {
+      tower_add_move(x, i);
     }
 
     return mList;	

@@ -34,7 +34,7 @@ char StdInController::getSoldierPiece()
 //
 void printGreeting(void)
 {
-  cout << "Pulchess 0.1 -- sept 2005" << endl;
+  cout << "Pulchess 0.1 -- " << __DATE__ << endl;
   cout << "" << endl;
 }
 

@@ -454,6 +454,16 @@ BoardValue::~BoardValue()
 {
 }
 
+bool BoardValue::operator== (BoardValue &a)
+{
+	//coord_t *tmap = a.getMap();
+	///for(int i=0; i<64; i++) {
+	//	if(tmap[i]!=map[i]) return false;
+	//}
+
+	return (getHashKey() == a.getHashKey());
+}
+
 unsigned int BoardValue::getHashKey()
 {
     return hashkey;
