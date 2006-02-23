@@ -30,7 +30,7 @@ namespace pulchess { namespace logic {
 
   int Queen::getRank()
   {
-    return 9; // queen's rank
+    return 150; // queen's rank
   }
 
   coord_t Queen::getValue()

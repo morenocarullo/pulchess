@@ -98,4 +98,7 @@ int main(int argc, char *argv[])
     printBoard( facade );
     facade->requestPlay();
   }
+  
+  cout << "(Someone) wins." << endl;
+  printBoard( facade );
 }

@@ -33,7 +33,7 @@ namespace pulchess { namespace logic {
 
   int Tower::getRank()
   {
-    return 8;
+    return 50;
   }
 
   coord_t Tower::getValue()

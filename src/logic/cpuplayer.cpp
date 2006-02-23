@@ -60,6 +60,12 @@ bool CPUPlayer::doYourMove() /* throws ... */
       
 		timec->startTimer(moveCalcTime);
 		
+		if(  _board->isInCheck(getColour()) ) {
+			pulchess_log("[info] I am in check, gotta do smth!");
+		//	m = _board->checkDefenseMove(getColour());
+		//	goto execmove;
+		}
+		
 		// Prova a cercare la mossa nel libro
 		m = Book::search( new BoardValue(_board, 99, Book::bookSize) );
 		
@@ -74,15 +80,16 @@ bool CPUPlayer::doYourMove() /* throws ... */
 			m = bestMove;   
 			if( m == NULL ) {
 				pulchess_log("[warn] no move was found!");
-			}
+			}			
 		}
 		else {
 			pulchess_log("[info] trovata mossa da libro!");
 		}
-		
+//execmove:		
 		m->play(_board);
 		m->commit();
 		timec->resetTimer();
+		printf("[info] move thought in %d seconds\n", timec->getRealTime());
     }
     catch(InvalidMoveException *e) {
 		pulchess_log("Errore nella generazione della mossa:");
@@ -113,11 +120,23 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
     list<Move *>::iterator mList_iter;
     int val = 0, best = 0, alfab = 0, betab = 0;
     Move * myBest = NULL, *currMove = NULL;
-	static bool ffprob = true;
+    bool stopIterative = false;
+    static bool ffprob = true;
 	
 #ifdef PULCHESS_USEHASHTABLE	
     BoardValue *thisBoardVal = NULL, *hashBoardVal = NULL;
 #endif
+
+    // e' un nodo finale? (ovvero: manca un re?)
+    //
+    if( _board->getKing(WHITE) == NULL ) {
+		//cerr << "black wins" << endl;
+		return BLACK_WINS;
+	}
+    if( _board->getKing(BLACK) == NULL ) {
+		//cerr << "wins wins" << endl;
+		return WHITE_WINS;
+	}
 	
     //
     // fase di lettura dalla cache
@@ -138,10 +157,11 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
     }
 #endif
 	
-    // Se il tempo stringe, valutiamo la posizione corrente e risaliamo l'albero.
+    // Se il tempo stringe,  risaliamo l'albero.
     //
     if( timec->evalTimeRemaining(depth) && (plyDeep != depth) ) {
 		return _board->evaluate();
+		//return 0;
     }
     
     // stiamo valutando la "foglia" dell'albero di gioco.
@@ -162,7 +182,15 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
     // ripetendo piu' volte con profondita' crescente e' possibile
     // "passare" con valori di alfa e beta migliori, ottimizzando i tempi
     //
-    for(int d=1; d<=depth; d++) {
+    //for(int d=1; d<=depth, depth==plyDeep; d++) {
+    int d = (depth == plyDeep) ? 1 : depth;
+    while(!stopIterative) {
+
+#ifdef DEBUG
+      if( depth == plyDeep ) {
+	printf("[info] IDAB iteration to depth %d\n", d);
+      }
+#endif
 		
 		// per tutte le mosse
 		// se la mossa e' buona, migliore delle altre, viene promossa
@@ -172,9 +200,7 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
 			currMove = (*mList_iter);
 			
 			currMove->play( _board );
-			
 			val = alfabeta( d - 1, ENEMY(turnColour), alfa, beta );
-			
 			currMove->rewind( _board );
 			
 			//
@@ -223,8 +249,10 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
 			}            
 		}
 		
-		
-    }
+		// se sono alla radice allora applica l'IDA search!
+		if( depth == plyDeep && d<depth) { d++; continue; }
+		stopIterative = true;
+	}
 	
 	if( depth == plyDeep )
 	{

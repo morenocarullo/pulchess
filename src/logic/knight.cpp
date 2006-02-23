@@ -54,7 +54,7 @@ namespace pulchess { namespace logic {
 
   int Knight::getRank()
   {
-    return 3;
+    return 25;
   }
 
   coord_t Knight::getValue()

@@ -40,6 +40,7 @@ typedef signed char colour_t ;
 #define BLACK_INCHECK  100000000
 #define BLACK_WINS   -1000000000
 #define WHITE_INCHECK -100000000
+#define CHECK_PLUS		1000
 
 #define abs(A) ( (A)<0 ? -(A) : (A) )
 #define ENEMY(C) ( C == BLACK ? WHITE : BLACK )

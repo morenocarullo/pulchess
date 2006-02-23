@@ -28,7 +28,7 @@ namespace pulchess { namespace logic {
   
   int Bishop::getRank()
   {
-    return 3; // bishop's rank
+    return 25; // bishop's rank
   }
 
   coord_t Bishop::getValue()

@@ -18,6 +18,7 @@ all: deploy
 	@echo "Making pulchess..."
 
 pulchess: ${PULCHESSTXT} ${PULCHESSLOGIC}
+	@mkdir build
 	@g++ ${CXXFLAGS} -o build/pulchess ${PULCHESSTXT} ${PULCHESSLOGIC}
 	#strip pulchess
 	
@@ -34,7 +35,7 @@ test: ${PULCHESSTEST} ${PULCHESSLOGIC}
 	
 clean:
 	@rm -f ${LOGICPATH}*.o ${TXTUIPATH}*.o ${TESTSPATH}*.o; \
-	 rm -rf build/*
+	 rm -rf build
 
 count:
 	@echo "Total LOC (.cpp) : `find ./src | grep \.cpp$ | xargs cat | wc -l`"; \

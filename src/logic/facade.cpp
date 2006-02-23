@@ -136,7 +136,7 @@ void Facade::init()
 		case HUM_VS_CPU:
 			whitePlayer = new HumanPlayer(WHITE,
 										  new RealHumanController(whiteController, WHITE));
-			blackPlayer = new CPUPlayer(BLACK, 6, 20, true);
+			blackPlayer = new CPUPlayer(BLACK, 5, 30, true);
 			break;
 			
 			// umano vs umano

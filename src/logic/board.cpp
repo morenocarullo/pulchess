@@ -110,11 +110,26 @@ void Board::_checkCoords(const coord_t x, const coord_t y)
 void Board::pieceListAdd(Piece *p)
 {
     ADDPIECE(p);
+    if( p->getKind() == PIECE_KING ) {
+      if( p->getColour() == WHITE) {
+	_whiteKing = (King *)p;
+      }
+      else {
+	_blackKing = (King *)p;
+      }
+    }
 }
 
 void Board::pieceListDel(Piece *p)
 {
     CANCPIECE(p);
+    if( p->getKind() == PIECE_KING ) {
+      if( p->getColour() == WHITE ) {
+	_whiteKing = NULL;
+      } else {
+	_blackKing = NULL;
+      }
+    }
 }
 
 // used to add a piece on the board, only for first time!
@@ -243,21 +258,26 @@ int Board::whoWins()
 {
     bool whiteWins = false;
     bool blackWins = false;
-	bool whiteInCheck = false;
-	bool blackInCheck = false;
+	int whiteInCheck = 0;
+	int blackInCheck = 0;
 	
 	whiteInCheck = isInCheck(WHITE);
-	if( !whiteInCheck )
+	if( whiteInCheck > 0)
 		blackInCheck = isInCheck(BLACK);
 	
     whiteWins = blackInCheck && !canDefendCheck(BLACK);
-    if( !whiteWins )
+    if( whiteWins > 0 )
 		blackWins = whiteInCheck && !canDefendCheck(WHITE);
     
-    if( whiteWins )		return WHITE_WINS;
-    if( blackWins )		return BLACK_WINS;
-	if( whiteInCheck )	return WHITE_INCHECK;
-	if( blackInCheck )	return BLACK_INCHECK;
+	//
+	// Ritorna il valore di valutazione.
+	// Se mettiamo sotto scacco l'avversario, consideriamo
+	// anche con quanti pezzi viene fatto.
+	//
+    if( whiteWins )			return WHITE_WINS;
+    if( blackWins )			return BLACK_WINS;
+	if( whiteInCheck > 0 )	return ( WHITE_INCHECK + whiteInCheck*CHECK_PLUS );
+	if( blackInCheck > 0)	return ( BLACK_INCHECK - blackInCheck*CHECK_PLUS );
     
     return 0;
 }
@@ -277,35 +297,43 @@ bool Board::isGameFinished()
 }
 
 
-// Verifica se il re del colore specificato e' in scacco
+// Verifica se il re del colore specificato e' in scacco.
+// Ritorna il numero di pezzi che mettono in scacco.
 //
 // costo: O(M * 64) --> O(M)     [M = numero di pedine del nemico]
 //////////////////////////////////////////////////////////////////
-bool Board::isInCheck(const colour_t colour)
+int Board::isInCheck(const colour_t colour)
 {
-	return canEatThis(getKing(colour)->getPos(), colour);
+	return canEatThis(getKing(colour)->getPos(), colour, true);
 }
 
+bool Board::canEatThis(coord_t pos, const colour_t colour)
+{	
+	return ( canEatThis(pos, colour, false) > 0 );
+}
 
 // Verifica se il pezzo alla posizione "pos" puo' essere mangiato
 // dal nemico, specificato dal colore nel parametro "colour".
+// se countTimes e' true, conta il numero di pezzi che possono mangiare.
 //
 //////////////////////////////////////////////////////////////////
-bool Board::canEatThis(coord_t pos, const colour_t colour)
+int Board::canEatThis(coord_t pos, const colour_t colour, bool countTimes)
 {
     list<Piece *> * lp = listPieces(ENEMY(colour));
     list<Piece *>::iterator lpIter;
+	int count=0;
 	
     // verifichiamo se qualcuno dei pezzi nemici puo'
 	// mangiare, mettere in pericolo questo pezzo.
     for(lpIter = lp->begin(); lpIter != lp->end(); lpIter++) {
 		if( (*lpIter)->isValidMove(pos, this) ) {
-			return true;
+			if(!countTimes) return 1;
+			count++;
 		}
     }
 	
-    // .. altrimenti niet!
-    return false;
+    // ritorna il numero di pezzi che possono mangiare.
+    return count;
 }
 
 bool Board::canDefendCheck(const colour_t colour)
@@ -344,7 +372,7 @@ Move * Board::checkDefenseMove(const colour_t colour)
     for(lmit = mList.begin(); lmit != mList.end(); lmit++) {
 		try {
 			(*lmit)->play(this);
-			if( !isInCheck(colour) ) {
+			if( isInCheck(colour) > 0 ) {
 				Move *savingMove;
 				
 				// -- riportiamo lo stato in uno coerente --
@@ -381,7 +409,7 @@ Move * Board::checkDefenseMove(const colour_t colour)
 int Board::evaluate()
 {
     int val = 0;
-	int gameStat = 0;
+    //int gameStat = 0;
     
     for(int i=0; i<64; i++) {
 		if(_map[i] != NULL) {			
@@ -390,20 +418,20 @@ int Board::evaluate()
 		}
     }
 	
-    gameStat = whoWins();
+    //gameStat = whoWins();
     
 	// se e' una vittoria netta, il punteggio
 	// e' assegnato direttamente.
-    if( gameStat == WHITE_WINS ||
-		gameStat == BLACK_WINS ) {
-		val = gameStat;
-    }
+    //if( gameStat == WHITE_WINS ||
+    //		gameStat == BLACK_WINS ) {
+    //		val = gameStat;
+    //}
 	// altrimenti se rappresenta un vantaggio,
 	// come ad esempio il re nemico in scacco,
 	// somma semplicemente il valore.
-    else {
-		val += gameStat;
-    }
+    //else {
+    //		val += gameStat;
+    //}
 	
     return val;
 }
@@ -456,11 +484,6 @@ BoardValue::~BoardValue()
 
 bool BoardValue::operator== (BoardValue &a)
 {
-	//coord_t *tmap = a.getMap();
-	///for(int i=0; i<64; i++) {
-	//	if(tmap[i]!=map[i]) return false;
-	//}
-
 	return (getHashKey() == a.getHashKey());
 }
 

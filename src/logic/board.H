@@ -73,8 +73,9 @@ namespace pulchess { namespace logic {
     int getMoveCount();
     int evaluate();
     int whoWins();
-    bool isInCheck(const colour_t colour);
+    int isInCheck(const colour_t colour);
 	bool canEatThis(coord_t pos, const colour_t colour);
+	int  canEatThis(coord_t pos, const colour_t colour, bool countTimes);
     bool canDefendCheck(const colour_t colour);
     Move * checkDefenseMove(const colour_t colour);
     void switchAutoThinking(const colour_t colour);

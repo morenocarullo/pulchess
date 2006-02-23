@@ -26,6 +26,7 @@ namespace pulchess { namespace logic {
 
   class TimeControl {
   private:
+	time_t startTime;
     time_t deathTime;
     time_t secToLive;
     time_t lastRealTime;
