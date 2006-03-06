@@ -226,11 +226,11 @@ void Board::switchAutoThinking(const colour_t colour)
   if( tmpPlayer == NULL ) {
     if( colour == WHITE ) {
       tmpPlayer    = _blackPlayer;
-      _blackPlayer = new CPUPlayer(BLACK,6,1,false);
+      _blackPlayer = new CPUPlayer(BLACK);
     }
     else {
       tmpPlayer = _whitePlayer;
-      _whitePlayer = new CPUPlayer(WHITE,6,1,false);
+      _whitePlayer = new CPUPlayer(WHITE);
     }
   }
 
@@ -405,11 +405,12 @@ Move * Board::checkDefenseMove(const colour_t colour)
 
 // Valuta la "qualita'" di una certa configurazione
 //
+// TODO: salvare l'ultimo pezzo che ha mangiato
+//		 bonus se mangia pezzo poco importante
 ///////////////////////////////////////////////////
 int Board::evaluate()
 {
     int val = 0;
-    //int gameStat = 0;
     
     for(int i=0; i<64; i++) {
 		if(_map[i] != NULL) {			
@@ -417,21 +418,6 @@ int Board::evaluate()
 			val += _map[i]->getPosEvaluation() * _map[i]->getColour();   
 		}
     }
-	
-    //gameStat = whoWins();
-    
-	// se e' una vittoria netta, il punteggio
-	// e' assegnato direttamente.
-    //if( gameStat == WHITE_WINS ||
-    //		gameStat == BLACK_WINS ) {
-    //		val = gameStat;
-    //}
-	// altrimenti se rappresenta un vantaggio,
-	// come ad esempio il re nemico in scacco,
-	// somma semplicemente il valore.
-    //else {
-    //		val += gameStat;
-    //}
 	
     return val;
 }

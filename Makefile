@@ -12,13 +12,14 @@ PULCHESSLOGIC=${LOGICPATH}tower.o ${LOGICPATH}queen.o ${LOGICPATH}king.o ${LOGIC
 
 PULCHESSTXT=${TXTUIPATH}main.o
 
-PULCHESSTEST=${TESTSPATH}soldier.o ${TESTSPATH}king.o ${TESTSPATH}main.o
+PULCHESSTEST=${TESTSPATH}soldier.o ${TESTSPATH}king.o \
+			 ${TESTSPATH}rook.o ${TESTSPATH}main.o
 
 all: deploy
 	@echo "Making pulchess..."
 
 pulchess: ${PULCHESSTXT} ${PULCHESSLOGIC}
-	@mkdir build
+	@mkdir -p build
 	@g++ ${CXXFLAGS} -o build/pulchess ${PULCHESSTXT} ${PULCHESSLOGIC}
 	#strip pulchess
 	
@@ -27,6 +28,9 @@ deploy: pulchess
 	
 run: deploy
 	@build/pulchess
+	
+run-debug: deploy
+	@gdb build/pulchess
 	
 # unit testing	
 test: ${PULCHESSTEST} ${PULCHESSLOGIC}

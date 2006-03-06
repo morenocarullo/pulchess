@@ -2,7 +2,6 @@
 * PROJECT: PulCHESS, a Computer Chess program
 * LICENSE: GPL, see license.txt in project root
 * FILE:    HumanPlayer header
-*
 **********************************************************************
 * This program is free software; you can redistribute it and/or modify         
 * it under the terms of the GNU General Public License as published by      
@@ -26,12 +25,8 @@
 
 namespace pulchess { namespace logic {
 	
-	// Premature definition
 	class HumanController;
 	
-	/**
-	* @author moreno
-	 */
 	class HumanPlayer: public PlayerIF
 	{
 private:

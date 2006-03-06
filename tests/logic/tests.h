@@ -10,10 +10,9 @@
 #define PULCHESS_RUNTESTS() {\
  testSuiteSoldier();\
  testSuiteKing();\
- testSuiteRook();\ 
-}
+ testSuiteRook();}
 
-#define PULCHESS_CALLCASE(C,M) { C(); printf("%s \tcompleted\n", M); };
+#define PULCHESS_CALLCASE(C,M) { printf("%s start...", M); C(); printf("\t...completed\n"); };
 #define assert_true(C) \
  if( !(C) )  {\
   printf("fail on %s line %s\n", suitename, __LINE__);\

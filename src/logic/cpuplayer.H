@@ -52,7 +52,10 @@ namespace pulchess { namespace logic {
 		TimeControl *timec;
 		
 	public:
-		//! Class constructor
+		//! Class constructor with almost no params, ok for dummy use
+		CPUPlayer(colour_t colour);
+	
+		//! Class constructor with full params
 		CPUPlayer(colour_t colour, int plyDeep, int moveSeconds, bool hashtbl);
 		
 		//! Class destructor

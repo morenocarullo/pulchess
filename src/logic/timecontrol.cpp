@@ -63,8 +63,6 @@ namespace pulchess { namespace logic {
 
   bool TimeControl::evalTimeRemaining(unsigned int depth)
   {
-    //int divver = 100/(depth*depth+1);
-
     if( (deathTime - time(NULL)) < 1 )
       return true;
     else

@@ -24,6 +24,7 @@
 
 namespace pulchess { namespace logic {
 	
+	
 // class constructor
 CPUPlayer::CPUPlayer(colour_t colour, int plyDeep, int moveSeconds, bool hashtbl) : PlayerIF(colour)
 {
@@ -41,6 +42,16 @@ CPUPlayer::CPUPlayer(colour_t colour, int plyDeep, int moveSeconds, bool hashtbl
 	this->moveCalcTime = moveSeconds;
 }
 
+// simple class constructor
+CPUPlayer::CPUPlayer(colour_t colour) : PlayerIF(colour)
+{
+	//CPUPlayer(colour,6,1,false);	
+	this->plyDeep		= 6;
+	this->moveCalcTime	= 1;
+	this->evc	= new HashCache(1);
+	this->timec = new TimeControl();
+}
+
 // class destructor
 CPUPlayer::~CPUPlayer()
 {
@@ -56,8 +67,7 @@ bool CPUPlayer::doYourMove() /* throws ... */
     Move * m = NULL;
     bestMove = NULL;
 	
-    try {
-      
+    try {      
 		timec->startTimer(moveCalcTime);
 		
 		if(  _board->isInCheck(getColour()) ) {
@@ -119,7 +129,7 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
     list<Move *> mList;
     list<Move *>::iterator mList_iter;
     int val = 0, best = 0, alfab = 0, betab = 0;
-    Move * myBest = NULL, *currMove = NULL;
+    Move * idMyBest = NULL, *currMove = NULL;
     bool stopIterative = false;
     static bool ffprob = true;
 	
@@ -129,14 +139,8 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
 
     // e' un nodo finale? (ovvero: manca un re?)
     //
-    if( _board->getKing(WHITE) == NULL ) {
-		//cerr << "black wins" << endl;
-		return BLACK_WINS;
-	}
-    if( _board->getKing(BLACK) == NULL ) {
-		//cerr << "wins wins" << endl;
-		return WHITE_WINS;
-	}
+    if( _board->getKing(WHITE) == NULL ) return BLACK_WINS;
+    if( _board->getKing(BLACK) == NULL ) return WHITE_WINS;
 	
     //
     // fase di lettura dalla cache
@@ -160,8 +164,7 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
     // Se il tempo stringe,  risaliamo l'albero.
     //
     if( timec->evalTimeRemaining(depth) && (plyDeep != depth) ) {
-		return _board->evaluate();
-		//return 0;
+		return 0;
     }
     
     // stiamo valutando la "foglia" dell'albero di gioco.
@@ -185,6 +188,7 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
     //for(int d=1; d<=depth, depth==plyDeep; d++) {
     int d = (depth == plyDeep) ? 1 : depth;
     while(!stopIterative) {
+		Move *myBest = NULL;
 
 #ifdef DEBUG
       if( depth == plyDeep ) {
@@ -249,14 +253,26 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
 			}            
 		}
 		
-		// se sono alla radice allora applica l'IDA search!
-		if( depth == plyDeep && d<depth) { d++; continue; }
+		// se sono alla radice, non ho raggiunto la profondita' massima
+		// ed il tempo non e' scaduto allora prosegui con l'IDAB search.
+		// prima pero' salva la miglior mossa trovata.
+		//
+		// TODO: we have to provide a way to assure that a move
+		// is always generated even if in lo-time mode		
+		if( depth == plyDeep && d<depth && !timec->evalTimeRemaining(depth) ) {
+			d++;
+			idMyBest = myBest;
+			pulchess_log("[info] move saved");
+			continue;
+		}
+
 		stopIterative = true;
 	}
 	
 	if( depth == plyDeep )
 	{
-		bestMove = myBest->copy();
+		if( idMyBest == NULL ) return NULL;
+		bestMove = idMyBest->copy();
 	}
 #ifdef PULCHESS_USEHASHTABLE
     else

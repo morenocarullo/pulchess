@@ -9,7 +9,7 @@ static char * suitename = "soldier suite";
 
 static void testListMoves_start()
 {
-  Board b(new CPUPlayer(WHITE,6,1,false), new CPUPlayer(BLACK,6,1,false));
+  Board b(new CPUPlayer(WHITE), new CPUPlayer(BLACK));
   Soldier * s;
   Move * m;
 

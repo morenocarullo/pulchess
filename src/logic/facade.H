@@ -92,7 +92,7 @@ namespace pulchess { namespace logic {
 
     // gioca la mossa del turno attuale
     bool requestPlay();
-
+	
     // chi vince?
     int gameInfo();
   };

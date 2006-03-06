@@ -9,11 +9,13 @@ static char * suitename = "king suite";
 
 static void testListMoves_start()
 {
-  Board b(new CPUPlayer(WHITE,6,1,false), new CPUPlayer(BLACK,6,1,false));
+  Board b(new CPUPlayer(WHITE), new CPUPlayer(BLACK));
   King * k;
   
-  Move m(xy2pos(4,3), xy2pos(4,1));
-  m.play(&b);
+  Move	m1(xy2pos(4,3), xy2pos(4,1)),
+		m2(xy2pos(4,5), xy2pos(4,7));
+  m1.play(&b); // white's move
+  m2.play(&b); // black's move
 
   k = (King *)b.getPiece(4,0);
 
