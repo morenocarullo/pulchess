@@ -78,6 +78,10 @@ bool Book::save(const char *filename)
 	
 	fp = fopen(filename, "wb+");
 	
+	if( fp == NULL ) {
+		return false;
+	}
+	
 	for(i=0; i<bookSize; i++) {
 		lst = &map[i];
 		for(it=lst->begin(); it!=lst->end(); it++) {
@@ -94,6 +98,7 @@ bool Book::save(const char *filename)
 	}
 	
 	fclose(fp);
+	return true;
 }
 
 // Insert a new move

@@ -132,6 +132,12 @@ void Facade::init()
     // seleziona la modalita' di gioco.
     switch( gameMode )
 	{
+		// computer vs computer
+		case CPU_VS_CPU:
+			whitePlayer = new CPUPlayer(WHITE, 6, 30, true);
+			blackPlayer = new CPUPlayer(BLACK, 6, 30, true);
+			break;
+	
 		// umano vs computer
 		case HUM_VS_CPU:
 			whitePlayer = new HumanPlayer(WHITE,
@@ -139,7 +145,7 @@ void Facade::init()
 			blackPlayer = new CPUPlayer(BLACK, 6, 30, true);
 			break;
 			
-			// umano vs umano
+		// umano vs umano
 		case HUM_VS_HUM:
 			whitePlayer = new HumanPlayer(WHITE,
 										  new RealHumanController(whiteController, WHITE));

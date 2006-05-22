@@ -77,7 +77,9 @@ bool CPUPlayer::doYourMove() /* throws ... */
 		}
 		
 		// Prova a cercare la mossa nel libro
-		m = Book::search( new BoardValue(_board, 99, Book::bookSize) );
+		BoardValue * bv = new BoardValue(_board, 99, Book::bookSize);
+		m = Book::search( bv );
+		delete bv;	
 		
 		// Se non c'e', usa alphabeta
 		if( m == NULL ) {
@@ -99,7 +101,7 @@ bool CPUPlayer::doYourMove() /* throws ... */
 		m->play(_board);
 		m->commit();
 		timec->resetTimer();
-		printf("[info] move thought in %d seconds\n", timec->getRealTime());
+		printf("[info] move thought in %d seconds\n", (int)timec->getRealTime());
     }
     catch(InvalidMoveException *e) {
 		pulchess_log("Errore nella generazione della mossa:");
@@ -271,7 +273,7 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
 	
 	if( depth == plyDeep )
 	{
-		if( idMyBest == NULL ) return NULL;
+		if( idMyBest == NULL ) return 0;
 		bestMove = idMyBest->copy();
 	}
 #ifdef PULCHESS_USEHASHTABLE

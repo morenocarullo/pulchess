@@ -28,6 +28,7 @@ namespace pulchess { namespace logic {
 
   class HumanController {
   public:
+    virtual ~HumanController() {};
     virtual CoordsMove * getCoordsMove() = 0;
     virtual Piece * getSoldierPiece() = 0;
   };

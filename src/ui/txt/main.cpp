@@ -75,14 +75,19 @@ int main(int argc, char *argv[])
 
   printGreeting();
 
-  cout << "Modalita' di gioco? (cpu, hum) > ";
+  cout << "Modalita' di gioco? (ucpu, ccpu, hum) > ";
   cin >> mode;
   cout << endl;
   
-  if( mode == "cpu"  ) {
+  if( mode == "ucpu"  ) {
     facade = new Facade(HUM_VS_CPU);
     cout << "Umano Vs Comp" << endl;
     cout << endl;
+  }
+  else if( mode == "ccpu" ) {
+    facade = new Facade(CPU_VS_CPU);
+    cout << "CPU Vs CPU" << endl;
+    cout << endl; 
   }
   else {
     facade = new Facade(HUM_VS_HUM);

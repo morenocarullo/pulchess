@@ -45,6 +45,7 @@ namespace pulchess { namespace logic {
   class HumanControllerFacade
   {
   public:
+	virtual ~HumanControllerFacade() {};
     virtual string getMove() = 0;
     virtual char getSoldierPiece() = 0;
   };
