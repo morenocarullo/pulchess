@@ -1,9 +1,11 @@
 #include "facade.H"
+#include "xboard.H"
 #include <iostream>
 #include <cstdio>
 #include <ctype.h> // toupper()
 
 using namespace std;
+using namespace pulchess;
 using namespace pulchess::logic;
 
 class StdInController : public HumanControllerFacade
@@ -66,7 +68,6 @@ void printBoard(Facade * f)
   cout << "" << endl << endl;
 }
 
-
 //
 int main(int argc, char *argv[])
 {
@@ -75,7 +76,7 @@ int main(int argc, char *argv[])
 
   printGreeting();
 
-  cout << "Modalita' di gioco? (ucpu, ccpu, hum) > ";
+  cout << "Modalita' di gioco? (ucpu, ccpu, hum, xboard) > ";
   cin >> mode;
   cout << endl;
   
@@ -89,10 +90,19 @@ int main(int argc, char *argv[])
     cout << "CPU Vs CPU" << endl;
     cout << endl; 
   }
-  else {
+  else if(mode == "hum") {
     facade = new Facade(HUM_VS_HUM);
     cout << "Umano Vs Umano" << endl;
     cout << endl;
+  }
+  else if(mode == "xboard") {
+    XBoard * xboard = new XBoard();
+    xboard->mainLoop(); 
+    delete xboard;
+    return 0;
+  }
+  else {
+    return 1;
   }
   
   facade->setController(new StdInController(), PULCHESS_WHITE);

@@ -1,5 +1,4 @@
-#CXXFLAGS= -O2 -Wall -fno-rtti -I src/logic -I src/ #-DPULCHESS_NOTABLES
-CXXFLAGS= -g3 -O2 -fno-rtti -I src/logic -I src/ -DDEBUG -Wall #-DPULCHESS_NOTABLES
+CXXFLAGS= ${CXXFLAGS} -O2 -fno-rtti -I src/logic -I src/ -Wall #-DPULCHESS_NOTABLES
 LOGICPATH=src/logic/
 TXTUIPATH=src/ui/txt/
 TESTSPATH=tests/logic/
@@ -10,7 +9,7 @@ PULCHESSLOGIC=${LOGICPATH}tower.o ${LOGICPATH}queen.o ${LOGICPATH}king.o ${LOGIC
 	${LOGICPATH}humanplayer.o ${LOGICPATH}facade.o \
 	${LOGICPATH}hashcache.o ${LOGICPATH}book.o \
 
-PULCHESSTXT=${TXTUIPATH}main.o
+PULCHESSTXT=${TXTUIPATH}main.o ${TXTUIPATH}xboard.o
 
 PULCHESSTEST=${TESTSPATH}soldier.o ${TESTSPATH}king.o \
 			 ${TESTSPATH}rook.o ${TESTSPATH}main.o
