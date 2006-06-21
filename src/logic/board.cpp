@@ -408,19 +408,35 @@ Move * Board::checkDefenseMove(const colour_t colour)
 // TODO: salvare l'ultimo pezzo che ha mangiato
 //		 bonus se mangia pezzo poco importante
 ///////////////////////////////////////////////////
-int Board::evaluate()
+int Board::evaluate(colour_t colour)
 {
     int val = 0;
     
+    // valutazione del materiale
     for(int i=0; i<64; i++) {
-		if(_map[i] != NULL) {			
-			val += _map[i]->getRank()          * _map[i]->getColour();
-			val += _map[i]->getPosEvaluation() * _map[i]->getColour();   
-		}
+  		if(_map[i] != NULL) {			
+  			val += _map[i]->getRank()          * _map[i]->getColour();
+  			val += _map[i]->getPosEvaluation() * _map[i]->getColour();   
+  		}
     }
+    
+    //
+    // controllo che la mossa non metta il re in scacco
+    // TODO: questo controllo e' molto lento.
+    //       bisogna trovare una strategia diversa per
+    //       evitare quelle mosse che mettono il re in scacco
+    //       basta evitare le mosse predette con profondita' 1!!!
+    //
+    //if( isInCheck(colour) )
+    //{
+    //    if( colour == WHITE ) return BLACK_WINS;
+    //    if( colour == BLACK ) return WHITE_WINS;    
+    //}
+    //
 	
     return val;
 }
+
 
 // Il numero di mosse totali effettuate
 //

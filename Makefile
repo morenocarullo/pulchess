@@ -1,4 +1,4 @@
-CXXFLAGS= ${CXXFLAGS} -O2 -fno-rtti -I src/logic -I src/ -Wall #-DPULCHESS_NOTABLES
+CXXFLAGS= -O2 -fno-rtti -I src/logic -I src/ -Wall #-DPULCHESS_NOTABLES
 LOGICPATH=src/logic/
 TXTUIPATH=src/ui/txt/
 TESTSPATH=tests/logic/
@@ -37,8 +37,7 @@ test: ${PULCHESSTEST} ${PULCHESSLOGIC}
 	@build/autotest
 	
 clean:
-	@rm -f ${LOGICPATH}*.o ${TXTUIPATH}*.o ${TESTSPATH}*.o; \
-	 rm -rf build
+	@rm -f ${LOGICPATH}*.o ${TXTUIPATH}*.o ${TESTSPATH}*.o;
 
 count:
 	@echo "Total LOC (.cpp) : `find ./src | grep \.cpp$ | xargs cat | wc -l`"; \

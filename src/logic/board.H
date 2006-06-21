@@ -71,7 +71,7 @@ namespace pulchess { namespace logic {
     Piece * getKing(const colour_t colour);
     bool isGameFinished();
     int getMoveCount();
-    int evaluate();
+    int evaluate(colour_t colour);
     int whoWins();
     int isInCheck(const colour_t colour);
 	bool canEatThis(coord_t pos, const colour_t colour);

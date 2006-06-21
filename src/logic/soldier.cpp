@@ -21,7 +21,7 @@
 
 static coord_t posvaltbl[2][64] = 
 {
-{
+{ /* bianco */
 	0,0,0,0,0,0,0,0,
 	1,1,1,1,1,1,1,1,
 	0,2,2,2,2,2,2,0,
@@ -29,10 +29,10 @@ static coord_t posvaltbl[2][64] =
 	0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,
-	9,9,9,9,9,9,9,9
+	15,15,15,15,15,15,15,15
 },	
-{
-	9,9,9,9,9,9,9,9,
+{ /* nero */
+	15,15,15,15,15,15,15,15,
 	0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,
@@ -163,21 +163,21 @@ list<Move *> * Soldier::listMoves(Board* b, list<Move *> *mList)
     // 3 - possiamo muoverci in avanti di 1?
     p = b->getPiece(x, y + 1*getColour());
     if( p == NULL ) {		
-		Move * m  = new Move( xy2pos(x, y + 1*getColour()), pos);		
-		//
-		// euristica: se si tratta di una promozione,
-		//			  la mossa e' sicuramente migliore.
-		if( ISRELCELL(8) )
-			mList->push_front(m);
-		else
-			mList->push_back(m);
+  		Move * m  = new Move( xy2pos(x, y + 1*getColour()), pos);		
+  		//
+  		// euristica: se si tratta di una promozione,
+  		//			  la mossa e' sicuramente migliore.
+  		if( ISRELCELL(8) )
+  			mList->push_front(m);
+  		else
+  			mList->push_back(m);
     }
     
     // 4 - ... e di 2?
     p  = b->getPiece(x, y + 2*getColour());
     op = b->getPiece(x, y + 1*getColour());
     if( p == NULL && op == NULL && getMoveCount() == 0) {
-		mList->push_back( new Move( xy2pos(x, y+2*getColour()), pos) );
+  		mList->push_back( new Move( xy2pos(x, y+2*getColour()), pos) );
     }
 	
     return mList;

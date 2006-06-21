@@ -111,7 +111,10 @@ int main(int argc, char *argv[])
 
   while( !facade->isGameFinished() ) {
     printBoard( facade );
-    facade->requestPlay();
+    if( !facade->requestPlay() )
+    {
+        cout << "Invalid move." << endl;
+    }
   }
   
   cout << "(Someone) wins." << endl;
