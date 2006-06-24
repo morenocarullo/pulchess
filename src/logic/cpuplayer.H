@@ -64,8 +64,11 @@ namespace pulchess { namespace logic {
 		//! Request move
 		bool doYourMove();
 		
+		//! Iterative deepening
+		void idab(int depth);		
+		
 		//! Do alphabeta search
-		int alfabeta(int depth, colour_t turnColour, int alfa, int beta);
+		int alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, int beta);
 		
 		//! Choose a piece in place of a soldier
 		Piece * chooseSoldierPiece();

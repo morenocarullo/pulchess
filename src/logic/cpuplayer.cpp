@@ -86,7 +86,7 @@ bool CPUPlayer::doYourMove() /* throws ... */
       	pulchess_log("[info] move not found in book.");
       	
       	_board->switchAutoThinking(getColour());
-      	this->alfabeta( plyDeep, getColour(), BLACK_WINS, WHITE_WINS );
+      	this->idab( plyDeep );
       	_board->switchAutoThinking(getColour());
       
       	m = bestMove;   
@@ -136,6 +136,163 @@ bool CPUPlayer::doYourMove() /* throws ... */
 		mList.erase(mList_iter); \
 } \
 
+void
+CPUPlayer::idab(int maxDepth) 
+{	
+	int depth, value;
+	for(depth=1; depth<maxDepth; depth++)
+	{	
+#ifdef DEBUG
+        printf("[info] IDAB iteration to depth %d\n", depth);
+#endif		
+		value = alfabeta(depth, depth, getColour(), BLACK_WINS, WHITE_WINS);
+		if( timec->evalTimeRemaining(depth) )
+		{
+			return;
+		}
+	}
+}
+
+//
+//
+//
+int
+CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, int beta) 
+{	
+    list<Piece *> * pList = _board->listPieces(turnColour);
+    list<Piece *>::iterator pList_iter;
+    list<Move *> mList;
+    list<Move *>::iterator mList_iter;
+
+    Move *currMove = NULL;
+    Move *myBest = NULL;
+    int val = 0, best = 0, alfab = alfa, betab = beta	;
+    bool ffprob = true;
+	
+#ifdef PULCHESS_USEHASHTABLE	
+    BoardValue *thisBoardVal = NULL, *hashBoardVal = NULL;
+#endif
+
+    // E' un nodo finale? 
+    //  o  manca il re
+	//  o  siamo nelle foglie dell'albero alfabeta
+    if( _board->getKing(WHITE) == NULL ) return BLACK_WINS;
+    if( _board->getKing(BLACK) == NULL ) return WHITE_WINS;
+    if( depth == 0 ) {
+		return _board->evaluate(turnColour);
+    }
+	
+    //
+    // fase di lettura dalla cache
+    //
+#ifdef PULCHESS_USEHASHTABLE
+    if(depth != startDepth) {
+		int retVal;
+		thisBoardVal = new BoardValue(_board, depth, evc->getSize());
+		hashBoardVal = evc->get( thisBoardVal->getHashKey() );
+		if( hashBoardVal != NULL && hashBoardVal->usableFor( thisBoardVal ) ) {
+			retVal = evc->getValue( thisBoardVal->getHashKey() );               
+			delete thisBoardVal;
+			evc->statsHit();
+			return retVal;
+		}
+		delete thisBoardVal;
+		evc->statsMiss();
+    }
+#endif
+	
+    // Se il tempo stringe,  risaliamo l'albero.
+    //
+    if( timec->evalTimeRemaining(depth) && (depth != startDepth) ) {
+		return 0;
+    }
+	
+    // per tutti i miei pezzi
+    // preleva tutte le mosse possibili, ed aggiungile alla lista (mList)
+    //
+    for(pList_iter = pList->begin(); pList_iter != pList->end(); pList_iter++) {
+		(*pList_iter)->listMoves( _board, &mList );
+    }
+
+	if( bestMove != NULL && depth == startDepth )
+	{
+		mList.push_front(bestMove);
+	}
+      	
+	// per tutte le mosse
+	// se la mossa e' buona, migliore delle altre, viene promossa
+	// come mossa migliore (bestMove)
+	//
+	for(mList_iter = mList.begin(); mList_iter != mList.end(); mList_iter++)
+    {
+		currMove = (*mList_iter);
+		
+		currMove->play( _board );
+		val = alfabeta( depth, depth - 1, ENEMY(turnColour), alfab, betab );
+		currMove->rewind( _board );
+		
+		//
+		// Decidiamo se la mossa deve essere promossa a "mossa migliore"
+		// Soltanto se siamo nella parte "di alto livello" dell'albero
+		// di ricerca. (depth == plyDeep)
+		//
+		if( depth == startDepth &&
+         	((turnColour == WHITE && val >= best) || (turnColour == BLACK && val <= best )) )
+		{	
+			best = val;
+			
+			//
+			// se il valore e' diverso da quello attuale,
+			// oppure non e' stata ancora scelta la mossa
+			//
+			if( val != best || myBest == NULL) {
+				myBest = currMove;
+			}
+			
+			//
+			// altrimenti, la mossa viene scelta in modo probabilistico,
+			// dato che dalla funzione di valutazione questa e' identica
+			// alla vecchia "mossa migliore".
+			//
+			else if( ACCEPTMOVE() ) { 
+				myBest = currMove;					
+			}
+		}
+		
+		// if( piu_a_suo_vantaggio() )
+		// stiamo valutando il risultato del nemico. Se ci viene un valore piu' a suo vantaggio,
+		// dobbiamo scartare questo ramo!      
+		//
+		if( val > alfab ) { alfab = val; }
+		if( val < betab ) { betab = val; }
+		if( (turnColour == WHITE && val < betab) ||
+			(turnColour == BLACK && val > alfab ) ) {
+			//
+			// la mossa ha permesso di "tagliare" l'albero. Va salvata ed utilizzata come
+			// prima mossa da testare alla prossima iterazione della iterative deepening.
+			//
+			PROMOTEGOODMOVE;
+			break;
+		}           
+	}
+	
+    if( depth == startDepth )
+    {
+     	if( myBest == NULL ) return 0;
+    	bestMove = myBest->copy();
+    }
+
+#ifdef PULCHESS_USEHASHTABLE
+    thisBoardVal = new BoardValue(_board, depth, evc->getSize());
+    evc->insert(thisBoardVal, best);
+#endif
+	
+    moveListDestroy(&mList);
+	
+    return best;
+}
+
+/*
 int
 CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta) 
 {	
@@ -200,7 +357,6 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
     // ripetendo piu' volte con profondita' crescente e' possibile
     // "passare" con valori di alfa e beta migliori, ottimizzando i tempi
     //
-    //for(int d=1; d<=depth, depth==plyDeep; d++) {
     int d = (depth == plyDeep) ? 1 : depth;
     while(!stopIterative)
     {
@@ -315,7 +471,7 @@ CPUPlayer::alfabeta(int depth, colour_t turnColour, int alfa, int beta)
     moveListDestroy(&mList);
 	
     return globalBest;
-}
+}*/
 
 
 // Richiede un pezzo da posizionare al posto di un pedone promosso.
