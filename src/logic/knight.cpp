@@ -52,7 +52,7 @@ namespace pulchess { namespace logic {
 
   int Knight::getRank()
   {
-    return 25;
+    return 50;
   }
 
   coord_t Knight::getValue()

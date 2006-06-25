@@ -55,7 +55,7 @@ bool HumanPlayer::doYourMove()
 			//
 			// segnala mossa non valida x' in scacco
 			//
-			cerr << "Mossa non valida, sei in scacco!" << endl;			
+			cerr << "Mossa non valida, vai/sei in scacco!" << endl;			
 			return false;
 		}
 		coords->commit();

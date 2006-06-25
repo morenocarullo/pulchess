@@ -91,7 +91,7 @@ public:
 				break;
 		}
 
-		return NULL;
+		return p;
     }
     
 };

@@ -56,7 +56,7 @@ int King::getKind()
 
 int King::getRank()
 {
-    return 300; // king's rank
+    return 3000000; // king's rank
 }
 
 coord_t King::getValue()

@@ -33,7 +33,7 @@ namespace pulchess { namespace logic {
 
   int Tower::getRank()
   {
-    return 50;
+    return 75;
   }
 
   coord_t Tower::getValue()
@@ -70,12 +70,12 @@ namespace pulchess { namespace logic {
     }
     
     // proviamo a spostare la torre alla sua sinistra
-    for(coord_t i=x+1; i>=0; i--) {
+    for(coord_t i=x-1; i>=0; i--) {
       tower_add_move(i, y); 
     }
 
     // proviamo a spostare la torre in basso
-    for(coord_t i=y+1; i>=0; i--) {
+    for(coord_t i=y-1; i>=0; i--) {
       tower_add_move(x, i);
     }
 

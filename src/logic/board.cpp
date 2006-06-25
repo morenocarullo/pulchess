@@ -265,9 +265,9 @@ int Board::whoWins()
 	if( whiteInCheck > 0)
 		blackInCheck = isInCheck(BLACK);
 	
-    whiteWins = blackInCheck && !canDefendCheck(BLACK);
+    whiteWins = blackInCheck>0 && !canDefendCheck(BLACK);
     if( whiteWins > 0 )
-		blackWins = whiteInCheck && !canDefendCheck(WHITE);
+		blackWins = whiteInCheck>0 && !canDefendCheck(WHITE);
     
 	//
 	// Ritorna il valore di valutazione.
@@ -289,8 +289,8 @@ int Board::whoWins()
 ////////////////////////////
 bool Board::isGameFinished()
 {
-    colour_t gameStat = whoWins();
-    if(gameStat != 0)
+    int gameStat = whoWins();
+    if(gameStat == WHITE_WINS ||  gameStat == BLACK_WINS)
 		return true;
     else
 		return false;

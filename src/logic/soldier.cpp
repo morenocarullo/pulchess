@@ -52,7 +52,7 @@ int Soldier::getKind()
 
 int Soldier::getRank()
 {
-    return 3; // soldier's rank
+    return 16; // soldier's rank
 }
 
 coord_t Soldier::getValue()
@@ -82,9 +82,9 @@ bool Soldier::isValidMove(coord_t newpos, Board * b)
     // se la destinazione e' una pedina da mangiare (non e' del ns. colore)...
     // ed il "senso" di marcia e' giusto...
     if( p != NULL && isEnemy(p) ) {
-		if( getColour() == WHITE && diffX == 1 && newy - y == 8 )
+		if( getColour() == WHITE && diffX == 1 && newy - y == 1 )
 			return true;
-		if( getColour() == BLACK && diffX == 1 && y - newy == 8 )
+		if( getColour() == BLACK && diffX == 1 && y - newy == 1 )
 			return true;
     }
     
