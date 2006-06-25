@@ -134,8 +134,7 @@ void
 CPUPlayer::idab(int maxDepth) 
 {	
 	int depth, value;
-	if( maxDepth%2 == 0 ) maxDepth++;
-	for(depth=3; depth<=maxDepth; depth+=2)
+	for(depth=2; depth<=maxDepth; depth++)
 	{	
 #ifdef DEBUG
         printf("[info] IDAB iteration to depth %d\n", depth);
@@ -170,11 +169,11 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     // E' un nodo finale? 
     //  o  manca il re
 	//  o  siamo nelle foglie dell'albero alfabeta
-	if( _board->getKing(WHITE) == NULL ) return BLACK_WINS;
-	if( _board->getKing(BLACK) == NULL ) return WHITE_WINS;
+	if( _board->getKing(WHITE) == NULL ) return BLACK_WINS * turnColour;
+	if( _board->getKing(BLACK) == NULL ) return WHITE_WINS * turnColour;
     if( depth == 0 )
 	{
-		return _board->evaluate(turnColour);
+		return _board->evaluate(turnColour) * turnColour;
     }
 	
     //
@@ -200,7 +199,7 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     //
     if( timec->evalTimeRemaining(depth) && (depth != startDepth) )
 	{
-		return _board->evaluate(turnColour);
+		return _board->evaluate(turnColour) * turnColour;
     }
 	
     // per tutti i miei pezzi
@@ -226,15 +225,19 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 		currMove = (*mList_iter);
 		
 		currMove->play( _board );
-		val = -alfabeta( depth, depth - 1, ENEMY(turnColour), -beta, -alfa );
+		val = -alfabeta( depth, depth-1, ENEMY(turnColour), -beta, -alfa );
 		currMove->rewind( _board );
 		
 		if( val >= beta ) {
 			alfa = beta;
-			myBest = currMove;
+//			myBest = currMove;
 			break;
 		}
 		if( val > alfa ) {
+//			if( startDepth == 2 && depth == 2)
+//			{
+//				printf("valore: %d alfa: %d turno: %d\n", val, alfa, turnColour);
+//			}
 			myBest = currMove;
 			alfa = val;
 		}
@@ -243,6 +246,7 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     if( depth == startDepth )
     {
      	if( myBest == NULL ) return 0;
+//		printf("valore mossa migliore: %d\n", alfa);
     	bestMove = myBest->copy();
     }
 

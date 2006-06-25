@@ -1,4 +1,4 @@
-CXXFLAGS= -g3 -O2 -fno-rtti -I src/logic -I src/ -Wall -DDEBUG -DPULCHESS_NOTABLES
+CXXFLAGS= -g3 -O2 -fno-rtti -I src/logic -I src/ -Wall -DDEBUG #-DPULCHESS_NOTABLES
 LOGICPATH=src/logic/
 TXTUIPATH=src/ui/txt/
 TESTSPATH=tests/logic/

@@ -36,10 +36,10 @@ typedef signed char colour_t ;
 
 #define WHITE 1
 #define BLACK -1
-#define WHITE_WINS    1000000000
-#define BLACK_INCHECK  100000000
-#define BLACK_WINS   -1000000000
-#define WHITE_INCHECK -100000000
+#define WHITE_WINS    1000000
+#define BLACK_INCHECK  100000
+#define BLACK_WINS   -1000000
+#define WHITE_INCHECK -100000
 #define CHECK_PLUS		1000
 
 #define abs(A) ( (A)<0 ? -(A) : (A) )

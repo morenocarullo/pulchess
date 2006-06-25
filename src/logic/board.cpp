@@ -411,7 +411,7 @@ Move * Board::checkDefenseMove(const colour_t colour)
 int Board::evaluate(colour_t colour)
 {
     int val = 0;
-    
+
     // valutazione del materiale
     for(int i=0; i<64; i++) {
   		if(_map[i] != NULL) {			
