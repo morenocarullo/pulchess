@@ -223,31 +223,40 @@ void Board::switchAutoThinking(const colour_t colour)
   static PlayerIF * tmpPlayer = NULL;
 
   // inizio auto-think
-  if( tmpPlayer == NULL ) {
-    if( colour == WHITE ) {
-      tmpPlayer    = _blackPlayer;
-      _blackPlayer = new CPUPlayer(BLACK);
+  if( tmpPlayer == NULL )
+  {
+    if( colour == WHITE )
+    {
+	   pulchess_debug("auto think on -- white thinking");
+       tmpPlayer    = _blackPlayer;
+       _blackPlayer = new CPUPlayer(BLACK);
     }
-    else {
-      tmpPlayer = _whitePlayer;
-      _whitePlayer = new CPUPlayer(WHITE);
+    else
+	{
+	   pulchess_debug("auto think on -- black thinking");
+       tmpPlayer = _whitePlayer;
+       _whitePlayer = new CPUPlayer(WHITE);
     }
   }
 
   // stop auto-think
-  else {
-    if( colour == WHITE ) {
-	  delete _blackPlayer;
-      _blackPlayer = tmpPlayer;
-      tmpPlayer = NULL;
+  else
+  {
+    if( colour == WHITE )
+    {
+	   pulchess_debug("auto think off -- white thinking");
+	   delete _blackPlayer;
+       _blackPlayer = tmpPlayer;
+       tmpPlayer = NULL;
     }
-    else {
-	  delete _whitePlayer;
-      _whitePlayer = tmpPlayer;
-      tmpPlayer = NULL;
+    else
+	{
+	   pulchess_debug("auto think off -- black thinking");
+	   delete _whitePlayer;
+       _whitePlayer = tmpPlayer;
+       tmpPlayer = NULL;
     }    
   }
-
 }
 
 
@@ -256,30 +265,10 @@ void Board::switchAutoThinking(const colour_t colour)
 //////////////////////////////////////
 int Board::whoWins()
 {
-    bool whiteWins = false;
-    bool blackWins = false;
-	int whiteInCheck = 0;
-	int blackInCheck = 0;
-	
-	whiteInCheck = isInCheck(WHITE);
-	if( whiteInCheck > 0)
-		blackInCheck = isInCheck(BLACK);
-	
-    whiteWins = blackInCheck>0 && !canDefendCheck(BLACK);
-    if( whiteWins > 0 )
-		blackWins = whiteInCheck>0 && !canDefendCheck(WHITE);
-    
-	//
-	// Ritorna il valore di valutazione.
-	// Se mettiamo sotto scacco l'avversario, consideriamo
-	// anche con quanti pezzi viene fatto.
-	//
-    if( whiteWins )			return WHITE_WINS;
-    if( blackWins )			return BLACK_WINS;
-	if( whiteInCheck > 0 )	return ( WHITE_INCHECK + whiteInCheck*CHECK_PLUS );
-	if( blackInCheck > 0)	return ( BLACK_INCHECK - blackInCheck*CHECK_PLUS );
-    
-    return 0;
+	if( isInCheck(WHITE)>0 && !canDefendCheck(WHITE) ) return BLACK_WINS;
+	if( isInCheck(BLACK)>0 && !canDefendCheck(BLACK) ) return WHITE_WINS;
+
+	return 0;
 }
 
 
@@ -419,20 +408,6 @@ int Board::evaluate(colour_t colour)
   			val += _map[i]->getPosEvaluation() * _map[i]->getColour();   
   		}
     }
-    
-    //
-    // controllo che la mossa non metta il re in scacco
-    // TODO: questo controllo e' molto lento.
-    //       bisogna trovare una strategia diversa per
-    //       evitare quelle mosse che mettono il re in scacco
-    //       basta evitare le mosse predette con profondita' 1!!!
-    //
-    //if( isInCheck(colour) )
-    //{
-    //    if( colour == WHITE ) return BLACK_WINS;
-    //    if( colour == BLACK ) return WHITE_WINS;    
-    //}
-    //
 	
     return val;
 }

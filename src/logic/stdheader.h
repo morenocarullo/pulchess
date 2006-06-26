@@ -50,6 +50,12 @@ typedef signed char colour_t ;
 
 #define pulchess_log(S) { cerr << S << endl; }
 
+#ifdef DEBUG
+#define pulchess_debug(S) { cerr << "[debug] " << S << endl; }
+#else
+#define pulchess_debug(S) ;
+#endif
+
 #include "piece.H"
 #include "tower.H"
 #include "queen.H"
