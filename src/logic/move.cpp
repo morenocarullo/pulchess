@@ -83,7 +83,9 @@ Move::Move(coord_t newpos, coord_t startpos)
 	
     if( !OKCOORDS(newpos) || !OKCOORDS(startpos) ) {
 		cerr << "Generata mossa anomala!" << endl;
-		exit(1);
+		cerr << "startpos x: " << pos2x(startpos) << " startpos y: " << pos2y(startpos) << endl;
+		cerr << "newpos x:  " << pos2x(newpos) << " newpos y:  " << pos2y(newpos) << endl;
+//		exit(1);
     }
 }
 
@@ -349,6 +351,8 @@ RookMove::RookMove(bool rookKind, colour_t colour)
 	
 	this->deadPiece = NULL;
 	this->promotedSoldier = NULL;
+	
+	pulchess_debug("rook!");
 	
 	if( rookKind == QUEENSIDE_ROOK ) {
 		if( pcol == WHITE ) {

@@ -278,11 +278,13 @@ int Board::whoWins()
 ////////////////////////////
 bool Board::isGameFinished()
 {
-    int gameStat = whoWins();
-    if(gameStat == WHITE_WINS ||  gameStat == BLACK_WINS)
-		return true;
-    else
-		return false;
+ 	pulchess_debug( "Is in check (WHITE): "      << isInCheck(WHITE) );
+	pulchess_debug( "Is in check (BLACK): "      << isInCheck(BLACK) );
+	pulchess_debug( "Can defend check (WHITE): " << canDefendCheck(WHITE) ); 	
+	pulchess_debug( "Can defend check (BLACK): " << canDefendCheck(BLACK) );
+	
+    return( isInCheck(WHITE)>0 && !canDefendCheck(WHITE) ||
+ 			isInCheck(BLACK)>0 && !canDefendCheck(BLACK) );
 }
 
 
@@ -361,7 +363,7 @@ Move * Board::checkDefenseMove(const colour_t colour)
     for(lmit = mList.begin(); lmit != mList.end(); lmit++) {
 		try {
 			(*lmit)->play(this);
-			if( isInCheck(colour) > 0 ) {
+			if( isInCheck(colour) == 0 ) {
 				Move *savingMove;
 				
 				// -- riportiamo lo stato in uno coerente --
