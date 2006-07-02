@@ -124,8 +124,8 @@ list<Move *> * King::listMoves(Board* b, list<Move *> *mList)
 		if( p != NULL &&
 		    p->getKind() == PIECE_TOWER &&
 		    p->getMoveCount() == 0 &&
-		    !b->canEatThis(pos+1, ENEMY(colour)) &&
-		    !b->canEatThis(pos+2, ENEMY(colour)) )
+		    !b->canEatThis(pos+1, colour) &&
+		    !b->canEatThis(pos+2, colour) )
 		{
 			mList->push_back( new RookMove(KINGSIDE_ROOK, colour) );
 		}
@@ -142,9 +142,9 @@ list<Move *> * King::listMoves(Board* b, list<Move *> *mList)
 		if( p != NULL &&
 		    p->getKind() == PIECE_TOWER &&
 		    p->getMoveCount() == 0 &&
-		    !b->canEatThis(pos-1, ENEMY(colour)) &&
-		    !b->canEatThis(pos-2, ENEMY(colour)) &&
-		    !b->canEatThis(pos-3, ENEMY(colour)) ) 
+		    !b->canEatThis(pos-1, colour) &&
+		    !b->canEatThis(pos-2, colour) &&
+		    !b->canEatThis(pos-3, colour) ) 
 		{
 			mList->push_back( new RookMove(QUEENSIDE_ROOK, colour) );
 		}

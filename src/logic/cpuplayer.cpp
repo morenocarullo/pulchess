@@ -228,17 +228,15 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 		
 		if( val >= beta ) {
 			alfa = beta;
-//			myBest = currMove;
 			break;
 		}
 		if( val > alfa ) {
-//			if( startDepth == 2 && depth == 2)
-//			{
-//				printf("valore: %d alfa: %d turno: %d\n", val, alfa, turnColour);
-//			}
 			myBest = currMove;
 			alfa = val;
 		}
+		else if( val == alfa && myBest == NULL ) {
+			myBest = currMove;	
+		} 
 	}
 	
     if( depth == startDepth )

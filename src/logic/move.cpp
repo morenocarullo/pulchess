@@ -352,8 +352,6 @@ RookMove::RookMove(bool rookKind, colour_t colour)
 	this->deadPiece = NULL;
 	this->promotedSoldier = NULL;
 	
-	pulchess_debug("rook!");
-	
 	if( rookKind == QUEENSIDE_ROOK ) {
 		if( pcol == WHITE ) {
 		  this->src = xy2pos(4,0);

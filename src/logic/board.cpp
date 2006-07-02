@@ -278,13 +278,24 @@ int Board::whoWins()
 ////////////////////////////
 bool Board::isGameFinished()
 {
+	bool stopFewPieces = false;
+	
+	// stop per poco materiale (solo i due re)
+	list<Piece *> * lpWhite = listPieces(WHITE), * lpBlack = listPieces(BLACK);
+	if( lpWhite->size() == 1 && lpBlack->size() == 1 )
+	{
+		stopFewPieces = true;
+	}
+	
+	// stop per matto
  	pulchess_debug( "Is in check (WHITE): "      << isInCheck(WHITE) );
 	pulchess_debug( "Is in check (BLACK): "      << isInCheck(BLACK) );
 	pulchess_debug( "Can defend check (WHITE): " << canDefendCheck(WHITE) ); 	
 	pulchess_debug( "Can defend check (BLACK): " << canDefendCheck(BLACK) );
 	
     return( isInCheck(WHITE)>0 && !canDefendCheck(WHITE) ||
- 			isInCheck(BLACK)>0 && !canDefendCheck(BLACK) );
+ 			isInCheck(BLACK)>0 && !canDefendCheck(BLACK) ||
+			stopFewPieces );
 }
 
 
@@ -295,7 +306,7 @@ bool Board::isGameFinished()
 //////////////////////////////////////////////////////////////////
 int Board::isInCheck(const colour_t colour)
 {
-	return canEatThis(getKing(colour)->getPos(), colour, true);
+	return canEatThis(getKing(colour)->getPos(), colour, false);
 }
 
 bool Board::canEatThis(coord_t pos, const colour_t colour)
