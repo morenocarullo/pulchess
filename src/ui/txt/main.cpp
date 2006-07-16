@@ -117,6 +117,6 @@ int main(int argc, char *argv[])
     }
   }
   
-  cout << "(Someone) wins." << endl;
+  cout << (facade->gameInfo() == WHITE ? "White" : "Black") << " wins." << endl;
   printBoard( facade );
 }

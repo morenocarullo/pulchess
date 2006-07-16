@@ -227,12 +227,16 @@ void Board::switchAutoThinking(const colour_t colour)
   {
     if( colour == WHITE )
     {
+	   if( !_blackPlayer->isHuman() ) return;
+	
 	   pulchess_debug("auto think on -- white thinking");
        tmpPlayer    = _blackPlayer;
        _blackPlayer = new CPUPlayer(BLACK);
     }
     else
 	{
+	   if( !_whitePlayer->isHuman() ) return;
+	
 	   pulchess_debug("auto think on -- black thinking");
        tmpPlayer = _whitePlayer;
        _whitePlayer = new CPUPlayer(WHITE);
@@ -265,8 +269,8 @@ void Board::switchAutoThinking(const colour_t colour)
 //////////////////////////////////////
 int Board::whoWins()
 {
-	if( isInCheck(WHITE)>0 && !canDefendCheck(WHITE) ) return BLACK_WINS;
-	if( isInCheck(BLACK)>0 && !canDefendCheck(BLACK) ) return WHITE_WINS;
+	if( isInCheck(WHITE)>0 && !canDefendCheck(WHITE) ) return BLACK;
+	if( isInCheck(BLACK)>0 && !canDefendCheck(BLACK) ) return WHITE;
 
 	return 0;
 }
