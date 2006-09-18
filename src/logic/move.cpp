@@ -35,6 +35,17 @@ static coord_t char2coord(char c)
     return 255;
 }
 
+static char coord2char(coord_t posx)
+{
+   return 'a' + posx;
+}
+
+static char coordn2char(coord_t posy)
+{
+   return '1' + posy;
+}
+
+
 namespace pulchess { namespace logic {
 
 // Create a CoordsMove, the simplest kind of move used for
@@ -92,6 +103,20 @@ Move::Move(coord_t newpos, coord_t startpos)
   
 Move::~Move() {}
 
+string Move::toString()
+{
+	string * res;
+	char buff[4];
+	
+	buff[0] = coord2char(pos2x(src));
+	buff[1] = coordn2char(pos2y(src));
+	buff[2] = coord2char(pos2x(dst));
+	buff[3] = coordn2char(pos2y(dst));
+	
+	res = new string(buff);
+	
+	return *res;
+}
 
 Move * Move::copy()
 {

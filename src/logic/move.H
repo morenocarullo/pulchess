@@ -68,6 +68,7 @@ namespace pulchess { namespace logic {
     void setPromotedSoldier(Piece *p);
     Piece * getPromotedSoldier();
     void printAllocInfo();
+	virtual string toString();
   };
 
 

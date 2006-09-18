@@ -96,6 +96,9 @@ namespace pulchess { namespace logic {
 	
     // chi vince?
     int gameInfo();
+
+	// carica un gioco
+	bool loadGame(const char *gamePath);
   };
 
 };

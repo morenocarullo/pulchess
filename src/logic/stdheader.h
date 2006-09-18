@@ -42,6 +42,9 @@ typedef signed char colour_t ;
 #define WHITE_INCHECK -100000
 #define CHECK_PLUS		1000
 
+#define pos2x(P)    ( P%8 )
+#define pos2y(P)    ( P/8 )
+#define xy2pos(X,Y) ( (Y) * 8 + (X) )
 #define abs(A) ( (A)<0 ? -(A) : (A) )
 #define ENEMY(C) ( C == BLACK ? WHITE : BLACK )
 #define ISRELCELL(X) ( getColour() == BLACK ? (getY() == 8-(X)) : (getY() == (X)-1) )

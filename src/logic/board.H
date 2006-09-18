@@ -22,10 +22,6 @@
 #ifndef _pulchess_logic_board_h_
 #define _pulchess_logic_board_h_
 
-#define pos2x(P)    ( P%8 )
-#define pos2y(P)    ( P/8 )
-#define xy2pos(X,Y) ( (Y) * 8 + (X) )
-
 namespace pulchess { namespace logic {
 
   class Piece;

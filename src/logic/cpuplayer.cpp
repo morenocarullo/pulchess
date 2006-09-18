@@ -112,7 +112,8 @@ bool CPUPlayer::doYourMove() /* throws ... */
       m->play(_board);
       m->commit();
       timec->resetTimer();
-		  printf("[info] move thought in %d seconds\n", (int)timec->getRealTime());
+      
+      printf("[info] move %s thought in %d seconds\n", m->toString().c_str(), (int)timec->getRealTime());
     }
     catch(InvalidMoveException *e)
     {
