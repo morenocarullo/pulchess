@@ -164,6 +164,25 @@ void Facade::init()
 #endif
 }
 
+// carica un gioco
+/*
+	TODO: da implementare!!!
+	
+  */
+bool Facade::loadGame(const char *gamePath)
+{
+	// crea una classe "controller" che carica le mosse da file
+	bool endLoading = false;
+	FILE *fp = fopen(gamePath, "rt");
+	
+	while(!feof(fp) && !endLoading)
+	{
+		// load stuff
+	}
+	
+	fclose(fp);
+}
+
 
 // chiude il gioco
 void Facade::shutdown()
