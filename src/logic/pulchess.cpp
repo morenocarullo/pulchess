@@ -1,7 +1,7 @@
 /*
 * PROJECT: PulCHESS, a Computer Chess program
 * LICENSE: GPL, see license.txt in project root
-* FILE: Pulchess Logic Facade implementation
+* FILE: Pulchess Logic Facade class
 **********************************************************************
 * This program is free software; you can redistribute it and/or modify         
 * it under the terms of the GNU General Public License as published by      
@@ -18,7 +18,7 @@
 * $Id$
 */
 #include "stdheader.h"
-#include "facade.H"
+#include "pulchess.H"
 #include "book.H"
 
 /** pulchess engine global vars */
@@ -32,11 +32,11 @@ class RealHumanController : public HumanController
 {
 	
 private:
-    HumanControllerFacade * controller;
+    HumanControllerPulchess * controller;
     colour_t colour;
 	
 public:
-	RealHumanController(HumanControllerFacade * c, colour_t colour)
+	RealHumanController(HumanControllerPulchess * c, colour_t colour)
     {
 			controller = c;
 			this->colour = colour;
@@ -59,10 +59,10 @@ public:
     }
     
     // return the new Piece, NULL if selected piece was not valid
-    Piece * getSoldierPiece()
+    Piece * getPawnPiece()
     {
 		Piece * p = NULL;
-		char piece = controller->getSoldierPiece();
+		char piece = controller->getPawnPiece();
 		
 		switch(piece) {
 			
@@ -75,7 +75,7 @@ public:
 				// Torre
 			case 'R':
 			case 'r':
-				p = new Tower(colour);
+				p = new Rook(colour);
 				break;
 				
 				// Cavallo
@@ -101,13 +101,13 @@ public:
 
 //
 // Controller di facciata per il caricamento da file delle mosse
-class FileControllerFacade : public HumanControllerFacade
+class FileControllerPulchess : public HumanControllerPulchess
 {
   private:
     FILE *fp;
 	
   public:
-    FileControllerFacade(FILE *fp)
+    FileControllerPulchess(FILE *fp)
     {
     	this->fp = fp;
     }
@@ -121,14 +121,14 @@ class FileControllerFacade : public HumanControllerFacade
 	return mossa;
 	}
 	  
-    char getSoldierPiece()
+    char getPawnPiece()
     {
  		   return 'Q';
  		}
 };
 
-// Facade costructor
-Facade::Facade(gamemode_t gameMode)
+// Pulchess costructor
+Pulchess::Pulchess(gamemode_t gameMode)
 {
     this->board    = NULL;
     this->turn     = WHITE;
@@ -137,15 +137,15 @@ Facade::Facade(gamemode_t gameMode)
 }
 
 
-// Facade destructor
-Facade::~Facade()
+// Pulchess destructor
+Pulchess::~Pulchess()
 {
     shutdown();
 }
 
 
 // imposta i controller
-void Facade::setController(HumanControllerFacade * c, int colour)
+void Pulchess::setController(HumanControllerPulchess * c, int colour)
 {
     if( colour == PULCHESS_WHITE ) {
 		whiteController = c;
@@ -158,7 +158,7 @@ void Facade::setController(HumanControllerFacade * c, int colour)
 
 
 // inizializza il gioco
-void Facade::init()
+void Pulchess::init()
 {
     // seleziona la modalita' di gioco.
     switch( gameMode )
@@ -201,7 +201,7 @@ void Facade::init()
 	TODO: da implementare!!!
 	aut-aut con la init
   */
-bool Facade::loadGame(const char *gamePath)
+bool Pulchess::loadGame(const char *gamePath)
 {
 	// crea una classe "controller" che carica le mosse da file
 	bool endLoading = false;
@@ -219,7 +219,7 @@ bool Facade::loadGame(const char *gamePath)
 		return false;
 	}
 	
-	FileControllerFacade * fileControllerFc = new FileControllerFacade(fp);
+	FileControllerPulchess * fileControllerFc = new FileControllerPulchess(fp);
 	
 	whitePlayer = new HumanPlayer(WHITE,
 										  new RealHumanController(fileControllerFc, WHITE));
@@ -246,7 +246,7 @@ bool Facade::loadGame(const char *gamePath)
 
 
 // chiude il gioco
-void Facade::shutdown()
+void Pulchess::shutdown()
 {
     Board * b = (Board *)board;
     delete b;
@@ -255,7 +255,7 @@ void Facade::shutdown()
 
 
 // ricostruisce la scacchiera
-cellinfo_t Facade::getCellInfo(int x, int y)
+cellinfo_t Pulchess::getCellInfo(int x, int y)
 {
     Board * b = (Board *)board;
     Piece * p;
@@ -276,7 +276,7 @@ cellinfo_t Facade::getCellInfo(int x, int y)
 
 
 // il gioco e' finito?
-bool Facade::isGameFinished()
+bool Pulchess::isGameFinished()
 {
     Board * b = (Board *)board;
     return b->isGameFinished();
@@ -284,13 +284,13 @@ bool Facade::isGameFinished()
 
 
 // a chi tocca?
-int Facade::whoPlaysNow()
+int Pulchess::whoPlaysNow()
 {
     return turn;
 }
 
 // richiede di giocare a chi di turno
-bool Facade::requestPlay()
+bool Pulchess::requestPlay()
 {	
 	bool retval;
 	
@@ -308,7 +308,7 @@ bool Facade::requestPlay()
 }
 
 //! Il prossimo giocatore e' umano?
-bool Facade::isHuman()
+bool Pulchess::isHuman()
 {
 	if( turn == WHITE )		return whitePlayer->isHuman();
 	else					return blackPlayer->isHuman();
@@ -316,13 +316,13 @@ bool Facade::isHuman()
 
 
 // chi vince?
-int Facade::gameInfo()
+int Pulchess::gameInfo()
 {
     Board * b = (Board *)board;
     return b->whoWins();
 }
 
-void Facade::printBoard()
+void Pulchess::printBoard()
 {
   cout << "" << endl;
   for(int y=7; y>=0; y--) {

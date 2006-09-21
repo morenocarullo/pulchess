@@ -39,7 +39,7 @@ public:
 		
 		bool doYourMove();
 		bool isHuman();
-		Piece * chooseSoldierPiece();
+		Piece * choosePawnPiece();
 	};
 	
 };

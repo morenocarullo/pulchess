@@ -65,11 +65,11 @@ extern bool pulchess_log_on;
 #endif
 
 #include "piece.H"
-#include "tower.H"
+#include "rook.H"
 #include "queen.H"
 #include "king.H"
 #include "knight.H"
-#include "soldier.H"
+#include "pawn.H"
 #include "bishop.H"
 #include "board.H"
 #include "move.H"

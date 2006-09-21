@@ -44,7 +44,7 @@ namespace pulchess { namespace logic {
     coord_t dst;
 
     Piece * deadPiece;		
-    Piece * promotedSoldier;
+    Piece * promotedPawn;
     
   public:
     Move();
@@ -65,8 +65,8 @@ namespace pulchess { namespace logic {
     virtual Move * copy();
     void setDeadPiece(Piece *p);
     Piece * getDeadPiece();
-    void setPromotedSoldier(Piece *p);
-    Piece * getPromotedSoldier();
+    void setPromotedPawn(Piece *p);
+    Piece * getPromotedPawn();
     void printAllocInfo();
 	virtual string toString();
   };

@@ -3,10 +3,10 @@ LOGICPATH=src/logic/
 TXTUIPATH=src/ui/txt/
 TESTSPATH=tests/logic/
 
-PULCHESSLOGIC=${LOGICPATH}tower.o ${LOGICPATH}queen.o ${LOGICPATH}king.o ${LOGICPATH}soldier.o \
+PULCHESSLOGIC=${LOGICPATH}rook.o ${LOGICPATH}queen.o ${LOGICPATH}king.o ${LOGICPATH}pawn.o \
 	${LOGICPATH}bishop.o ${LOGICPATH}piece.o ${LOGICPATH}board.o ${LOGICPATH}move.o \
 	${LOGICPATH}cpuplayer.o ${LOGICPATH}timecontrol.o ${LOGICPATH}player.o ${LOGICPATH}knight.o \
-	${LOGICPATH}humanplayer.o ${LOGICPATH}facade.o \
+	${LOGICPATH}humanplayer.o ${LOGICPATH}pulchess.o \
 	${LOGICPATH}hashcache.o ${LOGICPATH}book.o \
 
 PULCHESSTXT=${TXTUIPATH}main.o ${TXTUIPATH}xboard.o

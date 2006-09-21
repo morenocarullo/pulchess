@@ -1,7 +1,7 @@
 /*
  * PROJECT: PulCHESS, a Computer Chess program
  * LICENSE: GPL, see license.txt in project root
- * FILE: Soldier implementation
+ * FILE: Pawn implementation
  **********************************************************************
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
@@ -45,27 +45,27 @@ static coord_t posvaltbl[2][64] =
 
 namespace pulchess { namespace logic {
 	
-int Soldier::getKind()
+int Pawn::getKind()
 {
 	return PIECE_SOLDIER;
 }
 
-int Soldier::getRank()
+int Pawn::getRank()
 {
     return 16; // soldier's rank
 }
 
-coord_t Soldier::getValue()
+coord_t Pawn::getValue()
 {
     return (coord_t)7 + colour;
 }
 
-int Soldier::getPosEvaluation()
+int Pawn::getPosEvaluation()
 {
 	return posvaltbl[ colour == WHITE ? 0 : 1 ][pos];
 }
 
-bool Soldier::isValidMove(coord_t newpos, Board * b)
+bool Pawn::isValidMove(coord_t newpos, Board * b)
 {
     Piece *p;
     coord_t newx  = pos2x(newpos), newy = pos2y(newpos);
@@ -120,7 +120,7 @@ bool Soldier::isValidMove(coord_t newpos, Board * b)
     return false;
 }
 
-list<Move *> * Soldier::listMoves(Board* b, list<Move *> *mList)
+list<Move *> * Pawn::listMoves(Board* b, list<Move *> *mList)
 {
     Piece      *p = NULL, *op = NULL;
 	

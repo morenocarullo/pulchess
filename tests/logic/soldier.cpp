@@ -10,9 +10,9 @@ static char * suitename = "soldier suite";
 static void testListMoves_start()
 {
   Board b(new CPUPlayer(WHITE), new CPUPlayer(BLACK));
-  Soldier * s;
+  Pawn * s;
 
-  s = (Soldier *)b.getPiece(0,1);
+  s = (Pawn *)b.getPiece(0,1);
 
   list<Move *> * mList = new list<Move *>();
   list<Move *>::iterator lmit;
@@ -27,6 +27,6 @@ static void testListMoves_start()
   }
 }
 
-void testSuiteSoldier() {
+void testSuitePawn() {
 	PULCHESS_CALLCASE(testListMoves_start, "soldier::testListMoves_start");
 }

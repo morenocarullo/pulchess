@@ -30,7 +30,7 @@ CompilerSet=0
 CompilerSettings=00000000000100010000ib
 
 [Unit1]
-FileName=..\src\logic\tower.H
+FileName=..\src\logic\rook.H
 CompileCpp=1
 Folder=logic
 Compile=1
@@ -80,7 +80,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit6]
-FileName=..\src\logic\soldier.H
+FileName=..\src\logic\pawn.H
 CompileCpp=1
 Folder=logic
 Compile=1
@@ -280,7 +280,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit26]
-FileName=..\src\logic\facade.H
+FileName=..\src\logic\pulchess.H
 CompileCpp=1
 Folder=logic
 Compile=1

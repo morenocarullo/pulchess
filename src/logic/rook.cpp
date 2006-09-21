@@ -1,7 +1,7 @@
 /*
  * PROJECT: PulCHESS, a Computer Chess program
  * LICENSE: GPL, see license.txt in project root
- * FILE:    Tower implementation
+ * FILE:    Rook implementation
  **********************************************************************
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
@@ -21,32 +21,32 @@
 
 namespace pulchess { namespace logic {
 
-  int Tower::getKind()
+  int Rook::getKind()
   {
     return PIECE_TOWER;
   }
 
-  string Tower::getName()
+  string Rook::getName()
   {
-    return "Tower";
+    return "Rook";
   }
 
-  int Tower::getRank()
+  int Rook::getRank()
   {
     return 75;
   }
 
-  coord_t Tower::getValue()
+  coord_t Rook::getValue()
   {
     return 7 + colour*4;
   }
 
-  bool Tower::isValidMove(coord_t pos, Board * b)
+  bool Rook::isValidMove(coord_t pos, Board * b)
   {
     return isValidMove_croce(pos, b);
   }
 
-  list<Move *> * Tower::listMoves(Board * b, list<Move *> *mList)
+  list<Move *> * Rook::listMoves(Board * b, list<Move *> *mList)
   {
     Piece      *p     = NULL;
 

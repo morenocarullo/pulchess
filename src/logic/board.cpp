@@ -50,41 +50,41 @@ Board::Board(PlayerIF * white, PlayerIF * black)
 		try {
 			
 			/* White Player */
-			_putPiece(0, 1, new Soldier(WHITE));
-			_putPiece(1, 1, new Soldier(WHITE));
-			_putPiece(2, 1, new Soldier(WHITE));
-			_putPiece(3, 1, new Soldier(WHITE));
-			_putPiece(4, 1, new Soldier(WHITE));
-			_putPiece(5, 1, new Soldier(WHITE));
-			_putPiece(6, 1, new Soldier(WHITE));
-			_putPiece(7, 1, new Soldier(WHITE));
-			_putPiece(0, 0, new Tower(WHITE));
+			_putPiece(0, 1, new Pawn(WHITE));
+			_putPiece(1, 1, new Pawn(WHITE));
+			_putPiece(2, 1, new Pawn(WHITE));
+			_putPiece(3, 1, new Pawn(WHITE));
+			_putPiece(4, 1, new Pawn(WHITE));
+			_putPiece(5, 1, new Pawn(WHITE));
+			_putPiece(6, 1, new Pawn(WHITE));
+			_putPiece(7, 1, new Pawn(WHITE));
+			_putPiece(0, 0, new Rook(WHITE));
 			_putPiece(1, 0, new Knight(WHITE));
 			_putPiece(2, 0, new Bishop(WHITE));
 			_putPiece(4, 0, new King(WHITE));
 			_putPiece(3, 0, new Queen(WHITE));
 			_putPiece(5, 0, new Bishop(WHITE));
 			_putPiece(6, 0, new Knight(WHITE));
-			_putPiece(7, 0, new Tower(WHITE));
+			_putPiece(7, 0, new Rook(WHITE));
 			
 			
 			/* Black Player */
-			_putPiece(0, 6, new Soldier(BLACK));
-			_putPiece(1, 6, new Soldier(BLACK));
-			_putPiece(2, 6, new Soldier(BLACK));
-			_putPiece(3, 6, new Soldier(BLACK));
-			_putPiece(4, 6, new Soldier(BLACK));
-			_putPiece(5, 6, new Soldier(BLACK));
-			_putPiece(6, 6, new Soldier(BLACK));
-			_putPiece(7, 6, new Soldier(BLACK));
-			_putPiece(0, 7, new Tower(BLACK));
+			_putPiece(0, 6, new Pawn(BLACK));
+			_putPiece(1, 6, new Pawn(BLACK));
+			_putPiece(2, 6, new Pawn(BLACK));
+			_putPiece(3, 6, new Pawn(BLACK));
+			_putPiece(4, 6, new Pawn(BLACK));
+			_putPiece(5, 6, new Pawn(BLACK));
+			_putPiece(6, 6, new Pawn(BLACK));
+			_putPiece(7, 6, new Pawn(BLACK));
+			_putPiece(0, 7, new Rook(BLACK));
 			_putPiece(1, 7, new Knight(BLACK));
 			_putPiece(2, 7, new Bishop(BLACK));
 			_putPiece(3, 7, new Queen(BLACK));
 			_putPiece(4, 7, new King(BLACK));
 			_putPiece(5, 7, new Bishop(BLACK));
 			_putPiece(6, 7, new Knight(BLACK));
-			_putPiece(7, 7, new Tower(BLACK));
+			_putPiece(7, 7, new Rook(BLACK));
 		}
 		catch(CoordsException e) {
 			pulchess_error("Aggiunto pezzo in posizione errata!");

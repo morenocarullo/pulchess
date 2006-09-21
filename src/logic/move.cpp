@@ -62,7 +62,7 @@ CoordsMove::CoordsMove(string move) /* throw InvalidMoveException */
 	this->src    = xy2pos( char2coord(cx), y-1 );
 	this->dst    = xy2pos( char2coord(cn_x), n_y-1 );
 	this->deadPiece = NULL;
-	this->promotedSoldier = NULL;
+	this->promotedPawn = NULL;
 	
 	if( !OKCOORDS(dst) || !OKCOORDS(src) ) {
 		cerr << "Hai richiesto una mossa anomala!" << endl;
@@ -86,7 +86,7 @@ Move::Move(coord_t newpos, coord_t startpos)
     this->dst = newpos;
     this->src = startpos;
     this->deadPiece = NULL;
-    this->promotedSoldier = NULL;
+    this->promotedPawn = NULL;
 	
     if( newpos == startpos ) {
 		cerr << "Mossa anomala!" << endl;
@@ -124,7 +124,7 @@ Move * Move::copy()
     Move * m = new Move(dst, src);
 	
     m->setDeadPiece( this->deadPiece );
-    m->setPromotedSoldier( this->promotedSoldier );
+    m->setPromotedPawn( this->promotedPawn );
     return m;
 }
 
@@ -157,14 +157,14 @@ Piece * Move::getDeadPiece()
     return deadPiece;
 }
 
-void Move::setPromotedSoldier(Piece * p)
+void Move::setPromotedPawn(Piece * p)
 {
-    promotedSoldier = p;
+    promotedPawn = p;
 }
 
-Piece * Move::getPromotedSoldier()
+Piece * Move::getPromotedPawn()
 {
-    return promotedSoldier;
+    return promotedPawn;
 }
 
 coord_t Move::getSourceX()
@@ -240,7 +240,7 @@ void Move::play(Board* b)
 			// chiede all'utente di scegliere che pezzo inserire
 			// al posto del fante appena "promosso".
 			Piece *newPiece;
-			newPiece = b->getPlayer( src->getColour() )->chooseSoldierPiece();
+			newPiece = b->getPlayer( src->getColour() )->choosePawnPiece();
 			ADDPIECE( newPiece );
 			b->setPiece( dstI, newPiece );
 			newPiece->moveTo( dstI );
@@ -248,7 +248,7 @@ void Move::play(Board* b)
 			// salva le info
 			// sul pezzo appena promosso.
 			CANCPIECE( src );
-			setPromotedSoldier( src );
+			setPromotedPawn( src );
 		}
     }
 	
@@ -265,7 +265,7 @@ void Move::rewind(Board* b)
 	
     Piece
 		*src = b->getPiece(srcI),
-		*pro = getPromotedSoldier(),
+		*pro = getPromotedPawn(),
 		*ddp = getDeadPiece();
     
     // "spromuove" il fante allo stato originario
@@ -273,7 +273,7 @@ void Move::rewind(Board* b)
     if( pro != NULL ) {
 		CANCPIECE(src);
 		delete src;
-		setPromotedSoldier( NULL );
+		setPromotedPawn( NULL );
 		
 		ADDPIECE( pro );
 		b->setPiece( srcI, pro );
@@ -318,7 +318,7 @@ EPMove::EPMove(coord_t newpos, coord_t startpos, coord_t eat) : Move(newpos, sta
 	this->src = startpos;
 	this->eat = eat;
 	this->deadPiece = NULL;
-	this->promotedSoldier = NULL;
+	this->promotedPawn = NULL;
 	
 	if( newpos == startpos ) {
 		pulchess_error( "Mossa anomala!" );
@@ -360,7 +360,7 @@ Move * EPMove::copy()
     Move * m = new EPMove(dst, src, eat);
 	
     m->setDeadPiece( this->deadPiece );
-    m->setPromotedSoldier( this->promotedSoldier );
+    m->setPromotedPawn( this->promotedPawn );
     return m;
 }
 
@@ -371,7 +371,7 @@ RookMove::RookMove(bool rookKind, colour_t colour)
     pcol = colour;
 	
 	this->deadPiece = NULL;
-	this->promotedSoldier = NULL;
+	this->promotedPawn = NULL;
 	
 	if( rookKind == QUEENSIDE_ROOK ) {
 		if( pcol == WHITE ) {

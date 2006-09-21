@@ -1,7 +1,7 @@
 /*
 * PROJECT: PulCHESS, a Computer Chess program
 * LICENSE: GPL, see license.txt in project root
-* FILE:    Pulchess Logic Facade interface
+* FILE:    Pulchess Logic Pulchess interface
 **********************************************************************
 * This program is free software; you can redistribute it and/or modify         
 * it under the terms of the GNU General Public License as published by      
@@ -27,8 +27,8 @@ const unsigned char CPU_VS_CPU = 0;
 const unsigned char HUM_VS_CPU = 1;
 const unsigned char HUM_VS_HUM = 2;
 
-const int PULCHESS_WHITE = -1;
-const int PULCHESS_BLACK = 1;
+const int PULCHESS_WHITE = 1;
+const int PULCHESS_BLACK = -1;
 
 const int PULCHESS_STATUS_ZERO = 0;
 const int PULCHESS_STATUS_INIT = 1;
@@ -46,17 +46,17 @@ namespace pulchess { namespace logic {
 
   // human controller facade
   /////////////////////////////
-  class HumanControllerFacade
+  class HumanControllerPulchess
   {
   public:
-	virtual ~HumanControllerFacade() {};
+	virtual ~HumanControllerPulchess() {};
     virtual string getMove() = 0;
-    virtual char getSoldierPiece() = 0;
+    virtual char getPawnPiece() = 0;
   };
 
-  // main Pulchess Facade Class
+  // main Pulchess Pulchess Class
   /////////////////////////////
-  class Facade
+  class Pulchess
   {
 
   private:
@@ -64,18 +64,18 @@ namespace pulchess { namespace logic {
     int    turn;
 	int engineStatus;
     gamemode_t gameMode;
-    HumanControllerFacade * whiteController;
-    HumanControllerFacade * blackController;
+    HumanControllerPulchess * whiteController;
+    HumanControllerPulchess * blackController;
     PlayerIF * whitePlayer;
     PlayerIF * blackPlayer;
 
   public:
 
-    Facade(gamemode_t gameMode);
-    ~Facade();
+    Pulchess(gamemode_t gameMode);
+    ~Pulchess();
 
     // imposta i controller
-    void setController(HumanControllerFacade * c, int colour);
+    void setController(HumanControllerPulchess * c, int colour);
     
     // inizializza il gioco
     void init();

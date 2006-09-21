@@ -30,7 +30,7 @@ namespace pulchess { namespace logic {
   public:
     virtual ~HumanController() {};
     virtual CoordsMove * getCoordsMove() = 0;
-    virtual Piece * getSoldierPiece() = 0;
+    virtual Piece * getPawnPiece() = 0;
   };
 
 };

@@ -1,7 +1,7 @@
 /*
  * PROJECT: PulCHESS, a Computer Chess program
  * LICENSE: GPL, see license.txt in project root
- * FILE:    Tower interface
+ * FILE:    Rook interface
  **********************************************************************
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
@@ -26,9 +26,9 @@ namespace pulchess { namespace logic {
 
 class Piece;
 
-class Tower : public Piece {
+class Rook : public Piece {
  public:
-  Tower(colour_t colour) : Piece(colour) {};
+  Rook(colour_t colour) : Piece(colour) {};
 
   string getName();
   int getRank();

@@ -25,12 +25,12 @@
 namespace pulchess { namespace logic {
 
   //! A pawn piece
-  class Soldier : public Piece
+  class Pawn : public Piece
   {
     
   public:
     //! Create a new pawn, given its colour
-    Soldier(colour_t colour) : Piece(colour) {};
+    Pawn(colour_t colour) : Piece(colour) {};
 
 	//! What kind of piece am i?
     int getKind();

@@ -40,7 +40,7 @@ namespace pulchess { namespace logic {
     virtual ~PlayerIF();
     
     colour_t getColour();
-    virtual Piece * chooseSoldierPiece() = 0;
+    virtual Piece * choosePawnPiece() = 0;
     virtual bool isHuman();	
     virtual bool doYourMove() = 0;
     Move*  lastMoveReport();

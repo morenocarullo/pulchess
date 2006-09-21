@@ -71,7 +71,7 @@ namespace pulchess { namespace logic {
 		int alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, int beta);
 		
 		//! Choose a piece in place of a soldier
-		Piece * chooseSoldierPiece();
+		Piece * choosePawnPiece();
 	};
 	
 };

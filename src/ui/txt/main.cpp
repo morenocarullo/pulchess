@@ -1,4 +1,4 @@
-#include "facade.H"
+#include "pulchess.H"
 #include "xboard.H"
 #include <iostream>
 #include <cstdio>
@@ -8,11 +8,11 @@ using namespace std;
 using namespace pulchess;
 using namespace pulchess::logic;
 
-class StdInController : public HumanControllerFacade
+class StdInController : public HumanControllerPulchess
 {
 public:
   string getMove();
-  char getSoldierPiece();
+  char getPawnPiece();
 };
 
 string StdInController::getMove()
@@ -24,7 +24,7 @@ string StdInController::getMove()
   return mossa;
 }
 
-char StdInController::getSoldierPiece()
+char StdInController::getPawnPiece()
 {
   char soldierpiece;
   cout << "Pezzo? > " << endl;
@@ -44,7 +44,7 @@ void printGreeting(void)
 //
 int main(int argc, char *argv[])
 {
-  Facade * facade;
+  Pulchess * facade;
   string mode;
 
   printGreeting();
@@ -54,17 +54,17 @@ int main(int argc, char *argv[])
   cout << endl;
   
   if( mode == "ucpu"  ) {
-    facade = new Facade(HUM_VS_CPU);
+    facade = new Pulchess(HUM_VS_CPU);
     cout << "Umano Vs Comp" << endl;
     cout << endl;
   }
   else if( mode == "ccpu" ) {
-    facade = new Facade(CPU_VS_CPU);
+    facade = new Pulchess(CPU_VS_CPU);
     cout << "CPU Vs CPU" << endl;
     cout << endl; 
   }
   else if(mode == "hum") {
-    facade = new Facade(HUM_VS_HUM);
+    facade = new Pulchess(HUM_VS_HUM);
     cout << "Umano Vs Umano" << endl;
     cout << endl;
   }

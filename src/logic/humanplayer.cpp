@@ -114,9 +114,9 @@ Move * HumanPlayer::getMove()
 
 //! Request new piece for soldier promotion
 //
-Piece * HumanPlayer::chooseSoldierPiece()
+Piece * HumanPlayer::choosePawnPiece()
 {
-    return controller->getSoldierPiece();
+    return controller->getPawnPiece();
 }
 
 bool HumanPlayer::isHuman()

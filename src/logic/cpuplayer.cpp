@@ -261,7 +261,7 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 //
 ///////////////////////////////////////////////////////////////////
 Piece *
-CPUPlayer::chooseSoldierPiece()
+CPUPlayer::choosePawnPiece()
 {
     return new Queen(getColour());
 }

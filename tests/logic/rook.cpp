@@ -10,9 +10,9 @@ static char * suitename = "rook suite";
 static void testListMoves_start()
 {
   Board b(new CPUPlayer(WHITE,6,1,false), new CPUPlayer(BLACK,6,1,false));
-  Tower * s;
+  Rook * s;
 
-  s = (Tower *)b.getPiece(0,1);
+  s = (Rook *)b.getPiece(0,1);
 
   list<Move *> * mList = new list<Move *>();
   list<Move *>::iterator lmit;

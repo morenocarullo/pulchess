@@ -20,7 +20,7 @@
 * $Id$
 */
 #include "xboard.H"
-#include "facade.H"
+#include "pulchess.H"
 #include <iostream>
 
 using namespace std;
@@ -69,7 +69,7 @@ XBoard::mainLoop()
     	    unknownCommand(buff);
     	    continue;
     	  }
-    	  //Facade * facade = new Facade(HUM_VS_CPU);
+    	  //Pulchess * facade = new Pulchess(HUM_VS_CPU);
     	  break;
 
       case 'v': // variant
