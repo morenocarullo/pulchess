@@ -39,6 +39,7 @@ XBoard::~XBoard()
 bool
 XBoard::readCommand(const char * cmd)
 {
+	return false;
 }
 
 void

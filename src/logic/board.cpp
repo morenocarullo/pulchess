@@ -87,7 +87,7 @@ Board::Board(PlayerIF * white, PlayerIF * black)
 			_putPiece(7, 7, new Tower(BLACK));
 		}
 		catch(CoordsException e) {
-			cerr << "Aggiunto pezzo in posizione errata!" << endl;
+			pulchess_error("Aggiunto pezzo in posizione errata!");
 			exit(1);
 		}
 }
@@ -391,13 +391,16 @@ Move * Board::checkDefenseMove(const colour_t colour)
 			}
 			(*lmit)->rewind(this);
 		}
-		catch(InvalidMoveException *ex) {
-			cerr << "Ho generato una mossa sbagliata... errore fatale!" << endl;
-			cerr << ex->getMsg();
+		catch(InvalidMoveException *ex)
+		{
+			pulchess_error( "Ho generato una mossa sbagliata... errore fatale!" );
+			pulchess_error( ex->getMsg() );
+			
 			printf("Pezzo da spostare: x %d   y %d   kind:%d\n",
 				   (*lmit)->getSourceX(),
 				   (*lmit)->getSourceY(),
 				   getPiece((*lmit)->getSourceX(), (*lmit)->getSourceY())->getKind());
+				   
 			cerr << endl;
 			exit(1);
 		}

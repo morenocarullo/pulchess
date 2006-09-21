@@ -45,7 +45,7 @@ bool HumanPlayer::doYourMove()
 	try {
 		coords = getMove();
 		if( coords == NULL ) {
-			cerr << "Mossa non valida" << endl;
+			pulchess_info( "Mossa non valida" );
 			return false;
 		}
 		coords->play( _board );
@@ -55,15 +55,16 @@ bool HumanPlayer::doYourMove()
 			//
 			// segnala mossa non valida x' in scacco
 			//
-			cerr << "Mossa non valida, vai/sei in scacco!" << endl;			
+			pulchess_info( "Mossa non valida, vai/sei in scacco!" );			
 			return false;
 		}
 		coords->commit();
 		delete coords;
 		return true;
 	}
-	catch(InvalidMoveException *e) {
-		cerr << "Eccezione: mossa non valida!" << endl;
+	catch(InvalidMoveException *e)
+	{
+		pulchess_info( "Eccezione: mossa non valida!" );
 	}			  
 	
 	return false;
@@ -98,6 +99,13 @@ Move * HumanPlayer::getMove()
 			moveListDestroy(&mList);
 			return copy;
 		}
+	}
+	
+	pulchess_debug( "HumanPlayer::getMove() -- la mossa specificata non"
+                    << " e' stata trovata tra quelle valide: " << coords->toString() );
+
+	for(mListIt = mList.begin(); mListIt != mList.end(); mListIt++) {
+		pulchess_debug( "mossa disp: " << (*mListIt)->toString() );
 	}
 	
 	moveListDestroy(&mList);

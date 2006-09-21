@@ -42,33 +42,6 @@ void printGreeting(void)
 
 
 //
-void printBoard(Facade * f)
-{
-  cout << "" << endl;
-  for(int y=7; y>=0; y--) {
-    printf("%d   ", y+1);
-    for(int x=0; x<8; x++) {
-      cellinfo_t c = f->getCellInfo(x,y);
-      if( c.colour == 'w') {
-	cout << (char)toupper(c.kind);
-      }
-      else {
-	cout << c.kind;
-      }
-      cout << " ";
-    }
-    cout << endl;
-  }
-
-  // intestazione delle colonne
-  cout << endl << "    ";
-  for(int x=0; x<8; x++) {
-    printf("%c ", 'a'+x);
-  }
-  cout << "" << endl << endl;
-}
-
-//
 int main(int argc, char *argv[])
 {
   Facade * facade;
@@ -110,7 +83,7 @@ int main(int argc, char *argv[])
   facade->init();
 
   while( !facade->isGameFinished() ) {
-    printBoard( facade );
+    facade->printBoard();
     if( !facade->requestPlay() )
     {
         cout << "Invalid move." << endl;
@@ -118,5 +91,5 @@ int main(int argc, char *argv[])
   }
   
   cout << (facade->gameInfo() == WHITE ? "White" : "Black") << " wins." << endl;
-  printBoard( facade );
+  facade->printBoard();
 }

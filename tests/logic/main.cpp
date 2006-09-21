@@ -8,11 +8,13 @@
  * $Id$
  */
 #include <stdio.h>
+#include "stdheader.h"
 #include "tests.h"
 
 int main(int argc, char *argv[]) {
+	pulchess_log_off();
 	PULCHESS_RUNTESTS();
-	printf("pulchess logic tests completed.\n");
+	printf("\n");
 	return 0;
 }
 

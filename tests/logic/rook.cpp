@@ -11,7 +11,6 @@ static void testListMoves_start()
 {
   Board b(new CPUPlayer(WHITE,6,1,false), new CPUPlayer(BLACK,6,1,false));
   Tower * s;
-  Move * m;
 
   s = (Tower *)b.getPiece(0,1);
 

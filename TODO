@@ -1,6 +1,7 @@
+- terminare implementazione xboard
 - interfaccia con una scacchiera reale! (!)
 - parallelizzabilita'
-- interfaccia 3d
+- interfaccia 3D per console (Dreamcast, PS2, etc...)
 - correspondance chess
 - elenco delle aperture (opening library)
 

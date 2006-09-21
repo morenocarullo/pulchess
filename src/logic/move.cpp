@@ -106,12 +106,13 @@ Move::~Move() {}
 string Move::toString()
 {
 	string * res;
-	char buff[4];
+	char buff[5];
 	
 	buff[0] = coord2char(pos2x(src));
 	buff[1] = coordn2char(pos2y(src));
 	buff[2] = coord2char(pos2x(dst));
 	buff[3] = coordn2char(pos2y(dst));
+	buff[4] = '\0';
 	
 	res = new string(buff);
 	
@@ -211,12 +212,7 @@ void Move::play(Board* b)
 		VIOLATURNO(src)  ||
 		srcI == dstI )
 	{
-		
-#ifdef DEBUG
-		cerr << " Errore: tentata mossa non valida! " << endl;
-		printf("da x:%d,y:%d    a x:%d,y:%d\n", pos2x(srcI), pos2y(srcI), pos2x(dstI), pos2y(dstI));
-#endif
-		
+		pulchess_error( "tentata mossa non valida: " << this->toString() );
 		throw new InvalidMoveException("Mossa non valida!");
     }
 	
@@ -325,23 +321,23 @@ EPMove::EPMove(coord_t newpos, coord_t startpos, coord_t eat) : Move(newpos, sta
 	this->promotedSoldier = NULL;
 	
 	if( newpos == startpos ) {
-		cerr << "Mossa anomala!" << endl;
+		pulchess_error( "Mossa anomala!" );
 	}
 	
 	if( !OKCOORDS(newpos) || !OKCOORDS(startpos) ) {
-		cerr << "Generata mossa anomala!" << endl;
+		pulchess_error( "Generata mossa anomala!" );
 		exit(1);
 	}
 }
 
 void EPMove::play(Board *b)
 {
-    Piece *pEaten;
-	
-    Move::play(b);
+    Piece *pEaten = NULL;
     pEaten = b->getPiece( getEatIdx() );
+    Move::play(b);
     setDeadPiece( pEaten );
-    CANCPIECE( pEaten );    
+    CANCPIECE( pEaten );
+    b->setPiece( getEatIdx(), NULL);    
 }
 
 coord_t EPMove::getEatIdx()

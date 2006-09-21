@@ -125,13 +125,13 @@ list<Move *> * Soldier::listMoves(Board* b, list<Move *> *mList)
     Piece      *p = NULL, *op = NULL;
 	
     // 1 - possiamo mangiare qualcuno ?
-    p = b->getPiece(x + 1, y + getColour());
+    p = b->getPiece(x+1, y+getColour());
     if( p!=NULL && isEnemy(p) ) {
-		mList->push_front( new Move( xy2pos( (x+getColour()), (y+getColour()) ), pos) );
+		mList->push_front( new Move( xy2pos( x+1, y+getColour() ), pos) );
     }
-    p = b->getPiece(x - 1, y + getColour());
+    p = b->getPiece(x-1, y+getColour());
     if( p!=NULL && isEnemy(p) ) {
-		mList->push_front( new Move( xy2pos( (x-getColour()), (y+getColour()) ), pos) );
+		mList->push_front( new Move( xy2pos( x-1, y+getColour() ), pos) );
     }
 	
     // 2 - possiamo mangiare con l'en passant ?
@@ -142,13 +142,13 @@ list<Move *> * Soldier::listMoves(Board* b, list<Move *> *mList)
     //
     if( ISRELCELL(5) ) {
 		Piece *dst;
-		for( int i=x-1; i<x+2; i++ ) {
+		for( int i=x-1; i<x+2; i+=2 ) {
 			if( !COORDSOK( i, y ) )
 				continue;
 			// 
 			// en passant e' valido se:
 			// o  c'e' un pezzo nemico al nostro fianco alla prima mossa
-			// o  la cella di destinazione e' libera (verosimilmente, si.)
+			// o  la cella di destinazione e' libera
 			//
 			dst = b->getPiece(i, y);
 			if( dst!=NULL && dst->getMoveCount() == 1 &&
@@ -167,10 +167,7 @@ list<Move *> * Soldier::listMoves(Board* b, list<Move *> *mList)
   		//
   		// euristica: se si tratta di una promozione,
   		//			  la mossa e' sicuramente migliore.
-  		if( ISRELCELL(8) )
-  			mList->push_front(m);
-  		else
-  			mList->push_back(m);
+  		ISRELCELL(8) ? mList->push_front(m) : mList->push_back(m);
     }
     
     // 4 - ... e di 2?

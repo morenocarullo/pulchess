@@ -72,7 +72,7 @@ bool CPUPlayer::doYourMove() /* throws ... */
       
       if(  _board->isInCheck(getColour()) )
       {
-      	pulchess_log("[info] I am in check, gotta do smth!");
+      	pulchess_info("I am in check, gotta do smth!");
       }
       
       // Prova a cercare la mossa nel libro
@@ -83,7 +83,7 @@ bool CPUPlayer::doYourMove() /* throws ... */
       // Se non c'e', usa alphabeta
       if( m == NULL )
       {
-      	pulchess_log("[info] move not found in book.");
+      	pulchess_debug("move not found in book.");
       	
       	_board->switchAutoThinking(getColour());
       	this->idab( plyDeep );
@@ -91,12 +91,12 @@ bool CPUPlayer::doYourMove() /* throws ... */
       
       	m = bestMove;   
       	if( m == NULL ) {
-      		pulchess_log("[warn] no move was found!");
+      	  pulchess_debug("no move was found in book!");
       	}			
       }
       else
       {
-      	pulchess_log("[info] trovata mossa da libro!");
+      	pulchess_debug("found move in book!");
       }
 
       if( m == NULL )
@@ -117,8 +117,8 @@ bool CPUPlayer::doYourMove() /* throws ... */
     }
     catch(InvalidMoveException *e)
     {
-  		pulchess_log("Errore nella generazione della mossa:");
-  		pulchess_log( e->getMsg() );
+  		pulchess_error("Errore nella generazione della mossa:");
+  		pulchess_error( e->getMsg() );
   		delete e;
   		exit(1);
     }
@@ -129,7 +129,7 @@ bool CPUPlayer::doYourMove() /* throws ... */
 }
 
 //
-//
+// Iterative deepening Alfa-beta search
 //
 void
 CPUPlayer::idab(int maxDepth) 
@@ -147,7 +147,7 @@ CPUPlayer::idab(int maxDepth)
 }
 
 //
-//
+// Alfa-beta pruning search
 //
 int
 CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, int beta) 

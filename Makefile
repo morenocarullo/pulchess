@@ -12,7 +12,7 @@ PULCHESSLOGIC=${LOGICPATH}tower.o ${LOGICPATH}queen.o ${LOGICPATH}king.o ${LOGIC
 PULCHESSTXT=${TXTUIPATH}main.o ${TXTUIPATH}xboard.o
 
 PULCHESSTEST=${TESTSPATH}soldier.o ${TESTSPATH}king.o \
-			 ${TESTSPATH}rook.o ${TESTSPATH}main.o
+			 ${TESTSPATH}rook.o ${TESTSPATH}facade.o ${TESTSPATH}main.o 
 
 all: deploy
 	@echo "Making pulchess..."

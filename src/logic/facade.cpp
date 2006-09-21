@@ -21,6 +21,9 @@
 #include "facade.H"
 #include "book.H"
 
+/** pulchess engine global vars */
+bool pulchess_log_on = true;
+
 namespace pulchess { namespace logic {
 
 //! Controller relativo al giocatore umano.
@@ -58,7 +61,7 @@ public:
     // return the new Piece, NULL if selected piece was not valid
     Piece * getSoldierPiece()
     {
-		Piece * p;
+		Piece * p = NULL;
 		char piece = controller->getSoldierPiece();
 		
 		switch(piece) {
@@ -96,6 +99,33 @@ public:
     
 };
 
+//
+// Controller di facciata per il caricamento da file delle mosse
+class FileControllerFacade : public HumanControllerFacade
+{
+  private:
+    FILE *fp;
+	
+  public:
+    FileControllerFacade(FILE *fp)
+    {
+    	this->fp = fp;
+    }
+	  
+    string getMove()
+    {
+	string mossa;
+	char buff[10];
+	fscanf(fp, "%s", buff);
+	mossa = buff;
+	return mossa;
+	}
+	  
+    char getSoldierPiece()
+    {
+ 		   return 'Q';
+ 		}
+};
 
 // Facade costructor
 Facade::Facade(gamemode_t gameMode)
@@ -103,6 +133,7 @@ Facade::Facade(gamemode_t gameMode)
     this->board    = NULL;
     this->turn     = WHITE;
     this->gameMode = gameMode;
+	this->engineStatus = PULCHESS_STATUS_ZERO;
 }
 
 
@@ -155,32 +186,62 @@ void Facade::init()
     }
 	
     board = (void *)new Board(whitePlayer, blackPlayer);
+	engineStatus = PULCHESS_STATUS_INIT;
 	Book::load();	
 #ifdef PULCHESS_USEHASHTABLE
-	pulchess_log("[info] engine is using hashtables.");
+	pulchess_log("pulchess is using hashtables.");
 #endif
 #ifdef DEBUG
-	pulchess_log("[warn] engine is in DEBUG mode!");
+	pulchess_log("pulchess is in DEBUG mode!");
 #endif
 }
 
 // carica un gioco
 /*
 	TODO: da implementare!!!
-	
+	aut-aut con la init
   */
 bool Facade::loadGame(const char *gamePath)
 {
 	// crea una classe "controller" che carica le mosse da file
 	bool endLoading = false;
-	FILE *fp = fopen(gamePath, "rt");
+	
+	/*if( !(engineStatus & PULCHESS_STATUS_INIT) )
+	{
+		pulchess_error("error called loadGame before init");
+		return false;
+	}*/
+	
+	FILE *fp 		    = fopen(gamePath, "rt");
+	if( fp == NULL )
+	{
+		pulchess_error("error opening game file: " << gamePath);
+		return false;
+	}
+	
+	FileControllerFacade * fileControllerFc = new FileControllerFacade(fp);
+	
+	whitePlayer = new HumanPlayer(WHITE,
+										  new RealHumanController(fileControllerFc, WHITE));
+	blackPlayer = new HumanPlayer(BLACK,
+										  new RealHumanController(fileControllerFc, BLACK));
+										
+    board = (void *)new Board(whitePlayer, blackPlayer);										
+										  
+  // TODO: read from file game mode
 	
 	while(!feof(fp) && !endLoading)
 	{
-		// load stuff
+		if(!requestPlay())
+		{
+		  pulchess_error("error loading game file: " << gamePath);
+		  fclose(fp);
+		  return false;
+		}
 	}
 	
 	fclose(fp);
+	return true;
 }
 
 
@@ -259,6 +320,32 @@ int Facade::gameInfo()
 {
     Board * b = (Board *)board;
     return b->whoWins();
+}
+
+void Facade::printBoard()
+{
+  cout << "" << endl;
+  for(int y=7; y>=0; y--) {
+    printf("%d   ", y+1);
+    for(int x=0; x<8; x++) {
+      cellinfo_t c = getCellInfo(x,y);
+      if( c.colour == 'w') {
+	cout << (char)toupper(c.kind);
+      }
+      else {
+	cout << c.kind;
+      }
+      cout << " ";
+    }
+    cout << endl;
+  }
+
+  // intestazione delle colonne
+  cout << endl << "    ";
+  for(int x=0; x<8; x++) {
+    printf("%c ", 'a'+x);
+  }
+  cout << "" << endl << endl;
 }
 
 };

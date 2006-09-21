@@ -23,12 +23,16 @@
 #include <string>
 #include "playerif.H"
 
-#define CPU_VS_CPU 0
-#define HUM_VS_CPU 1
-#define HUM_VS_HUM 2
+const unsigned char CPU_VS_CPU = 0;
+const unsigned char HUM_VS_CPU = 1;
+const unsigned char HUM_VS_HUM = 2;
 
-#define PULCHESS_WHITE -1
-#define PULCHESS_BLACK 1
+const int PULCHESS_WHITE = -1;
+const int PULCHESS_BLACK = 1;
+
+const int PULCHESS_STATUS_ZERO = 0;
+const int PULCHESS_STATUS_INIT = 1;
+const int PULCHESS_STATUS_END  = 2;
 
 typedef char gamemode_t;
 typedef struct {
@@ -50,7 +54,6 @@ namespace pulchess { namespace logic {
     virtual char getSoldierPiece() = 0;
   };
 
-
   // main Pulchess Facade Class
   /////////////////////////////
   class Facade
@@ -59,6 +62,7 @@ namespace pulchess { namespace logic {
   private:
     void * board;
     int    turn;
+	int engineStatus;
     gamemode_t gameMode;
     HumanControllerFacade * whiteController;
     HumanControllerFacade * blackController;
@@ -81,6 +85,9 @@ namespace pulchess { namespace logic {
     
     // ricostruisce la scacchiera
     cellinfo_t getCellInfo(int x, int y);
+
+	// stampa su output
+	void printBoard();
 
     // il gioco e' finito?
     bool isGameFinished();

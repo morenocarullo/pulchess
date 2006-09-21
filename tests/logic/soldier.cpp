@@ -11,7 +11,6 @@ static void testListMoves_start()
 {
   Board b(new CPUPlayer(WHITE), new CPUPlayer(BLACK));
   Soldier * s;
-  Move * m;
 
   s = (Soldier *)b.getPiece(0,1);
 
