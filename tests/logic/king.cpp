@@ -1,4 +1,5 @@
 #include "stdheader.h"
+#include "pulchess.H"
 #include "tests.h"
 #include <iostream>
 
@@ -32,7 +33,15 @@ static void testListMoves_start()
   }
 }
 
-void testSuiteKing() {
-	PULCHESS_CALLCASE(testListMoves_start, "king::testListMoves_start");
+static void testCastlings()
+{
+   // carico gioco corretto, non deve dare errori	
+   Pulchess * pulchess = new Pulchess(HUM_VS_HUM);
+   assert_true( pulchess->loadGame("./tests/games/game004-castling-1.game") );
+   delete pulchess;
 }
 
+void testSuiteKing() {
+	PULCHESS_CALLCASE(testListMoves_start, "king::testListMoves_start");
+	PULCHESS_CALLCASE(testCastlings, "king::testCastlings");
+}

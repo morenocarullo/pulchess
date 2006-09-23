@@ -23,27 +23,25 @@ namespace pulchess { namespace logic {
 	
 //! Class constructor
 //
-HumanPlayer::HumanPlayer(colour_t colour, HumanController * controller) : PlayerIF(colour)
+HumanPlayer::HumanPlayer(colour_t colour) : PlayerIF(colour)
 {
-	this->controller = controller;
 }
 
 //! Class destructor
 //
 HumanPlayer::~HumanPlayer()
 {
-    if(controller != NULL)
-		delete controller;
 }
 
 //! Play a move!
 //
-bool HumanPlayer::doYourMove()
+bool HumanPlayer::doMove(string moveCmd)
 {
 	Move * coords = NULL;
 	
-	try {
-		coords = getMove();
+	try
+	{
+		coords = getMove(moveCmd);
 		if( coords == NULL ) {
 			pulchess_info( "Mossa non valida" );
 			return false;
@@ -52,9 +50,6 @@ bool HumanPlayer::doYourMove()
 		if( _board->isInCheck( getColour() ) ) {
 			coords->rewind( _board );
 			delete coords;
-			//
-			// segnala mossa non valida x' in scacco
-			//
 			pulchess_info( "Mossa non valida, vai/sei in scacco!" );			
 			return false;
 		}
@@ -72,16 +67,22 @@ bool HumanPlayer::doYourMove()
 
 //! Get a move out of legal ones
 //
-Move * HumanPlayer::getMove()
+Move * HumanPlayer::getMove(string moveCmd)
 {
 	CoordsMove *coords;
 	list<Move *> mList;
 	list<Move *>::iterator mListIt;
 	Piece      *srcp;
 	
-	// errore: non e' stata data una mossa valida (sintatticamente)
-	if( (coords = controller->getCoordsMove()) == NULL ) 
-		return NULL;
+    // interpreta la mossa
+	try {
+	   coords = new CoordsMove(moveCmd);
+    }
+    catch(InvalidMoveException *e)
+    {
+       pulchess_info("la mossa specificata non e' valida");
+	   return NULL;
+	}
 	
 	srcp = _board->getPiece( coords->getSrcIdx() );
 	
@@ -116,7 +117,8 @@ Move * HumanPlayer::getMove()
 //
 Piece * HumanPlayer::choosePawnPiece()
 {
-    return controller->getPawnPiece();
+	// TODO: request the real player which piece he wants...
+    return new Queen(getColour());
 }
 
 bool HumanPlayer::isHuman()

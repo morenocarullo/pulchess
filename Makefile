@@ -36,7 +36,7 @@ test: ${PULCHESSTEST} ${PULCHESSLOGIC}
 	@build/autotest
 	
 clean:
-	@rm -f ${LOGICPATH}*.o ${TXTUIPATH}*.o ${TESTSPATH}*.o;
+	@rm -rf ${LOGICPATH}*.o ${TXTUIPATH}*.o ${TESTSPATH}*.o build/pulchess build/autotest build/data
 
 count:
 	@echo "Total LOC (.cpp) : `find ./src | grep \.cpp$ | xargs cat | wc -l`"; \

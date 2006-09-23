@@ -26,107 +26,6 @@ bool pulchess_log_on = true;
 
 namespace pulchess { namespace logic {
 
-//! Controller relativo al giocatore umano.
-// Usa il metodo di input corrente per chiedere la mossa
-class RealHumanController : public HumanController
-{
-	
-private:
-    HumanControllerPulchess * controller;
-    colour_t colour;
-	
-public:
-	RealHumanController(HumanControllerPulchess * c, colour_t colour)
-    {
-			controller = c;
-			this->colour = colour;
-    }
-	
-    CoordsMove * getCoordsMove()
-    {
-		string moveCmd;
-		CoordsMove * move = NULL;
-
-		try {
-			moveCmd = controller->getMove();
-			move = new CoordsMove(moveCmd);
-		}
-		catch(InvalidMoveException *e) {
-			return NULL;
-		}
-		
-		return move;
-    }
-    
-    // return the new Piece, NULL if selected piece was not valid
-    Piece * getPawnPiece()
-    {
-		Piece * p = NULL;
-		char piece = controller->getPawnPiece();
-		
-		switch(piece) {
-			
-			// Regina
-			case 'Q':
-			case 'q':
-				p = new Queen(colour);
-				break;
-				
-				// Torre
-			case 'R':
-			case 'r':
-				p = new Rook(colour);
-				break;
-				
-				// Cavallo
-			case 'N':
-			case 'n':
-				p = new Knight(colour);
-				break;
-				
-				// Alfiere
-			case 'B':
-			case 'b':
-				p = new Bishop(colour);
-				break;
-				
-			default:
-				break;
-		}
-
-		return p;
-    }
-    
-};
-
-//
-// Controller di facciata per il caricamento da file delle mosse
-class FileControllerPulchess : public HumanControllerPulchess
-{
-  private:
-    FILE *fp;
-	
-  public:
-    FileControllerPulchess(FILE *fp)
-    {
-    	this->fp = fp;
-    }
-	  
-    string getMove()
-    {
-	string mossa;
-	char buff[10];
-	fscanf(fp, "%s", buff);
-	mossa = buff;
-	return mossa;
-	}
-	  
-    char getPawnPiece()
-    {
- 		   return 'Q';
- 		}
-};
-
 // Pulchess costructor
 Pulchess::Pulchess(gamemode_t gameMode)
 {
@@ -144,19 +43,6 @@ Pulchess::~Pulchess()
 }
 
 
-// imposta i controller
-void Pulchess::setController(HumanControllerPulchess * c, int colour)
-{
-    if( colour == PULCHESS_WHITE ) {
-		whiteController = c;
-    }
-    else if( colour == PULCHESS_BLACK ) {
-		blackController = c;
-    }
-    return;
-}
-
-
 // inizializza il gioco
 void Pulchess::init()
 {
@@ -171,28 +57,24 @@ void Pulchess::init()
 	
 		// umano vs computer
 		case HUM_VS_CPU:
-			whitePlayer = new HumanPlayer(WHITE,
-										  new RealHumanController(whiteController, WHITE));
+			whitePlayer = new HumanPlayer(WHITE);
 			blackPlayer = new CPUPlayer(BLACK, 6, 30, true);
 			break;
 			
 		// umano vs umano
 		case HUM_VS_HUM:
-			whitePlayer = new HumanPlayer(WHITE,
-										  new RealHumanController(whiteController, WHITE));
-			blackPlayer = new HumanPlayer(BLACK,
-										  new RealHumanController(blackController, BLACK));
+			whitePlayer = new HumanPlayer(WHITE);
+			blackPlayer = new HumanPlayer(BLACK);
 			break;
     }
 	
     board = (void *)new Board(whitePlayer, blackPlayer);
 	engineStatus = PULCHESS_STATUS_INIT;
-	Book::load();	
+	Book::load();
+	
+	pulchess_debug("pulchess is in DEBUG mode!");
 #ifdef PULCHESS_USEHASHTABLE
-	pulchess_log("pulchess is using hashtables.");
-#endif
-#ifdef DEBUG
-	pulchess_log("pulchess is in DEBUG mode!");
+	pulchess_debug("pulchess is using hashtables.");
 #endif
 }
 
@@ -206,35 +88,30 @@ bool Pulchess::loadGame(const char *gamePath)
 	// crea una classe "controller" che carica le mosse da file
 	bool endLoading = false;
 	
-	/*if( !(engineStatus & PULCHESS_STATUS_INIT) )
-	{
-		pulchess_error("error called loadGame before init");
-		return false;
-	}*/
-	
-	FILE *fp 		    = fopen(gamePath, "rt");
+	FILE *fp  = fopen(gamePath, "rt");
 	if( fp == NULL )
 	{
 		pulchess_error("error opening game file: " << gamePath);
 		return false;
 	}
 	
-	FileControllerPulchess * fileControllerFc = new FileControllerPulchess(fp);
-	
-	whitePlayer = new HumanPlayer(WHITE,
-										  new RealHumanController(fileControllerFc, WHITE));
-	blackPlayer = new HumanPlayer(BLACK,
-										  new RealHumanController(fileControllerFc, BLACK));
-										
-    board = (void *)new Board(whitePlayer, blackPlayer);										
+	whitePlayer  = new HumanPlayer(WHITE);
+	blackPlayer  = new HumanPlayer(BLACK);
+    board        = (void *)new Board(whitePlayer, blackPlayer);
+    engineStatus = PULCHESS_STATUS_INIT;							
 										  
-  // TODO: read from file game mode
+    // TODO: read from file game mode
 	
 	while(!feof(fp) && !endLoading)
 	{
-		if(!requestPlay())
+		string mossa;
+		char buff[5];
+		fscanf(fp, "%s", buff);
+		mossa = buff;
+		
+		if(!gameCommand(mossa))
 		{
-		  pulchess_error("error loading game file: " << gamePath);
+		  pulchess_error("error loading game file: " << gamePath << " at char " << ftell(fp));
 		  fclose(fp);
 		  return false;
 		}
@@ -290,15 +167,21 @@ int Pulchess::whoPlaysNow()
 }
 
 // richiede di giocare a chi di turno
-bool Pulchess::requestPlay()
+bool Pulchess::gameCommand(string cmd)
 {	
 	bool retval;
 	
+	if( ! (engineStatus & PULCHESS_STATUS_INIT) )
+    {
+      pulchess_error("pulchess:gameCommand called before init");
+      return false;
+    }
+	
     if( turn == WHITE ) {
-		retval = whitePlayer->doYourMove();
+		retval = whitePlayer->doMove(cmd);
     }
     else {
-		retval = blackPlayer->doYourMove();
+		retval = blackPlayer->doMove(cmd);
     }
 	
 	// la mossa e' stata effettivamente fatta, passiamo il turno

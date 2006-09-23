@@ -27,8 +27,8 @@
 #include <string>
 #include <list>
 #include <vector>
-#include <iostream> // DEBUG
-#include <cstdio>  // DEBUG
+#include <iostream>
+#include <cstdio>
 
 typedef signed char coord_t;
 typedef unsigned char byte;
@@ -75,10 +75,7 @@ extern bool pulchess_log_on;
 #include "move.H"
 #include "cpuplayer.H"
 #include "humanplayer.H"
-#include "humancontroller.H"
 #include "playerif.H"
-#include "CoordsException.h"
-#include "InvalidMoveException.h"
 #include "hashcache.H"
 
 #endif //_PULCHESS_LOGIC_STDHEADER_H_

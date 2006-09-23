@@ -44,18 +44,6 @@ using namespace std;
 
 namespace pulchess { namespace logic {
 
-  // human controller facade
-  /////////////////////////////
-  class HumanControllerPulchess
-  {
-  public:
-	virtual ~HumanControllerPulchess() {};
-    virtual string getMove() = 0;
-    virtual char getPawnPiece() = 0;
-  };
-
-  // main Pulchess Pulchess Class
-  /////////////////////////////
   class Pulchess
   {
 
@@ -64,8 +52,6 @@ namespace pulchess { namespace logic {
     int    turn;
 	int engineStatus;
     gamemode_t gameMode;
-    HumanControllerPulchess * whiteController;
-    HumanControllerPulchess * blackController;
     PlayerIF * whitePlayer;
     PlayerIF * blackPlayer;
 
@@ -73,9 +59,6 @@ namespace pulchess { namespace logic {
 
     Pulchess(gamemode_t gameMode);
     ~Pulchess();
-
-    // imposta i controller
-    void setController(HumanControllerPulchess * c, int colour);
     
     // inizializza il gioco
     void init();
@@ -99,7 +82,7 @@ namespace pulchess { namespace logic {
 	bool isHuman();
 
     // gioca la mossa del turno attuale
-    bool requestPlay();
+    bool gameCommand(string cmd);
 	
     // chi vince?
     int gameInfo();

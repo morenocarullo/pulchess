@@ -65,7 +65,7 @@ CoordsMove::CoordsMove(string move) /* throw InvalidMoveException */
 	this->promotedPawn = NULL;
 	
 	if( !OKCOORDS(dst) || !OKCOORDS(src) ) {
-		cerr << "Hai richiesto una mossa anomala!" << endl;
+		pulchess_error( "Hai richiesto una mossa anomala!" );
 		printf("da:%d   a:%d\n", src, dst);
 		throw new InvalidMoveException();
 	}
@@ -376,21 +376,21 @@ RookMove::RookMove(bool rookKind, colour_t colour)
 	if( rookKind == QUEENSIDE_ROOK ) {
 		if( pcol == WHITE ) {
 		  this->src = xy2pos(4,0);
+		  this->dst = xy2pos(1,0);
+		}
+		else {
+		  this->src = xy2pos(4,7);
+		  this->dst = xy2pos(1,7);			
+		}
+	}
+	else {
+		if( pcol == WHITE ) {
+		  this->src = xy2pos(4,0);
 		  this->dst = xy2pos(6,0);
 		}
 		else {
 		  this->src = xy2pos(4,7);
 		  this->dst = xy2pos(6,7);			
-		}
-	}
-	else {
-		if( pcol == WHITE ) {
-		  this->src = xy2pos(7,0);
-		  this->dst = xy2pos(5,0);
-		}
-		else {
-		  this->src = xy2pos(7,7);
-		  this->dst = xy2pos(5,7);			
 		}	
 	}
 }

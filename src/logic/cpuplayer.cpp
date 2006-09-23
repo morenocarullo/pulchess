@@ -62,7 +62,7 @@ CPUPlayer::~CPUPlayer()
 }
 
 // play a move!
-bool CPUPlayer::doYourMove() /* throws ... */
+bool CPUPlayer::doMove(string moveCmd) /* throws ... */
 {
       Move * m = NULL;
       bestMove = NULL;

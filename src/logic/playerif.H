@@ -42,7 +42,7 @@ namespace pulchess { namespace logic {
     colour_t getColour();
     virtual Piece * choosePawnPiece() = 0;
     virtual bool isHuman();	
-    virtual bool doYourMove() = 0;
+    virtual bool doMove(string moveCmd) = 0;
     Move*  lastMoveReport();
     void setBoard(Board* b);
     list<Piece *> * getPieceList();

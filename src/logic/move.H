@@ -72,9 +72,29 @@ namespace pulchess { namespace logic {
   };
 
 
-  // En passant move
-  // 
-  ////////////////////////////
+  //| A coordsException may be thrown when an invalid position is specified
+  class CoordsException
+  {
+    public:
+      CoordsException() {}
+  };
+
+  //! An InvalidMoveException is raised when the specified move is not legal
+  class InvalidMoveException
+  {
+    private:
+      string msg;
+  
+    public:
+      InvalidMoveException() { msg = "-- nessun messaggio specificato --";  }
+      InvalidMoveException(string msg) { this->msg = msg; }
+      string getMsg() { return msg; }
+  };
+
+  //! En passant move
+  /*
+  
+   */
   class EPMove : public Move {
 
   private:

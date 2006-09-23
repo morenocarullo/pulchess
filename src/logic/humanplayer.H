@@ -25,23 +25,19 @@
 
 namespace pulchess { namespace logic {
 	
-	class HumanController;
-	
-	class HumanPlayer: public PlayerIF
-	{
-private:
-		HumanController * controller;
-		Move * getMove();
+  class HumanPlayer: public PlayerIF
+  {
+    private:
+      Move * getMove(string moveCmd);
+    
+    public:
+      HumanPlayer(colour_t colour);
+      ~HumanPlayer();
 		
-public:
-		HumanPlayer(colour_t colour, HumanController * controller);
-		~HumanPlayer();
-		
-		bool doYourMove();
-		bool isHuman();
-		Piece * choosePawnPiece();
+      bool doMove(string moveCmd);
+      bool isHuman();
+      Piece * choosePawnPiece();
 	};
-	
 };
 };
 

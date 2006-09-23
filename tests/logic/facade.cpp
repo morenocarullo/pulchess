@@ -26,6 +26,12 @@ static void testLoadGame()
    assert_true( facade->isGameFinished() );
    delete facade;
 
+   // carica gioco vero (Moreno vs Pulchess - 21/9/2006)
+   facade = new Pulchess(HUM_VS_HUM);
+   assert_true( facade->loadGame("./tests/games/game002-morec.game") );
+   assert_true( facade->isGameFinished() );
+   delete facade;
+
    // carica gioco prova enpassant
    // TODO: da spostare nel codice di test per il soldato
    facade = new Pulchess(HUM_VS_HUM);

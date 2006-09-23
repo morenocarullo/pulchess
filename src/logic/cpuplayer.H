@@ -62,7 +62,7 @@ namespace pulchess { namespace logic {
 		~CPUPlayer();
 		
 		//! Request move
-		bool doYourMove();
+		bool doMove(string moveCmd);
 		
 		//! Iterative deepening
 		void idab(int depth);		

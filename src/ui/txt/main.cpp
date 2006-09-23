@@ -8,30 +8,6 @@ using namespace std;
 using namespace pulchess;
 using namespace pulchess::logic;
 
-class StdInController : public HumanControllerPulchess
-{
-public:
-  string getMove();
-  char getPawnPiece();
-};
-
-string StdInController::getMove()
-{
-  string mossa;
-  cout << "Mossa? > ";
-  cin >> mossa;
-  cout << endl;
-  return mossa;
-}
-
-char StdInController::getPawnPiece()
-{
-  char soldierpiece;
-  cout << "Pezzo? > " << endl;
-  cin >> soldierpiece;
-  return soldierpiece;
-}
-
 
 //
 void printGreeting(void)
@@ -45,30 +21,30 @@ void printGreeting(void)
 int main(int argc, char *argv[])
 {
   Pulchess * facade;
-  string mode;
+  string mode, cmd;
 
   printGreeting();
 
-  cout << "Modalita' di gioco? (ucpu, ccpu, hum, xboard) > ";
+  cout << "Modalita' di gioco? (uc, ccp, hh, x) > ";
   cin >> mode;
   cout << endl;
   
-  if( mode == "ucpu"  ) {
+  if( mode == "uc"  ) {
     facade = new Pulchess(HUM_VS_CPU);
     cout << "Umano Vs Comp" << endl;
     cout << endl;
   }
-  else if( mode == "ccpu" ) {
+  else if( mode == "cc" ) {
     facade = new Pulchess(CPU_VS_CPU);
     cout << "CPU Vs CPU" << endl;
     cout << endl; 
   }
-  else if(mode == "hum") {
+  else if(mode == "hh") {
     facade = new Pulchess(HUM_VS_HUM);
     cout << "Umano Vs Umano" << endl;
     cout << endl;
   }
-  else if(mode == "xboard") {
+  else if(mode == "x") {
     XBoard * xboard = new XBoard();
     xboard->mainLoop(); 
     delete xboard;
@@ -78,13 +54,18 @@ int main(int argc, char *argv[])
     return 1;
   }
   
-  facade->setController(new StdInController(), PULCHESS_WHITE);
-  facade->setController(new StdInController(), PULCHESS_BLACK);
   facade->init();
 
   while( !facade->isGameFinished() ) {
     facade->printBoard();
-    if( !facade->requestPlay() )
+    if( facade->isHuman() )
+    {
+      cout << "Mossa? > ";
+	  cin >> cmd;
+	  cout << endl;
+	  if( cmd == "quit" ) return 0;
+    }
+    if( !facade->gameCommand(cmd) )
     {
         cout << "Invalid move." << endl;
     }
