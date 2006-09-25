@@ -1,18 +1,18 @@
 # Project: pulchess
 # Makefile created by Dev-C++ 4.9.9.2
 
-CPP  = g++.exe -D__DEBUG__
-CC   = gcc.exe -D__DEBUG__
+CPP  = g++.exe
+CC   = gcc.exe
 WINDRES = windres.exe
 RES  = 
-OBJ  = build/tower.o build/timecontrol.o build/soldier.o build/queen.o build/player.o build/piece.o build/move.o build/knight.o build/king.o build/humanplayer.o build/hashcache.o build/facade.o build/cpuplayer.o build/book.o build/board.o build/bishop.o build/main.o build/xboard.o $(RES)
-LINKOBJ  = build/tower.o build/timecontrol.o build/soldier.o build/queen.o build/player.o build/piece.o build/move.o build/knight.o build/king.o build/humanplayer.o build/hashcache.o build/facade.o build/cpuplayer.o build/book.o build/board.o build/bishop.o build/main.o build/xboard.o $(RES)
-LIBS =  -L"C:/Programmi/Dev-Cpp/lib"  -g3 -march=pentium4 -msse2 
+OBJ  = build/timecontrol.o build/queen.o build/player.o build/piece.o build/move.o build/knight.o build/king.o build/humanplayer.o build/hashcache.o build/cpuplayer.o build/book.o build/board.o build/bishop.o build/main.o build/xboard.o build/pulchess.o build/pawn.o build/rook.o $(RES)
+LINKOBJ  = build/timecontrol.o build/queen.o build/player.o build/piece.o build/move.o build/knight.o build/king.o build/humanplayer.o build/hashcache.o build/cpuplayer.o build/book.o build/board.o build/bishop.o build/main.o build/xboard.o build/pulchess.o build/pawn.o build/rook.o $(RES)
+LIBS =  -L"C:/Programmi/Dev-Cpp/lib"  -s -march=i686 -mmmx 
 INCS =  -I"C:/Programmi/Dev-Cpp/include"  -I"../src/logic" 
 CXXINCS =  -I"C:/Programmi/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Programmi/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Programmi/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Programmi/Dev-Cpp/include/c++/3.4.2"  -I"C:/Programmi/Dev-Cpp/include"  -I"../src/logic" 
 BIN  = build/pulchess.exe
-CXXFLAGS = $(CXXINCS)   -g3 -O2 -g3 -march=pentium4 -msse2
-CFLAGS = $(INCS)   -g3 -O2 -g3 -march=pentium4 -msse2
+CXXFLAGS = $(CXXINCS)   -O2 -march=i686 -mmmx
+CFLAGS = $(INCS)   -O2 -march=i686 -mmmx
 RM = rm -f
 
 .PHONY: all all-before all-after clean clean-custom
@@ -26,14 +26,8 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o "build\pulchess.exe" $(LIBS)
 
-build/tower.o: ../src/logic/tower.cpp
-	$(CPP) -c ../src/logic/tower.cpp -o build/tower.o $(CXXFLAGS)
-
 build/timecontrol.o: ../src/logic/timecontrol.cpp
 	$(CPP) -c ../src/logic/timecontrol.cpp -o build/timecontrol.o $(CXXFLAGS)
-
-build/soldier.o: ../src/logic/soldier.cpp
-	$(CPP) -c ../src/logic/soldier.cpp -o build/soldier.o $(CXXFLAGS)
 
 build/queen.o: ../src/logic/queen.cpp
 	$(CPP) -c ../src/logic/queen.cpp -o build/queen.o $(CXXFLAGS)
@@ -59,9 +53,6 @@ build/humanplayer.o: ../src/logic/humanplayer.cpp
 build/hashcache.o: ../src/logic/hashcache.cpp
 	$(CPP) -c ../src/logic/hashcache.cpp -o build/hashcache.o $(CXXFLAGS)
 
-build/facade.o: ../src/logic/facade.cpp
-	$(CPP) -c ../src/logic/facade.cpp -o build/facade.o $(CXXFLAGS)
-
 build/cpuplayer.o: ../src/logic/cpuplayer.cpp
 	$(CPP) -c ../src/logic/cpuplayer.cpp -o build/cpuplayer.o $(CXXFLAGS)
 
@@ -79,3 +70,12 @@ build/main.o: ../src/ui/txt/main.cpp
 
 build/xboard.o: ../src/ui/txt/xboard.cpp
 	$(CPP) -c ../src/ui/txt/xboard.cpp -o build/xboard.o $(CXXFLAGS)
+
+build/pulchess.o: ../src/logic/pulchess.cpp
+	$(CPP) -c ../src/logic/pulchess.cpp -o build/pulchess.o $(CXXFLAGS)
+
+build/pawn.o: ../src/logic/pawn.cpp
+	$(CPP) -c ../src/logic/pawn.cpp -o build/pawn.o $(CXXFLAGS)
+
+build/rook.o: ../src/logic/rook.cpp
+	$(CPP) -c ../src/logic/rook.cpp -o build/rook.o $(CXXFLAGS)
