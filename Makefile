@@ -1,4 +1,25 @@
-CXXFLAGS= -g3 -O2 -fno-rtti -I src/logic -I src/ -Wall -DDEBUG #s-DPULCHESS_NOTABLES
+#
+# PROJECT: PulCHESS, a Computer Chess program
+# LICENSE: GPL, see license.txt in project root
+# FILE:	   Project Makefile
+# 
+#*********************************************************************
+# This program is free software; you can redistribute it and/or modify         
+# it under the terms of the GNU General Public License as published by      
+# the Free Software Foundation; either version 2 of the License, or         
+# (at your option) any later version.                                       
+#                                                                           
+# This program is distributed in the hope that it will be useful,           
+# but WITHOUT ANY WARRANTY; without even the implied warranty of            
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
+# GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
+# for more details.                                                         
+#*********************************************************************
+#
+# Created on 20-giu-2006
+# $Id$
+#
+CXXFLAGS= -g3 -O2 -fno-rtti -I src/logic -I src/ -Wall -DDEBUG #-DPULCHESS_NOTABLES
 LOGICPATH=src/logic/
 TXTUIPATH=src/ui/txt/
 TESTSPATH=tests/logic/
@@ -12,7 +33,7 @@ PULCHESSLOGIC=${LOGICPATH}rook.o ${LOGICPATH}queen.o ${LOGICPATH}king.o ${LOGICP
 PULCHESSTXT=${TXTUIPATH}main.o ${TXTUIPATH}xboard.o
 
 PULCHESSTEST=${TESTSPATH}soldier.o ${TESTSPATH}king.o \
-			 ${TESTSPATH}rook.o ${TESTSPATH}facade.o ${TESTSPATH}main.o 
+			 ${TESTSPATH}rook.o ${TESTSPATH}facade.o ${TESTSPATH}main.o ${TESTSPATH}humanplayer.o
 
 all: deploy
 	@echo "Making pulchess..."

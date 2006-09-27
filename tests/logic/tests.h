@@ -11,7 +11,9 @@
  testSuitePawn();\
  testSuiteKing();\
  testSuiteRook();\
- testSuitePulchessPulchess();}
+ testSuiteHumanPlayer();\
+ testSuitePulchessPulchess();\
+}
 
 #define PULCHESS_CALLCASE(C,M) { printf("O"); C(); fflush(stdout); };
 #define assert_true(C) \
@@ -22,3 +24,4 @@ void testSuitePawn(void);
 void testSuiteKing(void);
 void testSuiteRook(void);
 void testSuitePulchessPulchess(void);
+void testSuiteHumanPlayer(void);

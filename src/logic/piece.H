@@ -22,10 +22,11 @@
 #ifndef _pulchess_logic_piece_h_
 #define _pulchess_logic_piece_h_
 
+#define PIECE_NONE    -1
 #define PIECE_SOLDIER 0
 #define PIECE_BISHOP  5
 #define PIECE_KNIGHT  6
-#define PIECE_TOWER   7
+#define PIECE_ROOK    7
 #define PIECE_QUEEN   8
 #define PIECE_KING    9
 

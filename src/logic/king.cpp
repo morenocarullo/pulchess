@@ -122,7 +122,7 @@ list<Move *> * King::listMoves(Board* b, list<Move *> *mList)
 	{
 		p = b->getPiece(pos+3);
 		if( p != NULL &&
-		    p->getKind() == PIECE_TOWER &&
+		    p->getKind() == PIECE_ROOK &&
 		    p->getMoveCount() == 0 &&
 		    !b->canEatThis(pos+1, colour) &&
 		    !b->canEatThis(pos+2, colour) )
@@ -140,7 +140,7 @@ list<Move *> * King::listMoves(Board* b, list<Move *> *mList)
 	{
 		p = b->getPiece(pos-4);
 		if( p != NULL &&
-		    p->getKind() == PIECE_TOWER &&
+		    p->getKind() == PIECE_ROOK &&
 		    p->getMoveCount() == 0 &&
 		    !b->canEatThis(pos-1, colour) &&
 		    !b->canEatThis(pos-2, colour) &&

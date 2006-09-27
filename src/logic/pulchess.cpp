@@ -105,7 +105,7 @@ bool Pulchess::loadGame(const char *gamePath)
 	while(!feof(fp) && !endLoading)
 	{
 		string mossa;
-		char buff[5];
+		char buff[6];
 		fscanf(fp, "%s", buff);
 		mossa = buff;
 		

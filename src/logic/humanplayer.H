@@ -28,6 +28,8 @@ namespace pulchess { namespace logic {
   class HumanPlayer: public PlayerIF
   {
     private:
+      int nextPromotedPiece;
+      int getPromotion(string moveCmd);
       Move * getMove(string moveCmd);
     
     public:

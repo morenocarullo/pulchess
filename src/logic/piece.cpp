@@ -79,7 +79,7 @@ namespace pulchess { namespace logic {
       return 'n';
       break;
 
-    case PIECE_TOWER:
+    case PIECE_ROOK:
       return 'r';
       break;
 

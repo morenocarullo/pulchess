@@ -46,6 +46,7 @@ bool HumanPlayer::doMove(string moveCmd)
 			pulchess_info( "Mossa non valida" );
 			return false;
 		}
+		nextPromotedPiece = getPromotion(moveCmd);
 		coords->play( _board );
 		if( _board->isInCheck( getColour() ) ) {
 			coords->rewind( _board );
@@ -63,6 +64,28 @@ bool HumanPlayer::doMove(string moveCmd)
 	}			  
 	
 	return false;
+}
+
+int HumanPlayer::getPromotion(string moveCmd)
+{
+	if(moveCmd.length() != 5) return PIECE_NONE;
+	{
+		switch(moveCmd[4])
+		{
+	      case 'b':
+	      case 'B':
+	        return PIECE_BISHOP;
+	        break;
+	      case 'r':
+	      case 'R':
+	        return PIECE_ROOK;
+	        break;
+	      case 'n':
+	      case 'N':
+	        return PIECE_KNIGHT;
+		}
+	}
+	return PIECE_NONE;
 }
 
 //! Get a move out of legal ones
@@ -106,7 +129,7 @@ Move * HumanPlayer::getMove(string moveCmd)
                     << " e' stata trovata tra quelle valide: " << coords->toString() );
 
 	for(mListIt = mList.begin(); mListIt != mList.end(); mListIt++) {
-		pulchess_debug( "mossa disp: " << (*mListIt)->toString() );
+		pulchess_debug( "\tmossa disp: " << (*mListIt)->toString() );
 	}
 	
 	moveListDestroy(&mList);
@@ -117,7 +140,19 @@ Move * HumanPlayer::getMove(string moveCmd)
 //
 Piece * HumanPlayer::choosePawnPiece()
 {
-	// TODO: request the real player which piece he wants...
+    // TODO: check all legal cases...
+    switch(nextPromotedPiece)
+    {
+      case PIECE_BISHOP:
+        return new Bishop(getColour());
+        break;
+      case PIECE_ROOK:
+        return new Rook(getColour());
+        break;
+      case PIECE_KNIGHT:
+        return new Knight(getColour());
+        break;
+    }
     return new Queen(getColour());
 }
 

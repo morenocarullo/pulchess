@@ -23,7 +23,7 @@ namespace pulchess { namespace logic {
 
   int Rook::getKind()
   {
-    return PIECE_TOWER;
+    return PIECE_ROOK;
   }
 
   string Rook::getName()

@@ -1,3 +1,24 @@
+/*
+* PROJECT: PulCHESS, a Computer Chess program
+* LICENSE: GPL, see license.txt in project root
+* FILE:	   CLI pulchess main file
+* 
+**********************************************************************
+* This program is free software; you can redistribute it and/or modify         
+* it under the terms of the GNU General Public License as published by      
+* the Free Software Foundation; either version 2 of the License, or         
+* (at your option) any later version.                                       
+*                                                                           
+* This program is distributed in the hope that it will be useful,           
+* but WITHOUT ANY WARRANTY; without even the implied warranty of            
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
+* GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
+* for more details.                                                         
+**********************************************************************
+*
+* Created on 20-giu-2006
+* $Id$
+*/
 #include "pulchess.H"
 #include "xboard.H"
 #include <iostream>
@@ -9,68 +30,88 @@ using namespace pulchess;
 using namespace pulchess::logic;
 
 
-//
+//! Print the welcome lines
 void printGreeting(void)
 {
   cout << "Pulchess 0.1 -- " << __DATE__ << endl;
+  cout << "2005-2006 (C) Moreno Carullo" << endl;
   cout << "" << endl;
+  cout << "Type quit anytime to exit."<< endl;
+  cout << "" << endl;  
 }
 
 
-//
+//! Entry point for the CLI version of Pulchess
 int main(int argc, char *argv[])
 {
-  Pulchess * facade;
+  Pulchess * pulchess = NULL;
   string mode, cmd;
+  bool menuOk = false;
 
   printGreeting();
 
-  cout << "Modalita' di gioco? (uc, ccp, hh, x) > ";
-  cin >> mode;
-  cout << endl;
+  do
+  {
+  	cout << "Game mode? (hc, cc, hh, xboard, quit) > ";
+	  cin >> mode;
+	  cout << endl;
   
-  if( mode == "uc"  ) {
-    facade = new Pulchess(HUM_VS_CPU);
-    cout << "Umano Vs Comp" << endl;
-    cout << endl;
+	  if( mode == "hc"  )
+	  {
+	    pulchess = new Pulchess(HUM_VS_CPU);
+	    menuOk = true;
+	    cout << "Human Vs CPU" << endl;
+	    cout << endl;
+	  }
+	  else if( mode == "cc" )
+	  {
+	    pulchess = new Pulchess(CPU_VS_CPU);
+	    menuOk = true;
+	    cout << "CPU Vs CPU" << endl;
+	    cout << endl; 
+	  }
+	  else if(mode == "hh")
+	  {
+	    pulchess = new Pulchess(HUM_VS_HUM);
+	    menuOk = true;
+	    cout << "Human Vs Human" << endl;
+	    cout << endl;
+	  }
+	  else if(mode == "xboard")
+	  {
+	    XBoard * xboard = new XBoard();
+	    xboard->mainLoop(); 
+	    delete xboard;
+	    return 0;
+	  }
+	  else if(mode == "quit")
+	  {
+	    return 0;
+	  }
+	  else
+	  {
+	     cout << "Command not valid! Please choose another one..." << endl;	
+	  }
   }
-  else if( mode == "cc" ) {
-    facade = new Pulchess(CPU_VS_CPU);
-    cout << "CPU Vs CPU" << endl;
-    cout << endl; 
-  }
-  else if(mode == "hh") {
-    facade = new Pulchess(HUM_VS_HUM);
-    cout << "Umano Vs Umano" << endl;
-    cout << endl;
-  }
-  else if(mode == "x") {
-    XBoard * xboard = new XBoard();
-    xboard->mainLoop(); 
-    delete xboard;
-    return 0;
-  }
-  else {
-    return 1;
-  }
-  
-  facade->init();
+  while(!menuOk);
 
-  while( !facade->isGameFinished() ) {
-    facade->printBoard();
-    if( facade->isHuman() )
+  pulchess->init();
+
+  while( !pulchess->isGameFinished() ) {
+    pulchess->printBoard();
+    if( pulchess->isHuman() )
     {
       cout << "Mossa? > ";
 	  cin >> cmd;
 	  cout << endl;
 	  if( cmd == "quit" ) return 0;
     }
-    if( !facade->gameCommand(cmd) )
+    if( !pulchess->gameCommand(cmd) )
     {
         cout << "Invalid move." << endl;
     }
   }
   
-  cout << (facade->gameInfo() == WHITE ? "White" : "Black") << " wins." << endl;
-  facade->printBoard();
+  cout << (pulchess->gameInfo() == WHITE ? "White" : "Black") << " wins." << endl;
+  pulchess->printBoard();
 }
