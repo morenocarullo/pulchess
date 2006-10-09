@@ -1,0 +1,44 @@
+Pulchess 0.1
+
+2005-2006 (C) Moreno Carullo
+
+LICENZA GPL -- vedi licenza.txt
+**
+
+	COMPILAZIONE
+
+Linux e Mac OSX (console): Usare il Makefile digitando "make run".
+Mac OSX (Cocoa): Usare il progetto XCode 2.2 nella cartella ports/macosx-cocoa
+Windows: usare il progetto Dev-cpp nella cartella ports/win32.
+
+	QUICK START
+
+Progetto per motore scacchistico.
+Allo stato attuale la versione testuale puo' essere usata
+digitando "hc" all'avvio: questa modalita' seleziona il
+modo "umano vs computer".
+
+Le mosse vanno impartite specificando la casa di partenza
+e quella di destionazione.
+Ad esempio e2e4 muovera' il pedone nella casa e2 in quella e4.
+Nel caso di arrocco, basta specificare il movimento del re.
+
+Nel caso di promozione del pedone, se si vuole cambiare il
+pezzo ottenuto da quello di default (regina) basta specificarlo
+con la lettera corrispondente: es. e7e8n scegliera' il cavallo
+(n) come promozione.
+
+La scacchiera rappresenta i pezzi nella notazione inglese:
+
+p = pedone
+r = torre
+n = cavallo
+b = alfiere
+q = regina
+k = re
+
+I pezzi del bianco sono in maiuscolo, quelli del nero in minuscolo.
+
+Qualsiasi osservazione e' gradita via email: tweety@pulc.it
+
+-- Moreno

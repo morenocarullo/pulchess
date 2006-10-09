@@ -4,7 +4,3 @@
 - interfaccia 3D per console (Dreamcast, PS2, etc...)
 - correspondance chess
 - elenco delle aperture (opening library)
-
-20/09/2005, valori:
-hashtable hit:5300 miss:2527404
-hashtable hit:5299 miss:2527274
