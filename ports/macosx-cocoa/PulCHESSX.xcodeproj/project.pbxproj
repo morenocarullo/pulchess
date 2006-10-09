@@ -1,0 +1,555 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		47274E8409995ADC00F58223 /* pulchessicon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 47274E8309995ADC00F58223 /* pulchessicon.icns */; };
+		474CE74809B640CD002677CF /* board-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 474CE74709B640CD002677CF /* board-x.png */; };
+		474CE74A09B6421E002677CF /* board-y.png in Resources */ = {isa = PBXBuildFile; fileRef = 474CE74909B6421E002677CF /* board-y.png */; };
+		4757BB7609994D38009C099B /* PCGameThread.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4757BB7509994D38009C099B /* PCGameThread.mm */; };
+		4768FD150ADA972C00B4371E /* bishop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FCF40ADA972C00B4371E /* bishop.cpp */; };
+		4768FD160ADA972C00B4371E /* board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FCF60ADA972C00B4371E /* board.cpp */; };
+		4768FD170ADA972C00B4371E /* book.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FCF80ADA972C00B4371E /* book.cpp */; };
+		4768FD180ADA972C00B4371E /* cpuplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FCFA0ADA972C00B4371E /* cpuplayer.cpp */; };
+		4768FD190ADA972C00B4371E /* hashcache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FCFC0ADA972C00B4371E /* hashcache.cpp */; };
+		4768FD1A0ADA972C00B4371E /* humanplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FCFE0ADA972C00B4371E /* humanplayer.cpp */; };
+		4768FD1B0ADA972C00B4371E /* king.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD000ADA972C00B4371E /* king.cpp */; };
+		4768FD1C0ADA972C00B4371E /* knight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD020ADA972C00B4371E /* knight.cpp */; };
+		4768FD1D0ADA972C00B4371E /* move.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD040ADA972C00B4371E /* move.cpp */; };
+		4768FD1E0ADA972C00B4371E /* pawn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD060ADA972C00B4371E /* pawn.cpp */; };
+		4768FD1F0ADA972C00B4371E /* piece.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD080ADA972C00B4371E /* piece.cpp */; };
+		4768FD200ADA972C00B4371E /* player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD0A0ADA972C00B4371E /* player.cpp */; };
+		4768FD210ADA972C00B4371E /* pulchess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD0C0ADA972C00B4371E /* pulchess.cpp */; };
+		4768FD220ADA972C00B4371E /* queen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD0E0ADA972C00B4371E /* queen.cpp */; };
+		4768FD230ADA972C00B4371E /* rook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD100ADA972C00B4371E /* rook.cpp */; };
+		4768FD240ADA972C00B4371E /* timecontrol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD130ADA972C00B4371E /* timecontrol.cpp */; };
+		47CA5C4C098D83BD00F9E669 /* pulchessx-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 47CA5C4B098D83BD00F9E669 /* pulchessx-icon.png */; };
+		47D01A16099261D1006384DE /* PCGameWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D01A15099261D1006384DE /* PCGameWrapper.m */; };
+		47D01A19099261D6006384DE /* PCMainUiController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 47D01A18099261D6006384DE /* PCMainUiController.mm */; };
+		47D01A510992661D006384DE /* PCChessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D01A500992661D006384DE /* PCChessView.m */; };
+		47D72371099AA433004FAD9D /* piece-b-b.png in Resources */ = {isa = PBXBuildFile; fileRef = 47D72365099AA433004FAD9D /* piece-b-b.png */; };
+		47D72372099AA433004FAD9D /* piece-b-k.png in Resources */ = {isa = PBXBuildFile; fileRef = 47D72366099AA433004FAD9D /* piece-b-k.png */; };
+		47D72373099AA433004FAD9D /* piece-b-n.png in Resources */ = {isa = PBXBuildFile; fileRef = 47D72367099AA433004FAD9D /* piece-b-n.png */; };
+		47D72374099AA433004FAD9D /* piece-b-p.png in Resources */ = {isa = PBXBuildFile; fileRef = 47D72368099AA433004FAD9D /* piece-b-p.png */; };
+		47D72375099AA433004FAD9D /* piece-b-q.png in Resources */ = {isa = PBXBuildFile; fileRef = 47D72369099AA433004FAD9D /* piece-b-q.png */; };
+		47D72376099AA433004FAD9D /* piece-b-r.png in Resources */ = {isa = PBXBuildFile; fileRef = 47D7236A099AA433004FAD9D /* piece-b-r.png */; };
+		47D72377099AA433004FAD9D /* piece-w-b.png in Resources */ = {isa = PBXBuildFile; fileRef = 47D7236B099AA433004FAD9D /* piece-w-b.png */; };
+		47D72378099AA433004FAD9D /* piece-w-k.png in Resources */ = {isa = PBXBuildFile; fileRef = 47D7236C099AA433004FAD9D /* piece-w-k.png */; };
+		47D72379099AA433004FAD9D /* piece-w-n.png in Resources */ = {isa = PBXBuildFile; fileRef = 47D7236D099AA433004FAD9D /* piece-w-n.png */; };
+		47D7237A099AA433004FAD9D /* piece-w-p.png in Resources */ = {isa = PBXBuildFile; fileRef = 47D7236E099AA433004FAD9D /* piece-w-p.png */; };
+		47D7237B099AA433004FAD9D /* piece-w-q.png in Resources */ = {isa = PBXBuildFile; fileRef = 47D7236F099AA433004FAD9D /* piece-w-q.png */; };
+		47D7237C099AA433004FAD9D /* piece-w-r.png in Resources */ = {isa = PBXBuildFile; fileRef = 47D72370099AA433004FAD9D /* piece-w-r.png */; };
+		47E0F56F09950A0C0041E14D /* black-pawn.png in Resources */ = {isa = PBXBuildFile; fileRef = 47E0F56E09950A0C0041E14D /* black-pawn.png */; };
+		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		4A9504CCFFE6A4B311CA0CBA /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PREBINDING = NO;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		4A9504CDFFE6A4B311CA0CBA /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PREBINDING = NO;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* PulCHESSX_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PulCHESSX_Prefix.pch; sourceTree = "<group>"; };
+		47274E8309995ADC00F58223 /* pulchessicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = pulchessicon.icns; path = stuff/pulchessicon.icns; sourceTree = "<group>"; };
+		474CE74709B640CD002677CF /* board-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "board-x.png"; sourceTree = "<group>"; };
+		474CE74909B6421E002677CF /* board-y.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "board-y.png"; sourceTree = "<group>"; };
+		4757BB7409994D38009C099B /* PCGameThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCGameThread.h; sourceTree = "<group>"; };
+		4757BB7509994D38009C099B /* PCGameThread.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCGameThread.mm; sourceTree = "<group>"; };
+		4768FCF40ADA972C00B4371E /* bishop.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = bishop.cpp; path = ../../src/logic/bishop.cpp; sourceTree = SOURCE_ROOT; };
+		4768FCF50ADA972C00B4371E /* bishop.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = bishop.H; path = ../../src/logic/bishop.H; sourceTree = SOURCE_ROOT; };
+		4768FCF60ADA972C00B4371E /* board.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = board.cpp; path = ../../src/logic/board.cpp; sourceTree = SOURCE_ROOT; };
+		4768FCF70ADA972C00B4371E /* board.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = board.H; path = ../../src/logic/board.H; sourceTree = SOURCE_ROOT; };
+		4768FCF80ADA972C00B4371E /* book.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = book.cpp; path = ../../src/logic/book.cpp; sourceTree = SOURCE_ROOT; };
+		4768FCF90ADA972C00B4371E /* book.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = book.H; path = ../../src/logic/book.H; sourceTree = SOURCE_ROOT; };
+		4768FCFA0ADA972C00B4371E /* cpuplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cpuplayer.cpp; path = ../../src/logic/cpuplayer.cpp; sourceTree = SOURCE_ROOT; };
+		4768FCFB0ADA972C00B4371E /* cpuplayer.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = cpuplayer.H; path = ../../src/logic/cpuplayer.H; sourceTree = SOURCE_ROOT; };
+		4768FCFC0ADA972C00B4371E /* hashcache.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = hashcache.cpp; path = ../../src/logic/hashcache.cpp; sourceTree = SOURCE_ROOT; };
+		4768FCFD0ADA972C00B4371E /* hashcache.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = hashcache.H; path = ../../src/logic/hashcache.H; sourceTree = SOURCE_ROOT; };
+		4768FCFE0ADA972C00B4371E /* humanplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = humanplayer.cpp; path = ../../src/logic/humanplayer.cpp; sourceTree = SOURCE_ROOT; };
+		4768FCFF0ADA972C00B4371E /* humanplayer.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = humanplayer.H; path = ../../src/logic/humanplayer.H; sourceTree = SOURCE_ROOT; };
+		4768FD000ADA972C00B4371E /* king.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = king.cpp; path = ../../src/logic/king.cpp; sourceTree = SOURCE_ROOT; };
+		4768FD010ADA972C00B4371E /* king.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = king.H; path = ../../src/logic/king.H; sourceTree = SOURCE_ROOT; };
+		4768FD020ADA972C00B4371E /* knight.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = knight.cpp; path = ../../src/logic/knight.cpp; sourceTree = SOURCE_ROOT; };
+		4768FD030ADA972C00B4371E /* knight.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = knight.H; path = ../../src/logic/knight.H; sourceTree = SOURCE_ROOT; };
+		4768FD040ADA972C00B4371E /* move.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = move.cpp; path = ../../src/logic/move.cpp; sourceTree = SOURCE_ROOT; };
+		4768FD050ADA972C00B4371E /* move.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = move.H; path = ../../src/logic/move.H; sourceTree = SOURCE_ROOT; };
+		4768FD060ADA972C00B4371E /* pawn.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = pawn.cpp; path = ../../src/logic/pawn.cpp; sourceTree = SOURCE_ROOT; };
+		4768FD070ADA972C00B4371E /* pawn.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = pawn.H; path = ../../src/logic/pawn.H; sourceTree = SOURCE_ROOT; };
+		4768FD080ADA972C00B4371E /* piece.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = piece.cpp; path = ../../src/logic/piece.cpp; sourceTree = SOURCE_ROOT; };
+		4768FD090ADA972C00B4371E /* piece.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = piece.H; path = ../../src/logic/piece.H; sourceTree = SOURCE_ROOT; };
+		4768FD0A0ADA972C00B4371E /* player.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = player.cpp; path = ../../src/logic/player.cpp; sourceTree = SOURCE_ROOT; };
+		4768FD0B0ADA972C00B4371E /* playerif.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = playerif.H; path = ../../src/logic/playerif.H; sourceTree = SOURCE_ROOT; };
+		4768FD0C0ADA972C00B4371E /* pulchess.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = pulchess.cpp; path = ../../src/logic/pulchess.cpp; sourceTree = SOURCE_ROOT; };
+		4768FD0D0ADA972C00B4371E /* pulchess.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = pulchess.H; path = ../../src/logic/pulchess.H; sourceTree = SOURCE_ROOT; };
+		4768FD0E0ADA972C00B4371E /* queen.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = queen.cpp; path = ../../src/logic/queen.cpp; sourceTree = SOURCE_ROOT; };
+		4768FD0F0ADA972C00B4371E /* queen.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = queen.H; path = ../../src/logic/queen.H; sourceTree = SOURCE_ROOT; };
+		4768FD100ADA972C00B4371E /* rook.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = rook.cpp; path = ../../src/logic/rook.cpp; sourceTree = SOURCE_ROOT; };
+		4768FD110ADA972C00B4371E /* rook.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = rook.H; path = ../../src/logic/rook.H; sourceTree = SOURCE_ROOT; };
+		4768FD120ADA972C00B4371E /* stdheader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = stdheader.h; path = ../../src/logic/stdheader.h; sourceTree = SOURCE_ROOT; };
+		4768FD130ADA972C00B4371E /* timecontrol.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = timecontrol.cpp; path = ../../src/logic/timecontrol.cpp; sourceTree = SOURCE_ROOT; };
+		4768FD140ADA972C00B4371E /* timecontrol.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = timecontrol.H; path = ../../src/logic/timecontrol.H; sourceTree = SOURCE_ROOT; };
+		47CA5C4B098D83BD00F9E669 /* pulchessx-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pulchessx-icon.png"; path = "stuff/pulchessx-icon.png"; sourceTree = "<group>"; };
+		47D01A14099261D1006384DE /* PCGameWrapper.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PCGameWrapper.h; sourceTree = "<group>"; };
+		47D01A15099261D1006384DE /* PCGameWrapper.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PCGameWrapper.m; sourceTree = "<group>"; };
+		47D01A17099261D6006384DE /* PCMainUiController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PCMainUiController.h; sourceTree = "<group>"; };
+		47D01A18099261D6006384DE /* PCMainUiController.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = PCMainUiController.mm; sourceTree = "<group>"; };
+		47D01A4F0992661D006384DE /* PCChessView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PCChessView.h; sourceTree = "<group>"; };
+		47D01A500992661D006384DE /* PCChessView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PCChessView.m; sourceTree = "<group>"; };
+		47D72365099AA433004FAD9D /* piece-b-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece-b-b.png"; sourceTree = "<group>"; };
+		47D72366099AA433004FAD9D /* piece-b-k.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece-b-k.png"; sourceTree = "<group>"; };
+		47D72367099AA433004FAD9D /* piece-b-n.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece-b-n.png"; sourceTree = "<group>"; };
+		47D72368099AA433004FAD9D /* piece-b-p.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece-b-p.png"; sourceTree = "<group>"; };
+		47D72369099AA433004FAD9D /* piece-b-q.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece-b-q.png"; sourceTree = "<group>"; };
+		47D7236A099AA433004FAD9D /* piece-b-r.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece-b-r.png"; sourceTree = "<group>"; };
+		47D7236B099AA433004FAD9D /* piece-w-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece-w-b.png"; sourceTree = "<group>"; };
+		47D7236C099AA433004FAD9D /* piece-w-k.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece-w-k.png"; sourceTree = "<group>"; };
+		47D7236D099AA433004FAD9D /* piece-w-n.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece-w-n.png"; sourceTree = "<group>"; };
+		47D7236E099AA433004FAD9D /* piece-w-p.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece-w-p.png"; sourceTree = "<group>"; };
+		47D7236F099AA433004FAD9D /* piece-w-q.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece-w-q.png"; sourceTree = "<group>"; };
+		47D72370099AA433004FAD9D /* piece-w-r.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece-w-r.png"; sourceTree = "<group>"; };
+		47E0F56E09950A0C0041E14D /* black-pawn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "black-pawn.png"; path = "stuff/black-pawn.png"; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* PulCHESSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PulCHESSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				47D01A14099261D1006384DE /* PCGameWrapper.h */,
+				47D01A15099261D1006384DE /* PCGameWrapper.m */,
+				47D01A17099261D6006384DE /* PCMainUiController.h */,
+				47D01A18099261D6006384DE /* PCMainUiController.mm */,
+				47D01A4F0992661D006384DE /* PCChessView.h */,
+				47D01A500992661D006384DE /* PCChessView.m */,
+				4757BB7409994D38009C099B /* PCGameThread.h */,
+				4757BB7509994D38009C099B /* PCGameThread.mm */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* PulCHESSX.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* PulCHESSX */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = PulCHESSX;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				4768FCF40ADA972C00B4371E /* bishop.cpp */,
+				4768FCF50ADA972C00B4371E /* bishop.H */,
+				4768FCF60ADA972C00B4371E /* board.cpp */,
+				4768FCF70ADA972C00B4371E /* board.H */,
+				4768FCF80ADA972C00B4371E /* book.cpp */,
+				4768FCF90ADA972C00B4371E /* book.H */,
+				4768FCFA0ADA972C00B4371E /* cpuplayer.cpp */,
+				4768FCFB0ADA972C00B4371E /* cpuplayer.H */,
+				4768FCFC0ADA972C00B4371E /* hashcache.cpp */,
+				4768FCFD0ADA972C00B4371E /* hashcache.H */,
+				4768FCFE0ADA972C00B4371E /* humanplayer.cpp */,
+				4768FCFF0ADA972C00B4371E /* humanplayer.H */,
+				4768FD000ADA972C00B4371E /* king.cpp */,
+				4768FD010ADA972C00B4371E /* king.H */,
+				4768FD020ADA972C00B4371E /* knight.cpp */,
+				4768FD030ADA972C00B4371E /* knight.H */,
+				4768FD040ADA972C00B4371E /* move.cpp */,
+				4768FD050ADA972C00B4371E /* move.H */,
+				4768FD060ADA972C00B4371E /* pawn.cpp */,
+				4768FD070ADA972C00B4371E /* pawn.H */,
+				4768FD080ADA972C00B4371E /* piece.cpp */,
+				4768FD090ADA972C00B4371E /* piece.H */,
+				4768FD0A0ADA972C00B4371E /* player.cpp */,
+				4768FD0B0ADA972C00B4371E /* playerif.H */,
+				4768FD0C0ADA972C00B4371E /* pulchess.cpp */,
+				4768FD0D0ADA972C00B4371E /* pulchess.H */,
+				4768FD0E0ADA972C00B4371E /* queen.cpp */,
+				4768FD0F0ADA972C00B4371E /* queen.H */,
+				4768FD100ADA972C00B4371E /* rook.cpp */,
+				4768FD110ADA972C00B4371E /* rook.H */,
+				4768FD120ADA972C00B4371E /* stdheader.h */,
+				4768FD130ADA972C00B4371E /* timecontrol.cpp */,
+				4768FD140ADA972C00B4371E /* timecontrol.H */,
+				32CA4F630368D1EE00C91783 /* PulCHESSX_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				47D72364099AA432004FAD9D /* imgs */,
+				47274E8309995ADC00F58223 /* pulchessicon.icns */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+				47CA5C4B098D83BD00F9E669 /* pulchessx-icon.png */,
+				47E0F56E09950A0C0041E14D /* black-pawn.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		47D72364099AA432004FAD9D /* imgs */ = {
+			isa = PBXGroup;
+			children = (
+				474CE74909B6421E002677CF /* board-y.png */,
+				474CE74709B640CD002677CF /* board-x.png */,
+				47D72365099AA433004FAD9D /* piece-b-b.png */,
+				47D72366099AA433004FAD9D /* piece-b-k.png */,
+				47D72367099AA433004FAD9D /* piece-b-n.png */,
+				47D72368099AA433004FAD9D /* piece-b-p.png */,
+				47D72369099AA433004FAD9D /* piece-b-q.png */,
+				47D7236A099AA433004FAD9D /* piece-b-r.png */,
+				47D7236B099AA433004FAD9D /* piece-w-b.png */,
+				47D7236C099AA433004FAD9D /* piece-w-k.png */,
+				47D7236D099AA433004FAD9D /* piece-w-n.png */,
+				47D7236E099AA433004FAD9D /* piece-w-p.png */,
+				47D7236F099AA433004FAD9D /* piece-w-q.png */,
+				47D72370099AA433004FAD9D /* piece-w-r.png */,
+			);
+			name = imgs;
+			path = stuff/imgs;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* PulCHESSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 47BC3FB709E5CAD4006ECA27 /* Build configuration list for PBXNativeTarget "PulCHESSX" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = PulCHESSX_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = PulCHESSX;
+				WRAPPER_EXTENSION = app;
+			};
+			dependencies = (
+			);
+			name = PulCHESSX;
+			productInstallPath = "$(HOME)/Applications";
+			productName = PulCHESSX;
+			productReference = 8D1107320486CEB800E47090 /* PulCHESSX.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 47BC3FBB09E5CAD4006ECA27 /* Build configuration list for PBXProject "PulCHESSX" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				4A9504CCFFE6A4B311CA0CBA /* Development */,
+				4A9504CDFFE6A4B311CA0CBA /* Deployment */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* PulCHESSX */;
+			projectDirPath = "";
+			targets = (
+				8D1107260486CEB800E47090 /* PulCHESSX */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				47CA5C4C098D83BD00F9E669 /* pulchessx-icon.png in Resources */,
+				47E0F56F09950A0C0041E14D /* black-pawn.png in Resources */,
+				47274E8409995ADC00F58223 /* pulchessicon.icns in Resources */,
+				47D72371099AA433004FAD9D /* piece-b-b.png in Resources */,
+				47D72372099AA433004FAD9D /* piece-b-k.png in Resources */,
+				47D72373099AA433004FAD9D /* piece-b-n.png in Resources */,
+				47D72374099AA433004FAD9D /* piece-b-p.png in Resources */,
+				47D72375099AA433004FAD9D /* piece-b-q.png in Resources */,
+				47D72376099AA433004FAD9D /* piece-b-r.png in Resources */,
+				47D72377099AA433004FAD9D /* piece-w-b.png in Resources */,
+				47D72378099AA433004FAD9D /* piece-w-k.png in Resources */,
+				47D72379099AA433004FAD9D /* piece-w-n.png in Resources */,
+				47D7237A099AA433004FAD9D /* piece-w-p.png in Resources */,
+				47D7237B099AA433004FAD9D /* piece-w-q.png in Resources */,
+				47D7237C099AA433004FAD9D /* piece-w-r.png in Resources */,
+				474CE74809B640CD002677CF /* board-x.png in Resources */,
+				474CE74A09B6421E002677CF /* board-y.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				47D01A16099261D1006384DE /* PCGameWrapper.m in Sources */,
+				47D01A19099261D6006384DE /* PCMainUiController.mm in Sources */,
+				47D01A510992661D006384DE /* PCChessView.m in Sources */,
+				4757BB7609994D38009C099B /* PCGameThread.mm in Sources */,
+				4768FD150ADA972C00B4371E /* bishop.cpp in Sources */,
+				4768FD160ADA972C00B4371E /* board.cpp in Sources */,
+				4768FD170ADA972C00B4371E /* book.cpp in Sources */,
+				4768FD180ADA972C00B4371E /* cpuplayer.cpp in Sources */,
+				4768FD190ADA972C00B4371E /* hashcache.cpp in Sources */,
+				4768FD1A0ADA972C00B4371E /* humanplayer.cpp in Sources */,
+				4768FD1B0ADA972C00B4371E /* king.cpp in Sources */,
+				4768FD1C0ADA972C00B4371E /* knight.cpp in Sources */,
+				4768FD1D0ADA972C00B4371E /* move.cpp in Sources */,
+				4768FD1E0ADA972C00B4371E /* pawn.cpp in Sources */,
+				4768FD1F0ADA972C00B4371E /* piece.cpp in Sources */,
+				4768FD200ADA972C00B4371E /* player.cpp in Sources */,
+				4768FD210ADA972C00B4371E /* pulchess.cpp in Sources */,
+				4768FD220ADA972C00B4371E /* queen.cpp in Sources */,
+				4768FD230ADA972C00B4371E /* rook.cpp in Sources */,
+				4768FD240ADA972C00B4371E /* timecontrol.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				29B97319FDCFA39411CA2CEA /* English */,
+			);
+			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		47BC3FB809E5CAD4006ECA27 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					"$(NATIVE_ARCH)",
+					ppc,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = PulCHESSX_Prefix.pch;
+				GCC_STRICT_ALIASING = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PREBINDING = NO;
+				PRODUCT_NAME = PulCHESSX;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		47BC3FB909E5CAD4006ECA27 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					"$(NATIVE_ARCH)",
+					ppc,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = PulCHESSX_Prefix.pch;
+				GCC_STRICT_ALIASING = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PREBINDING = NO;
+				PRODUCT_NAME = PulCHESSX;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		47BC3FBA09E5CAD4006ECA27 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					"$(NATIVE_ARCH)",
+					ppc,
+				);
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = PulCHESSX_Prefix.pch;
+				GCC_STRICT_ALIASING = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = PulCHESSX;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Default;
+		};
+		47BC3FBC09E5CAD4006ECA27 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		47BC3FBD09E5CAD4006ECA27 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Deployment;
+		};
+		47BC3FBE09E5CAD4006ECA27 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		47BC3FB709E5CAD4006ECA27 /* Build configuration list for PBXNativeTarget "PulCHESSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47BC3FB809E5CAD4006ECA27 /* Development */,
+				47BC3FB909E5CAD4006ECA27 /* Deployment */,
+				47BC3FBA09E5CAD4006ECA27 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		47BC3FBB09E5CAD4006ECA27 /* Build configuration list for PBXProject "PulCHESSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47BC3FBC09E5CAD4006ECA27 /* Development */,
+				47BC3FBD09E5CAD4006ECA27 /* Deployment */,
+				47BC3FBE09E5CAD4006ECA27 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

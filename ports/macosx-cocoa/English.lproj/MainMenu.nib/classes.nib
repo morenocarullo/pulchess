@@ -1,0 +1,30 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = PCChessView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {doMove = id; newGame = id; reset = id; }; 
+            CLASS = PCGameWrapper; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {acceptMove = id; gameStep = id; newGame = id; quit = id; }; 
+            CLASS = PCMainUiController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                boardView = PCChessView; 
+                gameStatus = NSTextField; 
+                moveText = NSTextField; 
+                quitCommand = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
