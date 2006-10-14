@@ -218,52 +218,6 @@ list<Piece *> * Board::listPieces(const colour_t colour)
 }
 
 
-void Board::switchAutoThinking(const colour_t colour)
-{
-  static PlayerIF * tmpPlayer = NULL;
-
-  // inizio auto-think
-  if( tmpPlayer == NULL )
-  {
-    if( colour == WHITE )
-    {
-	   if( !_blackPlayer->isHuman() ) return;
-	
-	   pulchess_debug("auto think on -- white thinking");
-       tmpPlayer    = _blackPlayer;
-       _blackPlayer = new CPUPlayer(BLACK);
-    }
-    else
-	{
-	   if( !_whitePlayer->isHuman() ) return;
-	
-	   pulchess_debug("auto think on -- black thinking");
-       tmpPlayer = _whitePlayer;
-       _whitePlayer = new CPUPlayer(WHITE);
-    }
-  }
-
-  // stop auto-think
-  else
-  {
-    if( colour == WHITE )
-    {
-	   pulchess_debug("auto think off -- white thinking");
-	   delete _blackPlayer;
-       _blackPlayer = tmpPlayer;
-       tmpPlayer = NULL;
-    }
-    else
-	{
-	   pulchess_debug("auto think off -- black thinking");
-	   delete _whitePlayer;
-       _whitePlayer = tmpPlayer;
-       tmpPlayer = NULL;
-    }    
-  }
-}
-
-
 // Dice chi sta vincendo la partita...
 //
 //////////////////////////////////////

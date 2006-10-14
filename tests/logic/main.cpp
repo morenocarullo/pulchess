@@ -7,14 +7,14 @@
  *
  * $Id$
  */
-#include <stdio.h>
+#include <iostream>
 #include "stdheader.h"
 #include "tests.h"
 
 int main(int argc, char *argv[]) {
 	pulchess_log_off();
 	PULCHESS_RUNTESTS();
-	printf("\n");
+	cout << endl << "test completed successfully." << endl;
 	return 0;
 }
 

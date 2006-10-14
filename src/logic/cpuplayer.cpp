@@ -84,11 +84,7 @@ bool CPUPlayer::doMove(string moveCmd) /* throws ... */
       if( m == NULL )
       {
       	pulchess_debug("move not found in book.");
-      	
-      	_board->switchAutoThinking(getColour());
       	this->idab( plyDeep );
-      	_board->switchAutoThinking(getColour());
-      
       	m = bestMove;   
       	if( m == NULL ) {
       	  pulchess_debug("no move was found in book!");

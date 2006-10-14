@@ -56,6 +56,7 @@ bool HumanPlayer::doMove(string moveCmd)
 		}
 		coords->commit();
 		delete coords;
+		nextPromotedPiece = PIECE_QUEEN;
 		return true;
 	}
 	catch(InvalidMoveException *e)

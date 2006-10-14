@@ -41,7 +41,6 @@ namespace pulchess { namespace logic {
     King * _blackKing;
     PlayerIF * _whitePlayer;
     PlayerIF * _blackPlayer;
-    PlayerIF * _backupPlayer;
     
     /* methods */
     void _checkCoords(const coord_t x, const coord_t y);      
@@ -74,7 +73,6 @@ namespace pulchess { namespace logic {
 	int  canEatThis(coord_t pos, const colour_t colour, bool countTimes);
     bool canDefendCheck(const colour_t colour);
     Move * checkDefenseMove(const colour_t colour);
-    void switchAutoThinking(const colour_t colour);
   };
 
   // Rappresenta la scacchiera in modo compatto
