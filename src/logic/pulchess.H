@@ -1,7 +1,7 @@
 /*
 * PROJECT: PulCHESS, a Computer Chess program
 * LICENSE: GPL, see license.txt in project root
-* FILE:    Pulchess Logic Pulchess interface
+* FILE:    Pulchess Logic facade interface
 **********************************************************************
 * This program is free software; you can redistribute it and/or modify         
 * it under the terms of the GNU General Public License as published by      
@@ -17,15 +17,16 @@
 * Created on 15-lug-2005
 * $Id$
 */
-#ifndef _pulchess_logic_facade_h_
-#define _pulchess_logic_facade_h_
+#ifndef _pulchess_logic_pulchess_h_
+#define _pulchess_logic_pulchess_h_
 
 #include <string>
 #include "playerif.H"
 
 const unsigned char CPU_VS_CPU = 0;
 const unsigned char HUM_VS_CPU = 1;
-const unsigned char HUM_VS_HUM = 2;
+const unsigned char CPU_VS_HUM = 2;
+const unsigned char HUM_VS_HUM = 3;
 
 const int PULCHESS_WHITE = 1;
 const int PULCHESS_BLACK = -1;

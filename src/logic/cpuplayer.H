@@ -29,12 +29,14 @@
 
 namespace pulchess { namespace logic {
 	
-	class Move;
-	class HashCache;
+	/**! CPUPlayer is a kind of player
 	
-	//! CpuPlayer is a kind of player
+         It represents the AI player and uses various search techniques
+         to find the right move.
+	*/
 	class CPUPlayer : public PlayerIF
 	{
+
 	private:
 		//! Pointer to best move
 		Move *bestMove;
@@ -45,7 +47,7 @@ namespace pulchess { namespace logic {
 		//! Hash table used as transposition table
 		HashCache *evc;
 
-		//
+		//! Available time for thinking a move
 		time_t moveCalcTime;
 		
 		//! TimeControl let us balance move search in a particular time-span
@@ -72,9 +74,9 @@ namespace pulchess { namespace logic {
 		
 		//! Choose a piece in place of a soldier
 		Piece * choosePawnPiece();
-	};
-	
-};
-};
+		
+	}; // end class
+}; // end ns logic
+}; // end ns pulchess
 
-#endif // CPUPLAYER_H
+#endif // _pulchess_logic_cpuplayer_h_

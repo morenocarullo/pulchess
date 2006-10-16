@@ -20,16 +20,14 @@
 #include "stdheader.h"
 #include "book.H"
 
-#define ACCEPTMOVE() ( ffprob = ffprob ? false : true )
-
 namespace pulchess { namespace logic {
 	
-	
-// class constructor
+//
+// Class constructor
+//
 CPUPlayer::CPUPlayer(colour_t colour, int plyDeep, int moveSeconds, bool hashtbl) : PlayerIF(colour)
 {
 	this->plyDeep = plyDeep;
-// TODO: permettere di creare cpuplayer senza hashcache per l'autothinking	
 #ifdef PULCHESS_USEHASHTABLE
 	if( hashtbl ) {
 		this->evc = new HashCache(12317);
@@ -42,17 +40,20 @@ CPUPlayer::CPUPlayer(colour_t colour, int plyDeep, int moveSeconds, bool hashtbl
 	this->moveCalcTime = moveSeconds;
 }
 
-// simple class constructor
+//
+// Simple class constructor
+//
 CPUPlayer::CPUPlayer(colour_t colour) : PlayerIF(colour)
 {
-	//CPUPlayer(colour,6,1,false);	
 	this->plyDeep		= 6;
 	this->moveCalcTime	= 1;
 	this->evc	= new HashCache(1);
 	this->timec = new TimeControl();
 }
 
-// class destructor
+//
+// Class destructor
+//
 CPUPlayer::~CPUPlayer()
 {
 #ifdef PULCHESS_USEHASHTABLE
@@ -61,7 +62,9 @@ CPUPlayer::~CPUPlayer()
 	delete this->timec;
 }
 
-// play a move!
+//
+// Play a move!
+//
 bool CPUPlayer::doMove(string moveCmd) /* throws ... */
 {
       Move * m = NULL;
@@ -100,16 +103,10 @@ bool CPUPlayer::doMove(string moveCmd) /* throws ... */
          return false;    
       }
       
-      //
-      // TODO: bisogna avere la certezza che la mossa non metta
-      //       il re in scacco!
-      //
-      
       m->play(_board);
       m->commit();
       timec->resetTimer();
-      
-      printf("[info] move %s thought in %d seconds\n", m->toString().c_str(), (int)timec->getRealTime());
+      pulchess_info("move " << m->toString() << " thought in " << timec->getRealTime() << " seconds");
     }
     catch(InvalidMoveException *e)
     {
@@ -118,8 +115,6 @@ bool CPUPlayer::doMove(string moveCmd) /* throws ... */
   		delete e;
   		exit(1);
     }
-	
-    _lastMoveReport = m;
 	
 	return true;
 }
@@ -156,10 +151,7 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     Move *currMove = NULL;
     Move *myBest = NULL;
     int val = 0;
-	
-#ifdef PULCHESS_USEHASHTABLE	
-    BoardValue *thisBoardVal = NULL, *hashBoardVal = NULL;
-#endif
+
 
     // E' un nodo finale? 
     //  o  manca il re
@@ -175,6 +167,8 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     // fase di lettura dalla cache
     //
 #ifdef PULCHESS_USEHASHTABLE
+    BoardValue *thisBoardVal = NULL, *hashBoardVal = NULL;
+
     if(depth != startDepth) {
 		int retVal;
 		thisBoardVal = new BoardValue(_board, depth, evc->getSize());
@@ -182,11 +176,9 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 		if( hashBoardVal != NULL && hashBoardVal->usableFor( thisBoardVal ) ) {
 			retVal = evc->getValue( thisBoardVal->getHashKey() );               
 			delete thisBoardVal;
-			evc->statsHit();
 			return retVal;
 		}
 		delete thisBoardVal;
-		evc->statsMiss();
     }
 #endif
 	
@@ -239,7 +231,6 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     if( depth == startDepth )
     {
      	if( myBest == NULL ) return 0;
-//		printf("valore mossa migliore: %d\n", alfa);
     	bestMove = myBest->copy();
     }
 
@@ -253,9 +244,10 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     return alfa;
 }
 
-// Richiede un pezzo da posizionare al posto di un pedone promosso.
+
 //
-///////////////////////////////////////////////////////////////////
+// Always give a new Queen for pawn promotions
+//
 Piece *
 CPUPlayer::choosePawnPiece()
 {

@@ -140,7 +140,6 @@ void Board::_putPiece(const coord_t x, const coord_t y, Piece* p)
     // inseriamo il pezzo
     piece_at(x,y) = p;
     p->moveTo( xy2pos(x,y) );
-    //p->getColour() == WHITE ? whiteList.push_back(p) : blackList.push_back(p);
     ADDPIECE(p);
 	
     // se e' un re, va abbinato alla corrispettiva variabile
@@ -349,13 +348,7 @@ Move * Board::checkDefenseMove(const colour_t colour)
 		{
 			pulchess_error( "Ho generato una mossa sbagliata... errore fatale!" );
 			pulchess_error( ex->getMsg() );
-			
-			printf("Pezzo da spostare: x %d   y %d   kind:%d\n",
-				   (*lmit)->getSourceX(),
-				   (*lmit)->getSourceY(),
-				   getPiece((*lmit)->getSourceX(), (*lmit)->getSourceY())->getKind());
-				   
-			cerr << endl;
+			pulchess_error( "mossa: " << (*lmit)->toString() );
 			exit(1);
 		}
     }
@@ -379,7 +372,7 @@ int Board::evaluate(colour_t colour)
     for(int i=0; i<64; i++) {
   		if(_map[i] != NULL) {			
   			val += _map[i]->getRank()          * _map[i]->getColour();
-  			val += _map[i]->getPosEvaluation() * _map[i]->getColour();   
+  			val += _map[i]->getPosEvaluation() * _map[i]->getColour();
   		}
     }
 	

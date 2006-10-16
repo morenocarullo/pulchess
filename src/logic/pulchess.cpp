@@ -61,6 +61,12 @@ void Pulchess::init()
 			blackPlayer = new CPUPlayer(BLACK, 6, 30, true);
 			break;
 			
+		// umano vs computer
+		case CPU_VS_HUM:
+			whitePlayer = new CPUPlayer(WHITE, 6, 30, true);
+			blackPlayer = new HumanPlayer(BLACK);
+			break;
+			
 		// umano vs umano
 		case HUM_VS_HUM:
 			whitePlayer = new HumanPlayer(WHITE);
@@ -79,10 +85,6 @@ void Pulchess::init()
 }
 
 // carica un gioco
-/*
-	TODO: da implementare!!!
-	aut-aut con la init
-  */
 bool Pulchess::loadGame(const char *gamePath)
 {
 	// crea una classe "controller" che carica le mosse da file

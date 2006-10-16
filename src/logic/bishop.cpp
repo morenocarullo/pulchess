@@ -68,54 +68,34 @@ namespace pulchess { namespace logic {
 
     Piece * p;
     
-    /* diagonale 1
-    //  x
-    //   \
-    //    \
-    //////////////////////// */
+    // diag. top sx bot dx
     for(int i=x+1, j=y+1; i<8 && j<8; i++, j++) {
       bishop_add_move(end_diag_1);
     }
 
   end_diag_1:
 
-    /* diagonale 2
-    //     x
-    //    /
-    //   /	
-    /////////////////////////
-	*/		    
+	// diag top dx bot sx
     for(int i=x-1, j=y-1; i>=0 && j>=0; i--, j--) {
       bishop_add_move(end_diag_2);
     }
 
   end_diag_2:
 
-    /*  diagonale 3
-    //  \
-    //   \
-    //    x
-	/////////////////////////
-	*/
+    // diag bot dx top sx
     for(int i=x-1, j=y+1; i>=0 && j<8; i--, j++) {
       bishop_add_move(end_diag_3);
     }
 
   end_diag_3:
 
-    /* diagonale 3
-    //     /
-    //    /
-    //   x
-    /////////////////////////			    
-	*/
+    // diag bot sx top dx
     for(int i=x+1, j=y-1; i<8 && j>=0; i++, j--) {
       bishop_add_move(end_moves);
     }
 
   end_moves:
     return mList;
-  }
-
-};
-};
+  } // end method listMoves
+};// end ns logic
+};// end ns pulchess

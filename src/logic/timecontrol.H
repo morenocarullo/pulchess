@@ -24,25 +24,48 @@
 
 namespace pulchess { namespace logic {
 
-  class TimeControl {
+  /**! Class used to control thinking duration
+
+  */
+  class TimeControl
+  {
   private:
+
+    //! When was the timer started?
 	time_t startTime;
+	
+    //! Actual computed `death time'
     time_t deathTime;
+
+    //! The specified time during a measurement. If it stops, it's 0
     time_t secToLive;
+
+    //! Last (real) time took to complete
     time_t lastRealTime;
+
+    //! Last desired secToLive specified by startTimer()
     time_t lastSecToLive;
 
   public:
     TimeControl();
     ~TimeControl();
 
+    //! Start the time specifying a desired duration
     void startTimer(time_t secToLive);
+ 
+    //! Stop the timer and get it ready for another measurement
     void resetTimer();
+
+    //! Eval the remaining time and return true if we have to hurry up
     bool evalTimeRemaining(unsigned int depth);
+
+    //! Get the requested time between startTimer() and resetTimer()
     time_t getRequestedTime();
+
+    //! Get total time took between startTimer() and resetTimer()
     time_t getRealTime();
-  };
 
-};};
-
-#endif
+  }; // end class
+}; // end ns logic
+}; // end ns pulchess
+#endif // _pulchess_logic_timecontrol_h_

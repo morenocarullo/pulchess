@@ -29,22 +29,23 @@ namespace pulchess { namespace logic {
   {
   }
   
-  colour_t PlayerIF::getColour() {
-    return this->_colour;
+  colour_t PlayerIF::getColour()
+  {
+    return _colour;
+  }
+
+  void PlayerIF::setBoard(Board* b)
+  {
+    _board = b;
   }	
   
-  bool PlayerIF::isHuman() {
+  //! No, I am not human!
+  bool PlayerIF::isHuman()
+  {
     return false;
   }
-  
-  void PlayerIF::setBoard(Board* b) {
-    _board = b;
-  }
-  
-  Move* PlayerIF::lastMoveReport() {
-    return _lastMoveReport;
-  }
-  
+ 
+  //! Get piece list as a delegated method
   list<Piece *> * PlayerIF::getPieceList()
   {
     return _board->listPieces(getColour());
@@ -52,4 +53,3 @@ namespace pulchess { namespace logic {
 
 };
 };
-

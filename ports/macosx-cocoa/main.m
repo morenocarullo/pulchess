@@ -3,7 +3,7 @@
 //  PulCHESSX
 //
 //  Created by Moreno Carullo on 27/01/06.
-//  Copyright __MyCompanyName__ 2006. All rights reserved.
+//  Copyright (C) 2006. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

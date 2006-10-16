@@ -79,7 +79,6 @@ bool King::isValidMove(coord_t newpos, Board * b)
 		return false;
     }
 	
-    // TODO: controllare che la mossa non metta il re in check!
     if( abs(diffX) <= 1 && abs(diffY) <= 1 && OKCOORDS(newpos)) {
 		return true;
     }

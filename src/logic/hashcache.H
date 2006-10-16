@@ -17,21 +17,20 @@
  * Created on 15-lug-2005
  * $Id$
  */
-#ifndef _pulchess_util_hash_
-#define _pulchess_util_hash_
+#ifndef _pulchess_util_hashcache_
+#define _pulchess_util_hashcache_
 
 #include "stdheader.h"
 
 namespace pulchess { namespace logic {
 
-  class HashCache {
+  class HashCache
+  {
 
   private:
     int * _map;
     BoardValue ** _vals;
     unsigned int  size;
-    unsigned int statshitct;
-    unsigned int statsmissct;
     void _init();
 
   public:
@@ -43,10 +42,6 @@ namespace pulchess { namespace logic {
     BoardValue * get(unsigned int key);
     int getValue(unsigned int key);
     unsigned int getSize();
-    void statsHit();
-    void statsMiss();
-    unsigned int getStatsHit();
-    unsigned int getStatsMiss();
   };
 
 };

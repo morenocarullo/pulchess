@@ -52,7 +52,6 @@ bool Book::load(const char *filename)
 		}
 		bv   = new BoardValue(buff, Book::bookSize);
 		move = new Move(*(buff+65), *(buff+66));
-		//printf("%d %d\n", move->getSourceX(), move->getSourceY());
 		insert(bv, move);
 		ct++;
 	}

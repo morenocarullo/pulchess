@@ -44,9 +44,6 @@ HashCache::~HashCache()
 
 void HashCache::_init()
 {
-	statsmissct = 0;
-	statshitct  = 0;
-	
 	_map  = new int[size]; 
 	_vals = new BoardValue*[size];
 	
@@ -82,28 +79,6 @@ BoardValue * HashCache::get(unsigned int key)
 int HashCache::getValue(unsigned int key)
 {
 	return _map[ key ];
-}
-
-void HashCache::statsHit()
-{
-	statshitct++;
-}
-
-void HashCache::statsMiss()
-{
-	statsmissct++;
-}
-
-unsigned int
-HashCache::getStatsHit()
-{
-	return statshitct;
-}
-
-unsigned int
-HashCache::getStatsMiss()
-{
-	return statsmissct;
 }
 
 };

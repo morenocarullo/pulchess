@@ -22,8 +22,6 @@
 #include "pulchess.H"
 #include "xboard.H"
 #include <iostream>
-#include <cstdio>
-#include <ctype.h> // toupper()
 
 using namespace std;
 using namespace pulchess;
@@ -52,7 +50,7 @@ int main(int argc, char *argv[])
 
   do
   {
-  	cout << "Game mode? (hc, cc, hh, xboard, quit) > ";
+  	cout << "Game mode? (hc, cc, ch, hh, xboard, quit) > ";
 	  cin >> mode;
 	  cout << endl;
   
@@ -75,6 +73,13 @@ int main(int argc, char *argv[])
 	    pulchess = new Pulchess(HUM_VS_HUM);
 	    menuOk = true;
 	    cout << "Human Vs Human" << endl;
+	    cout << endl;
+	  }
+	  else if( mode == "ch"  )
+	  {
+	    pulchess = new Pulchess(CPU_VS_HUM);
+	    menuOk = true;
+	    cout << "CPU Vs Human" << endl;
 	    cout << endl;
 	  }
 	  else if(mode == "xboard")

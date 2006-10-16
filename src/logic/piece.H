@@ -23,12 +23,12 @@
 #define _pulchess_logic_piece_h_
 
 #define PIECE_NONE    -1
-#define PIECE_SOLDIER 0
-#define PIECE_BISHOP  5
-#define PIECE_KNIGHT  6
-#define PIECE_ROOK    7
-#define PIECE_QUEEN   8
-#define PIECE_KING    9
+#define PIECE_SOLDIER 1
+#define PIECE_BISHOP  2
+#define PIECE_KNIGHT  4
+#define PIECE_ROOK    8
+#define PIECE_QUEEN   16
+#define PIECE_KING    32
 
 using namespace std;
 
