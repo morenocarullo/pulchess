@@ -27,7 +27,10 @@
 #define VIOLATURNO(X) ( (X)->getColour() != turn )
 
 namespace pulchess { namespace logic {
-	
+
+//
+// Board ctor
+//	
 Board::Board(PlayerIF * white, PlayerIF * black)
 {
 		// assign players
@@ -43,70 +46,71 @@ Board::Board(PlayerIF * white, PlayerIF * black)
 		turn = WHITE;
 		
 		// init board
-		for(int i=0; i<64; i++) {
+		for(int i=0; i<64; i++) 
+		{
 			_map[i] = NULL;
 		}
 		
-		try {
-			
-			/* White Player */
-			_putPiece(0, 1, new Pawn(WHITE));
-			_putPiece(1, 1, new Pawn(WHITE));
-			_putPiece(2, 1, new Pawn(WHITE));
-			_putPiece(3, 1, new Pawn(WHITE));
-			_putPiece(4, 1, new Pawn(WHITE));
-			_putPiece(5, 1, new Pawn(WHITE));
-			_putPiece(6, 1, new Pawn(WHITE));
-			_putPiece(7, 1, new Pawn(WHITE));
-			_putPiece(0, 0, new Rook(WHITE));
-			_putPiece(1, 0, new Knight(WHITE));
-			_putPiece(2, 0, new Bishop(WHITE));
-			_putPiece(4, 0, new King(WHITE));
-			_putPiece(3, 0, new Queen(WHITE));
-			_putPiece(5, 0, new Bishop(WHITE));
-			_putPiece(6, 0, new Knight(WHITE));
-			_putPiece(7, 0, new Rook(WHITE));
-			
-			
-			/* Black Player */
-			_putPiece(0, 6, new Pawn(BLACK));
-			_putPiece(1, 6, new Pawn(BLACK));
-			_putPiece(2, 6, new Pawn(BLACK));
-			_putPiece(3, 6, new Pawn(BLACK));
-			_putPiece(4, 6, new Pawn(BLACK));
-			_putPiece(5, 6, new Pawn(BLACK));
-			_putPiece(6, 6, new Pawn(BLACK));
-			_putPiece(7, 6, new Pawn(BLACK));
-			_putPiece(0, 7, new Rook(BLACK));
-			_putPiece(1, 7, new Knight(BLACK));
-			_putPiece(2, 7, new Bishop(BLACK));
-			_putPiece(3, 7, new Queen(BLACK));
-			_putPiece(4, 7, new King(BLACK));
-			_putPiece(5, 7, new Bishop(BLACK));
-			_putPiece(6, 7, new Knight(BLACK));
-			_putPiece(7, 7, new Rook(BLACK));
-		}
-		catch(CoordsException e) {
-			pulchess_error("Aggiunto pezzo in posizione errata!");
-			exit(1);
-		}
+		/* White Player */
+		_putPiece(0, 1, new Pawn(WHITE));
+		_putPiece(1, 1, new Pawn(WHITE));
+		_putPiece(2, 1, new Pawn(WHITE));
+		_putPiece(3, 1, new Pawn(WHITE));
+		_putPiece(4, 1, new Pawn(WHITE));
+		_putPiece(5, 1, new Pawn(WHITE));
+		_putPiece(6, 1, new Pawn(WHITE));
+		_putPiece(7, 1, new Pawn(WHITE));
+		_putPiece(0, 0, new Rook(WHITE));
+		_putPiece(1, 0, new Knight(WHITE));
+		_putPiece(2, 0, new Bishop(WHITE));
+		_putPiece(4, 0, new King(WHITE));
+		_putPiece(3, 0, new Queen(WHITE));
+		_putPiece(5, 0, new Bishop(WHITE));
+		_putPiece(6, 0, new Knight(WHITE));
+		_putPiece(7, 0, new Rook(WHITE));
+		
+		
+		/* Black Player */
+		_putPiece(0, 6, new Pawn(BLACK));
+		_putPiece(1, 6, new Pawn(BLACK));
+		_putPiece(2, 6, new Pawn(BLACK));
+		_putPiece(3, 6, new Pawn(BLACK));
+		_putPiece(4, 6, new Pawn(BLACK));
+		_putPiece(5, 6, new Pawn(BLACK));
+		_putPiece(6, 6, new Pawn(BLACK));
+		_putPiece(7, 6, new Pawn(BLACK));
+		_putPiece(0, 7, new Rook(BLACK));
+		_putPiece(1, 7, new Knight(BLACK));
+		_putPiece(2, 7, new Bishop(BLACK));
+		_putPiece(3, 7, new Queen(BLACK));
+		_putPiece(4, 7, new King(BLACK));
+		_putPiece(5, 7, new Bishop(BLACK));
+		_putPiece(6, 7, new Knight(BLACK));
+		_putPiece(7, 7, new Rook(BLACK));
 }
 
+//
+// Board d'stor
+//
 Board::~Board()
 {
-    // distruggi tutti i pezzi!
+	// delete move list contents
+    list<Move *>::iterator it;
+    for(it = gameMoveList.begin(); it != gameMoveList.end(); it++)
+	{
+		delete (*it);
+    }
+
+	// delete pieces
     for(int i=0; i<64; i++) {
 		if( _map[i] != NULL)
 			delete _map[i];
     }
 }
 
-void Board::_checkCoords(const coord_t x, const coord_t y)
-{
-    if( !COORDSOK(x,y) )
-		throw new CoordsException();
-}
-
+//
+// Add a piece to the pieceList
+//
 void Board::pieceListAdd(Piece *p)
 {
     ADDPIECE(p);
@@ -120,6 +124,9 @@ void Board::pieceListAdd(Piece *p)
     }
 }
 
+//
+// Delete a piece from the piece list
+//
 void Board::pieceListDel(Piece *p)
 {
     CANCPIECE(p);
@@ -132,11 +139,11 @@ void Board::pieceListDel(Piece *p)
     }
 }
 
-// used to add a piece on the board, only for first time!
+//
+// Add a piece on the board, only for first time!
+//
 void Board::_putPiece(const coord_t x, const coord_t y, Piece* p)
 {
-    _checkCoords(x, y);
-    
     // inseriamo il pezzo
     piece_at(x,y) = p;
     p->moveTo( xy2pos(x,y) );
@@ -151,11 +158,9 @@ void Board::_putPiece(const coord_t x, const coord_t y, Piece* p)
     }
 }
 
-
-// Preleva il pezzo alla posizione specificata
 //
-// costo: O(1)
-/////////////////////////////////////
+// Get a piece from specified position
+//
 Piece * Board::getPiece(const coord_t x, const coord_t y)
 {
     if( COORDSOK(x, y) ) {
@@ -166,60 +171,75 @@ Piece * Board::getPiece(const coord_t x, const coord_t y)
     }
 }
 
-
-// Preleva il pezzo alla posizione specificata
 //
-// costo: O(1)
-/////////////////////////////////////
+// Get a piece from specified position
+//
 Piece * Board::getPiece(const coord_t idx)
 {
     return piece_dr(idx);
 }
 
-
-// Preleva il pezzo alla posizione specificata
 //
-// costo: O(1)
-/////////////////////////////////////  
+// Set a piece at specified position
+//
 void Board::setPiece(const coord_t pos, Piece *p)
 {
     piece_dr(pos) = p;
 }  
 
-
-// Restituisce il giocatore del colore richiesto
 //
-// costo: O(1)
-/////////////////////////////////////  
+// Gimme a player
+//  
 PlayerIF * Board::getPlayer(colour_t colour)
 {
     return ( colour == WHITE ? _whitePlayer : _blackPlayer );
 }
 
-
-// Preleva il re di uno specifico colore
-// 
-// costo : O(1)
-///////////////////////////////////////////////
+//
+// Gimme the King
+//
 Piece * Board::getKing(const colour_t colour)
 {
     return ( colour == WHITE ? _whiteKing : _blackKing );
 }
 
-
-// Elenca i pezzi di uno specifico colore
 //
-// costo : O(1)
-///////////////////////////////////////////////
+// Piece list
+//
 list<Piece *> * Board::listPieces(const colour_t colour)
 {
     return (colour == WHITE ? &whiteList : &blackList);
 }
 
-
-// Dice chi sta vincendo la partita...
 //
-//////////////////////////////////////
+// Rolls back last move, and deletes it
+//
+bool Board::moveRollback()
+{
+	Move *lastMove = NULL;
+	try {
+	  lastMove = (*gameMoveList.end());
+	  gameMoveList.pop_back();
+	  turn = ENEMY(turn);
+	}
+	catch(...)
+	{
+		return false;
+	}
+	return true;
+}
+
+//
+// Confirms a move
+//
+void Board::moveFinalize(Move *move)
+{
+	gameMoveList.push_back(move);
+}
+
+//
+// Tells who is winning
+//
 int Board::whoWins()
 {
 	if( isInCheck(WHITE)>0 && !canDefendCheck(WHITE) ) return BLACK;
@@ -228,11 +248,11 @@ int Board::whoWins()
 	return 0;
 }
 
-
-// Dice se il gioco e' finito. Il gioco non e' finito quando nessuno dei due
-// sta vincendo, e la partita non e' ancora considerata "patta".
 //
-////////////////////////////
+// Tells whether the game is finished or not.
+// The game is NOT finished when no one is winning, and the game is
+// not yet valued as tie.
+//
 bool Board::isGameFinished()
 {
 	bool stopFewPieces = false;
@@ -255,46 +275,46 @@ bool Board::isGameFinished()
 			stopFewPieces );
 }
 
-
-// Verifica se il re del colore specificato e' in scacco.
-// Ritorna il numero di pezzi che mettono in scacco.
 //
-// costo: O(M * 64) --> O(M)     [M = numero di pedine del nemico]
-//////////////////////////////////////////////////////////////////
+// Is the specified King under check?
+//
 int Board::isInCheck(const colour_t colour)
 {
 	return canEatThis(getKing(colour)->getPos(), colour, false);
 }
 
+//
+// Can anyone eat the piace at "pos"?
+//
 bool Board::canEatThis(coord_t pos, const colour_t colour)
 {	
 	return ( canEatThis(pos, colour, false) > 0 );
 }
 
-// Verifica se il pezzo alla posizione "pos" puo' essere mangiato
-// dal nemico, specificato dal colore nel parametro "colour".
-// se countTimes e' true, conta il numero di pezzi che possono mangiare.
 //
-//////////////////////////////////////////////////////////////////
+// Can anyone eat the piace at "pos"? How many pieces can eat it?
+//
 int Board::canEatThis(coord_t pos, const colour_t colour, bool countTimes)
 {
     list<Piece *> * lp = listPieces(ENEMY(colour));
     list<Piece *>::iterator lpIter;
 	int count=0;
 	
-    // verifichiamo se qualcuno dei pezzi nemici puo'
-	// mangiare, mettere in pericolo questo pezzo.
-    for(lpIter = lp->begin(); lpIter != lp->end(); lpIter++) {
-		if( (*lpIter)->isValidMove(pos, this) ) {
+    for(lpIter = lp->begin(); lpIter != lp->end(); lpIter++)
+	{
+		if( (*lpIter)->isValidMove(pos, this) )
+		{
 			if(!countTimes) return 1;
 			count++;
 		}
     }
 	
-    // ritorna il numero di pezzi che possono mangiare.
     return count;
 }
 
+//
+// Can the player of "colour" defend from check?
+//
 bool Board::canDefendCheck(const colour_t colour)
 {
     Move * m = checkDefenseMove(colour);
@@ -305,10 +325,9 @@ bool Board::canDefendCheck(const colour_t colour)
     return false;
 }
 
-
-// E' possibile effettuare una mossa per evitare lo scacco?
 //
-///////////////////////////////////////////
+// Give a move for player "colour" in order to avoid check
+//
 Move * Board::checkDefenseMove(const colour_t colour)
 {
     list<Piece *> * lp = listPieces(colour);
@@ -319,26 +338,21 @@ Move * Board::checkDefenseMove(const colour_t colour)
     colour_t backupTurn = turn;
     turn = colour;
     
-    // genera le mosse di tutti i pezzi
+    // get moves for all pieces
     for(lpIter = lp->begin(); lpIter != lp->end(); lpIter++) {
 		Piece * p = (*lpIter);
 		p->listMoves(this, &mList);
     }
 	
-    // a vedere tra tutte le mosse fattibili, se qualcuna ci toglie
-    // dallo scacco. Se si, togliamo gli effetti temporanei della mossa e
-    // ritorniamo vero.
+	// is any of these the right one?
     for(lmit = mList.begin(); lmit != mList.end(); lmit++) {
 		try {
 			(*lmit)->play(this);
 			if( isInCheck(colour) == 0 ) {
-				Move *savingMove;
-				
-				// -- riportiamo lo stato in uno coerente --
+				Move *savingMove;				
 				(*lmit)->rewind(this);
 				turn = backupTurn;
 				savingMove = (*lmit)->copy();
-				//
 				moveListDestroy(&mList);
 				return savingMove;
 			}
@@ -358,17 +372,13 @@ Move * Board::checkDefenseMove(const colour_t colour)
     return NULL;
 }
 
-
-// Valuta la "qualita'" di una certa configurazione
 //
-// TODO: salvare l'ultimo pezzo che ha mangiato
-//		 bonus se mangia pezzo poco importante
-///////////////////////////////////////////////////
+// Evaluates board status
+//
 int Board::evaluate(colour_t colour)
 {
     int val = 0;
 
-    // valutazione del materiale
     for(int i=0; i<64; i++) {
   		if(_map[i] != NULL) {			
   			val += _map[i]->getRank()          * _map[i]->getColour();
@@ -379,21 +389,22 @@ int Board::evaluate(colour_t colour)
     return val;
 }
 
-
-// Il numero di mosse totali effettuate
 //
-/////////////////////////
+// Total move count
+//
 int Board::getMoveCount()
 {
     return moveCount;
 }
 
 
-/////////////////////////////////////////////////////////////////////
 //
-// Start of BoardValue class implementation
+// *** Start of BoardValue class implementation ***
 //
-/////////////////////////////////////////////////////////////////////
+
+//
+// Class ctor
+//
 BoardValue::BoardValue(Board *b, coord_t depth, unsigned int dstTableSize)
 {
 	int base = 127;
@@ -410,8 +421,9 @@ BoardValue::BoardValue(Board *b, coord_t depth, unsigned int dstTableSize)
     }
 }
 
-
-// "Deserializza" una boardvalue
+//
+// "deserialize" a BoardValue
+//
 BoardValue::BoardValue(const coord_t * rec, unsigned int dstTableSize)
 {
 	int base = 127;
@@ -422,30 +434,48 @@ BoardValue::BoardValue(const coord_t * rec, unsigned int dstTableSize)
 	}
 }
 
+//
+// D'stor
+//
 BoardValue::~BoardValue()
 {
 }
 
+//
+// Equal operator
+//
 bool BoardValue::operator== (BoardValue &a)
 {
 	return (getHashKey() == a.getHashKey());
 }
 
+//
+// Hashkey for this boardvalue
+//
 unsigned int BoardValue::getHashKey()
 {
     return hashkey;
 }
 
+//
+// Maximum depth this boardvalue is valid for
+//
 coord_t BoardValue::getDepth()
 {
     return depth;
 }
 
+//
+// Get piece map
+//
 coord_t * BoardValue::getMap()
 {
     return map;
 }
 
+//
+// Is this boardvalue usable for the specified one?
+//
 bool BoardValue::usableFor(BoardValue *b)
 {
     for(int i=0; i<64; i++) {
@@ -458,5 +488,5 @@ bool BoardValue::usableFor(BoardValue *b)
     return false;
 }
 
-};
-};
+}; // end ns logic
+}; // end ns pulchess

@@ -104,7 +104,7 @@ bool CPUPlayer::doMove(string moveCmd) /* throws ... */
       }
       
       m->play(_board);
-      m->commit();
+      _board->moveFinalize(m);
       timec->resetTimer();
       pulchess_info("move " << m->toString() << " thought in " << timec->getRealTime() << " seconds");
     }

@@ -30,7 +30,6 @@ namespace pulchess { namespace logic {
 Pulchess::Pulchess(gamemode_t gameMode)
 {
     this->board    = NULL;
-    this->turn     = WHITE;
     this->gameMode = gameMode;
 	this->engineStatus = PULCHESS_STATUS_ZERO;
 }
@@ -74,7 +73,7 @@ void Pulchess::init()
 			break;
     }
 	
-    board = (void *)new Board(whitePlayer, blackPlayer);
+    board = new Board(whitePlayer, blackPlayer);
 	engineStatus = PULCHESS_STATUS_INIT;
 	Book::load();
 	
@@ -99,7 +98,7 @@ bool Pulchess::loadGame(const char *gamePath)
 	
 	whitePlayer  = new HumanPlayer(WHITE);
 	blackPlayer  = new HumanPlayer(BLACK);
-    board        = (void *)new Board(whitePlayer, blackPlayer);
+    board        = new Board(whitePlayer, blackPlayer);
     engineStatus = PULCHESS_STATUS_INIT;							
 										  
     // TODO: read from file game mode
@@ -127,8 +126,7 @@ bool Pulchess::loadGame(const char *gamePath)
 // chiude il gioco
 void Pulchess::shutdown()
 {
-    Board * b = (Board *)board;
-    delete b;
+    delete board;
     board = NULL;
 }
 
@@ -136,11 +134,10 @@ void Pulchess::shutdown()
 // ricostruisce la scacchiera
 cellinfo_t Pulchess::getCellInfo(int x, int y)
 {
-    Board * b = (Board *)board;
     Piece * p;
     cellinfo_t c;
 	
-    p        = b->getPiece(x,y);
+    p        = board->getPiece(x,y);
 	
     if( p != NULL ) {
 		c.kind   = p->getKindChr();
@@ -157,15 +154,14 @@ cellinfo_t Pulchess::getCellInfo(int x, int y)
 // il gioco e' finito?
 bool Pulchess::isGameFinished()
 {
-    Board * b = (Board *)board;
-    return b->isGameFinished();
+    return board->isGameFinished();
 }
 
 
 // a chi tocca?
 int Pulchess::whoPlaysNow()
 {
-    return turn;
+    return (board != NULL)  ? board->turn : PULCHESS_WHITE;
 }
 
 // richiede di giocare a chi di turno
@@ -179,15 +175,12 @@ bool Pulchess::gameCommand(string cmd)
       return false;
     }
 	
-    if( turn == WHITE ) {
+    if( board->turn == WHITE ) {
 		retval = whitePlayer->doMove(cmd);
     }
     else {
 		retval = blackPlayer->doMove(cmd);
     }
-	
-	// la mossa e' stata effettivamente fatta, passiamo il turno
-    if( retval ) turn = ENEMY(turn);
 	
 	return retval;
 }
@@ -195,7 +188,7 @@ bool Pulchess::gameCommand(string cmd)
 //! Il prossimo giocatore e' umano?
 bool Pulchess::isHuman()
 {
-	if( turn == WHITE )		return whitePlayer->isHuman();
+	if( board->turn == WHITE )		return whitePlayer->isHuman();
 	else					return blackPlayer->isHuman();
 }
 
@@ -203,8 +196,7 @@ bool Pulchess::isHuman()
 // chi vince?
 int Pulchess::gameInfo()
 {
-    Board * b = (Board *)board;
-    return b->whoWins();
+    return board->whoWins();
 }
 
 void Pulchess::printBoard()

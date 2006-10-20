@@ -1,7 +1,7 @@
 /*
 * PROJECT: PulCHESS, a Computer Chess program
 * LICENSE: GPL, see license.txt in project root
-* FILE:	   XBoard interface    WORK IN PROGRESS
+* FILE:	   XBoard interface    ***** WORK IN PROGRESS ******
 * 
 **********************************************************************
 * This program is free software; you can redistribute it and/or modify         

@@ -24,48 +24,86 @@
 
 namespace pulchess { namespace logic {
 
-  class Piece;
+  // class pre definition
   class PlayerIF;
 
-  // Rappresenta la scacchiera
-  //
-  class Board {
-    
+  /**! This class represents the board and game status
+
+  */
+  class Board
+  {  
   private:
     
-    /* properties */
+    //! List of white pieces
     list<Piece *> whiteList;
+
+    //! List of black pieces
     list<Piece *> blackList;
-    Piece * _map[64];          
+
+    //! List of game moves.
+    list<Move *>  gameMoveList;
+
+    //! Map of the pieces
+    Piece * _map[64];
+
+    //! Pointer to the white King      
     King * _whiteKing;
+
+    //! Pointer to the black King
     King * _blackKing;
+
+    //! Pointer to the white Player
     PlayerIF * _whitePlayer;
+
+    //! Pointer to the black Player
     PlayerIF * _blackPlayer;
     
-    /* methods */
-    void _checkCoords(const coord_t x, const coord_t y);      
+    //! Put the piece in the board, for first time insertion
     void _putPiece(const coord_t x, const coord_t y, Piece* p);
 
   public:
-
+    //! Class ctor
     Board(PlayerIF * white, PlayerIF * black);
+
+    //! Class d'stor
     ~Board();
 
-    // TODO: usare dei metodi di accesso!
+    //! Actual turn
     colour_t turn;
+
+    //! Move count (total moves playied)
     int moveCount;
     
+    //! Get the piece at position x,y
     Piece * getPiece(const coord_t x, const coord_t y);
-    Piece * getPiece(const coord_t idx);
+
+    //! Get the piece at position index pos
+    Piece * getPiece(const coord_t pos);
+ 
+    //! Set piece p at position index pos
     void    setPiece(const coord_t pos, Piece *p);
+
+    //! Add piece p in list
     void    pieceListAdd(Piece *p);
+
+    //! Delete piece p from list
     void    pieceListDel(Piece *p);
 
+    //! List pieces for player "colour"
     list<Piece *> * listPieces(const colour_t colour);
+
+    //! Get the specified player
     PlayerIF * getPlayer(colour_t colour);
     Piece * getKing(const colour_t colour);
     bool isGameFinished();
     int getMoveCount();
+
+    //! Rolls back last move
+    bool moveRollback();
+
+    //! Confirms a move
+    void moveFinalize(Move *move);
+
     int evaluate(colour_t colour);
     int whoWins();
     int isInCheck(const colour_t colour);
@@ -75,8 +113,9 @@ namespace pulchess { namespace logic {
     Move * checkDefenseMove(const colour_t colour);
   };
 
-  // Rappresenta la scacchiera in modo compatto
-  /////////////////////////////////////////////
+  /**! Represents the board in a compact way for caches and stuff like that
+
+   */
   class BoardValue {
   private:
     coord_t map[64];
@@ -96,7 +135,7 @@ namespace pulchess { namespace logic {
 	void print();
   };
 
-};
-};
+}; // end ns logic
+}; // end ns pulchess
 
 #endif

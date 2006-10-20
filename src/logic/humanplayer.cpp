@@ -54,8 +54,7 @@ bool HumanPlayer::doMove(string moveCmd)
 			pulchess_info( "Mossa non valida, vai/sei in scacco!" );			
 			return false;
 		}
-		coords->commit();
-		delete coords;
+		_board->moveFinalize(coords);
 		nextPromotedPiece = PIECE_QUEEN;
 		return true;
 	}
