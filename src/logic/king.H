@@ -34,8 +34,8 @@ namespace pulchess { namespace logic {
   public:
     King(colour_t colour) : Piece(colour) {};
 
-    int getKind();
-    int getRank();
+    int GetKind();
+    int GetRank();
     coord_t getValue();
 	int getPosEvaluation();
     list<Move *> * listMoves(Board* b, list<Move *> *mList);

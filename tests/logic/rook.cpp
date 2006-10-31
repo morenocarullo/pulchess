@@ -12,7 +12,7 @@ static void testListMoves_start()
   Board b(new CPUPlayer(WHITE,6,1,false), new CPUPlayer(BLACK,6,1,false));
   Rook * s;
 
-  s = (Rook *)b.getPiece(0,1);
+  s = (Rook *)b.GetPiece(0,1);
 
   list<Move *> * mList = new list<Move *>();
   list<Move *>::iterator lmit;

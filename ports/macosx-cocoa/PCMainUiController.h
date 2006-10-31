@@ -11,6 +11,7 @@
     IBOutlet PCChessView *boardView;
     IBOutlet NSTextField *gameStatus;
     IBOutlet NSTextField *moveText;
+    IBOutlet NSTextView  *gameHistoryView;
 	
 	// commands
     IBOutlet id quitCommand;

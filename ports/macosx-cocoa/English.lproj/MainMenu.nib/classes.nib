@@ -19,6 +19,7 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 boardView = PCChessView; 
+                gameHistoryView = NSTextView; 
                 gameStatus = NSTextField; 
                 moveText = NSTextField; 
                 quitCommand = id; 

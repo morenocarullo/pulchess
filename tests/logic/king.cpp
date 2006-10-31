@@ -18,7 +18,7 @@ static void testListMoves_start()
   m1.play(&b); // white's move
   m2.play(&b); // black's move
 
-  k = (King *)b.getPiece(4,0);
+  k = (King *)b.GetPiece(4,0);
 
   list<Move *> * mList = new list<Move *>();
   list<Move *>::iterator lmit;

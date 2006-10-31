@@ -21,12 +21,12 @@
 
 namespace pulchess { namespace logic {
 
-  int Bishop::getKind()
+  int Bishop::GetKind()
   {
     return PIECE_BISHOP;
   }
   
-  int Bishop::getRank()
+  int Bishop::GetRank()
   {
     return 50; // bishop's rank
   }
@@ -53,7 +53,7 @@ namespace pulchess { namespace logic {
     //
     ///////////////////////////
 #define bishop_add_move(GOTOLABEL) {\
-        p = b->getPiece(i,j); \
+        p = b->GetPiece(i,j); \
         if( i==x && j==y ) continue; \
 		if( p != NULL ) { \
 			if( isEnemy(p) ) { \

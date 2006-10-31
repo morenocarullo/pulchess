@@ -71,7 +71,7 @@ namespace pulchess { namespace logic {
 		coord_t  getY();
 		coord_t     getPos();
 		void moveTo(coord_t pos);
-		int    getMoveCount();
+		int    GetMoveCount();
 		void   setMoveCount(int ct);
 		char   getKindChr();
 		char   getColourChr();
@@ -89,7 +89,7 @@ namespace pulchess { namespace logic {
 		bool    hasNextMove(Board* b);
 		
 		//! What kind of piece am i?
-		virtual int     getKind() = 0;
+		virtual int     GetKind() = 0;
 
 		//! Get list of valid moves, providing an already allocated list
 		virtual list<Move *> * listMoves(Board *b, list<Move *> *mList) = 0;
@@ -98,7 +98,7 @@ namespace pulchess { namespace logic {
 		virtual bool    isValidMove(coord_t pos, Board * b) = 0;
 		
 		//! This piece's rank
-		virtual int     getRank() = 0;
+		virtual int     GetRank() = 0;
 		
 		//! This piece value for hash function calc
 		virtual coord_t    getValue() = 0;

@@ -33,10 +33,10 @@ namespace pulchess { namespace logic {
     Pawn(colour_t colour) : Piece(colour) {};
 
 	//! What kind of piece am i?
-    int getKind();
+    int GetKind();
 	
 	//! This piece's rank
-    int getRank();
+    int GetRank();
 	
 	//! Piece position
     coord_t getValue();

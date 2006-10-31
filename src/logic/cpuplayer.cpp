@@ -73,7 +73,7 @@ bool CPUPlayer::doMove(string moveCmd) /* throws ... */
       try {      
       timec->startTimer(moveCalcTime);
       
-      if(  _board->isInCheck(getColour()) )
+      if(  _board->IsInCheck(getColour()) )
       {
       	pulchess_info("I am in check, gotta do smth!");
       }
@@ -104,7 +104,7 @@ bool CPUPlayer::doMove(string moveCmd) /* throws ... */
       }
       
       m->play(_board);
-      _board->moveFinalize(m);
+      _board->MoveFinalize(m);
       timec->resetTimer();
       pulchess_info("move " << m->toString() << " thought in " << timec->getRealTime() << " seconds");
     }
@@ -143,7 +143,7 @@ CPUPlayer::idab(int maxDepth)
 int
 CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, int beta) 
 {	
-    list<Piece *> * pList = _board->listPieces(turnColour);
+    list<Piece *> * pList = _board->ListPieces(turnColour);
     list<Piece *>::iterator pList_iter;
     list<Move *> mList;
     list<Move *>::iterator mList_iter;
@@ -156,11 +156,11 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     // E' un nodo finale? 
     //  o  manca il re
 	//  o  siamo nelle foglie dell'albero alfabeta
-	if( _board->getKing(WHITE) == NULL ) return BLACK_WINS * turnColour;
-	if( _board->getKing(BLACK) == NULL ) return WHITE_WINS * turnColour;
+	if( _board->GetKing(WHITE) == NULL ) return BLACK_WINS * turnColour;
+	if( _board->GetKing(BLACK) == NULL ) return WHITE_WINS * turnColour;
     if( depth == 0 )
 	{
-		return _board->evaluate(turnColour) * turnColour;
+		return _board->Evaluate(turnColour) * turnColour;
     }
 	
     //
@@ -172,9 +172,9 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     if(depth != startDepth) {
 		int retVal;
 		thisBoardVal = new BoardValue(_board, depth, evc->getSize());
-		hashBoardVal = evc->get( thisBoardVal->getHashKey() );
-		if( hashBoardVal != NULL && hashBoardVal->usableFor( thisBoardVal ) ) {
-			retVal = evc->getValue( thisBoardVal->getHashKey() );               
+		hashBoardVal = evc->get( thisBoardVal->GetHashKey() );
+		if( hashBoardVal != NULL && hashBoardVal->UsableFor( thisBoardVal ) ) {
+			retVal = evc->getValue( thisBoardVal->GetHashKey() );               
 			delete thisBoardVal;
 			return retVal;
 		}
@@ -186,7 +186,7 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     //
     if( timec->evalTimeRemaining(depth) && (depth != startDepth) )
 	{
-		return _board->evaluate(turnColour) * turnColour;
+		return _board->Evaluate(turnColour) * turnColour;
     }
 	
     // per tutti i miei pezzi

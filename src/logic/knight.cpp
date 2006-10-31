@@ -45,12 +45,12 @@ static coord_t posvaltbl[2][64] =
 
 namespace pulchess { namespace logic {
 
-  int Knight::getKind()
+  int Knight::GetKind()
   {
     return PIECE_KNIGHT; 
   }
 
-  int Knight::getRank()
+  int Knight::GetRank()
   {
     return 50;
   }
@@ -102,7 +102,7 @@ int Knight::getPosEvaluation()
     // se la posizione e' valida, allora controlla che sia possibile
     // spostarci la pedina (casella vuota oppure occupata da nemico)
     if(result) {
-      p = b->getPiece(newpos);
+      p = b->GetPiece(newpos);
       return ( p == NULL || isEnemy(p) );
     }
 
@@ -116,7 +116,7 @@ int Knight::getPosEvaluation()
 
 #define add_knight_move(X,Y) \
  if( COORDSOK(X,Y) ) { \
-   p = b->getPiece((X),(Y)); \
+   p = b->GetPiece((X),(Y)); \
    if( p == NULL ) \
     mList->push_back( new Move(xy2pos((X),(Y)), pos) ); \
    else if ( isEnemy(p) )\

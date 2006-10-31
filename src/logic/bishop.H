@@ -31,8 +31,8 @@ class Bishop : public Piece
 public:
     Bishop(colour_t colour) : Piece(colour) {};
 	
-    int getKind();
-    int getRank();
+    int GetKind();
+    int GetRank();
     coord_t getValue();
 	
 	//! is the specified pos move a valid one?

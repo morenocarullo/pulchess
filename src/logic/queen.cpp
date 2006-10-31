@@ -23,12 +23,12 @@ namespace pulchess { namespace logic {
 
   Queen::~Queen() {}
 
-  int Queen::getKind()
+  int Queen::GetKind()
   {
     return PIECE_QUEEN;
   }
 
-  int Queen::getRank()
+  int Queen::GetRank()
   {
     return 250; // queen's rank
   }
@@ -58,7 +58,7 @@ namespace pulchess { namespace logic {
 
 #define queen_add_move(X,Y,GOTOLABEL) { \
    if( COORDSOK((X)+x, (Y)+y) ) { \
-     p = b->getPiece((X)+x,(Y)+y); \
+     p = b->GetPiece((X)+x,(Y)+y); \
      if( p == NULL ) \
        mList->push_back( new Move( xy2pos((X)+x,(Y)+y), pos) ); \
      else { \

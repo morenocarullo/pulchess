@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 
   pulchess->init();
 
-  while( !pulchess->isGameFinished() ) {
+  while( !pulchess->IsGameFinished() ) {
     pulchess->printBoard();
     if( pulchess->isHuman() )
     {

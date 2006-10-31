@@ -11,6 +11,7 @@
  testSuitePawn();\
  testSuiteKing();\
  testSuiteRook();\
+ testSuiteBoard();\
  testSuiteHumanPlayer();\
  testSuitePulchessPulchess();\
 }
@@ -25,3 +26,4 @@ void testSuiteKing(void);
 void testSuiteRook(void);
 void testSuitePulchessPulchess(void);
 void testSuiteHumanPlayer(void);
+void testSuiteBoard(void);

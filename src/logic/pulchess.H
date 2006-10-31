@@ -58,10 +58,13 @@ namespace pulchess { namespace logic {
   public:
 
     Pulchess(gamemode_t gameMode);
-    ~Pulchess();
-    
+    ~Pulchess();    
+
     // inizializza il gioco
     void init();
+
+    // reimposta il gioco
+    void ResetMode(gamemode_t gameMode);
 
     // chiude il gioco
     void shutdown();
@@ -73,7 +76,7 @@ namespace pulchess { namespace logic {
 	void printBoard();
 
     // il gioco e' finito?
-    bool isGameFinished();
+    bool IsGameFinished();
 
     // a chi tocca?
     int whoPlaysNow();
@@ -82,7 +85,19 @@ namespace pulchess { namespace logic {
 	bool isHuman();
 
     // gioca la mossa del turno attuale
-    bool gameCommand(string cmd);
+    bool gameCommand(string &cmd);
+
+    //! Try to play an empty command
+    bool gameCommand();
+
+    // e' una mossa?
+    bool IsMove(string &cmd);
+
+    //! Ritorna l'ultima mossa
+    Move * GetLastMove();
+
+    //! Returns a string containing game history report
+    string GetGameMovesReport();
 	
     // chi vince?
     int gameInfo();

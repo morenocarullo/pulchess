@@ -29,8 +29,8 @@ namespace pulchess { namespace logic {
   
   public:
     Knight(colour_t colour) : Piece(colour) {};
-    int getKind();
-    int getRank();
+    int GetKind();
+    int GetRank();
     coord_t getValue();
     list<Move *> * listMoves(Board* b, list<Move *> *mList);
     bool isValidMove(coord_t pos, Board * b);

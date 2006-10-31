@@ -30,7 +30,7 @@
 // E' chiamata in un thread separato se pe la cpu.
 - (void)gameStep:(id)sender
 {
-	if( !gameFacade->isGameFinished() ) {
+	if( !gameFacade->IsGameFinished() ) {
 		if( !gameFacade->isHuman() ) {
             string cmd;
 			[gameStatus setStringValue:@"Thinking..."];
@@ -38,7 +38,6 @@
 			[gameStatus setStringValue:@""];
 			
 			[self updateChessBoard];
-			[boardView setNeedsDisplay:YES];
 		}
 		else {
 			// turno umano... spara 1 messaggio a video
@@ -50,17 +49,28 @@
 	}
 }
 
+//
+// Aggiorna la scacchiera e le altre informazioni
+//
 - (void)updateChessBoard
 {
 	cellinfo_t cellinfo;
 	int i=0, j=0;
 	
+    // scacchiera
 	for(i=0;i<8;i++) {
 		for(j=0;j<8;j++) {
 			cellinfo = gameFacade->getCellInfo(i,j);
 			[boardView setPiece:cellinfo.kind col:cellinfo.colour x:i y:j];
 		}
 	}
+	[boardView setNeedsDisplay:YES];
+    
+    // lista mosse
+    NSString *gameReport;
+    gameReport = [NSString stringWithCString:gameFacade->GetGameMovesReport().c_str()];
+    [gameHistoryView setString:gameReport];
+    [gameHistoryView setNeedsDisplay:YES];
 }
 
 - (IBAction)acceptMove:(id)sender
@@ -80,8 +90,7 @@
 	
 	// ok questa mossa e' finita, aggiorniamo la board
 	[self updateChessBoard];
-	[boardView setNeedsDisplay:YES];
-	
+    	
 	// separiamo in un thread la parte del turno successivo...
 	[NSThread detachNewThreadSelector:@selector(DoThinking:) toTarget:[PCGameThread class] withObject:self];
 }

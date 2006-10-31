@@ -48,13 +48,13 @@ bool HumanPlayer::doMove(string moveCmd)
 		}
 		nextPromotedPiece = getPromotion(moveCmd);
 		coords->play( _board );
-		if( _board->isInCheck( getColour() ) ) {
+		if( _board->IsInCheck( getColour() ) ) {
 			coords->rewind( _board );
 			delete coords;
 			pulchess_info( "Mossa non valida, vai/sei in scacco!" );			
 			return false;
 		}
-		_board->moveFinalize(coords);
+		_board->MoveFinalize(coords);
 		nextPromotedPiece = PIECE_QUEEN;
 		return true;
 	}
@@ -107,7 +107,7 @@ Move * HumanPlayer::getMove(string moveCmd)
 	   return NULL;
 	}
 	
-	srcp = _board->getPiece( coords->getSrcIdx() );
+	srcp = _board->GetPiece( coords->getSrcIdx() );
 	
 	// errore: qui non c'e' nessun pezzo
 	if( srcp == NULL ) return NULL;

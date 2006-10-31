@@ -19,6 +19,12 @@
 * Created on 20-giu-2006
 * $Id$
 */
+#ifndef _pulchess_xboard_h_
+#define _pulchess_xboard_h_
+
+#include <string>
+
+using namespace std;
 
 namespace pulchess {
 
@@ -26,11 +32,11 @@ namespace pulchess {
 class XBoard
 {
   private:
-    bool run;      
-          
-    bool readCommand(const char * cmd);
-    void unknownCommand(const char * cmd);
-    void unimplCommand(const char *cmd);
+    string buff;
+    bool run;
+    bool readCommand();   
+    void unknownCommand(string &cmd);
+    void unimplCommand(string &cmd);
       
   public:
     XBoard();
@@ -40,3 +46,5 @@ class XBoard
 };
 
 }
+
+#endif

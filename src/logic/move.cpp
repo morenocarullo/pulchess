@@ -20,8 +20,8 @@
 #include "stdheader.h"
 #include <stdio.h>  // C stdio
 
-#define CANCPIECE(X) b->pieceListDel((X));
-#define ADDPIECE(X) b->pieceListAdd((X));
+#define CANCPIECE(X) b->PieceListDel((X));
+#define ADDPIECE(X) b->PieceListAdd((X));
 #define VIOLATURNO(X) ( (X)->getColour() != b->turn )
 
 using namespace std;
@@ -96,7 +96,6 @@ Move::Move(coord_t newpos, coord_t startpos)
 		cerr << "Generata mossa anomala!" << endl;
 		cerr << "startpos x: " << pos2x(startpos) << " startpos y: " << pos2y(startpos) << endl;
 		cerr << "newpos x:  " << pos2x(newpos) << " newpos y:  " << pos2y(newpos) << endl;
-//		exit(1);
     }
 }
 
@@ -194,8 +193,8 @@ void Move::play(Board* b)
 	dstI = getDstIdx();
 	
     Piece 
-		*src = b->getPiece(srcI),
-		*dst = b->getPiece(dstI);
+		*src = b->GetPiece(srcI),
+		*dst = b->GetPiece(dstI);
 	
     // 
     // Precondizioni :
@@ -226,23 +225,23 @@ void Move::play(Board* b)
     // spostiamo il pezzo
     //
     src->moveTo( dstI );
-    b->setPiece(dstI, src);
-    b->setPiece(srcI, NULL);
+    b->SetPiece(dstI, src);
+    b->SetPiece(srcI, NULL);
 	
 	
     // se il fante arriva in fondo...
     // ...va promosso!
     //
-    if( src->getKind() == PIECE_SOLDIER ) {
+    if( src->GetKind() == PIECE_SOLDIER ) {
 		if(  (src->getColour() == BLACK && src->getY() == 0) ||
 			 (src->getColour() == WHITE && src->getY() == 7) )
 		{	 
 			// chiede all'utente di scegliere che pezzo inserire
 			// al posto del fante appena "promosso".
 			Piece *newPiece;
-			newPiece = b->getPlayer( src->getColour() )->choosePawnPiece();
+			newPiece = b->GetPlayer( src->getColour() )->choosePawnPiece();
 			ADDPIECE( newPiece );
-			b->setPiece( dstI, newPiece );
+			b->SetPiece( dstI, newPiece );
 			newPiece->moveTo( dstI );
 			
 			// salva le info
@@ -264,7 +263,7 @@ void Move::rewind(Board* b)
 	dstI = getSrcIdx();
 	
     Piece
-		*src = b->getPiece(srcI),
+		*src = b->GetPiece(srcI),
 		*pro = getPromotedPawn(),
 		*ddp = getDeadPiece();
     
@@ -276,21 +275,21 @@ void Move::rewind(Board* b)
 		setPromotedPawn( NULL );
 		
 		ADDPIECE( pro );
-		b->setPiece( srcI, pro );
+		b->SetPiece( srcI, pro );
     }
 	
     // rimette il pezzo alla posizione originaria
     //
-    b->getPiece( srcI )->rollback(dstI);
-    b->setPiece( dstI, b->getPiece(srcI) );
-    b->setPiece( srcI, NULL );
+    b->GetPiece( srcI )->rollback(dstI);
+    b->SetPiece( dstI, b->GetPiece(srcI) );
+    b->SetPiece( srcI, NULL );
 	
 	
     // se era stato mangiato un pezzo, lo rimette a posto
     //
     if( ddp != NULL ) {
-		b->pieceListAdd( ddp );
-		b->setPiece( ddp->getPos(), ddp );
+		b->PieceListAdd( ddp );
+		b->SetPiece( ddp->getPos(), ddp );
 		setDeadPiece( NULL );
     }
 	
@@ -333,11 +332,11 @@ EPMove::EPMove(coord_t newpos, coord_t startpos, coord_t eat) : Move(newpos, sta
 void EPMove::play(Board *b)
 {
     Piece *pEaten = NULL;
-    pEaten = b->getPiece( getEatIdx() );
+    pEaten = b->GetPiece( getEatIdx() );
     Move::play(b);
     setDeadPiece( pEaten );
     CANCPIECE( pEaten );
-    b->setPiece( getEatIdx(), NULL);    
+    b->SetPiece( getEatIdx(), NULL);    
 }
 
 coord_t EPMove::getEatIdx()
@@ -429,13 +428,13 @@ void RookMove::play(Board *b)
 		}
     }
 	
-    b->setPiece( kipos_dst, b->getPiece(kipos_src) );
-    b->getPiece( kipos_dst )->moveTo( kipos_dst );
-	b->setPiece( kipos_src, NULL );
+    b->SetPiece( kipos_dst, b->GetPiece(kipos_src) );
+    b->GetPiece( kipos_dst )->moveTo( kipos_dst );
+	b->SetPiece( kipos_src, NULL );
 	
-    b->setPiece( rkpos_dst, b->getPiece( rkpos_src ) );
-    b->getPiece( rkpos_dst )->moveTo( rkpos_dst );
-	b->setPiece( rkpos_src, NULL );
+    b->SetPiece( rkpos_dst, b->GetPiece( rkpos_src ) );
+    b->GetPiece( rkpos_dst )->moveTo( rkpos_dst );
+	b->SetPiece( rkpos_src, NULL );
 }
 
 
@@ -475,13 +474,13 @@ void RookMove::rewind(Board *b)
 		}
     }
 	
-    b->setPiece( kipos_dst, b->getPiece( kipos_src ) );
-    b->getPiece( kipos_dst )->moveTo( kipos_dst );
-	b->setPiece( kipos_src, NULL );
+    b->SetPiece( kipos_dst, b->GetPiece( kipos_src ) );
+    b->GetPiece( kipos_dst )->moveTo( kipos_dst );
+	b->SetPiece( kipos_src, NULL );
 	
-    b->setPiece( rkpos_dst, b->getPiece( rkpos_src ) );
-    b->getPiece( rkpos_dst )->moveTo( rkpos_dst );
-	b->setPiece( rkpos_src, NULL );
+    b->SetPiece( rkpos_dst, b->GetPiece( rkpos_src ) );
+    b->GetPiece( rkpos_dst )->moveTo( rkpos_dst );
+	b->SetPiece( rkpos_src, NULL );
 }
 
 Move * RookMove::copy()

@@ -75,42 +75,59 @@ namespace pulchess { namespace logic {
     int moveCount;
     
     //! Get the piece at position x,y
-    Piece * getPiece(const coord_t x, const coord_t y);
+    Piece * GetPiece(const coord_t x, const coord_t y);
 
     //! Get the piece at position index pos
-    Piece * getPiece(const coord_t pos);
+    Piece * GetPiece(const coord_t pos);
  
     //! Set piece p at position index pos
-    void    setPiece(const coord_t pos, Piece *p);
+    void SetPiece(const coord_t pos, Piece *p);
 
     //! Add piece p in list
-    void    pieceListAdd(Piece *p);
+    void PieceListAdd(Piece *p);
 
     //! Delete piece p from list
-    void    pieceListDel(Piece *p);
+    void PieceListDel(Piece *p);
 
     //! List pieces for player "colour"
-    list<Piece *> * listPieces(const colour_t colour);
+    list<Piece *> * ListPieces(const colour_t colour);
 
     //! Get the specified player
-    PlayerIF * getPlayer(colour_t colour);
-    Piece * getKing(const colour_t colour);
-    bool isGameFinished();
-    int getMoveCount();
+    PlayerIF* GetPlayer(colour_t colour);
+
+    //! Get the specified king
+    Piece* GetKing(const colour_t colour);
+
+    //! Is game finished?
+    bool IsGameFinished();
+
+    //! Who is winning?
+    int WhoWins();
+
+    //! Get total move count
+    int GetMoveCount();
+
+    //! Returns the move list
+    list<Move *> * GetMoveList();
 
     //! Rolls back last move
-    bool moveRollback();
+    bool MoveRollback();
 
-    //! Confirms a move
-    void moveFinalize(Move *move);
+    //! Confirms a move and save it in move list
+    void MoveFinalize(Move *move);
 
-    int evaluate(colour_t colour);
-    int whoWins();
-    int isInCheck(const colour_t colour);
-	bool canEatThis(coord_t pos, const colour_t colour);
-	int  canEatThis(coord_t pos, const colour_t colour, bool countTimes);
-    bool canDefendCheck(const colour_t colour);
-    Move * checkDefenseMove(const colour_t colour);
+    //! Returns last played move
+    Move * GetLastMove();
+
+    //! Evaluate board status
+    int Evaluate(colour_t colour);
+    
+    //! Is the specified king in check?
+    int IsInCheck(const colour_t colour);
+	bool CanEatThis(coord_t pos, const colour_t colour);
+	int  CanEatThis(coord_t pos, const colour_t colour, bool countTimes);
+    bool CanDefendCheck(const colour_t colour);
+    Move * CheckDefenseMove(const colour_t colour);
   };
 
   /**! Represents the board in a compact way for caches and stuff like that
@@ -127,12 +144,12 @@ namespace pulchess { namespace logic {
 	BoardValue(const coord_t * rec, unsigned int dstTableSize);
     ~BoardValue();
 	bool operator== (BoardValue &a);
+	bool operator!= (BoardValue &a);
 
-    unsigned int getHashKey();
-    coord_t getDepth();
-    bool usableFor(BoardValue *b);
-    coord_t* getMap();		
-	void print();
+    unsigned int GetHashKey();
+    coord_t GetDepth();
+    bool UsableFor(BoardValue *b);
+    coord_t* GetMap();
   };
 
 }; // end ns logic

@@ -34,8 +34,8 @@ namespace pulchess { namespace logic {
     Queen(colour_t colour) : Piece(colour) {};
     ~Queen();
     
-    int getKind();
-    int getRank();
+    int GetKind();
+    int GetRank();
     coord_t getValue();
     bool isValidMove(coord_t pos, Board * b);
     list<Move *> * listMoves(Board* b, list<Move *> *mList);

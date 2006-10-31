@@ -111,10 +111,10 @@ Board::~Board()
 //
 // Add a piece to the pieceList
 //
-void Board::pieceListAdd(Piece *p)
+void Board::PieceListAdd(Piece *p)
 {
     ADDPIECE(p);
-    if( p->getKind() == PIECE_KING ) {
+    if( p->GetKind() == PIECE_KING ) {
       if( p->getColour() == WHITE) {
 	_whiteKing = (King *)p;
       }
@@ -127,10 +127,10 @@ void Board::pieceListAdd(Piece *p)
 //
 // Delete a piece from the piece list
 //
-void Board::pieceListDel(Piece *p)
+void Board::PieceListDel(Piece *p)
 {
     CANCPIECE(p);
-    if( p->getKind() == PIECE_KING ) {
+    if( p->GetKind() == PIECE_KING ) {
       if( p->getColour() == WHITE ) {
 	_whiteKing = NULL;
       } else {
@@ -150,7 +150,7 @@ void Board::_putPiece(const coord_t x, const coord_t y, Piece* p)
     ADDPIECE(p);
 	
     // se e' un re, va abbinato alla corrispettiva variabile
-    if( p->getKind() == PIECE_KING ) {
+    if( p->GetKind() == PIECE_KING ) {
 		if( p->getColour() == WHITE )
 			_whiteKing = (King *)p;
 		else
@@ -161,7 +161,7 @@ void Board::_putPiece(const coord_t x, const coord_t y, Piece* p)
 //
 // Get a piece from specified position
 //
-Piece * Board::getPiece(const coord_t x, const coord_t y)
+Piece * Board::GetPiece(const coord_t x, const coord_t y)
 {
     if( COORDSOK(x, y) ) {
 		return piece_at(x,y);
@@ -174,7 +174,7 @@ Piece * Board::getPiece(const coord_t x, const coord_t y)
 //
 // Get a piece from specified position
 //
-Piece * Board::getPiece(const coord_t idx)
+Piece * Board::GetPiece(const coord_t idx)
 {
     return piece_dr(idx);
 }
@@ -182,7 +182,7 @@ Piece * Board::getPiece(const coord_t idx)
 //
 // Set a piece at specified position
 //
-void Board::setPiece(const coord_t pos, Piece *p)
+void Board::SetPiece(const coord_t pos, Piece *p)
 {
     piece_dr(pos) = p;
 }  
@@ -190,7 +190,7 @@ void Board::setPiece(const coord_t pos, Piece *p)
 //
 // Gimme a player
 //  
-PlayerIF * Board::getPlayer(colour_t colour)
+PlayerIF * Board::GetPlayer(colour_t colour)
 {
     return ( colour == WHITE ? _whitePlayer : _blackPlayer );
 }
@@ -198,7 +198,7 @@ PlayerIF * Board::getPlayer(colour_t colour)
 //
 // Gimme the King
 //
-Piece * Board::getKing(const colour_t colour)
+Piece * Board::GetKing(const colour_t colour)
 {
     return ( colour == WHITE ? _whiteKing : _blackKing );
 }
@@ -206,7 +206,7 @@ Piece * Board::getKing(const colour_t colour)
 //
 // Piece list
 //
-list<Piece *> * Board::listPieces(const colour_t colour)
+list<Piece *> * Board::ListPieces(const colour_t colour)
 {
     return (colour == WHITE ? &whiteList : &blackList);
 }
@@ -214,12 +214,14 @@ list<Piece *> * Board::listPieces(const colour_t colour)
 //
 // Rolls back last move, and deletes it
 //
-bool Board::moveRollback()
+bool Board::MoveRollback()
 {
 	Move *lastMove = NULL;
 	try {
-	  lastMove = (*gameMoveList.end());
+	  lastMove = gameMoveList.back();
+	  lastMove->rewind(this);
 	  gameMoveList.pop_back();
+	  delete lastMove;
 	  turn = ENEMY(turn);
 	}
 	catch(...)
@@ -230,20 +232,38 @@ bool Board::moveRollback()
 }
 
 //
+// Get move list
+//
+list<Move *> *
+Board::GetMoveList()
+{
+  return &gameMoveList;
+}
+
+//
+// Get latest move
+//
+Move * Board::GetLastMove()
+{
+   return gameMoveList.back();
+}
+
+//
 // Confirms a move
 //
-void Board::moveFinalize(Move *move)
+void Board::MoveFinalize(Move *move)
 {
+  if( move != NULL )
 	gameMoveList.push_back(move);
 }
 
 //
 // Tells who is winning
 //
-int Board::whoWins()
+int Board::WhoWins()
 {
-	if( isInCheck(WHITE)>0 && !canDefendCheck(WHITE) ) return BLACK;
-	if( isInCheck(BLACK)>0 && !canDefendCheck(BLACK) ) return WHITE;
+	if( IsInCheck(WHITE)>0 && !CanDefendCheck(WHITE) ) return BLACK;
+	if( IsInCheck(BLACK)>0 && !CanDefendCheck(BLACK) ) return WHITE;
 
 	return 0;
 }
@@ -253,50 +273,50 @@ int Board::whoWins()
 // The game is NOT finished when no one is winning, and the game is
 // not yet valued as tie.
 //
-bool Board::isGameFinished()
+bool Board::IsGameFinished()
 {
 	bool stopFewPieces = false;
 	
 	// stop per poco materiale (solo i due re)
-	list<Piece *> * lpWhite = listPieces(WHITE), * lpBlack = listPieces(BLACK);
+	list<Piece *> * lpWhite = ListPieces(WHITE), * lpBlack = ListPieces(BLACK);
 	if( lpWhite->size() == 1 && lpBlack->size() == 1 )
 	{
 		stopFewPieces = true;
 	}
 	
 	// stop per matto
- 	pulchess_debug( "Is in check (WHITE): "      << isInCheck(WHITE) );
-	pulchess_debug( "Is in check (BLACK): "      << isInCheck(BLACK) );
-	pulchess_debug( "Can defend check (WHITE): " << canDefendCheck(WHITE) ); 	
-	pulchess_debug( "Can defend check (BLACK): " << canDefendCheck(BLACK) );
+ 	pulchess_debug( "Is in check (WHITE): "      << IsInCheck(WHITE) );
+	pulchess_debug( "Is in check (BLACK): "      << IsInCheck(BLACK) );
+	pulchess_debug( "Can defend check (WHITE): " << CanDefendCheck(WHITE) ); 	
+	pulchess_debug( "Can defend check (BLACK): " << CanDefendCheck(BLACK) );
 	
-    return( isInCheck(WHITE)>0 && !canDefendCheck(WHITE) ||
- 			isInCheck(BLACK)>0 && !canDefendCheck(BLACK) ||
+    return( IsInCheck(WHITE)>0 && !CanDefendCheck(WHITE) ||
+ 			IsInCheck(BLACK)>0 && !CanDefendCheck(BLACK) ||
 			stopFewPieces );
 }
 
 //
 // Is the specified King under check?
 //
-int Board::isInCheck(const colour_t colour)
+int Board::IsInCheck(const colour_t colour)
 {
-	return canEatThis(getKing(colour)->getPos(), colour, false);
+	return CanEatThis(GetKing(colour)->getPos(), colour, false);
 }
 
 //
 // Can anyone eat the piace at "pos"?
 //
-bool Board::canEatThis(coord_t pos, const colour_t colour)
+bool Board::CanEatThis(coord_t pos, const colour_t colour)
 {	
-	return ( canEatThis(pos, colour, false) > 0 );
+	return ( CanEatThis(pos, colour, false) > 0 );
 }
 
 //
 // Can anyone eat the piace at "pos"? How many pieces can eat it?
 //
-int Board::canEatThis(coord_t pos, const colour_t colour, bool countTimes)
+int Board::CanEatThis(coord_t pos, const colour_t colour, bool countTimes)
 {
-    list<Piece *> * lp = listPieces(ENEMY(colour));
+    list<Piece *> * lp = ListPieces(ENEMY(colour));
     list<Piece *>::iterator lpIter;
 	int count=0;
 	
@@ -315,9 +335,9 @@ int Board::canEatThis(coord_t pos, const colour_t colour, bool countTimes)
 //
 // Can the player of "colour" defend from check?
 //
-bool Board::canDefendCheck(const colour_t colour)
+bool Board::CanDefendCheck(const colour_t colour)
 {
-    Move * m = checkDefenseMove(colour);
+    Move * m = CheckDefenseMove(colour);
     if( m != NULL) {
 		delete m;
 		return true;
@@ -328,9 +348,9 @@ bool Board::canDefendCheck(const colour_t colour)
 //
 // Give a move for player "colour" in order to avoid check
 //
-Move * Board::checkDefenseMove(const colour_t colour)
+Move * Board::CheckDefenseMove(const colour_t colour)
 {
-    list<Piece *> * lp = listPieces(colour);
+    list<Piece *> * lp = ListPieces(colour);
     list<Piece *>::iterator lpIter;
     list<Move *> mList;
     list<Move *>::iterator lmit;
@@ -348,7 +368,7 @@ Move * Board::checkDefenseMove(const colour_t colour)
     for(lmit = mList.begin(); lmit != mList.end(); lmit++) {
 		try {
 			(*lmit)->play(this);
-			if( isInCheck(colour) == 0 ) {
+			if( IsInCheck(colour) == 0 ) {
 				Move *savingMove;				
 				(*lmit)->rewind(this);
 				turn = backupTurn;
@@ -375,13 +395,13 @@ Move * Board::checkDefenseMove(const colour_t colour)
 //
 // Evaluates board status
 //
-int Board::evaluate(colour_t colour)
+int Board::Evaluate(colour_t colour)
 {
     int val = 0;
 
     for(int i=0; i<64; i++) {
   		if(_map[i] != NULL) {			
-  			val += _map[i]->getRank()          * _map[i]->getColour();
+  			val += _map[i]->GetRank()          * _map[i]->getColour();
   			val += _map[i]->getPosEvaluation() * _map[i]->getColour();
   		}
     }
@@ -392,7 +412,7 @@ int Board::evaluate(colour_t colour)
 //
 // Total move count
 //
-int Board::getMoveCount()
+int Board::GetMoveCount()
 {
     return moveCount;
 }
@@ -412,8 +432,8 @@ BoardValue::BoardValue(Board *b, coord_t depth, unsigned int dstTableSize)
     
     hashkey = 0;
     for(int i=0; i<64; i++) {
-		if( b->getPiece(i) != NULL )
-			map[i] = b->getPiece(i)->getValue();
+		if( b->GetPiece(i) != NULL )
+			map[i] = b->GetPiece(i)->getValue();
 		else
 			map[i] = 0;
 		
@@ -446,13 +466,21 @@ BoardValue::~BoardValue()
 //
 bool BoardValue::operator== (BoardValue &a)
 {
-	return (getHashKey() == a.getHashKey());
+	return (GetHashKey() == a.GetHashKey());
+}
+
+//
+// Not equal operator
+//
+bool BoardValue::operator!= (BoardValue &a)
+{
+	return (GetHashKey() != a.GetHashKey());
 }
 
 //
 // Hashkey for this boardvalue
 //
-unsigned int BoardValue::getHashKey()
+unsigned int BoardValue::GetHashKey()
 {
     return hashkey;
 }
@@ -460,7 +488,7 @@ unsigned int BoardValue::getHashKey()
 //
 // Maximum depth this boardvalue is valid for
 //
-coord_t BoardValue::getDepth()
+coord_t BoardValue::GetDepth()
 {
     return depth;
 }
@@ -468,7 +496,7 @@ coord_t BoardValue::getDepth()
 //
 // Get piece map
 //
-coord_t * BoardValue::getMap()
+coord_t * BoardValue::GetMap()
 {
     return map;
 }
@@ -476,13 +504,13 @@ coord_t * BoardValue::getMap()
 //
 // Is this boardvalue usable for the specified one?
 //
-bool BoardValue::usableFor(BoardValue *b)
+bool BoardValue::UsableFor(BoardValue *b)
 {
     for(int i=0; i<64; i++) {
-		if( map[i] != b->getMap()[i] ) return false;
+		if( map[i] != b->GetMap()[i] ) return false;
     }
 	
-    if( getDepth() >= b->getDepth() )
+    if( GetDepth() >= b->GetDepth() )
 		return true;
 	
     return false;

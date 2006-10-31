@@ -13,7 +13,7 @@ static void testGetPawnPromotion()
 {
    Pulchess * facade = new Pulchess(HUM_VS_HUM);
    assert_true( facade->loadGame("./tests/games/game005-pawnprom.game") );
-   assert_true( !facade->isGameFinished() );
+   assert_true( !facade->IsGameFinished() );
    
    cellinfo_t cell = facade->getCellInfo(0, 7);
    assert_true( cell.kind  == 'n');

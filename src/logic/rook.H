@@ -31,8 +31,8 @@ class Rook : public Piece {
   Rook(colour_t colour) : Piece(colour) {};
 
   string getName();
-  int getRank();
-  int getKind();
+  int GetRank();
+  int GetKind();
   coord_t getValue();
   bool isValidMove(coord_t pos, Board * b);
   list<Move *> * listMoves(Board * b, list<Move *> *mList);  

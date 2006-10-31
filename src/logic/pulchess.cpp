@@ -20,6 +20,7 @@
 #include "stdheader.h"
 #include "pulchess.H"
 #include "book.H"
+#include <sstream>
 
 /** pulchess engine global vars */
 bool pulchess_log_on = true;
@@ -41,6 +42,17 @@ Pulchess::~Pulchess()
     shutdown();
 }
 
+// reinizializza con diversa modalita'
+void Pulchess::ResetMode(gamemode_t gameMode)
+{
+  this->gameMode = gameMode;
+  this->engineStatus = PULCHESS_STATUS_ZERO;
+  if( board != NULL )
+  {
+	delete board;	 
+  }
+  init();
+}
 
 // inizializza il gioco
 void Pulchess::init()
@@ -137,7 +149,7 @@ cellinfo_t Pulchess::getCellInfo(int x, int y)
     Piece * p;
     cellinfo_t c;
 	
-    p        = board->getPiece(x,y);
+    p        = board->GetPiece(x,y);
 	
     if( p != NULL ) {
 		c.kind   = p->getKindChr();
@@ -152,9 +164,9 @@ cellinfo_t Pulchess::getCellInfo(int x, int y)
 
 
 // il gioco e' finito?
-bool Pulchess::isGameFinished()
+bool Pulchess::IsGameFinished()
 {
-    return board->isGameFinished();
+    return board->IsGameFinished();
 }
 
 
@@ -165,7 +177,7 @@ int Pulchess::whoPlaysNow()
 }
 
 // richiede di giocare a chi di turno
-bool Pulchess::gameCommand(string cmd)
+bool Pulchess::gameCommand(string &cmd)
 {	
 	bool retval;
 	
@@ -185,18 +197,82 @@ bool Pulchess::gameCommand(string cmd)
 	return retval;
 }
 
-//! Il prossimo giocatore e' umano?
+//
+// Play an empty move
+//
+bool Pulchess::gameCommand()
+{
+  string cmd = "";
+  return gameCommand(cmd);
+}
+
+// La stringa data e' una mossa?
+// da spostare nella classe Move come membro statico
+bool Pulchess::IsMove(string &cmd)
+{
+  if( cmd == "O-O" )   return true;
+  if( cmd == "O-O-O" ) return true;
+  if( cmd[0] <= 'h' && cmd[0] >= 'a' &&
+      cmd[2] <= 'h' && cmd[2] >= 'a' && 
+      cmd[1] <= '8' && cmd[1] >= '1' &&
+      cmd[3] <= '8' && cmd[3] >= '1' )
+  {
+    return true;	
+  }
+
+  return false;
+}
+
+// Il prossimo giocatore e' umano?
 bool Pulchess::isHuman()
 {
 	if( board->turn == WHITE )		return whitePlayer->isHuman();
 	else					return blackPlayer->isHuman();
 }
 
+Move * Pulchess::GetLastMove()
+{
+	return (board == NULL) ? NULL : board->GetLastMove();
+}
 
-// chi vince?
+//
+// Game's move report
+//
+string  Pulchess::GetGameMovesReport()
+{
+  string report = "";
+  list<Move *> * mlist;
+  list<Move *>::iterator it;
+     int ct;	
+
+  if( board == NULL ) return report;
+
+  mlist = board->GetMoveList();
+
+  for (ct = 0, it = mlist->begin(); it != mlist->end(); it++, ct++)
+  {
+    if( ct%2 == 0)
+    {
+	  stringstream strs;
+	  string       str;
+	  strs << (ct/2+1);
+	  strs >> str;
+	  report += str;
+	  //report += (ct/2); TODO: fix counter 
+      report += ". ";
+    }
+    report += (*it)->toString();
+    report += " ";
+  }
+  return report;
+}
+
+//
+// Game status
+//
 int Pulchess::gameInfo()
 {
-    return board->whoWins();
+    return board->WhoWins();
 }
 
 void Pulchess::printBoard()

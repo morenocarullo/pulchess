@@ -86,7 +86,7 @@ bool Book::save(const char *filename)
 		for(it=lst->begin(); it!=lst->end(); it++) {
 			// scrive la boardvalue
 			buff[0] = 0;
-			fwrite((*it)->b->getMap(), sizeof(coord_t), 64, fp);
+			fwrite((*it)->b->GetMap(), sizeof(coord_t), 64, fp);
 			fwrite(buff, sizeof(coord_t), 1, fp);	// TODO: castling state + turn state
 			
 			// scrive la mossa			
@@ -108,7 +108,7 @@ void Book::insert(BoardValue *b, Move *m)
 	BookMove * bm = new BookMove;
 	bm->m = m;
 	bm->b = b;
-	map[b->getHashKey()].push_front( bm );
+	map[b->GetHashKey()].push_front( bm );
 }
 
 // Search for this move
@@ -116,11 +116,11 @@ Move * Book::search(BoardValue *b)
 {
 	if( !usable ) return NULL;
 	
-	list<BookMove *> * lst = &map[b->getHashKey()];
+	list<BookMove *> * lst = &map[b->GetHashKey()];
 	list<BookMove *>::iterator it;
 	
 	for(it=lst->begin(); it!=lst->end(); it++) {
-		if( (*it)->b->usableFor(b) ) {
+		if( (*it)->b->UsableFor(b) ) {
 			return (*it)->m;
 		}
 	}

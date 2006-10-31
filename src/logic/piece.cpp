@@ -63,7 +63,7 @@ namespace pulchess { namespace logic {
 
   char Piece::getKindChr()
   {
-    int kinda = getKind();
+    int kinda = GetKind();
 
     switch(kinda) {
 
@@ -133,7 +133,7 @@ namespace pulchess { namespace logic {
     moveCount--;
   }
 
-  int Piece::getMoveCount()
+  int Piece::GetMoveCount()
   {
     return moveCount;
   }
@@ -164,11 +164,11 @@ namespace pulchess { namespace logic {
       for( i=int_x+incrX, j=int_y+incrY;
            i!= int_newx && j!= int_newy;
            i+=incrX, j+=incrY) {
-        p =  b->getPiece(i,j);
+        p =  b->GetPiece(i,j);
         if( p != NULL )
           return false;
       }
-      p = b->getPiece(newpos);
+      p = b->GetPiece(newpos);
       if( p == NULL || ( p != NULL && isEnemy(p) )) {
         return true;
       }
@@ -195,11 +195,11 @@ namespace pulchess { namespace logic {
     if( abs(int_x - int_newx) == 0 ) {
       int incr = ( int_y > int_newy ? -1 : 1 );
       for( int i = int_y+incr; i != int_newy; i += incr ) {
-        p = b->getPiece(int_x, i);
+        p = b->GetPiece(int_x, i);
         if( p != NULL )
           return false;
       }
-      p =  b->getPiece(int_newx, int_newy);
+      p =  b->GetPiece(int_newx, int_newy);
       if( p == NULL || ( p != NULL && isEnemy(p) ) ) {
         return true;
       }
@@ -211,11 +211,11 @@ namespace pulchess { namespace logic {
     else if( abs(int_y - int_newy) == 0 ) {
       int incr = ( int_x > int_newx ? -1 : 1 );
       for( int i = int_x+incr; i != int_newx; i += incr ) {
-        p = b->getPiece(i, int_y);
+        p = b->GetPiece(i, int_y);
         if( p != NULL )
           return false;
       }
-      p =  b->getPiece(int_newx, int_newy);
+      p =  b->GetPiece(int_newx, int_newy);
       if( p == NULL || ( p != NULL && isEnemy(p) ) ) {
         return true;
       }

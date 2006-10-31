@@ -48,7 +48,7 @@ namespace pulchess { namespace logic {
   //! Get piece list as a delegated method
   list<Piece *> * PlayerIF::getPieceList()
   {
-    return _board->listPieces(getColour());
+    return _board->ListPieces(getColour());
   }
 
 };

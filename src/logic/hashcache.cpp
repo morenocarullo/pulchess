@@ -60,7 +60,7 @@ unsigned int HashCache::getSize()
 
 void HashCache::insert(BoardValue *t, int val)
 {
-	unsigned int key = t->getHashKey();
+	unsigned int key = t->GetHashKey();
 	
 	BoardValue *bv   = _vals[ key ];
 	

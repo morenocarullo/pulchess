@@ -21,7 +21,7 @@
 
 namespace pulchess { namespace logic {
 
-  int Rook::getKind()
+  int Rook::GetKind()
   {
     return PIECE_ROOK;
   }
@@ -31,7 +31,7 @@ namespace pulchess { namespace logic {
     return "Rook";
   }
 
-  int Rook::getRank()
+  int Rook::GetRank()
   {
     return 75;
   }
@@ -53,7 +53,7 @@ namespace pulchess { namespace logic {
 #define tower_add_move(X,Y) \
  if( !COORDSOK((X),(Y)) ) continue; \
  if((X) == x && (Y) == y ) continue; \
- p = b->getPiece((X),(Y)); \
+ p = b->GetPiece((X),(Y)); \
  if(p == NULL) { \
    mList->push_back( new Move( xy2pos((X),(Y)), pos) ); \
    continue; \
