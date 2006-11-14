@@ -33,17 +33,20 @@ namespace pulchess { namespace logic {
   class Piece;
   class Board;
   
-  /**
-   * @author moreno
-   */
   class Move
   {
 
   protected:
+	//! Starting place
     coord_t src;
+
+	//! Destination place
     coord_t dst;
 
-    Piece * deadPiece;		
+	//! The eventually eaten piece
+    Piece * deadPiece;
+
+	//! The eventually promoted pawn
     Piece * promotedPawn;
     
   public:
@@ -51,48 +54,44 @@ namespace pulchess { namespace logic {
     Move(coord_t src, coord_t dst);
     virtual ~Move();
 
-    coord_t    getSrcIdx();
-    coord_t    getDstIdx();
+    coord_t    GetSrcIdx();
+    coord_t    GetDstIdx();
 
     coord_t getX();
     coord_t getY();
     coord_t getSourceX();
     coord_t getSourceY();
 
+	//! Play me on specified board
     virtual void play(Board *b);
+
+	//! Rollback me on specified board
     virtual void rewind(Board *b);
-    void commit();
+
+	//! Copy me
     virtual Move * copy();
+
+	//! Set the eventually eaten piece
     void setDeadPiece(Piece *p);
+
+	//! Get the eventually eaten piece
     Piece * getDeadPiece();
+
+	//! Set the promoted pawn for move rollback
     void setPromotedPawn(Piece *p);
+
+	//! Get back the eventually promoted pawn, or NULL
     Piece * getPromotedPawn();
-    void printAllocInfo();
+
+	//! Get a string representation of the move
 	virtual string toString();
+	
+	//! Equal operator
+	bool operator== (Move &a);
   };
 
-
-  //| A coordsException may be thrown when an invalid position is specified
-  class CoordsException
-  {
-    public:
-      CoordsException() {}
-  };
-
-  //! An InvalidMoveException is raised when the specified move is not legal
-  class InvalidMoveException
-  {
-    private:
-      string msg;
-  
-    public:
-      InvalidMoveException() { msg = "-- nessun messaggio specificato --";  }
-      InvalidMoveException(string msg) { this->msg = msg; }
-      string getMsg() { return msg; }
-  };
-
-  //! En passant move
-  /*
+   
+  /**! En passant move
   
    */
   class EPMove : public Move {
@@ -103,7 +102,7 @@ namespace pulchess { namespace logic {
   public:
     EPMove(coord_t dst, coord_t src, coord_t eat);
 
-    coord_t    getEatIdx();
+    coord_t getEatIdx();
     coord_t getEatX();
     coord_t getEatY();
 
@@ -112,9 +111,9 @@ namespace pulchess { namespace logic {
   };
 
 
-  // Move-request move
-  //
-  ////////////////////////////////
+  /**! The "request" move
+  
+   */
   class CoordsMove : public Move {
   public:
     CoordsMove(string move);
@@ -123,6 +122,9 @@ namespace pulchess { namespace logic {
 #define QUEENSIDE_ROOK true
 #define KINGSIDE_ROOK false
   
+  /**! The castling move
+  
+   */
   class RookMove : public Move {
   private:
     coord_t kind;
@@ -135,7 +137,20 @@ namespace pulchess { namespace logic {
     Move * copy();
   };
 
-};
-};
+  /**! An InvalidMoveException is raised when the specified move is not legal
 
+  */
+  class InvalidMoveException
+  {
+    private:
+      string msg;
+  
+    public:
+      InvalidMoveException() { msg = "-- nessun messaggio specificato --";  }
+      InvalidMoveException(string msg) { this->msg = msg; }
+      string getMsg() { return msg; }
+  };
+
+};
+};
 #endif

@@ -1,5 +1,6 @@
 /*
  * PROJECT: PulCHESS, a Computer Chess program
+ * AUTHOR:  Moreno Carullo moreno.carullo [at] pulc [dot] it
  * LICENSE: GPL, see license.txt in project root
  * FILE:    Pawn unit test
  **********************************************************************

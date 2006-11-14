@@ -28,7 +28,6 @@
 		4768FD230ADA972C00B4371E /* rook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD100ADA972C00B4371E /* rook.cpp */; };
 		4768FD240ADA972C00B4371E /* timecontrol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD130ADA972C00B4371E /* timecontrol.cpp */; };
 		47CA5C4C098D83BD00F9E669 /* pulchessx-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 47CA5C4B098D83BD00F9E669 /* pulchessx-icon.png */; };
-		47D01A16099261D1006384DE /* PCGameWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D01A15099261D1006384DE /* PCGameWrapper.m */; };
 		47D01A19099261D6006384DE /* PCMainUiController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 47D01A18099261D6006384DE /* PCMainUiController.mm */; };
 		47D01A510992661D006384DE /* PCChessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D01A500992661D006384DE /* PCChessView.m */; };
 		47D72371099AA433004FAD9D /* piece-b-b.png in Resources */ = {isa = PBXBuildFile; fileRef = 47D72365099AA433004FAD9D /* piece-b-b.png */; };
@@ -126,8 +125,6 @@
 		4768FD130ADA972C00B4371E /* timecontrol.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = timecontrol.cpp; path = ../../src/logic/timecontrol.cpp; sourceTree = SOURCE_ROOT; };
 		4768FD140ADA972C00B4371E /* timecontrol.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = timecontrol.H; path = ../../src/logic/timecontrol.H; sourceTree = SOURCE_ROOT; };
 		47CA5C4B098D83BD00F9E669 /* pulchessx-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pulchessx-icon.png"; path = "stuff/pulchessx-icon.png"; sourceTree = "<group>"; };
-		47D01A14099261D1006384DE /* PCGameWrapper.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PCGameWrapper.h; sourceTree = "<group>"; };
-		47D01A15099261D1006384DE /* PCGameWrapper.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PCGameWrapper.m; sourceTree = "<group>"; };
 		47D01A17099261D6006384DE /* PCMainUiController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PCMainUiController.h; sourceTree = "<group>"; };
 		47D01A18099261D6006384DE /* PCMainUiController.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = PCMainUiController.mm; sourceTree = "<group>"; };
 		47D01A4F0992661D006384DE /* PCChessView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PCChessView.h; sourceTree = "<group>"; };
@@ -164,8 +161,6 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				47D01A14099261D1006384DE /* PCGameWrapper.h */,
-				47D01A15099261D1006384DE /* PCGameWrapper.m */,
 				47D01A17099261D6006384DE /* PCMainUiController.h */,
 				47D01A18099261D6006384DE /* PCMainUiController.mm */,
 				47D01A4F0992661D006384DE /* PCChessView.h */,
@@ -390,7 +385,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
-				47D01A16099261D1006384DE /* PCGameWrapper.m in Sources */,
 				47D01A19099261D6006384DE /* PCMainUiController.mm in Sources */,
 				47D01A510992661D006384DE /* PCChessView.m in Sources */,
 				4757BB7609994D38009C099B /* PCGameThread.mm in Sources */,
@@ -511,18 +505,33 @@
 		47BC3FBC09E5CAD4006ECA27 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_AUTO_VECTORIZATION = NO;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_SSE3_EXTENSIONS = NO;
+				PRODUCT_NAME = PulCHESSX;
 			};
 			name = Development;
 		};
 		47BC3FBD09E5CAD4006ECA27 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_AUTO_VECTORIZATION = NO;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_SSE3_EXTENSIONS = NO;
+				PRODUCT_NAME = PulCHESSX;
 			};
 			name = Deployment;
 		};
 		47BC3FBE09E5CAD4006ECA27 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_AUTO_VECTORIZATION = NO;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_SSE3_EXTENSIONS = NO;
+				PRODUCT_NAME = PulCHESSX;
 			};
 			name = Default;
 		};

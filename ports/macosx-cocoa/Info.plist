@@ -10,6 +10,8 @@
 	<string>pulchessicon</string>
 	<key>CFBundleIdentifier</key>
 	<string>it.pulc.pulChessX</string>
+	<key>CFBundleGetInfoString</key>
+	<string>0.1-dev, Copyright 2005-2006 Moreno Carullo</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -17,7 +19,9 @@
 	<key>CFBundleSignature</key>
 	<string>Moreno</string>
 	<key>CFBundleVersion</key>
-	<string>0.1</string>
+	<string>0.1-dev</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.1-dev</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

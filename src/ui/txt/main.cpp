@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 
   do
   {
-  	cout << "Game mode? (hc, cc, ch, hh, xboard, quit) > ";
+  	cout << "Game mode? (hc, cc, ch, hh, quit) > ";
 	  cin >> mode;
 	  cout << endl;
   

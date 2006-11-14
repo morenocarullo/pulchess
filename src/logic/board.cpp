@@ -442,7 +442,7 @@ BoardValue::BoardValue(Board *b, coord_t depth, unsigned int dstTableSize)
 }
 
 //
-// "deserialize" a BoardValue
+// "Deserialize" a BoardValue
 //
 BoardValue::BoardValue(const coord_t * rec, unsigned int dstTableSize)
 {

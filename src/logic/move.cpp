@@ -26,31 +26,30 @@
 
 using namespace std;
 
-static coord_t char2coord(char c)
+namespace pulchess { namespace logic {
+
+//
+// Convert a char coord into coord_t value
+static inline coord_t char2coord(char c)
 {
-  if( c >= 'a' && c <= 'h' ) {
-    return c - 'a';
-  }
-  else
-    return 255;
+  return (c >= 'a' && c <= 'h') ? c - 'a' : 255;
 }
 
-static char coord2char(coord_t posx)
+//
+// Convert coord_t value into char
+static inline char coord2char(coord_t posx)
 {
    return 'a' + posx;
 }
 
-static char coordn2char(coord_t posy)
+static inline char coordn2char(coord_t posy)
 {
    return '1' + posy;
 }
 
-
-namespace pulchess { namespace logic {
-
+//
 // Create a CoordsMove, the simplest kind of move used for
 // human control purposes.
-//
 CoordsMove::CoordsMove(string move) /* throw InvalidMoveException */
 {
 	char cx, cn_x;
@@ -75,12 +74,16 @@ CoordsMove::CoordsMove(string move) /* throw InvalidMoveException */
 	}
 }
 
-
+//
+// Default ctor
+//
 Move::Move()
 {
 }
 
-
+//
+// Ctor with specified starting and ending place
+//
 Move::Move(coord_t newpos, coord_t startpos)
 {
     this->dst = newpos;
@@ -99,12 +102,17 @@ Move::Move(coord_t newpos, coord_t startpos)
     }
 }
 
-  
+//
+// Default D'stor
+//
 Move::~Move() {}
 
+//
+// Get a string representation of the move
+//
 string Move::toString()
 {
-	string * res;
+	string * res, res2;
 	char buff[5];
 	
 	buff[0] = coord2char(pos2x(src));
@@ -114,8 +122,17 @@ string Move::toString()
 	buff[4] = '\0';
 	
 	res = new string(buff);
-	
-	return *res;
+	res2 = *res;
+	delete res;
+	return res2;
+}
+
+//
+// Equal operator
+//
+bool Move::operator== (Move &a)
+{
+	return (GetSrcIdx() == a.GetSrcIdx() && GetDstIdx() == a.GetDstIdx());
 }
 
 Move * Move::copy()
@@ -128,13 +145,13 @@ Move * Move::copy()
 }
 
 
-coord_t Move::getSrcIdx()
+coord_t Move::GetSrcIdx()
 {
     return src;
 }
 
 
-coord_t Move::getDstIdx()
+coord_t Move::GetDstIdx()
 {
     return dst;
 }
@@ -189,8 +206,8 @@ coord_t Move::getY()
 void Move::play(Board* b)
 {
     coord_t
-	srcI = getSrcIdx(),
-	dstI = getDstIdx();
+	srcI = GetSrcIdx(),
+	dstI = GetDstIdx();
 	
     Piece 
 		*src = b->GetPiece(srcI),
@@ -259,8 +276,8 @@ void Move::play(Board* b)
 void Move::rewind(Board* b)
 {
     coord_t
-	srcI = getDstIdx(),
-	dstI = getSrcIdx();
+	srcI = GetDstIdx(),
+	dstI = GetSrcIdx();
 	
     Piece
 		*src = b->GetPiece(srcI),
@@ -300,17 +317,8 @@ void Move::rewind(Board* b)
 }
 
 //
-// Mossa definitiva. E' stata applicata al gioco, e' possibile eliminare
-// i pezzi "mangiati".
+// En passant move ctor
 //
-void Move::commit()
-{
-    if( deadPiece != NULL ) {
-		delete deadPiece;
-    }
-}
-
-// En passant
 EPMove::EPMove(coord_t newpos, coord_t startpos, coord_t eat) : Move(newpos, startpos)
 {
 	this->dst = newpos;

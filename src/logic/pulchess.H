@@ -83,6 +83,9 @@ namespace pulchess { namespace logic {
 	
 	// il prossimo giocatore e' umano?
 	bool isHuman();
+	
+	//! Is the requested player human?
+	bool IsHuman(const colour_t colour);
 
     // gioca la mossa del turno attuale
     bool gameCommand(string &cmd);

@@ -42,7 +42,9 @@ Pulchess::~Pulchess()
     shutdown();
 }
 
-// reinizializza con diversa modalita'
+//
+// Change game mode
+//
 void Pulchess::ResetMode(gamemode_t gameMode)
 {
   this->gameMode = gameMode;
@@ -226,8 +228,18 @@ bool Pulchess::IsMove(string &cmd)
 // Il prossimo giocatore e' umano?
 bool Pulchess::isHuman()
 {
-	if( board->turn == WHITE )		return whitePlayer->isHuman();
-	else					return blackPlayer->isHuman();
+	if( engineStatus == PULCHESS_STATUS_ZERO ) return false;
+	if( board->turn == WHITE ) return whitePlayer->isHuman();
+	else					   return blackPlayer->isHuman();
+}
+
+//
+// Is the specified player human?
+//
+bool Pulchess::IsHuman(const colour_t colour)
+{
+	if( engineStatus == PULCHESS_STATUS_ZERO ) return false;
+	return (colour == WHITE) ? whitePlayer->isHuman() : blackPlayer->isHuman(); 
 }
 
 Move * Pulchess::GetLastMove()
@@ -258,7 +270,6 @@ string  Pulchess::GetGameMovesReport()
 	  strs << (ct/2+1);
 	  strs >> str;
 	  report += str;
-	  //report += (ct/2); TODO: fix counter 
       report += ". ";
     }
     report += (*it)->toString();

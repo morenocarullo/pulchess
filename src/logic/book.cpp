@@ -90,8 +90,8 @@ bool Book::save(const char *filename)
 			fwrite(buff, sizeof(coord_t), 1, fp);	// TODO: castling state + turn state
 			
 			// scrive la mossa			
-			buff[0] = (*it)->m->getSrcIdx();
-			buff[1] = (*it)->m->getDstIdx();
+			buff[0] = (*it)->m->GetSrcIdx();
+			buff[1] = (*it)->m->GetDstIdx();
 			fwrite(buff, sizeof(coord_t), 2, fp);
 		}
 	}

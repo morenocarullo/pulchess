@@ -107,7 +107,7 @@ Move * HumanPlayer::getMove(string moveCmd)
 	   return NULL;
 	}
 	
-	srcp = _board->GetPiece( coords->getSrcIdx() );
+	srcp = _board->GetPiece( coords->GetSrcIdx() );
 	
 	// errore: qui non c'e' nessun pezzo
 	if( srcp == NULL ) return NULL;
@@ -117,8 +117,8 @@ Move * HumanPlayer::getMove(string moveCmd)
 	
 	srcp->listMoves(_board, &mList);
 	for(mListIt = mList.begin(); mListIt != mList.end(); mListIt++) {
-		if( (*mListIt)->getSrcIdx() == coords->getSrcIdx() &&
-			(*mListIt)->getDstIdx() == coords->getDstIdx() ) {
+		if( (*mListIt)->GetSrcIdx() == coords->GetSrcIdx() &&
+			(*mListIt)->GetDstIdx() == coords->GetDstIdx() ) {
 			Move * copy = (*mListIt)->copy();
 			moveListDestroy(&mList);
 			return copy;
