@@ -28,6 +28,7 @@ namespace pulchess {
 
 XBoard::XBoard()
 {
+	cout.setf(ios::unitbuf);
 }
 
 XBoard::~XBoard()
@@ -46,6 +47,7 @@ void XBoard::unknownCommand(string &cmd)
 //
 void XBoard::unimplCommand(string &cmd)
 {
+	cerr << "[pulchess-error] unknown comman " << cmd << endl;
 }
 
 bool XBoard::readCommand()
@@ -68,6 +70,7 @@ void XBoard::mainLoop()
 	if( pulchess != NULL && pulchess->IsMove(buff))
     {
 	  pulchess->gameCommand(buff);
+	  continue;
     }
 	
 	// start deciding on the first char
