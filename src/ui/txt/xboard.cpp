@@ -198,6 +198,10 @@ void XBoard::mainLoop()
 		* st :
 */
 		break;
+		
+    default:
+      unknownCommand(buff);
+      break;
 	}
   }
 
