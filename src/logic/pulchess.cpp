@@ -22,6 +22,8 @@
 #include "book.H"
 #include <sstream>
 
+static const char version[] = "pulchess 0.1";
+
 /** pulchess engine global vars */
 bool pulchess_log_on = true;
 
@@ -43,6 +45,14 @@ Pulchess::~Pulchess()
 }
 
 //
+// Get a string containing engine's name and version
+//
+string Pulchess::GetPulchessVersion()
+{
+	return string(version);
+}
+
+//
 // Change game mode
 //
 void Pulchess::ResetMode(gamemode_t gameMode)
@@ -56,7 +66,9 @@ void Pulchess::ResetMode(gamemode_t gameMode)
   init();
 }
 
-// inizializza il gioco
+//
+// Init engine
+//
 void Pulchess::init()
 {
     // seleziona la modalita' di gioco.

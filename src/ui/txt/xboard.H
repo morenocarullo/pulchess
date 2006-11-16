@@ -43,6 +43,12 @@ class XBoard
     
     //! Ask the engine to play a move
     void goCommand();
+
+    //! Send xboard2 features
+    void sendFeatures();
+
+    //! Check if the game is finished and send back info
+    void CheckSendResult();
       
   public:
     XBoard();

@@ -29,10 +29,23 @@ XBoard::XBoard()
 {
 	cout.setf(ios::unitbuf);
 	pulchess_log_off();
+	sendFeatures();
 }
 
 XBoard::~XBoard()
 {
+}
+
+//
+// Send features to xboard
+//
+void XBoard::sendFeatures()
+{
+	cout << "feature ";
+	cout << "myname=\"" << Pulchess::GetPulchessVersion() <<"\" ";
+	cout << "sigint=0 sigterm=0 ";
+    cout << "analyze=0";
+	cout << endl;
 }
 
 //
@@ -51,6 +64,9 @@ void XBoard::unimplCommand(string &cmd)
 	cout << "telluser unimplemented command!:" << cmd << endl;
 }
 
+//
+// Read command from standard input
+//
 bool XBoard::readCommand()
 {
   cin >> buff;
@@ -68,7 +84,31 @@ void XBoard::goCommand()
        pulchess->gameCommand();
        Move * lastMove = pulchess->GetLastMove();
        cout << "move " << lastMove->toString() << endl;
+       CheckSendResult();
      }
+}
+
+//
+// Check if game is finished and send back info
+//
+void XBoard::CheckSendResult()
+{
+	if( pulchess == NULL ) return;
+	if( pulchess->IsGameFinished() )
+	{
+		string result;
+		switch(pulchess->gameInfo())
+		{
+			case PULCHESS_WHITE:
+			  result = "0-1 {Black mates}";
+			  break;
+			
+			case PULCHESS_BLACK:
+			  result = "1-0 {White mates}";
+			  break;
+		}
+		cout << result << endl;
+	}
 }
 
 //
@@ -88,7 +128,14 @@ void XBoard::mainLoop()
       {
 	     cout << "Illegal move: " << buff << endl;	
       }
-	  goCommand();
+      else
+      {
+         CheckSendResult();
+      }
+	  if( !pulchess->IsGameFinished() )
+      {
+        goCommand();
+	  }
 	  continue;
     }
 	
@@ -102,14 +149,6 @@ void XBoard::mainLoop()
 	      pulchess = new Pulchess(HUM_VS_CPU);
 	      pulchess->init();
 	    }
-	    break;
-	
-	  // new
-	  case 'm':
-	    //if( buff == "move" )
-	    //{
-        //   usa sscanf per trovare la mossa 
-        //}
 	    break;
 
 	  // variant - UNSUPPORTED
@@ -189,14 +228,6 @@ void XBoard::mainLoop()
 		break;
 
 	case '?':
-		break;
-		
-	case 's':
-/*
-		* sd :
-		*
-		* st :
-*/
 		break;
 		
     default:

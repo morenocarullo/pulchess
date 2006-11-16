@@ -58,7 +58,10 @@ namespace pulchess { namespace logic {
   public:
 
     Pulchess(gamemode_t gameMode);
-    ~Pulchess();    
+    ~Pulchess();
+
+    //! Get a string containing engine's name and version
+    static string GetPulchessVersion();
 
     // inizializza il gioco
     void init();
