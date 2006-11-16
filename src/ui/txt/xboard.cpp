@@ -40,6 +40,7 @@ XBoard::~XBoard()
 //
 void XBoard::unknownCommand(string &cmd)
 {
+	cout << "Error (unknown command): " << cmd << endl;
 }
 
 //
@@ -47,6 +48,7 @@ void XBoard::unknownCommand(string &cmd)
 //
 void XBoard::unimplCommand(string &cmd)
 {
+	cout << "telluser unimplemented command!:" << cmd << endl;
 }
 
 bool XBoard::readCommand()
@@ -79,10 +81,13 @@ void XBoard::mainLoop()
 
   while(readCommand() && run)
   {
-	// if move... play it
+	// if it is a move... play it
 	if( pulchess != NULL && pulchess->IsMove(buff))
     {
-	  pulchess->gameCommand(buff);
+	  if( !pulchess->gameCommand(buff) )
+      {
+	     cout << "Illegal move: " << buff << endl;	
+      }
 	  goCommand();
 	  continue;
     }
@@ -125,11 +130,10 @@ void XBoard::mainLoop()
       // gioco randomizzato
 	  case 'r':
 		if( buff == "random" )
-	    {
-		  unknownCommand(buff);
-		  continue;
-	    }
-	    unimplCommand(buff);	  
+		{
+			// randomize plays
+			// currently pulchess ignores this
+		}	  
 	    break;
 
       // force mode
@@ -185,8 +189,8 @@ void XBoard::mainLoop()
 		break;
 
 	case '?':
-		break;  
-
+		break;
+		
 	case 's':
 /*
 		* sd :
