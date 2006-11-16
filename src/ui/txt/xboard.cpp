@@ -18,7 +18,6 @@
  * $Id$
 */
 #include "xboard.H"
-#include "pulchess.H"
 #include <iostream>
 
 using namespace std;
@@ -29,6 +28,7 @@ namespace pulchess {
 XBoard::XBoard()
 {
 	cout.setf(ios::unitbuf);
+	pulchess_log_off();
 }
 
 XBoard::~XBoard()
@@ -47,7 +47,6 @@ void XBoard::unknownCommand(string &cmd)
 //
 void XBoard::unimplCommand(string &cmd)
 {
-	cerr << "[pulchess-error] unknown comman " << cmd << endl;
 }
 
 bool XBoard::readCommand()
@@ -57,12 +56,26 @@ bool XBoard::readCommand()
 }
 
 //
+// Go! Command
+//
+void XBoard::goCommand()
+{
+     if( pulchess == NULL ) return;
+     if( !pulchess->isHuman() )
+     {
+       pulchess->gameCommand();
+       Move * lastMove = pulchess->GetLastMove();
+       cout << "move " << lastMove->toString() << endl;
+     }
+}
+
+//
 // Main game loop
 //
 void XBoard::mainLoop()
 {
   run = true;
-  Pulchess * pulchess = NULL;
+  pulchess = NULL;
 
   while(readCommand() && run)
   {
@@ -70,6 +83,7 @@ void XBoard::mainLoop()
 	if( pulchess != NULL && pulchess->IsMove(buff))
     {
 	  pulchess->gameCommand(buff);
+	  goCommand();
 	  continue;
     }
 	
@@ -81,6 +95,7 @@ void XBoard::mainLoop()
 	    if( buff == "new" )
 	    {
 	      pulchess = new Pulchess(HUM_VS_CPU);
+	      pulchess->init();
 	    }
 	    break;
 	
@@ -101,10 +116,10 @@ void XBoard::mainLoop()
 	  case 'q':
 	    if( buff == "quit" )
 	    {
-		  unknownCommand(buff);
-		  continue;
+	     run = false;
+	     delete pulchess;
+	     return;
 	    }
-	    run = false;
 	    break;
 
       // gioco randomizzato
@@ -139,13 +154,7 @@ void XBoard::mainLoop()
       case 'g':
 		if( buff == "go" )
         {
-		  if( pulchess == NULL ) continue;
-		  if( !pulchess->isHuman() )
-          {
-	        pulchess->gameCommand();
-            Move * lastMove = pulchess->GetLastMove();
-            cout << "move " << lastMove->toString() << endl;
-          }
+          goCommand();
 		  continue;
         }
 	    break;
@@ -176,7 +185,7 @@ void XBoard::mainLoop()
 		break;
 
 	case '?':
-		break;
+		break;  
 
 	case 's':
 /*

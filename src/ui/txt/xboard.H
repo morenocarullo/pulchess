@@ -23,8 +23,10 @@
 #define _pulchess_xboard_h_
 
 #include <string>
+#include "pulchess.H"
 
 using namespace std;
+using namespace pulchess::logic;
 
 namespace pulchess {
 
@@ -32,11 +34,15 @@ namespace pulchess {
 class XBoard
 {
   private:
+    Pulchess * pulchess;
     string buff;
     bool run;
     bool readCommand();   
     void unknownCommand(string &cmd);
     void unimplCommand(string &cmd);
+    
+    //! Ask the engine to play a move
+    void goCommand();
       
   public:
     XBoard();
