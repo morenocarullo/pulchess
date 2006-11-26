@@ -28,17 +28,17 @@ namespace pulchess { namespace logic {
   
   int Bishop::GetRank()
   {
-    return 50; // bishop's rank
+    return PIECE_RANK_BISHOP; // bishop's rank
   }
 
-  coord_t Bishop::getValue()
+  coord_t Bishop::GetValue()
   {
     return (coord_t)7 + colour*3;
   }
 
-  bool Bishop::isValidMove(coord_t newpos, Board * b)
+  bool Bishop::IsValidMove(coord_t newpos, Board * b)
   {
-    return isValidMove_diag(newpos, b);
+    return IsValidMove_diag(newpos, b);
   }
   
   list<Move *> * Bishop::listMoves(Board* b, list<Move *> *mList)
@@ -56,7 +56,7 @@ namespace pulchess { namespace logic {
         p = b->GetPiece(i,j); \
         if( i==x && j==y ) continue; \
 		if( p != NULL ) { \
-			if( isEnemy(p) ) { \
+			if( IsEnemy(p) ) { \
 				mList->push_back( new Move( xy2pos(i,j), pos) ); \
 			} \
 			goto GOTOLABEL; \

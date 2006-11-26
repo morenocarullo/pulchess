@@ -29,15 +29,14 @@ using namespace pulchess::logic;
 
 
 //! Print the welcome lines
-void printGreeting(void)
+static void printGreeting(void)
 {
-  cout << "Pulchess 0.1 -- " << __DATE__ << endl;
+  cout << Pulchess::GetPulchessVersion() << " -- " << __DATE__ << endl;
   cout << "2005-2006 (C) Moreno Carullo" << endl;
   cout << "" << endl;
   cout << "Type quit anytime to exit."<< endl;
   cout << "" << endl;  
 }
-
 
 //! Entry point for the CLI version of Pulchess
 int main(int argc, char *argv[])
@@ -100,11 +99,11 @@ int main(int argc, char *argv[])
   }
   while(!menuOk);
 
-  pulchess->init();
+  pulchess->Init();
 
   while( !pulchess->IsGameFinished() ) {
     pulchess->printBoard();
-    if( pulchess->isHuman() )
+    if( pulchess->IsHuman() )
     {
       cout << "Mossa? > ";
 	  cin >> cmd;

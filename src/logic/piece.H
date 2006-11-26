@@ -23,12 +23,19 @@
 #define _pulchess_logic_piece_h_
 
 #define PIECE_NONE    -1
-#define PIECE_SOLDIER 1
+#define PIECE_PAWN    1
 #define PIECE_BISHOP  2
 #define PIECE_KNIGHT  4
 #define PIECE_ROOK    8
 #define PIECE_QUEEN   16
 #define PIECE_KING    32
+
+#define PIECE_RANK_PAWN 16
+#define PIECE_RANK_BISHOP 50
+#define PIECE_RANK_KNIGHT 50
+#define PIECE_RANK_ROOK 75
+#define PIECE_RANK_QUEEN 250
+#define PIECE_RANK_KING 3000000
 
 using namespace std;
 
@@ -37,7 +44,7 @@ namespace pulchess { namespace logic {
 	class Move;
 	class Board;
 	
-	//!
+	//! Represents a generic piece on chessboard
 	class Piece
 	{
 		
@@ -65,11 +72,22 @@ namespace pulchess { namespace logic {
 		Piece(colour_t colour);
 		virtual ~Piece();
 		
-		colour_t getColour();
-		bool isEnemy(Piece *p);
+		//! Get player's colour (white or black)
+		colour_t GetColour();
+
+        //! Is the supplied piece p an enemy?
+		bool IsEnemy(Piece *p);
+
+        //! Get x position on chessboard
 		coord_t  getX();
+		
+        //! Get y position on chessboard
 		coord_t  getY();
+
+        //! Get position (index) on chessboard
 		coord_t     getPos();
+		
+        //! Move this piece to specified position (index)
 		void moveTo(coord_t pos);
 		int    GetMoveCount();
 		void   setMoveCount(int ct);
@@ -80,10 +98,10 @@ namespace pulchess { namespace logic {
 		void   rollback(coord_t pos);
 		
 		//! Can I reach "pos" from current position, moving in diagonal?
-		bool isValidMove_diag(coord_t pos, Board *b);
+		bool IsValidMove_diag(coord_t pos, Board *b);
 		
 		//! Can I reach "pos" from current position, moving hor. or vert.?
-		bool isValidMove_croce(coord_t pos, Board *b);
+		bool IsValidMove_croce(coord_t pos, Board *b);
 		
 		//! Is there another move left?
 		bool    hasNextMove(Board* b);
@@ -95,13 +113,13 @@ namespace pulchess { namespace logic {
 		virtual list<Move *> * listMoves(Board *b, list<Move *> *mList) = 0;
 		
 		//! Says whether this move is valid or not
-		virtual bool    isValidMove(coord_t pos, Board * b) = 0;
+		virtual bool    IsValidMove(coord_t pos, Board * b) = 0;
 		
 		//! This piece's rank
 		virtual int     GetRank() = 0;
 		
 		//! This piece value for hash function calc
-		virtual coord_t    getValue() = 0;
+		virtual coord_t    GetValue() = 0;
 		
 		//! Give an evaluation of current position	
 		virtual int	getPosEvaluation();
@@ -109,5 +127,4 @@ namespace pulchess { namespace logic {
 	
 }; // end logic namespace
 }; // end pulchess namespace
-
 #endif

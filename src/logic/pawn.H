@@ -32,23 +32,13 @@ namespace pulchess { namespace logic {
     //! Create a new pawn, given its colour
     Pawn(colour_t colour) : Piece(colour) {};
 
-	//! What kind of piece am i?
-    int GetKind();
-	
-	//! This piece's rank
-    int GetRank();
-	
-	//! Piece position
-    coord_t getValue();
-	
-	//! Get valid moves list
+    int     GetKind();
+    int     GetRank();
+    coord_t GetValue();
+    bool    IsValidMove(coord_t pos, Board * b);
+	int     getPosEvaluation();
+
     list<Move *> * listMoves(Board* b, list<Move *> *mList);
-	
-	//! Is the specified one a valid move?
-    bool isValidMove(coord_t pos, Board * b);
-	
-	//! Give an evaluation of current position
-	int getPosEvaluation();
   };
 
 }; // end logic namespace

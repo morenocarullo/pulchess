@@ -35,8 +35,8 @@ static void testListMoves_start()
   
   Move	m1(xy2pos(4,3), xy2pos(4,1)),
 		m2(xy2pos(4,5), xy2pos(4,7));
-  m1.play(&b); // white's move
-  m2.play(&b); // black's move
+  m1.Play(&b); // white's move
+  m2.Play(&b); // black's move
 
   k = (King *)b.GetPiece(4,0);
 
@@ -46,8 +46,8 @@ static void testListMoves_start()
 
   for(lmit = mList->begin();  lmit != mList->end();  lmit++){
 	BoardValue bvalue(&b, 99, 97);
-    (*lmit)->play( &b );
-    (*lmit)->rewind( &b );
+    (*lmit)->Play( &b );
+    (*lmit)->Rewind( &b );
 	BoardValue postBvalue(&b, 99, 97);
 	assert_true( bvalue == postBvalue );
   }

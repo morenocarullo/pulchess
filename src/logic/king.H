@@ -1,8 +1,8 @@
 /*
 * PROJECT: PulCHESS, a Computer Chess program
+* AUTHOR:  Moreno Carullo
 * LICENSE: GPL, see license.txt in project root
 * FILE:    King class header
-*
 **********************************************************************
 * This program is free software; you can redistribute it and/or modify         
 * it under the terms of the GNU General Public License as published by      
@@ -15,7 +15,6 @@
 * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
 * for more details.                                                         
 **********************************************************************
-*    
 * Created on 15-lug-2005
 * $Id$
 */
@@ -27,7 +26,7 @@
 
 namespace pulchess { namespace logic {
 
-  //! King is a kind of piece
+  //! The King (K) piece
   class King : public Piece
   {
     
@@ -36,13 +35,13 @@ namespace pulchess { namespace logic {
 
     int GetKind();
     int GetRank();
-    coord_t getValue();
+    coord_t GetValue();
 	int getPosEvaluation();
     list<Move *> * listMoves(Board* b, list<Move *> *mList);
-    bool    isValidMove(coord_t pos, Board * b);
+    bool    IsValidMove(coord_t pos, Board * b);
   };
 
-};
-};
+}; // end logic namespace
+}; // end pulchess namespace
 
 #endif

@@ -52,8 +52,8 @@ namespace pulchess { namespace logic {
     Board * board;
 	int engineStatus;
     gamemode_t gameMode;
-    PlayerIF * whitePlayer;
-    PlayerIF * blackPlayer;
+    Player * whitePlayer;
+    Player * blackPlayer;
 
   public:
 
@@ -64,13 +64,13 @@ namespace pulchess { namespace logic {
     static string GetPulchessVersion();
 
     // inizializza il gioco
-    void init();
+    void Init();
 
     // reimposta il gioco
     void ResetMode(gamemode_t gameMode);
 
     // chiude il gioco
-    void shutdown();
+    void Shutdown();
     
     // ricostruisce la scacchiera
     cellinfo_t getCellInfo(int x, int y);
@@ -85,7 +85,7 @@ namespace pulchess { namespace logic {
     int whoPlaysNow();
 	
 	// il prossimo giocatore e' umano?
-	bool isHuman();
+	bool IsHuman();
 	
 	//! Is the requested player human?
 	bool IsHuman(const colour_t colour);
@@ -112,7 +112,7 @@ namespace pulchess { namespace logic {
 	bool loadGame(const char *gamePath);
   };
 
-};
-};
+}; // end logic namespace
+}; // end pulchess namespace
 
 #endif

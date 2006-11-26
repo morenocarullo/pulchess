@@ -26,24 +26,19 @@ namespace pulchess { namespace logic {
     return PIECE_ROOK;
   }
 
-  string Rook::getName()
-  {
-    return "Rook";
-  }
-
   int Rook::GetRank()
   {
-    return 75;
+    return PIECE_RANK_ROOK;
   }
 
-  coord_t Rook::getValue()
+  coord_t Rook::GetValue()
   {
     return 7 + colour*4;
   }
 
-  bool Rook::isValidMove(coord_t pos, Board * b)
+  bool Rook::IsValidMove(coord_t pos, Board * b)
   {
-    return isValidMove_croce(pos, b);
+    return IsValidMove_croce(pos, b);
   }
 
   list<Move *> * Rook::listMoves(Board * b, list<Move *> *mList)
@@ -59,7 +54,7 @@ namespace pulchess { namespace logic {
    continue; \
  } \
  else if( p != NULL ) { \
-    if( isEnemy(p) ) \
+    if( IsEnemy(p) ) \
 	  mList->push_front( new Move( xy2pos((X),(Y)), pos) ); \
      break;  \
  } \

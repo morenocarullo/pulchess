@@ -259,8 +259,8 @@
 							<array>
 								<string>29B97314FDCFA39411CA2CEA</string>
 								<string>080E96DDFE201D6D7F000001</string>
-								<string>1C37FAAC04509CD000000102</string>
 								<string>1C37FABC05509CD000000102</string>
+								<string>1CC0EA4004350EF90041110B</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
@@ -320,7 +320,7 @@
 										<key>_historyCapacity</key>
 										<integer>20</integer>
 										<key>bookmark</key>
-										<string>47F1B70A0AFBAD5600045F72</string>
+										<string>47E2C07F0B1A494E00CBC322</string>
 										<key>history</key>
 										<array>
 											<string>4768FD250ADA97A200B4371E</string>
@@ -329,15 +329,14 @@
 											<string>4788F3000AE1400200488C19</string>
 											<string>4788F3010AE1400200488C19</string>
 											<string>47A12F750AE92E7C0084BD17</string>
-											<string>47A12F760AE92E7C0084BD17</string>
 											<string>479B3C170AF69CEA00AD530C</string>
 											<string>479B3CA30AF6AA1C00AD530C</string>
 											<string>4753ED6E0AFBA66200E7784A</string>
 											<string>47F1B6D50AFBA84400045F72</string>
 											<string>47F1B7020AFBA8A500045F72</string>
-											<string>47F1B7030AFBA8A500045F72</string>
 											<string>47F1B7070AFBAD5600045F72</string>
-											<string>47F1B7080AFBAD5600045F72</string>
+											<string>47E2C07B0B1A494E00CBC322</string>
+											<string>47E2C07C0B1A494E00CBC322</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -353,14 +352,10 @@
 											<string>47A12F7A0AE92E7C0084BD17</string>
 											<string>479B3C200AF69CEA00AD530C</string>
 											<string>4753ED720AFBA66200E7784A</string>
-											<string>47F1B6C30AFBA74300045F72</string>
 											<string>47F1B6D90AFBA84400045F72</string>
 											<string>47F1B6DA0AFBA84400045F72</string>
-											<string>47F1B6DB0AFBA84400045F72</string>
-											<string>47F1B6DC0AFBA84400045F72</string>
-											<string>47F1B7040AFBA8A500045F72</string>
-											<string>47F1B7050AFBA8A500045F72</string>
-											<string>47F1B7090AFBAD5600045F72</string>
+											<string>47E2C07D0B1A494E00CBC322</string>
+											<string>47E2C07E0B1A494E00CBC322</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -418,9 +413,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>47F1B6C50AFBA74300045F72</string>
+				<string>47E2C0780B1A487300CBC322</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>47F1B6C60AFBA74300045F72</string>
+				<string>47E2C0790B1A487300CBC322</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -590,14 +585,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>PCMainUiController.h</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -653,7 +646,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>47C5461609902F54000158CF</string>
-				<string>47F1B6DF0AFBA84400045F72</string>
+				<string>47E2C07A0B1A487300CBC322</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>

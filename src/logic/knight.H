@@ -1,5 +1,6 @@
 /*
 * PROJECT: PulCHESS, a Computer Chess program
+* AUTHOR:  Moreno Carullo
 * LICENSE: GPL, see license.txt in project root
 * FILE: Knight interface
 **********************************************************************
@@ -24,20 +25,23 @@
 
 namespace pulchess { namespace logic {
 
+  //! The Knight (N) piece.
   class Knight : public Piece
   {
   
   public:
     Knight(colour_t colour) : Piece(colour) {};
-    int GetKind();
-    int GetRank();
-    coord_t getValue();
+
+    int     GetKind();
+    int     GetRank();
+    coord_t GetValue();
+    bool    IsValidMove(coord_t pos, Board * b);
+	int     getPosEvaluation();
+	
     list<Move *> * listMoves(Board* b, list<Move *> *mList);
-    bool isValidMove(coord_t pos, Board * b);
-	int getPosEvaluation();
   };
 
-};
-};
+}; // end logic namespace
+}; // end pulchess namespace
 
 #endif

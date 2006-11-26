@@ -34,12 +34,15 @@ namespace pulchess { namespace logic {
          It represents the AI player and uses various search techniques
          to find the right move.
 	*/
-	class CPUPlayer : public PlayerIF
+	class CPUPlayer : public Player
 	{
 
 	private:
 		//! Pointer to best move
 		Move *bestMove;
+		
+		//! Last result of a move
+		int moveResult;
 		
 		//! Ply depth
 		int plyDeep;
@@ -64,18 +67,19 @@ namespace pulchess { namespace logic {
 		~CPUPlayer();
 		
 		//! Request move
-		bool doMove(string moveCmd);
+		bool DoMove(string moveCmd);
 		
 		//! Iterative deepening
-		void idab(int depth);		
+		void Idab(int depth);		
 		
 		//! Do alphabeta search
-		int alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, int beta);
+		int Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, int beta);
 		
 		//! Choose a piece in place of a soldier
-		Piece * choosePawnPiece();
+		Piece * ChoosePawnPiece();
 		
 	}; // end class
+	
 }; // end ns logic
 }; // end ns pulchess
 

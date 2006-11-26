@@ -143,7 +143,7 @@
 		47D72370099AA433004FAD9D /* piece-w-r.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece-w-r.png"; sourceTree = "<group>"; };
 		47E0F56E09950A0C0041E14D /* black-pawn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "black-pawn.png"; path = "stuff/black-pawn.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* PulCHESSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PulCHESSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* PulCHESSX.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PulCHESSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

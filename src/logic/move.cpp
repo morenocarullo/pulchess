@@ -22,7 +22,7 @@
 
 #define CANCPIECE(X) b->PieceListDel((X));
 #define ADDPIECE(X) b->PieceListAdd((X));
-#define VIOLATURNO(X) ( (X)->getColour() != b->turn )
+#define VIOLATURNO(X) ( (X)->GetColour() != b->turn )
 
 using namespace std;
 
@@ -203,7 +203,7 @@ coord_t Move::getY()
     return pos2y(dst);             
 }  
 
-void Move::play(Board* b)
+int Move::Play(Board* b)
 {
     coord_t
 	srcI = GetSrcIdx(),
@@ -249,14 +249,14 @@ void Move::play(Board* b)
     // se il fante arriva in fondo...
     // ...va promosso!
     //
-    if( src->GetKind() == PIECE_SOLDIER ) {
-		if(  (src->getColour() == BLACK && src->getY() == 0) ||
-			 (src->getColour() == WHITE && src->getY() == 7) )
+    if( src->GetKind() == PIECE_PAWN ) {
+		if(  (src->GetColour() == BLACK && src->getY() == 0) ||
+			 (src->GetColour() == WHITE && src->getY() == 7) )
 		{	 
 			// chiede all'utente di scegliere che pezzo inserire
 			// al posto del fante appena "promosso".
 			Piece *newPiece;
-			newPiece = b->GetPlayer( src->getColour() )->choosePawnPiece();
+			newPiece = b->GetPlayer( src->GetColour() )->ChoosePawnPiece();
 			ADDPIECE( newPiece );
 			b->SetPiece( dstI, newPiece );
 			newPiece->moveTo( dstI );
@@ -271,9 +271,12 @@ void Move::play(Board* b)
     // incrementiamo il contatore delle mosse ed il turno
     b->moveCount++;
     b->turn = ENEMY(b->turn);
+
+    // return 1 if we ate a piece
+    return getDeadPiece() != NULL ? getDeadPiece()->GetRank() : 0;
   }
 
-void Move::rewind(Board* b)
+void Move::Rewind(Board* b)
 {
     coord_t
 	srcI = GetDstIdx(),
@@ -337,14 +340,16 @@ EPMove::EPMove(coord_t newpos, coord_t startpos, coord_t eat) : Move(newpos, sta
 	}
 }
 
-void EPMove::play(Board *b)
+int EPMove::Play(Board *b)
 {
     Piece *pEaten = NULL;
     pEaten = b->GetPiece( getEatIdx() );
-    Move::play(b);
+    Move::Play(b);
     setDeadPiece( pEaten );
     CANCPIECE( pEaten );
-    b->SetPiece( getEatIdx(), NULL);    
+    b->SetPiece( getEatIdx(), NULL);
+
+    return 1; // special effect: pawn eats pawn    
 }
 
 coord_t EPMove::getEatIdx()
@@ -403,7 +408,7 @@ RookMove::RookMove(bool rookKind, colour_t colour)
 }
 
 
-void RookMove::play(Board *b)
+int RookMove::Play(Board *b)
 {
     coord_t rkpos_src, kipos_src, rkpos_dst, kipos_dst;
 	
@@ -443,13 +448,15 @@ void RookMove::play(Board *b)
     b->SetPiece( rkpos_dst, b->GetPiece( rkpos_src ) );
     b->GetPiece( rkpos_dst )->moveTo( rkpos_dst );
 	b->SetPiece( rkpos_src, NULL );
+	
+	return 0; // no special effect
 }
 
 
 // "Disfa" la mossa, torna alla situazione precedente.
 //
 //////////////////////////////////////////////////////
-void RookMove::rewind(Board *b)
+void RookMove::Rewind(Board *b)
 {
     coord_t rkpos_src, kipos_src, rkpos_dst, kipos_dst;
 	

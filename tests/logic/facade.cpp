@@ -63,7 +63,7 @@ static void testLoadGame()
 static void testResetGame()
 {
    Pulchess *pulchess = new Pulchess(HUM_VS_HUM);
-   pulchess->init();
+   pulchess->Init();
 
    assert_true( pulchess != NULL );
    assert_true( pulchess->IsHuman(PULCHESS_WHITE) );

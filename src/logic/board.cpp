@@ -22,24 +22,24 @@
 #define piece_at(X,Y)  _map[ (Y)*8 + (X) ]
 #define piece_dr(I)    _map[ (I) ]
 
-#define CANCPIECE(X) { (X)->getColour() == WHITE ? whiteList.remove(X) : blackList.remove(X); }
-#define ADDPIECE(X) { (X)->getColour() == WHITE ? whiteList.push_back(X) : blackList.push_back(X); }
-#define VIOLATURNO(X) ( (X)->getColour() != turn )
+#define CANCPIECE(X) { (X)->GetColour() == WHITE ? whiteList.remove(X) : blackList.remove(X); }
+#define ADDPIECE(X) { (X)->GetColour() == WHITE ? whiteList.push_back(X) : blackList.push_back(X); }
+#define VIOLATURNO(X) ( (X)->GetColour() != turn )
 
 namespace pulchess { namespace logic {
 
 //
 // Board ctor
 //	
-Board::Board(PlayerIF * white, PlayerIF * black)
+Board::Board(Player * white, Player * black)
 {
 		// assign players
 		_whitePlayer = white;
 		_blackPlayer = black;
 		
 		if(_whitePlayer != NULL && _blackPlayer != NULL ) {
-			_whitePlayer->setBoard(this);
-			_blackPlayer->setBoard(this);
+			_whitePlayer->SetBoard(this);
+			_blackPlayer->SetBoard(this);
 		}
 		
 		// il bianco inizia per primo!
@@ -115,7 +115,7 @@ void Board::PieceListAdd(Piece *p)
 {
     ADDPIECE(p);
     if( p->GetKind() == PIECE_KING ) {
-      if( p->getColour() == WHITE) {
+      if( p->GetColour() == WHITE) {
 	_whiteKing = (King *)p;
       }
       else {
@@ -131,7 +131,7 @@ void Board::PieceListDel(Piece *p)
 {
     CANCPIECE(p);
     if( p->GetKind() == PIECE_KING ) {
-      if( p->getColour() == WHITE ) {
+      if( p->GetColour() == WHITE ) {
 	_whiteKing = NULL;
       } else {
 	_blackKing = NULL;
@@ -151,7 +151,7 @@ void Board::_putPiece(const coord_t x, const coord_t y, Piece* p)
 	
     // se e' un re, va abbinato alla corrispettiva variabile
     if( p->GetKind() == PIECE_KING ) {
-		if( p->getColour() == WHITE )
+		if( p->GetColour() == WHITE )
 			_whiteKing = (King *)p;
 		else
 			_blackKing = (King *)p;
@@ -190,7 +190,7 @@ void Board::SetPiece(const coord_t pos, Piece *p)
 //
 // Gimme a player
 //  
-PlayerIF * Board::GetPlayer(colour_t colour)
+Player * Board::GetPlayer(colour_t colour)
 {
     return ( colour == WHITE ? _whitePlayer : _blackPlayer );
 }
@@ -219,7 +219,7 @@ bool Board::MoveRollback()
 	Move *lastMove = NULL;
 	try {
 	  lastMove = gameMoveList.back();
-	  lastMove->rewind(this);
+	  lastMove->Rewind(this);
 	  gameMoveList.pop_back();
 	  delete lastMove;
 	  turn = ENEMY(turn);
@@ -322,7 +322,7 @@ int Board::CanEatThis(coord_t pos, const colour_t colour, bool countTimes)
 	
     for(lpIter = lp->begin(); lpIter != lp->end(); lpIter++)
 	{
-		if( (*lpIter)->isValidMove(pos, this) )
+		if( (*lpIter)->IsValidMove(pos, this) )
 		{
 			if(!countTimes) return 1;
 			count++;
@@ -367,16 +367,16 @@ Move * Board::CheckDefenseMove(const colour_t colour)
 	// is any of these the right one?
     for(lmit = mList.begin(); lmit != mList.end(); lmit++) {
 		try {
-			(*lmit)->play(this);
+			(*lmit)->Play(this);
 			if( IsInCheck(colour) == 0 ) {
 				Move *savingMove;				
-				(*lmit)->rewind(this);
+				(*lmit)->Rewind(this);
 				turn = backupTurn;
 				savingMove = (*lmit)->copy();
 				moveListDestroy(&mList);
 				return savingMove;
 			}
-			(*lmit)->rewind(this);
+			(*lmit)->Rewind(this);
 		}
 		catch(InvalidMoveException *ex)
 		{
@@ -401,8 +401,8 @@ int Board::Evaluate(colour_t colour)
 
     for(int i=0; i<64; i++) {
   		if(_map[i] != NULL) {			
-  			val += _map[i]->GetRank()          * _map[i]->getColour();
-  			val += _map[i]->getPosEvaluation() * _map[i]->getColour();
+  			val += _map[i]->GetRank()          * _map[i]->GetColour();
+  			val += _map[i]->getPosEvaluation() * _map[i]->GetColour();
   		}
     }
 	
@@ -433,7 +433,7 @@ BoardValue::BoardValue(Board *b, coord_t depth, unsigned int dstTableSize)
     hashkey = 0;
     for(int i=0; i<64; i++) {
 		if( b->GetPiece(i) != NULL )
-			map[i] = b->GetPiece(i)->getValue();
+			map[i] = b->GetPiece(i)->GetValue();
 		else
 			map[i] = 0;
 		

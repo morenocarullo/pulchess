@@ -21,35 +21,44 @@
 
 namespace pulchess { namespace logic {
 
-  PlayerIF::PlayerIF(colour_t colour) {
+  Player::Player(colour_t colour) {
     _colour = colour;
   }
 
-  PlayerIF::~PlayerIF()
+  Player::~Player()
   {
   }
   
-  colour_t PlayerIF::getColour()
+  //
+  // Get the piece colour (white or black)
+  //
+  colour_t Player::GetColour()
   {
     return _colour;
   }
 
-  void PlayerIF::setBoard(Board* b)
+  //
+  // Set the chessboard to play on
+  //
+  void Player::SetBoard(Board* b)
   {
     _board = b;
   }	
   
-  //! No, I am not human!
-  bool PlayerIF::isHuman()
+  //
+  // Am I Human? By default, no.
+  //
+  bool Player::IsHuman()
   {
     return false;
   }
  
-  //! Get piece list as a delegated method
-  list<Piece *> * PlayerIF::getPieceList()
+  //
+  // Get piece list as a delegate method
+  //
+  list<Piece *> * Player::GetPieceList()
   {
-    return _board->ListPieces(getColour());
+    return _board->ListPieces(GetColour());
   }
-
 };
 };

@@ -19,26 +19,28 @@
  */
 #include "stdheader.h"
 
-#ifndef _PULCHESS_LOGIC_TOWER_H_
-#define _PULCHESS_LOGIC_TOWER_H_
+#ifndef _PULCHESS_LOGIC_ROOK_H_
+#define _PULCHESS_LOGIC_ROOK_H_
 
 namespace pulchess { namespace logic {
 
-class Piece;
+  class Piece;
 
-class Rook : public Piece {
- public:
-  Rook(colour_t colour) : Piece(colour) {};
+  //! The Rook (R) piece
+  class Rook : public Piece
+  {
+    public:
+      Rook(colour_t colour) : Piece(colour) {};
 
-  string getName();
-  int GetRank();
-  int GetKind();
-  coord_t getValue();
-  bool isValidMove(coord_t pos, Board * b);
-  list<Move *> * listMoves(Board * b, list<Move *> *mList);  
-};
+      int     GetRank();
+      int     GetKind();
+      coord_t GetValue();
+      bool    IsValidMove(coord_t pos, Board * b);
+
+     list<Move *> * listMoves(Board * b, list<Move *> *mList);  
+  };
  
-};
-};
+}; // end logic namespace
+}; // end pulchess namespace
 
-#endif //_TOWER_H_
+#endif

@@ -24,25 +24,21 @@
 
 namespace pulchess { namespace logic {
 
-//! A bishop piece	
-class Bishop : public Piece
-{
+  //! A bishop (B) piece	
+  class Bishop : public Piece
+  {
+    public:
+      Bishop(colour_t colour) : Piece(colour) {};
 	
-public:
-    Bishop(colour_t colour) : Piece(colour) {};
-	
-    int GetKind();
-    int GetRank();
-    coord_t getValue();
-	
-	//! is the specified pos move a valid one?
-    bool isValidMove(coord_t pos, Board * b);
-	
-	//! get a list of possible moves
-    list<Move *> * listMoves(Board* b, list<Move *> *mList);
-};
+      int     GetKind();
+      int     GetRank();
+      coord_t GetValue();
+      bool    IsValidMove(coord_t pos, Board * b);
 
-};
-};
+      list<Move *> * listMoves(Board* b, list<Move *> *mList);
+  };
+
+}; // end logic namespace
+}; // end pulchess namespace
 
 #endif

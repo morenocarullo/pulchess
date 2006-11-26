@@ -47,15 +47,15 @@ namespace pulchess { namespace logic {
 	
 int Pawn::GetKind()
 {
-	return PIECE_SOLDIER;
+	return PIECE_PAWN;
 }
 
 int Pawn::GetRank()
 {
-    return 16;
+    return PIECE_RANK_PAWN;
 }
 
-coord_t Pawn::getValue()
+coord_t Pawn::GetValue()
 {
     return (coord_t)7 + colour;
 }
@@ -65,7 +65,7 @@ int Pawn::getPosEvaluation()
 	return posvaltbl[ colour == WHITE ? 0 : 1 ][pos];
 }
 
-bool Pawn::isValidMove(coord_t newpos, Board * b)
+bool Pawn::IsValidMove(coord_t newpos, Board * b)
 {
     Piece *p;
     coord_t newx  = pos2x(newpos), newy = pos2y(newpos);
@@ -81,10 +81,10 @@ bool Pawn::isValidMove(coord_t newpos, Board * b)
 	
     // se la destinazione e' una pedina da mangiare (non e' del ns. colore)...
     // ed il "senso" di marcia e' giusto...
-    if( p != NULL && isEnemy(p) ) {
-		if( getColour() == WHITE && diffX == 1 && newy - y == 1 )
+    if( p != NULL && IsEnemy(p) ) {
+		if( GetColour() == WHITE && diffX == 1 && newy - y == 1 )
 			return true;
-		if( getColour() == BLACK && diffX == 1 && y - newy == 1 )
+		if( GetColour() == BLACK && diffX == 1 && y - newy == 1 )
 			return true;
     }
     
@@ -92,25 +92,25 @@ bool Pawn::isValidMove(coord_t newpos, Board * b)
     // se e' la prima mossa, possiamo muovere di 2. altrimenti di 1 soltanto.
     if( x-newx == 0 && p == NULL ) {
 		// apertura di 2 celle
-		if( getColour() == WHITE && GetMoveCount() == 0
+		if( GetColour() == WHITE && GetMoveCount() == 0
 			&& newy - y == 16 && b->GetPiece(newpos-8) == NULL) 
 			return true;
-		if( getColour() == WHITE && GetMoveCount() >= 0 && newy - y == 8)
+		if( GetColour() == WHITE && GetMoveCount() >= 0 && newy - y == 8)
 			return true;
-		if( getColour() == BLACK && GetMoveCount() == 0
+		if( GetColour() == BLACK && GetMoveCount() == 0
 			&& y - newy == 16 && b->GetPiece(newpos+8) == NULL)
 			return true;
-		if( getColour() == BLACK && GetMoveCount() >= 0 && y - newy == 8)
+		if( GetColour() == BLACK && GetMoveCount() >= 0 && y - newy == 8)
 			return true;
     }
 	
     // se si tratta di un en passant...
     if( ISRELCELL(5) ) {
-		Piece *ped = b->GetPiece( newpos - getColour()*8 );
+		Piece *ped = b->GetPiece( newpos - GetColour()*8 );
 		if(  (newx == x+1 || newx == x-1)  &&
-			 (newy == y+getColour())       &&
+			 (newy == y+GetColour())       &&
 			 (p == NULL)                   &&
-			 (ped != NULL && isEnemy(ped) && ped->GetMoveCount() == 1) )
+			 (ped != NULL && IsEnemy(ped) && ped->GetMoveCount() == 1) )
 		{
 			return true;
 		}
@@ -125,13 +125,13 @@ list<Move *> * Pawn::listMoves(Board* b, list<Move *> *mList)
     Piece      *p = NULL, *op = NULL;
 	
     // 1 - possiamo mangiare qualcuno ?
-    p = b->GetPiece(x+1, y+getColour());
-    if( p!=NULL && isEnemy(p) ) {
-		mList->push_front( new Move( xy2pos( x+1, y+getColour() ), pos) );
+    p = b->GetPiece(x+1, y+GetColour());
+    if( p!=NULL && IsEnemy(p) ) {
+		mList->push_front( new Move( xy2pos( x+1, y+GetColour() ), pos) );
     }
-    p = b->GetPiece(x-1, y+getColour());
-    if( p!=NULL && isEnemy(p) ) {
-		mList->push_front( new Move( xy2pos( x-1, y+getColour() ), pos) );
+    p = b->GetPiece(x-1, y+GetColour());
+    if( p!=NULL && IsEnemy(p) ) {
+		mList->push_front( new Move( xy2pos( x-1, y+GetColour() ), pos) );
     }
 	
     // 2 - possiamo mangiare con l'en passant ?
@@ -152,18 +152,18 @@ list<Move *> * Pawn::listMoves(Board* b, list<Move *> *mList)
 			//
 			dst = b->GetPiece(i, y);
 			if( dst!=NULL && dst->GetMoveCount() == 1 &&
-				isEnemy(dst) &&
-				b->GetPiece(i, y+getColour()) == NULL )
+				IsEnemy(dst) &&
+				b->GetPiece(i, y+GetColour()) == NULL )
 			{
-				mList->push_front( new EPMove( xy2pos(i, y+getColour()), pos, xy2pos(i, y)) );
+				mList->push_front( new EPMove( xy2pos(i, y+GetColour()), pos, xy2pos(i, y)) );
 			}
 		}
     }
 	
     // 3 - possiamo muoverci in avanti di 1?
-    p = b->GetPiece(x, y + 1*getColour());
+    p = b->GetPiece(x, y + 1*GetColour());
     if( p == NULL ) {		
-  		Move * m  = new Move( xy2pos(x, y + 1*getColour()), pos);		
+  		Move * m  = new Move( xy2pos(x, y + 1*GetColour()), pos);		
   		//
   		// euristica: se si tratta di una promozione,
   		//			  la mossa e' sicuramente migliore.
@@ -171,10 +171,10 @@ list<Move *> * Pawn::listMoves(Board* b, list<Move *> *mList)
     }
     
     // 4 - ... e di 2?
-    p  = b->GetPiece(x, y + 2*getColour());
-    op = b->GetPiece(x, y + 1*getColour());
+    p  = b->GetPiece(x, y + 2*GetColour());
+    op = b->GetPiece(x, y + 1*GetColour());
     if( p == NULL && op == NULL && GetMoveCount() == 0) {
-  		mList->push_back( new Move( xy2pos(x, y+2*getColour()), pos) );
+  		mList->push_back( new Move( xy2pos(x, y+2*GetColour()), pos) );
     }
 	
     return mList;

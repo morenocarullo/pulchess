@@ -30,10 +30,10 @@ namespace pulchess { namespace logic {
 
   int Queen::GetRank()
   {
-    return 250; // queen's rank
+    return PIECE_RANK_QUEEN; // queen's rank
   }
 
-  coord_t Queen::getValue()
+  coord_t Queen::GetValue()
   {
     return 7 + colour*5;
   }
@@ -41,12 +41,12 @@ namespace pulchess { namespace logic {
   // La mossa della regina e' valida se e' in diagonale oppure
   // in orizzontale / verticale.
   //
-  bool Queen::isValidMove(coord_t newpos, Board * b)
+  bool Queen::IsValidMove(coord_t newpos, Board * b)
   {
-    if( isValidMove_diag(newpos, b) )
+    if( IsValidMove_diag(newpos, b) )
       return true;
     
-    if( isValidMove_croce(newpos, b) )
+    if( IsValidMove_croce(newpos, b) )
       return true;
     
     return false;
@@ -62,7 +62,7 @@ namespace pulchess { namespace logic {
      if( p == NULL ) \
        mList->push_back( new Move( xy2pos((X)+x,(Y)+y), pos) ); \
      else { \
-       if( isEnemy(p) ) \
+       if( IsEnemy(p) ) \
          mList->push_front ( new Move( xy2pos((X)+x,(Y)+y), pos)); \
        goto GOTOLABEL; \
      } \

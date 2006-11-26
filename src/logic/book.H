@@ -37,11 +37,11 @@ class Book {
 		static bool usable;
 	
 		//! Load a book file 
-		static bool load();
-		static bool load(const char *filename);
-		static bool save(const char *filename);
-		static void insert(BoardValue *b, Move *m);
-		static Move * search(BoardValue *b);
+		static bool Load();
+		static bool Load(const char *filename);
+		static bool Save(const char *filename);
+		static void Insert(BoardValue *b, Move *m);
+		static Move * Search(BoardValue *b);
 };
 
 }}

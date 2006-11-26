@@ -66,6 +66,8 @@ namespace pulchess { namespace logic {
     time_t getRealTime();
 
   }; // end class
-}; // end ns logic
-}; // end ns pulchess
+
+}; // end logic namespace
+}; // end pulchess namespace
+
 #endif // _pulchess_logic_timecontrol_h_

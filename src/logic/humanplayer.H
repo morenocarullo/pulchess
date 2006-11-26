@@ -24,23 +24,30 @@
 #define _pulchess_logic_humanplayer_h_
 
 namespace pulchess { namespace logic {
-	
-  class HumanPlayer: public PlayerIF
+
+  //! A human player
+  class HumanPlayer: public Player
   {
     private:
+      //! Used to store the next wanted promotion, specified by user
       int nextPromotedPiece;
+
+      //! Given a move command, which is the required promotion?
       int getPromotion(string moveCmd);
+
+      //! Get the Move out of a move command
       Move * getMove(string moveCmd);
     
     public:
       HumanPlayer(colour_t colour);
       ~HumanPlayer();
 		
-      bool doMove(string moveCmd);
-      bool isHuman();
-      Piece * choosePawnPiece();
+      bool DoMove(string moveCmd);
+      bool IsHuman();
+      Piece * ChoosePawnPiece();
 	};
-};
-};
+	
+}; // end ns logic
+}; // end ns pulchess
 
 #endif

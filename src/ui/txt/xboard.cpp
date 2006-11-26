@@ -79,7 +79,7 @@ bool XBoard::readCommand()
 void XBoard::goCommand()
 {
      if( pulchess == NULL ) return;
-     if( !pulchess->isHuman() )
+     if( !pulchess->IsHuman() )
      {
        pulchess->gameCommand();
        Move * lastMove = pulchess->GetLastMove();
@@ -147,7 +147,7 @@ void XBoard::mainLoop()
 	    if( buff == "new" )
 	    {
 	      pulchess = new Pulchess(HUM_VS_CPU);
-	      pulchess->init();
+	      pulchess->Init();
 	    }
 	    break;
 

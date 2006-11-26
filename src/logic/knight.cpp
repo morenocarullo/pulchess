@@ -52,10 +52,10 @@ namespace pulchess { namespace logic {
 
   int Knight::GetRank()
   {
-    return 50;
+    return PIECE_RANK_KNIGHT;
   }
 
-  coord_t Knight::getValue()
+  coord_t Knight::GetValue()
   {
     return (coord_t)7 + colour*2;
   }
@@ -65,7 +65,7 @@ int Knight::getPosEvaluation()
 	return posvaltbl[ colour == WHITE ? 0 : 1 ][int(pos)];
 }
 
-  bool Knight::isValidMove(coord_t newpos, Board* b) 
+  bool Knight::IsValidMove(coord_t newpos, Board* b) 
   {
     bool result = false;
     Piece* p;
@@ -103,7 +103,7 @@ int Knight::getPosEvaluation()
     // spostarci la pedina (casella vuota oppure occupata da nemico)
     if(result) {
       p = b->GetPiece(newpos);
-      return ( p == NULL || isEnemy(p) );
+      return ( p == NULL || IsEnemy(p) );
     }
 
     return false;
@@ -119,7 +119,7 @@ int Knight::getPosEvaluation()
    p = b->GetPiece((X),(Y)); \
    if( p == NULL ) \
     mList->push_back( new Move(xy2pos((X),(Y)), pos) ); \
-   else if ( isEnemy(p) )\
+   else if ( IsEnemy(p) )\
     mList->push_front( new Move(xy2pos((X),(Y)), pos) );\
  }\
 

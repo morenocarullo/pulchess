@@ -1,7 +1,7 @@
 /*
  * PROJECT: PulCHESS, a Computer Chess program
  * LICENSE: GPL, see license.txt in project root
- * FILE: Queen interface
+ * FILE:    Board unit test
  **********************************************************************
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
@@ -14,38 +14,46 @@
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
  * for more details.                                                         
  **********************************************************************
- * Created on 15-lug-2005
+ * Created on ?
  * $Id$
  */
 #include "stdheader.h"
+#include "tests.h"
+#include <iostream>
 
-#ifndef _pulchess_logic_queen_h_
-#define _pulchess_logic_queen_h
+using namespace pulchess::logic;
+using namespace std;
 
-namespace pulchess { namespace logic {
+static char * suitename = "move suite";
 
-  class Move;
-  class Board;
+//
+// Play a move, and check for "assertions"
+//
+static void test_move_one()
+{
+  Board b(new HumanPlayer(WHITE), new HumanPlayer(BLACK));
+  Move *m1, *m2, *m3;
 
-  /**! Class representing the queen piece
-
-  */
-  class Queen : public Piece
+  try
   {
+    // e2e4
+    m1 = new Move( xy2pos(4,3), xy2pos(4,1) );
+    assert_true( m1->Play(&b) == 0 );
+ 
+    // f7f5
+	m2 = new Move( xy2pos(5,4), xy2pos(5,6) );
+	assert_true( m2->Play(&b) == 0 );
+	
+	// e4f5
+	m3 = new Move( xy2pos(5,4), xy2pos(4,3) );
+    assert_true( m3->Play(&b) == PIECE_RANK_PAWN );
+  }
+  catch(...)
+  {
+    assert_true( 0 == "exception thrown!" );
+  }
+}
 
-  public:
-    Queen(colour_t colour) : Piece(colour) {};
-    ~Queen();
-    
-    int     GetKind();
-    int     GetRank();
-    coord_t GetValue();
-    bool    IsValidMove(coord_t pos, Board * b);
-
-    list<Move *> * listMoves(Board* b, list<Move *> *mList);
-  };
-
-}; // end logic namespace
-}; // end pulchess namespace
-
-#endif
+void testSuiteMove() {
+	PULCHESS_CALLCASE(test_move_one, "move::test_move_one");
+}

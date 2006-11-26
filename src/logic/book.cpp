@@ -27,13 +27,13 @@ list<BookMove *> *	Book::map = NULL;
 bool				Book::usable = false;
 
 // Load default books
-bool Book::load()
+bool Book::Load()
 {
-	return load("data/book");
+	return Load("data/book");
 }
 
 // Load a book file
-bool Book::load(const char *filename)
+bool Book::Load(const char *filename)
 {
 	FILE *fp;
 	int ct=0;
@@ -52,7 +52,7 @@ bool Book::load(const char *filename)
 		}
 		bv   = new BoardValue(buff, Book::bookSize);
 		move = new Move(*(buff+65), *(buff+66));
-		insert(bv, move);
+		Insert(bv, move);
 		ct++;
 	}
 	
@@ -67,7 +67,7 @@ bool Book::load(const char *filename)
 	}
 }
 
-bool Book::save(const char *filename)
+bool Book::Save(const char *filename)
 {
 	FILE *fp;
 	int i;
@@ -101,7 +101,7 @@ bool Book::save(const char *filename)
 }
 
 // Insert a new move
-void Book::insert(BoardValue *b, Move *m)
+void Book::Insert(BoardValue *b, Move *m)
 {
 	if( !usable ) return;
 
@@ -112,7 +112,7 @@ void Book::insert(BoardValue *b, Move *m)
 }
 
 // Search for this move
-Move * Book::search(BoardValue *b)
+Move * Book::Search(BoardValue *b)
 {
 	if( !usable ) return NULL;
 	

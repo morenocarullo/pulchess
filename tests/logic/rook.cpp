@@ -40,8 +40,8 @@ static void testListMoves_start()
 
   for(lmit = mList->begin();  lmit != mList->end();  lmit++){
 	BoardValue bvalue(&b, 99, 97);
-    (*lmit)->play( &b );
-    (*lmit)->rewind( &b );
+    (*lmit)->Play( &b );
+    (*lmit)->Rewind( &b );
 	BoardValue postBvalue(&b, 99, 97);
 	assert_true( bvalue == postBvalue );
   }

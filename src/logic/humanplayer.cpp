@@ -23,7 +23,7 @@ namespace pulchess { namespace logic {
 	
 //! Class constructor
 //
-HumanPlayer::HumanPlayer(colour_t colour) : PlayerIF(colour)
+HumanPlayer::HumanPlayer(colour_t colour) : Player(colour)
 {
 }
 
@@ -35,7 +35,7 @@ HumanPlayer::~HumanPlayer()
 
 //! Play a move!
 //
-bool HumanPlayer::doMove(string moveCmd)
+bool HumanPlayer::DoMove(string moveCmd)
 {
 	Move * coords = NULL;
 	
@@ -47,9 +47,9 @@ bool HumanPlayer::doMove(string moveCmd)
 			return false;
 		}
 		nextPromotedPiece = getPromotion(moveCmd);
-		coords->play( _board );
-		if( _board->IsInCheck( getColour() ) ) {
-			coords->rewind( _board );
+		coords->Play( _board );
+		if( _board->IsInCheck( GetColour() ) ) {
+			coords->Rewind( _board );
 			delete coords;
 			pulchess_info( "Mossa non valida, vai/sei in scacco!" );			
 			return false;
@@ -113,7 +113,7 @@ Move * HumanPlayer::getMove(string moveCmd)
 	if( srcp == NULL ) return NULL;
 	
 	// errore: non possiamo muovere pezzi di altri!
-	if( srcp->getColour() != this->getColour() ) return NULL;
+	if( srcp->GetColour() != this->GetColour() ) return NULL;
 	
 	srcp->listMoves(_board, &mList);
 	for(mListIt = mList.begin(); mListIt != mList.end(); mListIt++) {
@@ -138,25 +138,25 @@ Move * HumanPlayer::getMove(string moveCmd)
 
 //! Request new piece for soldier promotion
 //
-Piece * HumanPlayer::choosePawnPiece()
+Piece * HumanPlayer::ChoosePawnPiece()
 {
     // TODO: check all legal cases...
     switch(nextPromotedPiece)
     {
       case PIECE_BISHOP:
-        return new Bishop(getColour());
+        return new Bishop(GetColour());
         break;
       case PIECE_ROOK:
-        return new Rook(getColour());
+        return new Rook(GetColour());
         break;
       case PIECE_KNIGHT:
-        return new Knight(getColour());
+        return new Knight(GetColour());
         break;
     }
-    return new Queen(getColour());
+    return new Queen(GetColour());
 }
 
-bool HumanPlayer::isHuman()
+bool HumanPlayer::IsHuman()
 {
 	return true;
 }

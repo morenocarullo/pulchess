@@ -25,13 +25,13 @@ namespace pulchess { namespace logic {
 HashCache::HashCache(unsigned int hashsize)
 {
 	size = hashsize;
-	_init();
+	_Init();
 }
 
 HashCache::HashCache()
 {
 	size = 97;
-	_init();
+	_Init();
 }
 
 HashCache::~HashCache()
@@ -42,7 +42,7 @@ HashCache::~HashCache()
 	}
 }
 
-void HashCache::_init()
+void HashCache::_Init()
 {
 	_map  = new int[size]; 
 	_vals = new BoardValue*[size];
@@ -58,7 +58,7 @@ unsigned int HashCache::getSize()
 	return size;
 }
 
-void HashCache::insert(BoardValue *t, int val)
+void HashCache::Insert(BoardValue *t, int val)
 {
 	unsigned int key = t->GetHashKey();
 	
@@ -71,12 +71,12 @@ void HashCache::insert(BoardValue *t, int val)
 		delete bv;
 }
 
-BoardValue * HashCache::get(unsigned int key)
+BoardValue * HashCache::Get(unsigned int key)
 {
 	return _vals[ key ];
 }
 
-int HashCache::getValue(unsigned int key)
+int HashCache::GetValue(unsigned int key)
 {
 	return _map[ key ];
 }

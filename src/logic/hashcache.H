@@ -24,6 +24,7 @@
 
 namespace pulchess { namespace logic {
 
+  //! A class for transposition tables
   class HashCache
   {
 
@@ -31,16 +32,16 @@ namespace pulchess { namespace logic {
     int * _map;
     BoardValue ** _vals;
     unsigned int  size;
-    void _init();
+    void _Init();
 
   public:
     HashCache(unsigned int size);
     HashCache();
     ~HashCache();
 
-    void insert(BoardValue *t, int value);
-    BoardValue * get(unsigned int key);
-    int getValue(unsigned int key);
+    void Insert(BoardValue *t, int value);
+    BoardValue * Get(unsigned int key);
+    int GetValue(unsigned int key);
     unsigned int getSize();
   };
 

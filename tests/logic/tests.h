@@ -25,6 +25,7 @@
  testSuiteKing();\
  testSuiteRook();\
  testSuiteBoard();\
+ testSuiteMove();\
  testSuiteHumanPlayer();\
  testSuitePulchessPulchess();\
 }
@@ -40,3 +41,4 @@ void testSuiteRook(void);
 void testSuitePulchessPulchess(void);
 void testSuiteHumanPlayer(void);
 void testSuiteBoard(void);
+void testSuiteMove(void);

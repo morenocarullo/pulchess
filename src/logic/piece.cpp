@@ -43,7 +43,7 @@ namespace pulchess { namespace logic {
   {
   }
   
-  colour_t Piece::getColour()
+  colour_t Piece::GetColour()
   {
     return colour;
   }
@@ -51,9 +51,9 @@ namespace pulchess { namespace logic {
   //
   // NULL check MUST be done before calling this!
   //
-  bool Piece::isEnemy(Piece *p)
+  bool Piece::IsEnemy(Piece *p)
   {
-    return (getColour() != p->getColour());
+    return (GetColour() != p->GetColour());
   }
 
   char Piece::getColourChr()
@@ -83,7 +83,7 @@ namespace pulchess { namespace logic {
       return 'r';
       break;
 
-    case PIECE_SOLDIER:
+    case PIECE_PAWN:
       return 'p';
       break;
 
@@ -143,7 +143,7 @@ namespace pulchess { namespace logic {
     moveCount = ct;
   }
 
-  bool Piece::isValidMove_diag(coord_t newpos, Board *b)
+  bool Piece::IsValidMove_diag(coord_t newpos, Board *b)
   {
     int
       int_x    = x,
@@ -169,7 +169,7 @@ namespace pulchess { namespace logic {
           return false;
       }
       p = b->GetPiece(newpos);
-      if( p == NULL || ( p != NULL && isEnemy(p) )) {
+      if( p == NULL || ( p != NULL && IsEnemy(p) )) {
         return true;
       }
     }
@@ -177,7 +177,7 @@ namespace pulchess { namespace logic {
     return false;
   }
 
-  bool Piece::isValidMove_croce(coord_t newpos, Board *b)
+  bool Piece::IsValidMove_croce(coord_t newpos, Board *b)
   {
     int
       int_x    = x,
@@ -200,7 +200,7 @@ namespace pulchess { namespace logic {
           return false;
       }
       p =  b->GetPiece(int_newx, int_newy);
-      if( p == NULL || ( p != NULL && isEnemy(p) ) ) {
+      if( p == NULL || ( p != NULL && IsEnemy(p) ) ) {
         return true;
       }
     }
@@ -216,7 +216,7 @@ namespace pulchess { namespace logic {
           return false;
       }
       p =  b->GetPiece(int_newx, int_newy);
-      if( p == NULL || ( p != NULL && isEnemy(p) ) ) {
+      if( p == NULL || ( p != NULL && IsEnemy(p) ) ) {
         return true;
       }
     }

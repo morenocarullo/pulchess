@@ -22,9 +22,10 @@
 #include "book.H"
 #include <sstream>
 
-static const char version[] = "pulchess 0.1";
+/** pulchess static local vars */
+static const char version[] = "Pulchess 0.1";
 
-/** pulchess engine global vars */
+/** pulchess lobal vars */
 bool pulchess_log_on = true;
 
 namespace pulchess { namespace logic {
@@ -41,7 +42,7 @@ Pulchess::Pulchess(gamemode_t gameMode)
 // Pulchess destructor
 Pulchess::~Pulchess()
 {
-    shutdown();
+    Shutdown();
 }
 
 //
@@ -63,13 +64,13 @@ void Pulchess::ResetMode(gamemode_t gameMode)
   {
 	delete board;	 
   }
-  init();
+  Init();
 }
 
 //
 // Init engine
 //
-void Pulchess::init()
+void Pulchess::Init()
 {
     // seleziona la modalita' di gioco.
     switch( gameMode )
@@ -101,7 +102,7 @@ void Pulchess::init()
 	
     board = new Board(whitePlayer, blackPlayer);
 	engineStatus = PULCHESS_STATUS_INIT;
-	Book::load();
+	Book::Load();
 	
 	pulchess_debug("pulchess is in DEBUG mode!");
 #ifdef PULCHESS_USEHASHTABLE
@@ -150,7 +151,7 @@ bool Pulchess::loadGame(const char *gamePath)
 
 
 // chiude il gioco
-void Pulchess::shutdown()
+void Pulchess::Shutdown()
 {
     delete board;
     board = NULL;
@@ -202,10 +203,10 @@ bool Pulchess::gameCommand(string &cmd)
     }
 	
     if( board->turn == WHITE ) {
-		retval = whitePlayer->doMove(cmd);
+		retval = whitePlayer->DoMove(cmd);
     }
     else {
-		retval = blackPlayer->doMove(cmd);
+		retval = blackPlayer->DoMove(cmd);
     }
 	
 	return retval;
@@ -238,11 +239,11 @@ bool Pulchess::IsMove(string &cmd)
 }
 
 // Il prossimo giocatore e' umano?
-bool Pulchess::isHuman()
+bool Pulchess::IsHuman()
 {
 	if( engineStatus == PULCHESS_STATUS_ZERO ) return false;
-	if( board->turn == WHITE ) return whitePlayer->isHuman();
-	else					   return blackPlayer->isHuman();
+	if( board->turn == WHITE ) return whitePlayer->IsHuman();
+	else					   return blackPlayer->IsHuman();
 }
 
 //
@@ -251,7 +252,7 @@ bool Pulchess::isHuman()
 bool Pulchess::IsHuman(const colour_t colour)
 {
 	if( engineStatus == PULCHESS_STATUS_ZERO ) return false;
-	return (colour == WHITE) ? whitePlayer->isHuman() : blackPlayer->isHuman(); 
+	return (colour == WHITE) ? whitePlayer->IsHuman() : blackPlayer->IsHuman(); 
 }
 
 Move * Pulchess::GetLastMove()

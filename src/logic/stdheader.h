@@ -49,7 +49,7 @@ extern bool pulchess_log_on;
 #define xy2pos(X,Y) ( (Y) * 8 + (X) )
 #define abs(A) ( (A)<0 ? -(A) : (A) )
 #define ENEMY(C) ( C == BLACK ? WHITE : BLACK )
-#define ISRELCELL(X) ( getColour() == BLACK ? (getY() == 8-(X)) : (getY() == (X)-1) )
+#define ISRELCELL(X) ( GetColour() == BLACK ? (getY() == 8-(X)) : (getY() == (X)-1) )
 #define COORDSOK(X,Y) ( (X) >=0 && (X) <8 && (Y) >= 0 && (Y) < 8 )
 #define OKCOORDS(I)   ( (I) >=0 && (I) <64 )
 

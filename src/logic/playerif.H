@@ -22,34 +22,34 @@
 namespace pulchess { namespace logic {
 
   //! Chess player abstract class
-  class PlayerIF {
+  class Player {
 
   protected:
     Board* _board;
     colour_t _colour;     
 
   public:
-    PlayerIF();
-    PlayerIF(colour_t colour);
-    virtual ~PlayerIF();
+    Player();
+    Player(colour_t colour);
+    virtual ~Player();
     
     //! Which is my colour?
-    colour_t getColour();
+    colour_t GetColour();
 
     //! Which piece should I promote the pawn to?
-    virtual Piece * choosePawnPiece() = 0;
+    virtual Piece * ChoosePawnPiece() = 0;
 
     //! Am i a human player or an AI one?
-    virtual bool isHuman();	
+    virtual bool IsHuman();	
 
     //! Play a (specified) move
-    virtual bool doMove(string moveCmd) = 0;
+    virtual bool DoMove(string moveCmd) = 0;
 
     //! Set the chess board
-    void setBoard(Board* b);
+    void SetBoard(Board* b);
 
     //! Get the piece list for this player
-    list<Piece *> * getPieceList();
+    list<Piece *> * GetPieceList();
   };
   
 };

@@ -25,7 +25,7 @@ namespace pulchess { namespace logic {
 //
 // Class constructor
 //
-CPUPlayer::CPUPlayer(colour_t colour, int plyDeep, int moveSeconds, bool hashtbl) : PlayerIF(colour)
+CPUPlayer::CPUPlayer(colour_t colour, int plyDeep, int moveSeconds, bool hashtbl) : Player(colour)
 {
 	this->plyDeep = plyDeep;
 #ifdef PULCHESS_USEHASHTABLE
@@ -43,7 +43,7 @@ CPUPlayer::CPUPlayer(colour_t colour, int plyDeep, int moveSeconds, bool hashtbl
 //
 // Simple class constructor
 //
-CPUPlayer::CPUPlayer(colour_t colour) : PlayerIF(colour)
+CPUPlayer::CPUPlayer(colour_t colour) : Player(colour)
 {
 	this->plyDeep		= 6;
 	this->moveCalcTime	= 1;
@@ -65,29 +65,31 @@ CPUPlayer::~CPUPlayer()
 //
 // Play a move!
 //
-bool CPUPlayer::doMove(string moveCmd) /* throws ... */
+bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
 {
       Move * m = NULL;
       bestMove = NULL;
+
+	  moveResult = 0;
       
       try {      
       timec->startTimer(moveCalcTime);
       
-      if(  _board->IsInCheck(getColour()) )
+      if(  _board->IsInCheck(GetColour()) )
       {
       	pulchess_info("I am in check, gotta do smth!");
       }
       
       // Prova a cercare la mossa nel libro
       BoardValue * bv = new BoardValue(_board, 99, Book::bookSize);
-      m = Book::search( bv );
+      m = Book::Search( bv );
       delete bv;	
       
       // Se non c'e', usa alphabeta
       if( m == NULL )
       {
       	pulchess_debug("move not found in book.");
-      	this->idab( plyDeep );
+      	this->Idab( plyDeep );
       	m = bestMove;   
       	if( m == NULL ) {
       	  pulchess_debug("no move was found in book!");
@@ -103,7 +105,7 @@ bool CPUPlayer::doMove(string moveCmd) /* throws ... */
          return false;    
       }
       
-      m->play(_board);
+      m->Play(_board);
       _board->MoveFinalize(m);
       timec->resetTimer();
       pulchess_info("move " << m->toString() << " thought in " << timec->getRealTime() << " seconds");
@@ -123,13 +125,13 @@ bool CPUPlayer::doMove(string moveCmd) /* throws ... */
 // Iterative deepening Alfa-beta search
 //
 void
-CPUPlayer::idab(int maxDepth) 
+CPUPlayer::Idab(int maxDepth) 
 {	
 	int depth, value;
 	for(depth=2; depth<=maxDepth; depth++)
 	{	
 		pulchess_debug("IDAB iteration to depth " << depth);
-		value = alfabeta(depth, depth, getColour(), BLACK_WINS, WHITE_WINS);
+		value = Alfabeta(depth, depth, GetColour(), BLACK_WINS, WHITE_WINS);
 		if( timec->evalTimeRemaining(depth) )
 		{
 			return;
@@ -141,7 +143,7 @@ CPUPlayer::idab(int maxDepth)
 // Alfa-beta pruning search
 //
 int
-CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, int beta) 
+CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, int beta) 
 {	
     list<Piece *> * pList = _board->ListPieces(turnColour);
     list<Piece *>::iterator pList_iter;
@@ -158,7 +160,7 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 	//  o  siamo nelle foglie dell'albero alfabeta
 	if( _board->GetKing(WHITE) == NULL ) return BLACK_WINS * turnColour;
 	if( _board->GetKing(BLACK) == NULL ) return WHITE_WINS * turnColour;
-    if( depth == 0 )
+    if( depth <= 0 && moveResult <= PIECE_RANK_BISHOP )
 	{
 		return _board->Evaluate(turnColour) * turnColour;
     }
@@ -172,9 +174,9 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     if(depth != startDepth) {
 		int retVal;
 		thisBoardVal = new BoardValue(_board, depth, evc->getSize());
-		hashBoardVal = evc->get( thisBoardVal->GetHashKey() );
+		hashBoardVal = evc->Get( thisBoardVal->GetHashKey() );
 		if( hashBoardVal != NULL && hashBoardVal->UsableFor( thisBoardVal ) ) {
-			retVal = evc->getValue( thisBoardVal->GetHashKey() );               
+			retVal = evc->GetValue( thisBoardVal->GetHashKey() );               
 			delete thisBoardVal;
 			return retVal;
 		}
@@ -211,9 +213,9 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     {
 		currMove = (*mList_iter);
 		
-		currMove->play( _board );
-		val = -alfabeta( depth, depth-1, ENEMY(turnColour), -beta, -alfa );
-		currMove->rewind( _board );
+		moveResult = currMove->Play( _board );
+		val = -Alfabeta( depth, depth-1, ENEMY(turnColour), -beta, -alfa );
+		currMove->Rewind( _board );
 		
 		if( val >= beta ) {
 			alfa = beta;
@@ -236,7 +238,7 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 
 #ifdef PULCHESS_USEHASHTABLE
     thisBoardVal = new BoardValue(_board, depth, evc->getSize());
-    evc->insert(thisBoardVal, alfa);
+    evc->Insert(thisBoardVal, alfa);
 #endif
 	
     moveListDestroy(&mList);
@@ -249,10 +251,10 @@ CPUPlayer::alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 // Always give a new Queen for pawn promotions
 //
 Piece *
-CPUPlayer::choosePawnPiece()
+CPUPlayer::ChoosePawnPiece()
 {
-    return new Queen(getColour());
+    return new Queen(GetColour());
 }
 
-};
-};
+}; // end logic namespace
+}; // end pulchess namespace

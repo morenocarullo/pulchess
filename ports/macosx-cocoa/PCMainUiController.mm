@@ -34,7 +34,7 @@
 	// se non c'e' gia' un gioco in esecuzione...
 	if( gameFacade == nil ) {
 		gameFacade  = new pulchess::logic::Pulchess(HUM_VS_CPU);
-		gameFacade->init();
+		gameFacade->Init();
 		NSLog(@"Pulchess game logic init ok");
 		
 	    // imposta tutti i pezzi da disegnare
@@ -51,7 +51,7 @@
 - (void)gameStep:(id)sender
 {
 	if( !gameFacade->IsGameFinished() ) {
-		if( !gameFacade->isHuman() ) {
+		if( !gameFacade->IsHuman() ) {
             string cmd;
 			[gameStatus setStringValue:@"Thinking..."];
 			gameFacade->gameCommand(cmd);

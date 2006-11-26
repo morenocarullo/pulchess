@@ -22,6 +22,7 @@
 #ifndef _pulchess_logic_move_h_
 #define _pulchess_logic_move_h_
 
+// Destroy a list of Move pointers...
 #define moveListDestroy(X) {\
 Move * tmpMove = NULL;\
  list<Move *>::iterator mlit;\
@@ -63,10 +64,10 @@ namespace pulchess { namespace logic {
     coord_t getSourceY();
 
 	//! Play me on specified board
-    virtual void play(Board *b);
+    virtual int Play(Board *b);
 
 	//! Rollback me on specified board
-    virtual void rewind(Board *b);
+    virtual void Rewind(Board *b);
 
 	//! Copy me
     virtual Move * copy();
@@ -106,7 +107,7 @@ namespace pulchess { namespace logic {
     coord_t getEatX();
     coord_t getEatY();
 
-    void play(Board *b);
+    int Play(Board *b);
     Move * copy();
   };
 
@@ -132,8 +133,8 @@ namespace pulchess { namespace logic {
 
   public:
     RookMove(bool rookKind, colour_t colour);
-    void play(Board *);
-    void rewind(Board *);
+    int Play(Board *);
+    void Rewind(Board *);
     Move * copy();
   };
 

@@ -25,11 +25,9 @@
 namespace pulchess { namespace logic {
 
   // class pre definition
-  class PlayerIF;
+  class Player;
 
-  /**! This class represents the board and game status
-
-  */
+  //! This class represents the board and game status
   class Board
   {  
   private:
@@ -53,17 +51,17 @@ namespace pulchess { namespace logic {
     King * _blackKing;
 
     //! Pointer to the white Player
-    PlayerIF * _whitePlayer;
+    Player * _whitePlayer;
 
     //! Pointer to the black Player
-    PlayerIF * _blackPlayer;
+    Player * _blackPlayer;
     
     //! Put the piece in the board, for first time insertion
     void _putPiece(const coord_t x, const coord_t y, Piece* p);
 
   public:
     //! Class ctor
-    Board(PlayerIF * white, PlayerIF * black);
+    Board(Player * white, Player * black);
 
     //! Class d'stor
     ~Board();
@@ -93,47 +91,56 @@ namespace pulchess { namespace logic {
     list<Piece *> * ListPieces(const colour_t colour);
 
     //! Get the specified player
-    PlayerIF* GetPlayer(colour_t colour);
+    Player* GetPlayer(colour_t colour);
 
     //! Get the specified king
     Piece* GetKing(const colour_t colour);
 
     //! Is game finished?
-    bool IsGameFinished();
+    bool   IsGameFinished();
 
     //! Who is winning?
-    int WhoWins();
+    int    WhoWins();
 
     //! Get total move count
-    int GetMoveCount();
+    int    GetMoveCount();
 
     //! Returns the move list
     list<Move *> * GetMoveList();
 
     //! Rolls back last move
-    bool MoveRollback();
+    bool   MoveRollback();
 
     //! Confirms a move and save it in move list
-    void MoveFinalize(Move *move);
+    void   MoveFinalize(Move *move);
 
     //! Returns last played move
     Move * GetLastMove();
 
     //! Evaluate board status
-    int Evaluate(colour_t colour);
+    int    Evaluate(colour_t colour);
     
     //! Is the specified king in check?
-    int IsInCheck(const colour_t colour);
-	bool CanEatThis(coord_t pos, const colour_t colour);
-	int  CanEatThis(coord_t pos, const colour_t colour, bool countTimes);
-    bool CanDefendCheck(const colour_t colour);
+    int    IsInCheck(const colour_t colour);
+
+    //! Is it possibile to eat piace at position index pos, with specified colour?
+	bool   CanEatThis(coord_t pos, const colour_t colour);
+	
+	//! How many attackers has the piece at position pos?
+	int    CanEatThis(coord_t pos, const colour_t colour, bool countTimes);
+	
+    //! Can player with specified colour defend himself?
+    bool   CanDefendCheck(const colour_t colour);
+
+    //! Get a move valid to save the King
     Move * CheckDefenseMove(const colour_t colour);
   };
 
   /**! Represents the board in a compact way for caches and stuff like that
 
    */
-  class BoardValue {
+  class BoardValue
+  {
   private:
     coord_t map[64];
     coord_t depth;
@@ -152,7 +159,7 @@ namespace pulchess { namespace logic {
     coord_t* GetMap();
   };
 
-}; // end ns logic
-}; // end ns pulchess
+}; // end logic namespace
+}; // end pulchess namespace
 
 #endif

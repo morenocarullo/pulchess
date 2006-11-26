@@ -56,10 +56,10 @@ int King::GetKind()
 
 int King::GetRank()
 {
-    return 3000000; // king's rank
+    return PIECE_RANK_KING; // king's rank
 }
 
-coord_t King::getValue()
+coord_t King::GetValue()
 {
     return (coord_t)7 + colour*6;
 }
@@ -69,7 +69,7 @@ int King::getPosEvaluation()
 	return posvaltbl[ colour == WHITE ? 0 : 1 ][pos];
 }
 
-bool King::isValidMove(coord_t newpos, Board * b)
+bool King::IsValidMove(coord_t newpos, Board * b)
 {
     coord_t newx = pos2x(newpos), newy = pos2y(newpos);
     int diffX = int(x) - newx, diffY = int(y) - newy;
@@ -104,7 +104,7 @@ list<Move *> * King::listMoves(Board* b, list<Move *> *mList)
 			
 			// se esiste una pedina nel posto scelto, ed e' del colore opposto
 			// oppure se la casella prescelta e' vuota, allora e' una mossa valida.
-			if( p != NULL && isEnemy(p) ) {
+			if( p != NULL && IsEnemy(p) ) {
 				mList->push_front( new Move( xy2pos(x+i,y+j), pos) );
 			}
 			else if( p == NULL) {
