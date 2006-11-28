@@ -92,13 +92,13 @@ Move::Move(coord_t newpos, coord_t startpos)
     this->promotedPawn = NULL;
 	
     if( newpos == startpos ) {
-		cerr << "Mossa anomala!" << endl;
+		pulchess_error( "Mossa anomala!" );
     }
 	
     if( !OKCOORDS(newpos) || !OKCOORDS(startpos) ) {
-		cerr << "Generata mossa anomala!" << endl;
-		cerr << "startpos x: " << pos2x(startpos) << " startpos y: " << pos2y(startpos) << endl;
-		cerr << "newpos x:  " << pos2x(newpos) << " newpos y:  " << pos2y(newpos) << endl;
+		pulchess_error( "Generata mossa anomala!" );
+		pulchess_error( "startpos x: " << pos2x(startpos) << " startpos y: " << pos2y(startpos) );
+		pulchess_error( "newpos x:  " << pos2x(newpos) << " newpos y:  " << pos2y(newpos) );
     }
 }
 
@@ -135,6 +135,17 @@ bool Move::operator== (Move &a)
 	return (GetSrcIdx() == a.GetSrcIdx() && GetDstIdx() == a.GetDstIdx());
 }
 
+//
+// Less operator
+//
+int Move::operator< (Move &a)
+{
+	return 0;
+}
+
+//
+// Copy this move. TODO: replace with standard clone/copy
+//
 Move * Move::copy()
 {
     Move * m = new Move(dst, src);

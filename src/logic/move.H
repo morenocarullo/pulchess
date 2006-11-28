@@ -89,6 +89,9 @@ namespace pulchess { namespace logic {
 	
 	//! Equal operator
 	bool operator== (Move &a);
+	
+    //! Less operator
+    int  operator< (Move &a);
   };
 
    
