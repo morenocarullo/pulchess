@@ -154,10 +154,13 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     Move *myBest = NULL;
     int val = 0;
 
-
-    // E' un nodo finale? 
-    //  o  manca il re
-	//  o  siamo nelle foglie dell'albero alfabeta
+	//
+    // Is it a final node?
+    //  o  the King is missing
+	//  o  we are in the alphabeta leaves
+	//  o  the moveResult parameter is helping us with "quiescienza" in order
+	//     to prevent to be eated early.
+	//
 	if( _board->GetKing(WHITE) == NULL ) return BLACK_WINS * turnColour;
 	if( _board->GetKing(BLACK) == NULL ) return WHITE_WINS * turnColour;
     if( depth <= 0 && moveResult <= PIECE_RANK_BISHOP )
@@ -204,7 +207,7 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 		mList.push_front(bestMove);
 	}
 	
-
+    //
 	// per tutte le mosse
 	// se la mossa e' buona, migliore delle altre, viene promossa
 	// come mossa migliore (bestMove)
