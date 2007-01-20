@@ -36,6 +36,10 @@ typedef signed char colour_t ;
 
 extern bool pulchess_log_on;
 
+#define MOVE_PAWN_EATS      100
+#define MOVE_PAWN_PROMOTION 1000
+#define MEAN_MOVE_NUMBER    15
+
 #define WHITE 1
 #define BLACK -1
 #define WHITE_WINS    1000000

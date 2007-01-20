@@ -84,12 +84,13 @@ Move::Move()
 //
 // Ctor with specified starting and ending place
 //
-Move::Move(coord_t newpos, coord_t startpos)
+Move::Move(coord_t newpos, coord_t startpos, int rating)
 {
     this->dst = newpos;
     this->src = startpos;
     this->deadPiece = NULL;
     this->promotedPawn = NULL;
+	this->rating = rating;
 	
     if( newpos == startpos ) {
 		pulchess_error( "Mossa anomala!" );
@@ -138,9 +139,9 @@ bool Move::operator== (Move &a)
 //
 // Less operator
 //
-int Move::operator< (Move &a)
+bool operator< (const Move &a, const Move &b)
 {
-	return 0;
+	return a.rating > b.rating;
 }
 
 //
@@ -148,7 +149,7 @@ int Move::operator< (Move &a)
 //
 Move * Move::copy()
 {
-    Move * m = new Move(dst, src);
+    Move * m = new Move(dst, src, rating);
 	
     m->setDeadPiece( this->deadPiece );
     m->setPromotedPawn( this->promotedPawn );
@@ -333,7 +334,7 @@ void Move::Rewind(Board* b)
 //
 // En passant move ctor
 //
-EPMove::EPMove(coord_t newpos, coord_t startpos, coord_t eat) : Move(newpos, startpos)
+EPMove::EPMove(coord_t newpos, coord_t startpos, coord_t eat) : Move(newpos, startpos, 20)
 {
 	this->dst = newpos;
 	this->src = startpos;

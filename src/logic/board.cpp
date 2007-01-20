@@ -372,8 +372,8 @@ Move * Board::CheckDefenseMove(const colour_t colour)
 {
     list<Piece *> * lp = ListPieces(colour);
     list<Piece *>::iterator lpIter;
-    list<Move *> mList;
-    list<Move *>::iterator lmit;
+    vector<Move *> mList;
+    vector<Move *>::iterator lmit;
 	
     colour_t backupTurn = turn;
     turn = colour;

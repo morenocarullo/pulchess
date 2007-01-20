@@ -53,17 +53,17 @@ namespace pulchess { namespace logic {
   }
 
   
-  list<Move *> * Queen::listMoves(Board* b, list<Move *> *mList)
+  void Queen::listMoves(Board* b, vector<Move *> *mList)
   {
 
 #define queen_add_move(X,Y,GOTOLABEL) { \
    if( COORDSOK((X)+x, (Y)+y) ) { \
      p = b->GetPiece((X)+x,(Y)+y); \
      if( p == NULL ) \
-       mList->push_back( new Move( xy2pos((X)+x,(Y)+y), pos) ); \
+       mList->push_back( new Move( xy2pos((X)+x,(Y)+y), pos, 0) ); \
      else { \
        if( IsEnemy(p) ) \
-         mList->push_front ( new Move( xy2pos((X)+x,(Y)+y), pos)); \
+         mList->push_back ( new Move( xy2pos((X)+x,(Y)+y), pos, 5)); \
        goto GOTOLABEL; \
      } \
    } }\
@@ -112,7 +112,7 @@ namespace pulchess { namespace logic {
     }
 
   end:
-    return mList;
+	;
   }
 
 };

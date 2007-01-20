@@ -22,10 +22,10 @@
 #ifndef _pulchess_logic_move_h_
 #define _pulchess_logic_move_h_
 
-// Destroy a list of Move pointers...
+// Destroy a collection of Move pointers...
 #define moveListDestroy(X) {\
 Move * tmpMove = NULL;\
- list<Move *>::iterator mlit;\
+ vector<Move *>::iterator mlit;\
  for(mlit = (X)->begin(); mlit != (X)->end(); mlit++)\
   {tmpMove = (*mlit); delete tmpMove;} }
 
@@ -52,8 +52,11 @@ namespace pulchess { namespace logic {
     
   public:
     Move();
-    Move(coord_t src, coord_t dst);
+    Move(coord_t src, coord_t dst, int rating);
     virtual ~Move();
+
+    //! Move rating
+    int rating;
 
     coord_t    GetSrcIdx();
     coord_t    GetDstIdx();
@@ -89,10 +92,10 @@ namespace pulchess { namespace logic {
 	
 	//! Equal operator
 	bool operator== (Move &a);
-	
-    //! Less operator
-    int  operator< (Move &a);
   };
+
+  //! Less operator
+  bool  operator< (const Move &a, const Move &b);
 
    
   /**! En passant move

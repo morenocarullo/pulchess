@@ -33,15 +33,15 @@ static void testListMoves_start()
   Board b(new CPUPlayer(WHITE), new CPUPlayer(BLACK));
   King * k;
   
-  Move	m1(xy2pos(4,3), xy2pos(4,1)),
-		m2(xy2pos(4,5), xy2pos(4,7));
+  Move	m1(xy2pos(4,3), xy2pos(4,1), 0),
+		m2(xy2pos(4,5), xy2pos(4,7), 0);
   m1.Play(&b); // white's move
   m2.Play(&b); // black's move
 
   k = (King *)b.GetPiece(4,0);
 
-  list<Move *> * mList = new list<Move *>();
-  list<Move *>::iterator lmit;
+  vector<Move *> * mList = new vector<Move *>();
+  vector<Move *>::iterator lmit;
   k->listMoves(&b, mList);
 
   for(lmit = mList->begin();  lmit != mList->end();  lmit++){

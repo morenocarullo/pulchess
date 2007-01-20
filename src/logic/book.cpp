@@ -51,7 +51,7 @@ bool Book::Load(const char *filename)
 			return false;
 		}
 		bv   = new BoardValue(buff, Book::bookSize);
-		move = new Move(*(buff+65), *(buff+66));
+		move = new Move(*(buff+65), *(buff+66), 0);
 		Insert(bv, move);
 		ct++;
 	}

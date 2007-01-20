@@ -20,6 +20,7 @@
 #include "stdheader.h"
 #include "tests.h"
 #include <iostream>
+#include <algorithm>
 
 using namespace pulchess::logic;
 using namespace std;
@@ -37,15 +38,15 @@ static void test_move_one()
   try
   {
     // e2e4
-    m1 = new Move( xy2pos(4,3), xy2pos(4,1) );
+    m1 = new Move( xy2pos(4,3), xy2pos(4,1), 0 );
     assert_true( m1->Play(&b) == 0 );
  
     // f7f5
-	m2 = new Move( xy2pos(5,4), xy2pos(5,6) );
+	m2 = new Move( xy2pos(5,4), xy2pos(5,6), 0 );
 	assert_true( m2->Play(&b) == 0 );
 	
 	// e4f5
-	m3 = new Move( xy2pos(5,4), xy2pos(4,3) );
+	m3 = new Move( xy2pos(5,4), xy2pos(4,3), 0 );
     assert_true( m3->Play(&b) == PIECE_RANK_PAWN );
   }
   catch(...)
@@ -54,6 +55,29 @@ static void test_move_one()
   }
 }
 
+//
+// Test move ordering
+//
+static void test_move_ordering()
+{
+	vector<Move> moves;
+	
+	Move m1( xy2pos(4,3), xy2pos(4,1), 100 );
+	Move m2( xy2pos(5,4), xy2pos(5,6), 4 );
+	Move m3( xy2pos(5,4), xy2pos(4,3), 0 );
+	
+	moves.push_back(m1);
+	moves.push_back(m2);
+	moves.push_back(m3);
+	
+	sort(moves.begin(), moves.end());
+	
+	assert_true( moves[0].rating == 100 );
+	assert_true( moves[1].rating == 4 );
+	assert_true( moves[2].rating == 0 );
+}
+
 void testSuiteMove() {
 	PULCHESS_CALLCASE(test_move_one, "move::test_move_one");
+	PULCHESS_CALLCASE(test_move_ordering, "move::test_move_ordering");
 }

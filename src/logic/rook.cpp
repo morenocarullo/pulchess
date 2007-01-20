@@ -41,7 +41,7 @@ namespace pulchess { namespace logic {
     return IsValidMove_croce(pos, b);
   }
 
-  list<Move *> * Rook::listMoves(Board * b, list<Move *> *mList)
+  void Rook::listMoves(Board * b, vector<Move *> *mList)
   {
     Piece      *p     = NULL;
 
@@ -50,12 +50,12 @@ namespace pulchess { namespace logic {
  if((X) == x && (Y) == y ) continue; \
  p = b->GetPiece((X),(Y)); \
  if(p == NULL) { \
-   mList->push_back( new Move( xy2pos((X),(Y)), pos) ); \
+   mList->push_back( new Move( xy2pos((X),(Y)), pos, 0) ); \
    continue; \
  } \
  else if( p != NULL ) { \
     if( IsEnemy(p) ) \
-	  mList->push_front( new Move( xy2pos((X),(Y)), pos) ); \
+	  mList->push_back( new Move( xy2pos((X),(Y)), pos, 15) ); \
      break;  \
  } \
 
@@ -78,8 +78,6 @@ namespace pulchess { namespace logic {
     for(coord_t i=y+1; i<8; i++) {
       tower_add_move(x, i);
     }
-
-    return mList;	
   }
   
 };

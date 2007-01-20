@@ -23,7 +23,7 @@
 #include <sstream>
 
 /** pulchess static local vars */
-static const char version[] = "Pulchess 0.1";
+static const char version[] = "Pulchess 0.2b";
 
 /** pulchess lobal vars */
 bool pulchess_log_on = true;
@@ -210,6 +210,10 @@ bool Pulchess::gameCommand(string &cmd)
     }
     else {
 		retval = blackPlayer->DoMove(cmd);
+    }
+
+    if(retval) {
+      board->UpdateClocks();
     }
 	
 	return retval;

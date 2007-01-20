@@ -86,7 +86,7 @@ bool King::IsValidMove(coord_t newpos, Board * b)
     return false;
 }
 
-list<Move *> * King::listMoves(Board* b, list<Move *> *mList)
+void King::listMoves(Board* b, vector<Move *> *mList)
 {
     Piece *p;
 	
@@ -105,10 +105,10 @@ list<Move *> * King::listMoves(Board* b, list<Move *> *mList)
 			// se esiste una pedina nel posto scelto, ed e' del colore opposto
 			// oppure se la casella prescelta e' vuota, allora e' una mossa valida.
 			if( p != NULL && IsEnemy(p) ) {
-				mList->push_front( new Move( xy2pos(x+i,y+j), pos) );
+				mList->push_back( new Move( xy2pos(x+i,y+j), pos, 1) );
 			}
 			else if( p == NULL) {
-				mList->push_back( new Move( xy2pos(x+i,y+j), pos) );
+				mList->push_back( new Move( xy2pos(x+i,y+j), pos, 0) );
 			}
 		}
     }	
@@ -148,8 +148,6 @@ list<Move *> * King::listMoves(Board* b, list<Move *> *mList)
 			mList->push_back( new RookMove(QUEENSIDE_ROOK, colour) );
 		}
 	}
-    
-    return mList;
 }
 
 };

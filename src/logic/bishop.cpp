@@ -41,7 +41,7 @@ namespace pulchess { namespace logic {
     return IsValidMove_diag(newpos, b);
   }
   
-  list<Move *> * Bishop::listMoves(Board* b, list<Move *> *mList)
+  void Bishop::listMoves(Board* b, vector<Move *> *mList)
   {
     // MACRO bishop_add_move(LABEL)
     //
@@ -57,12 +57,12 @@ namespace pulchess { namespace logic {
         if( i==x && j==y ) continue; \
 		if( p != NULL ) { \
 			if( IsEnemy(p) ) { \
-				mList->push_back( new Move( xy2pos(i,j), pos) ); \
+				mList->push_back( new Move( xy2pos(i,j), pos, 50) ); \
 			} \
 			goto GOTOLABEL; \
 		} \
 		if( p == NULL ) { \
-			mList->push_front( new Move( xy2pos(i,j), pos) ); \
+			mList->push_back( new Move( xy2pos(i,j), pos, 0) ); \
 		}\
 	}\
 
@@ -95,7 +95,7 @@ namespace pulchess { namespace logic {
     }
 
   end_moves:
-    return mList;
+	;
   } // end method listMoves
 };// end ns logic
 };// end ns pulchess

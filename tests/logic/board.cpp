@@ -42,7 +42,7 @@ static void test_moveRollback_one()
     moveCt1 = b.GetMoveCount();
 
     // a1a3 move
-    m1 = new Move( xy2pos(0,3), xy2pos(0,1) );
+    m1 = new Move( xy2pos(0,3), xy2pos(0,1), 0 );
     m1->Play(&b);
     b.MoveFinalize(m1);
     BoardValue boardValueMove(&b, 99, 97);
@@ -72,7 +72,7 @@ static void test_GetLastMove()
   BoardValue boardValueStart(&b, 99, 97);
 
   // a1a3 move
-  m1 = new Move( xy2pos(0,3), xy2pos(0,1) );
+  m1 = new Move( xy2pos(0,3), xy2pos(0,1), 0 );
   m1->Play(&b);
   b.MoveFinalize(m1);
   Move * lastMove = b.GetLastMove();

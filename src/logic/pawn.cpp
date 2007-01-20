@@ -120,18 +120,21 @@ bool Pawn::IsValidMove(coord_t newpos, Board * b)
     return false;
 }
 
-list<Move *> * Pawn::listMoves(Board* b, list<Move *> *mList)
+void Pawn::listMoves(Board* b, vector<Move *> *mList)
 {
     Piece      *p = NULL, *op = NULL;
+    int  rating = 0;
 	
     // 1 - possiamo mangiare qualcuno ?
     p = b->GetPiece(x+1, y+GetColour());
     if( p!=NULL && IsEnemy(p) ) {
-		mList->push_front( new Move( xy2pos( x+1, y+GetColour() ), pos) );
+	    rating = MOVE_PAWN_EATS;
+		mList->push_back( new Move( xy2pos( x+1, y+GetColour() ), pos, rating) );
     }
     p = b->GetPiece(x-1, y+GetColour());
     if( p!=NULL && IsEnemy(p) ) {
-		mList->push_front( new Move( xy2pos( x-1, y+GetColour() ), pos) );
+	    rating = MOVE_PAWN_EATS;
+		mList->push_back( new Move( xy2pos( x-1, y+GetColour() ), pos, rating) );
     }
 	
     // 2 - possiamo mangiare con l'en passant ?
@@ -155,29 +158,25 @@ list<Move *> * Pawn::listMoves(Board* b, list<Move *> *mList)
 				IsEnemy(dst) &&
 				b->GetPiece(i, y+GetColour()) == NULL )
 			{
-				mList->push_front( new EPMove( xy2pos(i, y+GetColour()), pos, xy2pos(i, y)) );
+				mList->push_back( new EPMove( xy2pos(i, y+GetColour()), pos, xy2pos(i, y)) );
 			}
 		}
     }
 	
     // 3 - possiamo muoverci in avanti di 1?
     p = b->GetPiece(x, y + 1*GetColour());
-    if( p == NULL ) {		
-  		Move * m  = new Move( xy2pos(x, y + 1*GetColour()), pos);		
-  		//
-  		// euristica: se si tratta di una promozione,
-  		//			  la mossa e' sicuramente migliore.
-  		ISRELCELL(8) ? mList->push_front(m) : mList->push_back(m);
+    if( p == NULL ) {
+	    rating = ISRELCELL(8) ? MOVE_PAWN_PROMOTION : 0;
+  		Move * m  = new Move( xy2pos(x, y + 1*GetColour()), pos, rating);		
+		mList->push_back(m);
     }
     
     // 4 - ... e di 2?
     p  = b->GetPiece(x, y + 2*GetColour());
     op = b->GetPiece(x, y + 1*GetColour());
     if( p == NULL && op == NULL && GetMoveCount() == 0) {
-  		mList->push_back( new Move( xy2pos(x, y+2*GetColour()), pos) );
+  		mList->push_back( new Move( xy2pos(x, y+2*GetColour()), pos, 0) );
     }
-	
-    return mList;
 }
 
 };

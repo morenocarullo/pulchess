@@ -19,6 +19,7 @@
 */
 #include "stdheader.h"
 #include "book.H"
+#include <algorithm>
 
 namespace pulchess { namespace logic {
 	
@@ -149,8 +150,8 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 {	
     list<Piece *> * pList = _board->ListPieces(turnColour);
     list<Piece *>::iterator pList_iter;
-    list<Move *> mList;
-    list<Move *>::iterator mList_iter;
+    vector<Move *> mList;
+    vector<Move *>::iterator mList_iter;
 
     Move *currMove = NULL;
     Move *myBest = NULL;
@@ -203,10 +204,11 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 	{
 		(*pList_iter)->listMoves( _board, &mList );
     }
+    sort(mList.begin(), mList.end());
 
 	if( bestMove != NULL && depth == startDepth )
 	{
-		mList.push_front(bestMove);
+		mList.push_back(bestMove);
 	}
 	
     //

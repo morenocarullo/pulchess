@@ -110,7 +110,7 @@ namespace pulchess { namespace logic {
 		virtual int     GetKind() = 0;
 
 		//! Get list of valid moves, providing an already allocated list
-		virtual list<Move *> * listMoves(Board *b, list<Move *> *mList) = 0;
+		virtual void listMoves(Board *b, vector<Move *> *mList) = 0;
 		
 		//! Says whether this move is valid or not
 		virtual bool    IsValidMove(coord_t pos, Board * b) = 0;

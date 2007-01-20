@@ -110,7 +110,7 @@ int Knight::getPosEvaluation()
   }
 
 
-  list<Move *> * Knight::listMoves(Board* b, list<Move *> *mList)
+  void Knight::listMoves(Board* b, vector<Move *> *mList)
   {
     Piece      *p     = NULL;
 
@@ -118,9 +118,9 @@ int Knight::getPosEvaluation()
  if( COORDSOK(X,Y) ) { \
    p = b->GetPiece((X),(Y)); \
    if( p == NULL ) \
-    mList->push_back( new Move(xy2pos((X),(Y)), pos) ); \
+    mList->push_back( new Move(xy2pos((X),(Y)), pos, 0) ); \
    else if ( IsEnemy(p) )\
-    mList->push_front( new Move(xy2pos((X),(Y)), pos) );\
+    mList->push_back( new Move(xy2pos((X),(Y)), pos, 10) );\
  }\
 
     add_knight_move(x+1, y+2);
@@ -131,8 +131,6 @@ int Knight::getPosEvaluation()
     add_knight_move(x+2, y-1);
     add_knight_move(x-2, y+1);
     add_knight_move(x-2, y-1);
-
-    return mList;
   }
 
 };

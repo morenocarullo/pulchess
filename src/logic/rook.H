@@ -37,7 +37,7 @@ namespace pulchess { namespace logic {
       coord_t GetValue();
       bool    IsValidMove(coord_t pos, Board * b);
 
-     list<Move *> * listMoves(Board * b, list<Move *> *mList);  
+     void listMoves(Board * b, vector<Move *> *mList);  
   };
  
 }; // end logic namespace

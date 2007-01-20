@@ -93,8 +93,8 @@ int HumanPlayer::getPromotion(string moveCmd)
 Move * HumanPlayer::getMove(string moveCmd)
 {
 	CoordsMove *coords;
-	list<Move *> mList;
-	list<Move *>::iterator mListIt;
+	vector<Move *> mList;
+	vector<Move *>::iterator mListIt;
 	Piece      *srcp;
 	
     // interpreta la mossa

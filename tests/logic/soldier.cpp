@@ -34,8 +34,8 @@ static void testListMoves_start()
 
   s = (Pawn *)b.GetPiece(0,1);
 
-  list<Move *> * mList = new list<Move *>();
-  list<Move *>::iterator lmit;
+  vector<Move *> * mList = new vector<Move *>();
+  vector<Move *>::iterator lmit;
   s->listMoves(&b, mList);
 
   for(lmit = mList->begin();  lmit != mList->end();  lmit++){
