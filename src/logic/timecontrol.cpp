@@ -18,6 +18,7 @@
 * $Id$
 */
 #include "timecontrol.H"
+#include "stdheader.h"
 
 namespace pulchess { namespace logic {
   
@@ -34,6 +35,8 @@ namespace pulchess { namespace logic {
 
   void TimeControl::startTimer(time_t secToLive)
   {
+	pulchess_debug("started timer with " << secToLive << " s.t.l.");
+	
 	this->startTime = time(NULL);
     this->deathTime = time(NULL) + secToLive;
     this->secToLive = secToLive;

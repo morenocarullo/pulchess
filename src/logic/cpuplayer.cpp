@@ -24,6 +24,7 @@ namespace pulchess { namespace logic {
 	
 //
 // Class constructor
+// TODO: param moveSeconds no more used
 //
 CPUPlayer::CPUPlayer(colour_t colour, int plyDeep, int moveSeconds, bool hashtbl) : Player(colour)
 {
@@ -67,13 +68,14 @@ CPUPlayer::~CPUPlayer()
 //
 bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
 {
-      Move * m = NULL;
-      bestMove = NULL;
+   Move * m = NULL;
+   bestMove = NULL;
 
-	  moveResult = 0;
+   moveResult = 0;
       
-      try {      
-      timec->startTimer(moveCalcTime);
+   try
+   {      
+      timec->startTimer( _board->remainingTime * (_board->moveCount+1) / 100 );
       
       if(  _board->IsInCheck(GetColour()) )
       {

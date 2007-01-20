@@ -100,7 +100,8 @@ void Pulchess::Init()
 			break;
     }
 	
-    board = new Board(whitePlayer, blackPlayer);
+	// 300 seconds game
+    board = new Board(whitePlayer, blackPlayer, 300);
 	engineStatus = PULCHESS_STATUS_INIT;
 	Book::Load();
 	
@@ -125,7 +126,7 @@ bool Pulchess::loadGame(const char *gamePath)
 	
 	whitePlayer  = new HumanPlayer(WHITE);
 	blackPlayer  = new HumanPlayer(BLACK);
-    board        = new Board(whitePlayer, blackPlayer);
+    board        = new Board(whitePlayer, blackPlayer, 0);
     engineStatus = PULCHESS_STATUS_INIT;							
 										  
     // TODO: read from file game mode
@@ -201,6 +202,8 @@ bool Pulchess::gameCommand(string &cmd)
       pulchess_error("pulchess:gameCommand called before init");
       return false;
     }
+
+    board->PushClock(); // TODO: se la mossa e' errata riparte, gestire bene!
 	
     if( board->turn == WHITE ) {
 		retval = whitePlayer->DoMove(cmd);

@@ -31,7 +31,7 @@ namespace pulchess { namespace logic {
 //
 // Board ctor
 //	
-Board::Board(Player * white, Player * black)
+Board::Board(Player * white, Player * black, time_t timeToPlay)
 {
 		// assign players
 		_whitePlayer = white;
@@ -87,6 +87,9 @@ Board::Board(Player * white, Player * black)
 		_putPiece(5, 7, new Bishop(BLACK));
 		_putPiece(6, 7, new Knight(BLACK));
 		_putPiece(7, 7, new Rook(BLACK));
+		
+		remainingTime  = timeToPlay;
+		lastClockStart = 0;
 }
 
 //
@@ -267,6 +270,23 @@ int Board::WhoWins()
 
 	return 0;
 }
+
+//
+//
+//
+void Board::PushClock()
+{
+	lastClockStart = time(NULL);
+}
+
+//
+// Update clocks
+//
+void Board::UpdateClocks()
+{
+	remainingTime -= (time(NULL) - lastClockStart);
+}
+
 
 //
 // Tells whether the game is finished or not.

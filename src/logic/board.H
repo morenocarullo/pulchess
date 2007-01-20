@@ -61,10 +61,16 @@ namespace pulchess { namespace logic {
 
   public:
     //! Class ctor
-    Board(Player * white, Player * black);
+    Board(Player * white, Player * black, time_t timeToPlay);
 
     //! Class d'stor
     ~Board();
+
+    //! Remaining time
+    time_t remainingTime;
+
+    //! Last time clock was started
+    time_t lastClockStart;
 
     //! Actual turn
     colour_t turn;
@@ -101,6 +107,12 @@ namespace pulchess { namespace logic {
 
     //! Who is winning?
     int    WhoWins();
+
+    //! Start/Push clock
+    void   PushClock();
+
+    //! Update clocks
+    void   UpdateClocks();
 
     //! Get total move count
     int    GetMoveCount();
