@@ -1,7 +1,7 @@
 /*
 * PROJECT: PulCHESS, a Computer Chess program
 * LICENSE: GPL, see license.txt in project root
-* FILE: Pulchess Logic Facade class
+* FILE:    Pulchess Logic Facade class
 **********************************************************************
 * This program is free software; you can redistribute it and/or modify         
 * it under the terms of the GNU General Public License as published by      
@@ -23,7 +23,7 @@
 #include <sstream>
 
 /** pulchess static local vars */
-static const char version[] = "Pulchess 0.2b";
+static const char version[] = "PulCHESS 0.2b";
 
 /** pulchess lobal vars */
 bool pulchess_log_on = true;
@@ -162,16 +162,30 @@ bool Pulchess::loadGame(const char *gamePath)
 	return true;
 }
 
+//
+// Start game
+//
+void Pulchess::StartGame()
+{
+	if( engineStatus & PULCHESS_STATUS_INIT )
+    {
+      whitePlayer->PushClock();
+      engineStatus |= PULCHESS_STATUS_START;
+    }
+}
 
-// chiude il gioco
+//
+// Close game
+//
 void Pulchess::Shutdown()
 {
     delete board;
     board = NULL;
 }
 
-
-// ricostruisce la scacchiera
+//
+// Ricostruisce la scacchiera
+//
 cellinfo_t Pulchess::getCellInfo(int x, int y)
 {
     Piece * p;
@@ -190,21 +204,25 @@ cellinfo_t Pulchess::getCellInfo(int x, int y)
     return c;
 }
 
-
-// il gioco e' finito?
+//
+// Is game ended?
+//
 bool Pulchess::IsGameFinished()
 {
     return board->IsGameFinished();
 }
 
-
-// a chi tocca?
+//
+// Who has to move now?
+//
 int Pulchess::whoPlaysNow()
 {
     return (board != NULL)  ? board->turn : PULCHESS_WHITE;
 }
 
-// richiede di giocare a chi di turno
+//
+// Accept a move command from current player
+//
 bool Pulchess::gameCommand(string &cmd)
 {	
 	bool retval;
@@ -216,14 +234,10 @@ bool Pulchess::gameCommand(string &cmd)
     }
 	
     if( board->turn == WHITE ) {
-	    whitePlayer->PushClock();
 		retval = whitePlayer->DoMove(cmd);
-		if(retval) whitePlayer->StopClock();
     }
     else {
-	    blackPlayer->PushClock();
 		retval = blackPlayer->DoMove(cmd);
-		if(retval) blackPlayer->StopClock();
     }
 	
 	return retval;
@@ -272,6 +286,9 @@ bool Pulchess::IsHuman(const colour_t colour)
 	return (colour == WHITE) ? whitePlayer->IsHuman() : blackPlayer->IsHuman(); 
 }
 
+//
+// Gimme last played move
+//
 Move * Pulchess::GetLastMove()
 {
 	return (board == NULL) ? NULL : board->GetLastMove();
@@ -316,25 +333,32 @@ int Pulchess::gameInfo()
     return board->WhoWins();
 }
 
+//
+// Print board.
+// TODO: refactor this into Board
+//
 void Pulchess::printBoard()
 {
   cout << "" << endl;
-  for(int y=7; y>=0; y--) {
+  for(int y=7; y>=0; y--)
+  {
     printf("%d   ", y+1);
-    for(int x=0; x<8; x++) {
+    for(int x=0; x<8; x++)
+    {
       cellinfo_t c = getCellInfo(x,y);
-      if( c.colour == 'w') {
-	cout << (char)toupper(c.kind);
+      if( c.colour == 'w')
+      {
+        cout << (char)toupper(c.kind);
       }
-      else {
-	cout << c.kind;
+      else
+      {
+        cout << c.kind;
       }
       cout << " ";
     }
     cout << endl;
   }
 
-  // intestazione delle colonne
   cout << endl << "    ";
   for(int x=0; x<8; x++) {
     printf("%c ", 'a'+x);

@@ -148,6 +148,7 @@ void XBoard::mainLoop()
 	    {
 	      pulchess = new Pulchess(HUM_VS_CPU);
 	      pulchess->Init();
+          pulchess->StartGame();
 	    }
 	    break;
 

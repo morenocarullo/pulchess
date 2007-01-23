@@ -122,8 +122,6 @@ bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
   		delete e;
   		exit(1);
     }
-
-    _moves++;
 	
 	return true;
 }

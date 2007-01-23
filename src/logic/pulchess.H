@@ -31,9 +31,10 @@ const unsigned char HUM_VS_HUM = 3;
 const int PULCHESS_WHITE = 1;
 const int PULCHESS_BLACK = -1;
 
-const int PULCHESS_STATUS_ZERO = 0;
-const int PULCHESS_STATUS_INIT = 1;
-const int PULCHESS_STATUS_END  = 2;
+const int PULCHESS_STATUS_ZERO  = 0;
+const int PULCHESS_STATUS_INIT  = 1;
+const int PULCHESS_STATUS_START = 2;
+const int PULCHESS_STATUS_END   = 4;
 
 typedef char gamemode_t;
 typedef struct {
@@ -71,6 +72,9 @@ namespace pulchess { namespace logic {
 
     //! Set timecontrol
     void SetTimecontrol(int movesToPlay, int secondsForMoves);
+
+    //! Start game! This one start clocks & stuff...
+    void StartGame();
 
     //! Close engine
     void Shutdown();

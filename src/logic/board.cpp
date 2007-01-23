@@ -249,12 +249,15 @@ Move * Board::GetLastMove()
 }
 
 //
-// Confirms a move
+// Confirms a move, and push clocks.
 //
 void Board::MoveFinalize(Move *move)
 {
   if( move != NULL )
 	gameMoveList.push_back(move);
+  
+  if( turn == WHITE ) { _blackPlayer->StopClock(); _whitePlayer->PushClock(); }
+  else                { _whitePlayer->StopClock(); _blackPlayer->PushClock(); }
 }
 
 //

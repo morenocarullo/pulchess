@@ -1,5 +1,7 @@
 /*
- * Created on 24-gen-2005
+ * PROJECT: PulCHESS, a Computer Chess program
+ * LICENSE: GPL, see license.txt in project root
+ * FILE:    abstract Player interface
  **********************************************************************
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
@@ -30,6 +32,9 @@ namespace pulchess { namespace logic {
 
     //! Remaining time
     time_t   _clock;
+
+    //! Bonus time after _clockmoves moves
+    time_t   _clockbonus;
 
     //! When clock was pushed last
     time_t   _clockpush;
@@ -69,10 +74,10 @@ namespace pulchess { namespace logic {
     //! Init clock
     void InitClock(int moves, int secondsForMoves);
 
-    //! Push the clock
+    //! Push the clock, start thinking a move
     void PushClock();
 
-    //! Stop clock
+    //! Stop clock, increment move count
     void StopClock();
   };
   

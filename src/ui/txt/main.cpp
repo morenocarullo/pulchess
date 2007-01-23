@@ -32,7 +32,7 @@ using namespace pulchess::logic;
 static void printGreeting(void)
 {
   cout << Pulchess::GetPulchessVersion() << " -- " << __DATE__ << endl;
-  cout << "2005-2006 (C) Moreno Carullo" << endl;
+  cout << "2005-2007 (C) Moreno Carullo" << endl;
   cout << "" << endl;
   cout << "Type quit anytime to exit."<< endl;
   cout << "" << endl;  
@@ -100,6 +100,7 @@ int main(int argc, char *argv[])
   while(!menuOk);
 
   pulchess->Init();
+  pulchess->StartGame();
 
   while( !pulchess->IsGameFinished() ) {
     pulchess->printBoard();

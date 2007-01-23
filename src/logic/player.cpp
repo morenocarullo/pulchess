@@ -65,14 +65,18 @@ namespace pulchess { namespace logic {
   }
 
   //
-  // Start clock
+  // Init clock
   //
   void Player::InitClock(int moves, int secondsForMoves)
   {
     _clockmoves = moves;
     _clock      = secondsForMoves;
+    _clockbonus = secondsForMoves;
   }
 
+  //
+  // Start thinking for a new move.
+  //
   void Player::PushClock()
   {
 	if(!_clockpushed)
@@ -83,12 +87,17 @@ namespace pulchess { namespace logic {
   }
 
   //
-  //
+  // Stop clock. Increment move counter, and eventually give time bonus.
   //
   void Player::StopClock()
   {
     _clock -= time(NULL) - _clockpush;
     _clockpushed = false;
+    _moves ++;
+    if( _clock > 0 && _moves%_clockmoves==0 )
+    {
+      _clock += _clockbonus;
+    }
   }
 };
 };
