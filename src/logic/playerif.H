@@ -25,8 +25,23 @@ namespace pulchess { namespace logic {
   class Player {
 
   protected:
-    Board* _board;
-    colour_t _colour;     
+    Board*   _board;
+    colour_t _colour;
+
+    //! Remaining time
+    time_t   _clock;
+
+    //! When clock was pushed last
+    time_t   _clockpush;
+
+    //! Is clock pushed? This is used to prevent double-pushing
+    bool     _clockpushed;
+
+    //! Moves in a timecontrol block
+    int      _clockmoves;
+
+    //! Moves so far
+    int      _moves;
 
   public:
     Player();
@@ -50,6 +65,15 @@ namespace pulchess { namespace logic {
 
     //! Get the piece list for this player
     list<Piece *> * GetPieceList();
+
+    //! Init clock
+    void InitClock(int moves, int secondsForMoves);
+
+    //! Push the clock
+    void PushClock();
+
+    //! Stop clock
+    void StopClock();
   };
   
 };

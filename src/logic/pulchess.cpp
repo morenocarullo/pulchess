@@ -68,6 +68,18 @@ void Pulchess::ResetMode(gamemode_t gameMode)
 }
 
 //
+// Set time control. This has to be called before game starts.
+//
+void Pulchess::SetTimecontrol(int movesToPlay, int secondsForMoves)
+{
+  if( whitePlayer != NULL & blackPlayer != NULL )
+  {
+    whitePlayer->InitClock(movesToPlay, secondsForMoves);
+    blackPlayer->InitClock(movesToPlay, secondsForMoves);
+  }
+}
+
+//
 // Init engine
 //
 void Pulchess::Init()
@@ -100,8 +112,7 @@ void Pulchess::Init()
 			break;
     }
 	
-	// 300 seconds game
-    board = new Board(whitePlayer, blackPlayer, 300);
+    board = new Board(whitePlayer, blackPlayer);
 	engineStatus = PULCHESS_STATUS_INIT;
 	Book::Load();
 	
@@ -126,10 +137,11 @@ bool Pulchess::loadGame(const char *gamePath)
 	
 	whitePlayer  = new HumanPlayer(WHITE);
 	blackPlayer  = new HumanPlayer(BLACK);
-    board        = new Board(whitePlayer, blackPlayer, 0);
+    board        = new Board(whitePlayer, blackPlayer);
     engineStatus = PULCHESS_STATUS_INIT;							
 										  
     // TODO: read from file game mode
+    //       read from file timings
 	
 	while(!feof(fp) && !endLoading)
 	{
@@ -202,18 +214,16 @@ bool Pulchess::gameCommand(string &cmd)
       pulchess_error("pulchess:gameCommand called before init");
       return false;
     }
-
-    board->PushClock(); // TODO: se la mossa e' errata riparte, gestire bene!
 	
     if( board->turn == WHITE ) {
+	    whitePlayer->PushClock();
 		retval = whitePlayer->DoMove(cmd);
+		if(retval) whitePlayer->StopClock();
     }
     else {
+	    blackPlayer->PushClock();
 		retval = blackPlayer->DoMove(cmd);
-    }
-
-    if(retval) {
-      board->UpdateClocks();
+		if(retval) blackPlayer->StopClock();
     }
 	
 	return retval;

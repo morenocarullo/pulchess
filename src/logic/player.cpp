@@ -1,7 +1,7 @@
 /*
  * PROJECT: PulCHESS, a Computer Chess program
  * LICENSE: GPL, see license.txt in project root
- * FILE: abstract Player implementation
+ * FILE:    abstract Player implementation
  **********************************************************************
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
@@ -21,8 +21,11 @@
 
 namespace pulchess { namespace logic {
 
-  Player::Player(colour_t colour) {
+  Player::Player(colour_t colour)
+  {
     _colour = colour;
+    _moves  = 0;
+    InitClock(40, 300);
   }
 
   Player::~Player()
@@ -59,6 +62,33 @@ namespace pulchess { namespace logic {
   list<Piece *> * Player::GetPieceList()
   {
     return _board->ListPieces(GetColour());
+  }
+
+  //
+  // Start clock
+  //
+  void Player::InitClock(int moves, int secondsForMoves)
+  {
+    _clockmoves = moves;
+    _clock      = secondsForMoves;
+  }
+
+  void Player::PushClock()
+  {
+	if(!_clockpushed)
+    {
+      _clockpush = time(NULL);
+      _clockpushed = true;
+    }
+  }
+
+  //
+  //
+  //
+  void Player::StopClock()
+  {
+    _clock -= time(NULL) - _clockpush;
+    _clockpushed = false;
   }
 };
 };

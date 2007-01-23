@@ -39,6 +39,8 @@ bool HumanPlayer::DoMove(string moveCmd)
 {
 	Move * coords = NULL;
 	
+	pulchess_debug("Remaining seconds in timecontrol: " << _clock << " Moves so far: " << _moves);
+	
 	try
 	{
 		coords = getMove(moveCmd);

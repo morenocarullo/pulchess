@@ -63,13 +63,16 @@ namespace pulchess { namespace logic {
     //! Get a string containing engine's name and version
     static string GetPulchessVersion();
 
-    // inizializza il gioco
+    //! Init game
     void Init();
 
-    // reimposta il gioco
+    //! Reset game
     void ResetMode(gamemode_t gameMode);
 
-    // chiude il gioco
+    //! Set timecontrol
+    void SetTimecontrol(int movesToPlay, int secondsForMoves);
+
+    //! Close engine
     void Shutdown();
     
     // ricostruisce la scacchiera

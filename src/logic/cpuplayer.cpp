@@ -75,8 +75,10 @@ bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
    moveResult = 0;
       
    try
-   {      
-      timec->startTimer( _board->remainingTime * (_board->moveCount+1) / 100 );
+   {
+      pulchess_debug("Remaining seconds in timecontrol: " << _clock << " Moves so far: " << _moves);
+	
+      timec->startTimer( _clock * (_moves+1) / 100 );
       
       if(  _board->IsInCheck(GetColour()) )
       {
@@ -120,6 +122,8 @@ bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
   		delete e;
   		exit(1);
     }
+
+    _moves++;
 	
 	return true;
 }
