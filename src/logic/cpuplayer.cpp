@@ -96,18 +96,15 @@ bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
       	pulchess_debug("move not found in book.");
       	this->Idab( plyDeep );
       	m = bestMove;   
-      	if( m == NULL ) {
-      	  pulchess_debug("no move was found in book!");
+      	if( m == NULL )
+        {
+      	  pulchess_debug("No move was found by cpu!");
+          return false;
       	}			
       }
       else
       {
       	pulchess_debug("found move in book!");
-      }
-
-      if( m == NULL )
-      {
-         return false;    
       }
       
       m->Play(_board);
@@ -136,6 +133,7 @@ CPUPlayer::Idab(int maxDepth)
 	for(depth=2; depth<=maxDepth; depth++)
 	{	
 		pulchess_debug("IDAB iteration to depth " << depth);
+		IsSearchValid = true;
 		value = Alfabeta(depth, depth, GetColour(), BLACK_WINS, WHITE_WINS);
 		if( timec->evalTimeRemaining(depth) )
 		{
@@ -196,6 +194,7 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     //
     if( timec->evalTimeRemaining(depth) && (depth != startDepth) )
 	{
+		IsSearchValid = false;
 		return _board->Evaluate(turnColour) * turnColour;
     }
 	
@@ -208,10 +207,10 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     }
     sort(mList.begin(), mList.end());
 
-	if( bestMove != NULL && depth == startDepth )
+	/*if( bestMove != NULL && depth == startDepth )
 	{
 		mList.push_back(bestMove);
-	}
+	}*/
 	
     //
 	// per tutte le mosse
@@ -242,14 +241,24 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     if( depth == startDepth )
     {
      	if( myBest == NULL ) return 0;
-    	bestMove = myBest->copy();
+    	if( IsSearchValid )
+        {
+          bestMove = myBest->copy();
+        }
+        else
+        {
+          pulchess_debug("No valid move selected due to timeout.");
+        }
     }
 
 #ifdef PULCHESS_USEHASHTABLE
-    thisBoardVal = new BoardValue(_board, depth, evc->getSize());
-    evc->Insert(thisBoardVal, alfa);
+    if( IsSearchValid )
+    {
+      thisBoardVal = new BoardValue(_board, depth, evc->getSize());
+      evc->Insert(thisBoardVal, alfa);
+    }
 #endif
-	
+
     moveListDestroy(&mList);
 	
     return alfa;

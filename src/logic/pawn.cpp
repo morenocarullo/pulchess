@@ -1,7 +1,8 @@
 /*
  * PROJECT: PulCHESS, a Computer Chess program
+ * AUTHOR:  Moreno Carullo
  * LICENSE: GPL, see license.txt in project root
- * FILE: Pawn implementation
+ * FILE:    Pawn implementation
  **********************************************************************
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
@@ -128,12 +129,12 @@ void Pawn::listMoves(Board* b, vector<Move *> *mList)
     // 1 - possiamo mangiare qualcuno ?
     p = b->GetPiece(x+1, y+GetColour());
     if( p!=NULL && IsEnemy(p) ) {
-	    rating = MOVE_PAWN_EATS;
+	    rating = MOVE_PAWN_EATS * p->GetRank();
 		mList->push_back( new Move( xy2pos( x+1, y+GetColour() ), pos, rating) );
     }
     p = b->GetPiece(x-1, y+GetColour());
     if( p!=NULL && IsEnemy(p) ) {
-	    rating = MOVE_PAWN_EATS;
+	    rating = MOVE_PAWN_EATS * p->GetRank();
 		mList->push_back( new Move( xy2pos( x-1, y+GetColour() ), pos, rating) );
     }
 	

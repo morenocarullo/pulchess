@@ -1,22 +1,23 @@
 /*
-* PROJECT: PulCHESS, a Computer Chess program
-* LICENSE: GPL, see license.txt in project root
-* FILE:    Pulchess Logic Facade class
-**********************************************************************
-* This program is free software; you can redistribute it and/or modify         
-* it under the terms of the GNU General Public License as published by      
-* the Free Software Foundation; either version 2 of the License, or         
-* (at your option) any later version.                                       
-*                                                                           
-* This program is distributed in the hope that it will be useful,           
-* but WITHOUT ANY WARRANTY; without even the implied warranty of            
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
-* GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
-* for more details.                                                         
-**********************************************************************
-* Created on 15-lug-2005
-* $Id$
-*/
+ * PROJECT: PulCHESS, a Computer Chess program
+ * AUTHOR:  Moreno Carullo
+ * LICENSE: GPL, see license.txt in project root
+ * FILE:    Pulchess Logic Facade class
+ **********************************************************************
+ * This program is free software; you can redistribute it and/or modify         
+ * it under the terms of the GNU General Public License as published by      
+ * the Free Software Foundation; either version 2 of the License, or         
+ * (at your option) any later version.                                       
+ *                                                                           
+ * This program is distributed in the hope that it will be useful,           
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of            
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
+ * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
+ * for more details.                                                         
+ **********************************************************************
+ * Created on 15-lug-2005
+ * $Id$
+ */
 #include "stdheader.h"
 #include "pulchess.H"
 #include "book.H"
@@ -84,24 +85,26 @@ void Pulchess::SetTimecontrol(int movesToPlay, int secondsForMoves)
 //
 void Pulchess::Init()
 {
+	const int DEFAULT_MAXPLY = 30;
+	
     // seleziona la modalita' di gioco.
     switch( gameMode )
 	{
 		// computer vs computer
 		case CPU_VS_CPU:
-			whitePlayer = new CPUPlayer(WHITE, 6, 30, true);
-			blackPlayer = new CPUPlayer(BLACK, 6, 30, true);
+			whitePlayer = new CPUPlayer(WHITE, DEFAULT_MAXPLY, 30, true);
+			blackPlayer = new CPUPlayer(BLACK, DEFAULT_MAXPLY, 30, true);
 			break;
 	
 		// umano vs computer
 		case HUM_VS_CPU:
 			whitePlayer = new HumanPlayer(WHITE);
-			blackPlayer = new CPUPlayer(BLACK, 6, 30, true);
+			blackPlayer = new CPUPlayer(BLACK, DEFAULT_MAXPLY, 30, true);
 			break;
 			
 		// umano vs computer
 		case CPU_VS_HUM:
-			whitePlayer = new CPUPlayer(WHITE, 6, 30, true);
+			whitePlayer = new CPUPlayer(WHITE, DEFAULT_MAXPLY, 30, true);
 			blackPlayer = new HumanPlayer(BLACK);
 			break;
 			

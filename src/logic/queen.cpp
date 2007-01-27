@@ -1,5 +1,6 @@
 /*
  * PROJECT: PulCHESS, a Computer Chess program
+ * AUTHOR:  Moreno Carullo
  * LICENSE: GPL, see license.txt in project root
  * FILE: Queen implementation
  **********************************************************************

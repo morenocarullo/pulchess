@@ -1,5 +1,6 @@
 /*
  * PROJECT: PulCHESS, a Computer Chess program
+ * AUTHOR:  Moreno Carullo
  * LICENSE: GPL, see license.txt in project root
  * FILE:	Piece interface
  **********************************************************************
@@ -35,7 +36,7 @@
 #define PIECE_RANK_KNIGHT 50
 #define PIECE_RANK_ROOK 75
 #define PIECE_RANK_QUEEN 250
-#define PIECE_RANK_KING 3000000
+#define PIECE_RANK_KING 10000000
 
 using namespace std;
 
