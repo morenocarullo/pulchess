@@ -68,7 +68,7 @@ int King::getPosEvaluation()
 	return posvaltbl[ colour == WHITE ? 0 : 1 ][pos];
 }
 
-bool King::IsValidMove(coord_t newpos, Board * b)
+bool King::IsValidMove(coord_t newpos)
 {
     coord_t newx = pos2x(newpos), newy = pos2y(newpos);
     int diffX = int(x) - newx, diffY = int(y) - newy;
@@ -85,7 +85,7 @@ bool King::IsValidMove(coord_t newpos, Board * b)
     return false;
 }
 
-void King::listMoves(Board* b, vector<Move *> *mList)
+void King::listMoves(vector<Move *> *mList)
 {
     Piece *p;
 	
@@ -99,7 +99,7 @@ void King::listMoves(Board* b, vector<Move *> *mList)
 			if(i==0 && j==0)
 				continue;
 			
-			p = b->GetPiece(x+i, y+j);
+			p = pulchess_board->GetPiece(x+i, y+j);
 			
 			// se esiste una pedina nel posto scelto, ed e' del colore opposto
 			// oppure se la casella prescelta e' vuota, allora e' una mossa valida.
@@ -115,15 +115,15 @@ void King::listMoves(Board* b, vector<Move *> *mList)
     // Kingside castling
     // 
     if( GetMoveCount() == 0 &&
-		b->GetPiece(pos+1) == NULL &&
-		b->GetPiece(pos+2) == NULL )
+		pulchess_board->GetPiece(pos+1) == NULL &&
+		pulchess_board->GetPiece(pos+2) == NULL )
 	{
-		p = b->GetPiece(pos+3);
+		p = pulchess_board->GetPiece(pos+3);
 		if( p != NULL &&
 		    p->GetKind() == PIECE_ROOK &&
 		    p->GetMoveCount() == 0 &&
-		    !b->CanEatThis(pos+1, colour) &&
-		    !b->CanEatThis(pos+2, colour) )
+		    !pulchess_board->CanEatThis(pos+1, colour) &&
+		    !pulchess_board->CanEatThis(pos+2, colour) )
 		{
 			mList->push_back( new RookMove(KINGSIDE_ROOK, colour) );
 		}
@@ -132,17 +132,17 @@ void King::listMoves(Board* b, vector<Move *> *mList)
 	// Queenside castling
 	//
 	if( GetMoveCount() == 0 &&
-		b->GetPiece(pos-1) == NULL &&
-		b->GetPiece(pos-2) == NULL &&
-		b->GetPiece(pos-3) == NULL )
+		pulchess_board->GetPiece(pos-1) == NULL &&
+		pulchess_board->GetPiece(pos-2) == NULL &&
+		pulchess_board->GetPiece(pos-3) == NULL )
 	{
-		p = b->GetPiece(pos-4);
+		p = pulchess_board->GetPiece(pos-4);
 		if( p != NULL &&
 		    p->GetKind() == PIECE_ROOK &&
 		    p->GetMoveCount() == 0 &&
-		    !b->CanEatThis(pos-1, colour) &&
-		    !b->CanEatThis(pos-2, colour) &&
-		    !b->CanEatThis(pos-3, colour) ) 
+		    !pulchess_board->CanEatThis(pos-1, colour) &&
+		    !pulchess_board->CanEatThis(pos-2, colour) &&
+		    !pulchess_board->CanEatThis(pos-3, colour) ) 
 		{
 			mList->push_back( new RookMove(QUEENSIDE_ROOK, colour) );
 		}

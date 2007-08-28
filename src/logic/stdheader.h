@@ -58,6 +58,8 @@ extern bool pulchess_log_on;
 #define COORDSOK(X,Y) ( (X) >=0 && (X) <8 && (Y) >= 0 && (Y) < 8 )
 #define OKCOORDS(I)   ( (I) >=0 && (I) <64 )
 
+#define pulchess_board Board::board
+
 #define pulchess_log_on() { pulchess_log_on = true; }
 #define pulchess_log_off() { pulchess_log_on = false; }
 #define pulchess_log(S)    { if(pulchess_log_on) cerr << "[info] " << S << endl; }

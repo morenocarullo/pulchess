@@ -21,9 +21,9 @@
 #include "stdheader.h"
 #include <stdio.h>  // C stdio
 
-#define CANCPIECE(X) b->PieceListDel((X));
-#define ADDPIECE(X) b->PieceListAdd((X));
-#define VIOLATURNO(X) ( (X)->GetColour() != b->turn )
+#define CANCPIECE(X) pulchess_board->PieceListDel((X));
+#define ADDPIECE(X) pulchess_board->PieceListAdd((X));
+#define VIOLATURNO(X) ( (X)->GetColour() != pulchess_board->turn )
 
 using namespace std;
 
@@ -216,15 +216,15 @@ coord_t Move::getY()
     return pos2y(dst);             
 }  
 
-int Move::Play(Board* b)
+int Move::Play()
 {
     coord_t
 	srcI = GetSrcIdx(),
 	dstI = GetDstIdx();
 	
     Piece 
-		*src = b->GetPiece(srcI),
-		*dst = b->GetPiece(dstI);
+		*src = pulchess_board->GetPiece(srcI),
+		*dst = pulchess_board->GetPiece(dstI);
 	
     // 
     // Precondizioni :
@@ -255,8 +255,8 @@ int Move::Play(Board* b)
     // spostiamo il pezzo
     //
     src->moveTo( dstI );
-    b->SetPiece(dstI, src);
-    b->SetPiece(srcI, NULL);
+    pulchess_board->SetPiece(dstI, src);
+    pulchess_board->SetPiece(srcI, NULL);
 	
 	
     // se il fante arriva in fondo...
@@ -269,9 +269,9 @@ int Move::Play(Board* b)
 			// chiede all'utente di scegliere che pezzo inserire
 			// al posto del fante appena "promosso".
 			Piece *newPiece;
-			newPiece = b->GetPlayer( src->GetColour() )->ChoosePawnPiece();
+			newPiece = pulchess_board->GetPlayer( src->GetColour() )->ChoosePawnPiece();
 			ADDPIECE( newPiece );
-			b->SetPiece( dstI, newPiece );
+			pulchess_board->SetPiece( dstI, newPiece );
 			newPiece->moveTo( dstI );
 			
 			// salva le info
@@ -282,21 +282,21 @@ int Move::Play(Board* b)
     }
 	
     // incrementiamo il contatore delle mosse ed il turno
-    b->moveCount++;
-    b->turn = ENEMY(b->turn);
+    pulchess_board->moveCount++;
+    pulchess_board->turn = ENEMY(pulchess_board->turn);
 
     // return 1 if we ate a piece
     return getDeadPiece() != NULL ? getDeadPiece()->GetRank() : 0;
   }
 
-void Move::Rewind(Board* b)
+void Move::Rewind()
 {
     coord_t
 	srcI = GetDstIdx(),
 	dstI = GetSrcIdx();
 	
     Piece
-		*src = b->GetPiece(srcI),
+		*src = pulchess_board->GetPiece(srcI),
 		*pro = getPromotedPawn(),
 		*ddp = getDeadPiece();
     
@@ -308,28 +308,28 @@ void Move::Rewind(Board* b)
 		setPromotedPawn( NULL );
 		
 		ADDPIECE( pro );
-		b->SetPiece( srcI, pro );
+		pulchess_board->SetPiece( srcI, pro );
     }
 	
     // rimette il pezzo alla posizione originaria
     //
-    b->GetPiece( srcI )->rollback(dstI);
-    b->SetPiece( dstI, b->GetPiece(srcI) );
-    b->SetPiece( srcI, NULL );
+    pulchess_board->GetPiece( srcI )->rollback(dstI);
+    pulchess_board->SetPiece( dstI, pulchess_board->GetPiece(srcI) );
+    pulchess_board->SetPiece( srcI, NULL );
 	
 	
     // se era stato mangiato un pezzo, lo rimette a posto
     //
     if( ddp != NULL ) {
-		b->PieceListAdd( ddp );
-		b->SetPiece( ddp->getPos(), ddp );
+		pulchess_board->PieceListAdd( ddp );
+		pulchess_board->SetPiece( ddp->getPos(), ddp );
 		setDeadPiece( NULL );
     }
 	
     // aggiorna mosse e turno
     //
-    b->moveCount--;
-    b->turn = ENEMY(b->turn);
+    pulchess_board->moveCount--;
+    pulchess_board->turn = ENEMY(pulchess_board->turn);
 }
 
 //
@@ -353,14 +353,14 @@ EPMove::EPMove(coord_t newpos, coord_t startpos, coord_t eat) : Move(newpos, sta
 	}
 }
 
-int EPMove::Play(Board *b)
+int EPMove::Play()
 {
     Piece *pEaten = NULL;
-    pEaten = b->GetPiece( getEatIdx() );
-    Move::Play(b);
+    pEaten = pulchess_board->GetPiece( getEatIdx() );
+    Move::Play();
     setDeadPiece( pEaten );
     CANCPIECE( pEaten );
-    b->SetPiece( getEatIdx(), NULL);
+    pulchess_board->SetPiece( getEatIdx(), NULL);
 
     return 1; // special effect: pawn eats pawn    
 }
@@ -421,7 +421,7 @@ RookMove::RookMove(bool rookKind, colour_t colour)
 }
 
 
-int RookMove::Play(Board *b)
+int RookMove::Play()
 {
     coord_t rkpos_src, kipos_src, rkpos_dst, kipos_dst;
 	
@@ -454,13 +454,13 @@ int RookMove::Play(Board *b)
 		}
     }
 	
-    b->SetPiece( kipos_dst, b->GetPiece(kipos_src) );
-    b->GetPiece( kipos_dst )->moveTo( kipos_dst );
-	b->SetPiece( kipos_src, NULL );
+    pulchess_board->SetPiece( kipos_dst, pulchess_board->GetPiece(kipos_src) );
+    pulchess_board->GetPiece( kipos_dst )->moveTo( kipos_dst );
+	pulchess_board->SetPiece( kipos_src, NULL );
 	
-    b->SetPiece( rkpos_dst, b->GetPiece( rkpos_src ) );
-    b->GetPiece( rkpos_dst )->moveTo( rkpos_dst );
-	b->SetPiece( rkpos_src, NULL );
+    pulchess_board->SetPiece( rkpos_dst, pulchess_board->GetPiece( rkpos_src ) );
+    pulchess_board->GetPiece( rkpos_dst )->moveTo( rkpos_dst );
+	pulchess_board->SetPiece( rkpos_src, NULL );
 	
 	return 0; // no special effect
 }
@@ -469,7 +469,7 @@ int RookMove::Play(Board *b)
 // "Disfa" la mossa, torna alla situazione precedente.
 //
 //////////////////////////////////////////////////////
-void RookMove::Rewind(Board *b)
+void RookMove::Rewind()
 {
     coord_t rkpos_src, kipos_src, rkpos_dst, kipos_dst;
 	
@@ -502,13 +502,13 @@ void RookMove::Rewind(Board *b)
 		}
     }
 	
-    b->SetPiece( kipos_dst, b->GetPiece( kipos_src ) );
-    b->GetPiece( kipos_dst )->moveTo( kipos_dst );
-	b->SetPiece( kipos_src, NULL );
+    pulchess_board->SetPiece( kipos_dst, pulchess_board->GetPiece( kipos_src ) );
+    pulchess_board->GetPiece( kipos_dst )->moveTo( kipos_dst );
+	pulchess_board->SetPiece( kipos_src, NULL );
 	
-    b->SetPiece( rkpos_dst, b->GetPiece( rkpos_src ) );
-    b->GetPiece( rkpos_dst )->moveTo( rkpos_dst );
-	b->SetPiece( rkpos_src, NULL );
+    pulchess_board->SetPiece( rkpos_dst, pulchess_board->GetPiece( rkpos_src ) );
+    pulchess_board->GetPiece( rkpos_dst )->moveTo( rkpos_dst );
+	pulchess_board->SetPiece( rkpos_src, NULL );
 }
 
 Move * RookMove::copy()

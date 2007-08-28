@@ -80,13 +80,13 @@ bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
 	
       timec->startTimer( _clock * (_moves+1) / 100 );
       
-      if(  _board->IsInCheck(GetColour()) )
+      if(  pulchess_board->IsInCheck(GetColour()) )
       {
       	pulchess_info("I am in check, gotta do smth!");
       }
       
       // Prova a cercare la mossa nel libro
-      BoardValue * bv = new BoardValue(_board, 99, Book::bookSize);
+      BoardValue * bv = new BoardValue(99, Book::bookSize);
       m = Book::Search( bv );
       delete bv;	
       
@@ -107,8 +107,8 @@ bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
       	pulchess_debug("found move in book!");
       }
       
-      m->Play(_board);
-      _board->MoveFinalize(m);
+      m->Play();
+      pulchess_board->MoveFinalize(m);
       timec->resetTimer();
       pulchess_info("move " << m->toString() << " thought in " << timec->getRealTime() << " seconds");
     }
@@ -148,7 +148,7 @@ CPUPlayer::Idab(int maxDepth)
 int
 CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, int beta) 
 {	
-    list<Piece *> * pList = _board->ListPieces(turnColour);
+    list<Piece *> * pList = pulchess_board->ListPieces(turnColour);
     list<Piece *>::iterator pList_iter;
     vector<Move *> mList;
     vector<Move *>::iterator mList_iter;
@@ -164,11 +164,11 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 	//  o  the moveResult parameter is helping us with "quiescienza" in order
 	//     to prevent to be eated early.
 	//
-	if( _board->GetKing(WHITE) == NULL ) return BLACK_WINS * turnColour;
-	if( _board->GetKing(BLACK) == NULL ) return WHITE_WINS * turnColour;
+	if( pulchess_board->GetKing(WHITE) == NULL ) return BLACK_WINS * turnColour;
+	if( pulchess_board->GetKing(BLACK) == NULL ) return WHITE_WINS * turnColour;
     if( depth <= 0 && moveResult <= PIECE_RANK_BISHOP )
 	{
-		return _board->Evaluate(turnColour) * turnColour;
+		return pulchess_board->Evaluate(turnColour) * turnColour;
     }
 	
     //
@@ -179,7 +179,7 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 
     if(depth != startDepth) {
 		int retVal;
-		thisBoardVal = new BoardValue(_board, depth, evc->getSize());
+		thisBoardVal = new BoardValue(depth, evc->getSize());
 		hashBoardVal = evc->Get( thisBoardVal->GetHashKey() );
 		if( hashBoardVal != NULL && hashBoardVal->UsableFor( thisBoardVal ) ) {
 			retVal = evc->GetValue( thisBoardVal->GetHashKey() );               
@@ -195,7 +195,7 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     if( timec->evalTimeRemaining(depth) && (depth != startDepth) )
 	{
 		IsSearchValid = false;
-		return _board->Evaluate(turnColour) * turnColour;
+		return pulchess_board->Evaluate(turnColour) * turnColour;
     }
 	
     // per tutti i miei pezzi
@@ -203,7 +203,7 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     //
     for(pList_iter = pList->begin(); pList_iter != pList->end(); pList_iter++)
 	{
-		(*pList_iter)->listMoves( _board, &mList );
+		(*pList_iter)->listMoves( &mList );
     }
     sort(mList.begin(), mList.end());
 
@@ -221,9 +221,9 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     {
 		currMove = (*mList_iter);
 		
-		moveResult = currMove->Play( _board );
+		moveResult = currMove->Play();
 		val = -Alfabeta( depth, depth-1, ENEMY(turnColour), -beta, -alfa );
-		currMove->Rewind( _board );
+		currMove->Rewind();
 		
 		if( val >= beta ) {
 			alfa = beta;
@@ -254,7 +254,7 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 #ifdef PULCHESS_USEHASHTABLE
     if( IsSearchValid )
     {
-      thisBoardVal = new BoardValue(_board, depth, evc->getSize());
+      thisBoardVal = new BoardValue(depth, evc->getSize());
       evc->Insert(thisBoardVal, alfa);
     }
 #endif

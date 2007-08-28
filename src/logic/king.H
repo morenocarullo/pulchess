@@ -37,8 +37,8 @@ namespace pulchess { namespace logic {
     int GetRank();
     coord_t GetValue();
 	int getPosEvaluation();
-    void listMoves(Board* b, vector<Move *> *mList);
-    bool    IsValidMove(coord_t pos, Board * b);
+    void listMoves(vector<Move *> *mList);
+    bool    IsValidMove(coord_t pos);
   };
 
 }; // end logic namespace

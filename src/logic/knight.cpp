@@ -66,7 +66,7 @@ int Knight::getPosEvaluation()
 	return posvaltbl[ colour == WHITE ? 0 : 1 ][int(pos)];
 }
 
-  bool Knight::IsValidMove(coord_t newpos, Board* b) 
+  bool Knight::IsValidMove(coord_t newpos) 
   {
     bool result = false;
     Piece* p;
@@ -103,7 +103,7 @@ int Knight::getPosEvaluation()
     // se la posizione e' valida, allora controlla che sia possibile
     // spostarci la pedina (casella vuota oppure occupata da nemico)
     if(result) {
-      p = b->GetPiece(newpos);
+      p = pulchess_board->GetPiece(newpos);
       return ( p == NULL || IsEnemy(p) );
     }
 
@@ -111,13 +111,13 @@ int Knight::getPosEvaluation()
   }
 
 
-  void Knight::listMoves(Board* b, vector<Move *> *mList)
+  void Knight::listMoves(vector<Move *> *mList)
   {
     Piece      *p     = NULL;
 
 #define add_knight_move(X,Y) \
  if( COORDSOK(X,Y) ) { \
-   p = b->GetPiece((X),(Y)); \
+   p = pulchess_board->GetPiece((X),(Y)); \
    if( p == NULL ) \
     mList->push_back( new Move(xy2pos((X),(Y)), pos, 0) ); \
    else if ( IsEnemy(p) )\

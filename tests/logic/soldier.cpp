@@ -29,22 +29,8 @@ static char * suitename = "soldier suite";
 
 static void testListMoves_start()
 {
-  Board b(new CPUPlayer(WHITE), new CPUPlayer(BLACK));
-  Pawn * s;
+	// SEE r.58 for tests, after Board singleton refactoring
 
-  s = (Pawn *)b.GetPiece(0,1);
-
-  vector<Move *> * mList = new vector<Move *>();
-  vector<Move *>::iterator lmit;
-  s->listMoves(&b, mList);
-
-  for(lmit = mList->begin();  lmit != mList->end();  lmit++){
-	BoardValue bvalue(&b, 99, 97);
-    (*lmit)->Play( &b );
-    (*lmit)->Rewind( &b );
-	BoardValue postBvalue(&b, 99, 97);
-	assert_true( bvalue == postBvalue );
-  }
 }
 
 void testSuitePawn() {

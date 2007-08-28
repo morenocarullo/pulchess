@@ -42,14 +42,6 @@ namespace pulchess { namespace logic {
   }
 
   //
-  // Set the chessboard to play on
-  //
-  void Player::SetBoard(Board* b)
-  {
-    _board = b;
-  }	
-  
-  //
   // Am I Human? By default, no.
   //
   bool Player::IsHuman()
@@ -62,17 +54,18 @@ namespace pulchess { namespace logic {
   //
   list<Piece *> * Player::GetPieceList()
   {
-    return _board->ListPieces(GetColour());
+    return pulchess_board->ListPieces(GetColour());
   }
 
   //
   // Init clock
   //
-  void Player::InitClock(int moves, int secondsForMoves)
+  void Player::InitClock(int moves, unsigned int secondsForMoves)
   {
     _clockmoves = moves;
     _clock      = secondsForMoves;
     _clockbonus = secondsForMoves;
+    _clockpushed = false;
   }
 
   //
@@ -92,7 +85,7 @@ namespace pulchess { namespace logic {
   //
   void Player::StopClock()
   {
-    _clock -= time(NULL) - _clockpush;
+    _clock -= (time(NULL) - _clockpush);
     _clockpushed = false;
     _moves ++;
     if( _clock > 0 && _moves%_clockmoves==0 )

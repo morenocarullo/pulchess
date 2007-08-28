@@ -38,21 +38,21 @@ static void test_moveRollback_one()
   try
   {
     // status quo ante
-    BoardValue boardValueStart(&b, 99, 97);
+    BoardValue boardValueStart(99, 97);
     moveCt1 = b.GetMoveCount();
 
     // a1a3 move
     m1 = new Move( xy2pos(0,3), xy2pos(0,1), 0 );
-    m1->Play(&b);
+    m1->Play();
     b.MoveFinalize(m1);
-    BoardValue boardValueMove(&b, 99, 97);
+    BoardValue boardValueMove(99, 97);
     moveCt2 = b.GetMoveCount();
     assert_true( boardValueStart != boardValueMove );
     assert_true( moveCt2 == moveCt1+1 );
 
     // now rollback and check
     assert_true( b.MoveRollback() == true );
-    BoardValue boardValueRoll(&b, 99, 97);
+    BoardValue boardValueRoll(99, 97);
     moveCt3 = b.GetMoveCount();
     assert_true( boardValueStart == boardValueRoll );
     assert_true( moveCt3 == moveCt1 );
@@ -69,11 +69,11 @@ static void test_GetLastMove()
   Move * m1;
 
   // status quo ante
-  BoardValue boardValueStart(&b, 99, 97);
+  BoardValue boardValueStart(99, 97);
 
   // a1a3 move
   m1 = new Move( xy2pos(0,3), xy2pos(0,1), 0 );
-  m1->Play(&b);
+  m1->Play();
   b.MoveFinalize(m1);
   Move * lastMove = b.GetLastMove();
 

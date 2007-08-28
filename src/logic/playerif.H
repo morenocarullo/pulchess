@@ -28,14 +28,13 @@ namespace pulchess { namespace logic {
   class Player {
 
   protected:
-    Board*   _board;
     colour_t _colour;
 
     //! Remaining time
-    time_t   _clock;
+    unsigned int   _clock;
 
     //! Bonus time after _clockmoves moves
-    time_t   _clockbonus;
+    unsigned int   _clockbonus;
 
     //! When clock was pushed last
     time_t   _clockpush;
@@ -66,14 +65,11 @@ namespace pulchess { namespace logic {
     //! Play a (specified) move
     virtual bool DoMove(string moveCmd) = 0;
 
-    //! Set the chess board
-    void SetBoard(Board* b);
-
     //! Get the piece list for this player
     list<Piece *> * GetPieceList();
 
     //! Init clock
-    void InitClock(int moves, int secondsForMoves);
+    void InitClock(int moves, unsigned int secondsForMoves);
 
     //! Push the clock, start thinking a move
     void PushClock();

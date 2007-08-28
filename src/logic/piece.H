@@ -43,7 +43,6 @@ using namespace std;
 namespace pulchess { namespace logic {
 	
 	class Move;
-	class Board;
 	
 	//! Represents a generic piece on chessboard
 	class Piece
@@ -99,22 +98,22 @@ namespace pulchess { namespace logic {
 		void   rollback(coord_t pos);
 		
 		//! Can I reach "pos" from current position, moving in diagonal?
-		bool IsValidMove_diag(coord_t pos, Board *b);
+		bool IsValidMove_diag(coord_t pos);
 		
 		//! Can I reach "pos" from current position, moving hor. or vert.?
-		bool IsValidMove_croce(coord_t pos, Board *b);
+		bool IsValidMove_croce(coord_t pos);
 		
 		//! Is there another move left?
-		bool    hasNextMove(Board* b);
+		bool    hasNextMove();
 		
 		//! What kind of piece am i?
 		virtual int     GetKind() = 0;
 
 		//! Get list of valid moves, providing an already allocated list
-		virtual void listMoves(Board *b, vector<Move *> *mList) = 0;
+		virtual void listMoves(vector<Move *> *mList) = 0;
 		
 		//! Says whether this move is valid or not
-		virtual bool    IsValidMove(coord_t pos, Board * b) = 0;
+		virtual bool    IsValidMove(coord_t pos) = 0;
 		
 		//! This piece's rank
 		virtual int     GetRank() = 0;

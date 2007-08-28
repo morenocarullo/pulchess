@@ -42,24 +42,24 @@ namespace pulchess { namespace logic {
   // La mossa della regina e' valida se e' in diagonale oppure
   // in orizzontale / verticale.
   //
-  bool Queen::IsValidMove(coord_t newpos, Board * b)
+  bool Queen::IsValidMove(coord_t newpos)
   {
-    if( IsValidMove_diag(newpos, b) )
+    if( IsValidMove_diag(newpos) )
       return true;
     
-    if( IsValidMove_croce(newpos, b) )
+    if( IsValidMove_croce(newpos) )
       return true;
     
     return false;
   }
 
   
-  void Queen::listMoves(Board* b, vector<Move *> *mList)
+  void Queen::listMoves(vector<Move *> *mList)
   {
 
 #define queen_add_move(X,Y,GOTOLABEL) { \
    if( COORDSOK((X)+x, (Y)+y) ) { \
-     p = b->GetPiece((X)+x,(Y)+y); \
+     p = pulchess_board->GetPiece((X)+x,(Y)+y); \
      if( p == NULL ) \
        mList->push_back( new Move( xy2pos((X)+x,(Y)+y), pos, 0) ); \
      else { \

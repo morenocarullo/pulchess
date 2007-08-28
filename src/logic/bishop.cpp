@@ -37,12 +37,12 @@ namespace pulchess { namespace logic {
     return (coord_t)7 + colour*3;
   }
 
-  bool Bishop::IsValidMove(coord_t newpos, Board * b)
+  bool Bishop::IsValidMove(coord_t newpos)
   {
-    return IsValidMove_diag(newpos, b);
+    return IsValidMove_diag(newpos);
   }
   
-  void Bishop::listMoves(Board* b, vector<Move *> *mList)
+  void Bishop::listMoves(vector<Move *> *mList)
   {
     // MACRO bishop_add_move(LABEL)
     //
@@ -54,7 +54,7 @@ namespace pulchess { namespace logic {
     //
     ///////////////////////////
 #define bishop_add_move(GOTOLABEL) {\
-        p = b->GetPiece(i,j); \
+        p = pulchess_board->GetPiece(i,j); \
         if( i==x && j==y ) continue; \
 		if( p != NULL ) { \
 			if( IsEnemy(p) ) { \

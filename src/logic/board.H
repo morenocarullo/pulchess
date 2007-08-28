@@ -61,6 +61,9 @@ namespace pulchess { namespace logic {
     void _putPiece(const coord_t x, const coord_t y, Piece* p);
 
   public:
+    //! Fast Singleton instance
+    static Board *board;
+
     //! Class ctor
     Board(Player * white, Player * black);
 
@@ -148,7 +151,7 @@ namespace pulchess { namespace logic {
     int hashkey;
 
   public:
-    BoardValue(Board *b, coord_t depth, unsigned int dstTableSize);
+    BoardValue(coord_t depth, unsigned int dstTableSize);
 	BoardValue(const coord_t * rec, unsigned int dstTableSize);
     ~BoardValue();
 	bool operator== (BoardValue &a);

@@ -28,6 +28,11 @@
 #define VIOLATURNO(X) ( (X)->GetColour() != turn )
 
 namespace pulchess { namespace logic {
+	
+//
+// Global, singleton instance.
+//
+Board*	Board::board = NULL;
 
 //
 // Board ctor
@@ -37,11 +42,6 @@ Board::Board(Player * white, Player * black)
 		// assign players
 		_whitePlayer = white;
 		_blackPlayer = black;
-		
-		if(_whitePlayer != NULL && _blackPlayer != NULL ) {
-			_whitePlayer->SetBoard(this);
-			_blackPlayer->SetBoard(this);
-		}
 		
 		// il bianco inizia per primo!
 		turn = WHITE;
@@ -220,7 +220,7 @@ bool Board::MoveRollback()
 	Move *lastMove = NULL;
 	try {
 	  lastMove = gameMoveList.back();
-	  lastMove->Rewind(this);
+	  lastMove->Rewind();
 	  gameMoveList.pop_back();
 	  delete lastMove;
 	  turn = ENEMY(turn);
@@ -326,7 +326,7 @@ int Board::CanEatThis(coord_t pos, const colour_t colour, bool countTimes)
 	
     for(lpIter = lp->begin(); lpIter != lp->end(); lpIter++)
 	{
-		if( (*lpIter)->IsValidMove(pos, this) )
+		if( (*lpIter)->IsValidMove(pos) )
 		{
 			if(!countTimes) return 1;
 			count++;
@@ -365,22 +365,22 @@ Move * Board::CheckDefenseMove(const colour_t colour)
     // get moves for all pieces
     for(lpIter = lp->begin(); lpIter != lp->end(); lpIter++) {
 		Piece * p = (*lpIter);
-		p->listMoves(this, &mList);
+		p->listMoves(&mList);
     }
 	
 	// is any of these the right one?
     for(lmit = mList.begin(); lmit != mList.end(); lmit++) {
 		try {
-			(*lmit)->Play(this);
+			(*lmit)->Play();
 			if( IsInCheck(colour) == 0 ) {
 				Move *savingMove;				
-				(*lmit)->Rewind(this);
+				(*lmit)->Rewind();
 				turn = backupTurn;
 				savingMove = (*lmit)->copy();
 				moveListDestroy(&mList);
 				return savingMove;
 			}
-			(*lmit)->Rewind(this);
+			(*lmit)->Rewind();
 		}
 		catch(InvalidMoveException *ex)
 		{
@@ -401,14 +401,54 @@ Move * Board::CheckDefenseMove(const colour_t colour)
 //
 int Board::Evaluate(colour_t colour)
 {
-    int val = 0;
-
+    int val = 0, tmppos = 0;
+    coord_t wkingpos, bkingpos;
+    
+    // material
     for(int i=0; i<64; i++) {
   		if(_map[i] != NULL) {			
   			val += _map[i]->GetRank()          * _map[i]->GetColour();
   			val += _map[i]->getPosEvaluation() * _map[i]->GetColour();
   		}
     }
+    
+    // white king protection
+    if( _whiteKing != NULL)
+    {
+    	wkingpos = _whiteKing->getPos();
+    	tmppos = wkingpos+7;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == WHITE) val += 1 * WHITE;	
+    	tmppos = wkingpos+8;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == WHITE) val += 1 * WHITE;
+    	tmppos = wkingpos+9;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == WHITE) val += 1 * WHITE;
+    	tmppos = wkingpos-7;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == WHITE) val += 1 * WHITE;	
+    	tmppos = wkingpos-8;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == WHITE) val += 1 * WHITE;
+    	tmppos = wkingpos-9;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == WHITE) val += 1 * WHITE;	    	  
+    }
+
+
+    // black king protection
+    if(_blackKing != NULL )
+    {
+    	bkingpos = _blackKing->getPos();	
+    	tmppos = bkingpos+7;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == BLACK) val += 1 * BLACK;	
+    	tmppos = bkingpos+8;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == BLACK) val += 1 * BLACK;
+    	tmppos = bkingpos+9;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == BLACK) val += 1 * BLACK;
+    	tmppos = bkingpos-7;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == BLACK) val += 1 * BLACK;	
+    	tmppos = bkingpos-8;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == BLACK) val += 1 * BLACK;
+    	tmppos = bkingpos-9;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == BLACK) val += 1 * BLACK;
+    }
+    
 	
     return val;
 }
@@ -429,15 +469,15 @@ int Board::GetMoveCount()
 //
 // Class ctor
 //
-BoardValue::BoardValue(Board *b, coord_t depth, unsigned int dstTableSize)
+BoardValue::BoardValue(coord_t depth, unsigned int dstTableSize)
 {
 	int base = 127;
     this->depth = depth;
     
     hashkey = 0;
     for(int i=0; i<64; i++) {
-		if( b->GetPiece(i) != NULL )
-			map[i] = b->GetPiece(i)->GetValue();
+		if( pulchess_board->GetPiece(i) != NULL )
+			map[i] = pulchess_board->GetPiece(i)->GetValue();
 		else
 			map[i] = 0;
 		

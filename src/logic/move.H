@@ -33,7 +33,6 @@ Move * tmpMove = NULL;\
 namespace pulchess { namespace logic {
 
   class Piece;
-  class Board;
   
   class Move
   {
@@ -68,10 +67,10 @@ namespace pulchess { namespace logic {
     coord_t getSourceY();
 
 	//! Play me on specified board
-    virtual int Play(Board *b);
+    virtual int Play();
 
 	//! Rollback me on specified board
-    virtual void Rewind(Board *b);
+    virtual void Rewind();
 
 	//! Copy me
     virtual Move * copy();
@@ -114,7 +113,7 @@ namespace pulchess { namespace logic {
     coord_t getEatX();
     coord_t getEatY();
 
-    int Play(Board *b);
+    int Play();
     Move * copy();
   };
 
@@ -140,8 +139,8 @@ namespace pulchess { namespace logic {
 
   public:
     RookMove(bool rookKind, colour_t colour);
-    int Play(Board *);
-    void Rewind(Board *);
+    int Play();
+    void Rewind();
     Move * copy();
   };
 

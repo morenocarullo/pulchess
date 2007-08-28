@@ -51,7 +51,6 @@ namespace pulchess { namespace logic {
   {
 
   private:
-    Board * board;
 	int engineStatus;
     gamemode_t gameMode;
     Player * whitePlayer;

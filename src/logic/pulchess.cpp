@@ -24,7 +24,7 @@
 #include <sstream>
 
 /** pulchess static local vars */
-static const char version[] = "PulCHESS 0.2b";
+static const char version[] = "PulCHESS 0.2c";
 
 /** pulchess lobal vars */
 bool pulchess_log_on = true;
@@ -34,7 +34,6 @@ namespace pulchess { namespace logic {
 // Pulchess costructor
 Pulchess::Pulchess(gamemode_t gameMode)
 {
-    this->board    = NULL;
     this->gameMode = gameMode;
 	this->engineStatus = PULCHESS_STATUS_ZERO;
 }
@@ -61,9 +60,10 @@ void Pulchess::ResetMode(gamemode_t gameMode)
 {
   this->gameMode = gameMode;
   this->engineStatus = PULCHESS_STATUS_ZERO;
-  if( board != NULL )
+  if( Board::board != NULL )
   {
-	delete board;	 
+	delete Board::board;
+	Board::board = NULL;	 
   }
   Init();
 }
@@ -115,7 +115,7 @@ void Pulchess::Init()
 			break;
     }
 	
-    board = new Board(whitePlayer, blackPlayer);
+    Board::board = new Board(whitePlayer, blackPlayer);
 	engineStatus = PULCHESS_STATUS_INIT;
 	Book::Load();
 	
@@ -140,7 +140,7 @@ bool Pulchess::loadGame(const char *gamePath)
 	
 	whitePlayer  = new HumanPlayer(WHITE);
 	blackPlayer  = new HumanPlayer(BLACK);
-    board        = new Board(whitePlayer, blackPlayer);
+    pulchess_board = new Board(whitePlayer, blackPlayer);
     engineStatus = PULCHESS_STATUS_INIT;							
 										  
     // TODO: read from file game mode
@@ -182,8 +182,8 @@ void Pulchess::StartGame()
 //
 void Pulchess::Shutdown()
 {
-    delete board;
-    board = NULL;
+    delete pulchess_board;
+    pulchess_board = NULL;
 }
 
 //
@@ -194,7 +194,7 @@ cellinfo_t Pulchess::getCellInfo(int x, int y)
     Piece * p;
     cellinfo_t c;
 	
-    p        = board->GetPiece(x,y);
+    p        = pulchess_board->GetPiece(x,y);
 	
     if( p != NULL ) {
 		c.kind   = p->getKindChr();
@@ -212,7 +212,7 @@ cellinfo_t Pulchess::getCellInfo(int x, int y)
 //
 bool Pulchess::IsGameFinished()
 {
-    return board->IsGameFinished();
+    return pulchess_board->IsGameFinished();
 }
 
 //
@@ -220,7 +220,7 @@ bool Pulchess::IsGameFinished()
 //
 int Pulchess::whoPlaysNow()
 {
-    return (board != NULL)  ? board->turn : PULCHESS_WHITE;
+    return (pulchess_board != NULL)  ? pulchess_board->turn : PULCHESS_WHITE;
 }
 
 //
@@ -236,7 +236,7 @@ bool Pulchess::gameCommand(string &cmd)
       return false;
     }
 	
-    if( board->turn == WHITE ) {
+    if( pulchess_board->turn == WHITE ) {
 		retval = whitePlayer->DoMove(cmd);
     }
     else {
@@ -276,7 +276,7 @@ bool Pulchess::IsMove(string &cmd)
 bool Pulchess::IsHuman()
 {
 	if( engineStatus == PULCHESS_STATUS_ZERO ) return false;
-	if( board->turn == WHITE ) return whitePlayer->IsHuman();
+	if( pulchess_board->turn == WHITE ) return whitePlayer->IsHuman();
 	else					   return blackPlayer->IsHuman();
 }
 
@@ -294,7 +294,7 @@ bool Pulchess::IsHuman(const colour_t colour)
 //
 Move * Pulchess::GetLastMove()
 {
-	return (board == NULL) ? NULL : board->GetLastMove();
+	return (pulchess_board == NULL) ? NULL : pulchess_board->GetLastMove();
 }
 
 //
@@ -307,9 +307,9 @@ string  Pulchess::GetGameMovesReport()
   list<Move *>::iterator it;
      int ct;	
 
-  if( board == NULL ) return report;
+  if( pulchess_board == NULL ) return report;
 
-  mlist = board->GetMoveList();
+  mlist = pulchess_board->GetMoveList();
 
   for (ct = 0, it = mlist->begin(); it != mlist->end(); it++, ct++)
   {
@@ -333,7 +333,7 @@ string  Pulchess::GetGameMovesReport()
 //
 int Pulchess::gameInfo()
 {
-    return board->WhoWins();
+    return pulchess_board->WhoWins();
 }
 
 //

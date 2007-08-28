@@ -144,7 +144,7 @@ namespace pulchess { namespace logic {
     moveCount = ct;
   }
 
-  bool Piece::IsValidMove_diag(coord_t newpos, Board *b)
+  bool Piece::IsValidMove_diag(coord_t newpos)
   {
     int
       int_x    = x,
@@ -165,11 +165,11 @@ namespace pulchess { namespace logic {
       for( i=int_x+incrX, j=int_y+incrY;
            i!= int_newx && j!= int_newy;
            i+=incrX, j+=incrY) {
-        p =  b->GetPiece(i,j);
+        p =  pulchess_board->GetPiece(i,j);
         if( p != NULL )
           return false;
       }
-      p = b->GetPiece(newpos);
+      p = pulchess_board->GetPiece(newpos);
       if( p == NULL || ( p != NULL && IsEnemy(p) )) {
         return true;
       }
@@ -178,7 +178,7 @@ namespace pulchess { namespace logic {
     return false;
   }
 
-  bool Piece::IsValidMove_croce(coord_t newpos, Board *b)
+  bool Piece::IsValidMove_croce(coord_t newpos)
   {
     int
       int_x    = x,
@@ -196,11 +196,11 @@ namespace pulchess { namespace logic {
     if( abs(int_x - int_newx) == 0 ) {
       int incr = ( int_y > int_newy ? -1 : 1 );
       for( int i = int_y+incr; i != int_newy; i += incr ) {
-        p = b->GetPiece(int_x, i);
+        p = pulchess_board->GetPiece(int_x, i);
         if( p != NULL )
           return false;
       }
-      p =  b->GetPiece(int_newx, int_newy);
+      p =  pulchess_board->GetPiece(int_newx, int_newy);
       if( p == NULL || ( p != NULL && IsEnemy(p) ) ) {
         return true;
       }
@@ -212,11 +212,11 @@ namespace pulchess { namespace logic {
     else if( abs(int_y - int_newy) == 0 ) {
       int incr = ( int_x > int_newx ? -1 : 1 );
       for( int i = int_x+incr; i != int_newx; i += incr ) {
-        p = b->GetPiece(i, int_y);
+        p = pulchess_board->GetPiece(i, int_y);
         if( p != NULL )
           return false;
       }
-      p =  b->GetPiece(int_newx, int_newy);
+      p =  pulchess_board->GetPiece(int_newx, int_newy);
       if( p == NULL || ( p != NULL && IsEnemy(p) ) ) {
         return true;
       }
@@ -228,10 +228,10 @@ namespace pulchess { namespace logic {
 
   // C'e' almeno una mossa possibile ?
   //
-  bool Piece::hasNextMove(Board* b)
+  bool Piece::hasNextMove()
   {
     vector<Move *> mList;
-	listMoves(b, &mList);
+	listMoves(&mList);
     bool val = !mList.empty();
 	moveListDestroy(&mList);
     return val;

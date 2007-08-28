@@ -37,19 +37,20 @@ namespace pulchess { namespace logic {
     return 7 + colour*4;
   }
 
-  bool Rook::IsValidMove(coord_t pos, Board * b)
+ bool Rook::IsValidMove(coord_t pos)
   {
-    return IsValidMove_croce(pos, b);
+    return IsValidMove_croce(pos);
   }
 
-  void Rook::listMoves(Board * b, vector<Move *> *mList)
+
+  void Rook::listMoves(vector<Move *> *mList)
   {
     Piece      *p     = NULL;
 
 #define tower_add_move(X,Y) \
  if( !COORDSOK((X),(Y)) ) continue; \
  if((X) == x && (Y) == y ) continue; \
- p = b->GetPiece((X),(Y)); \
+ p = pulchess_board->GetPiece((X),(Y)); \
  if(p == NULL) { \
    mList->push_back( new Move( xy2pos((X),(Y)), pos, 0) ); \
    continue; \

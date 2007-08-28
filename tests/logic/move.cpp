@@ -32,27 +32,7 @@ static char * suitename = "move suite";
 //
 static void test_move_one()
 {
-  Board b(new HumanPlayer(WHITE), new HumanPlayer(BLACK));
-  Move *m1, *m2, *m3;
-
-  try
-  {
-    // e2e4
-    m1 = new Move( xy2pos(4,3), xy2pos(4,1), 0 );
-    assert_true( m1->Play(&b) == 0 );
- 
-    // f7f5
-	m2 = new Move( xy2pos(5,4), xy2pos(5,6), 0 );
-	assert_true( m2->Play(&b) == 0 );
-	
-	// e4f5
-	m3 = new Move( xy2pos(5,4), xy2pos(4,3), 0 );
-    assert_true( m3->Play(&b) == PIECE_RANK_PAWN );
-  }
-  catch(...)
-  {
-    assert_true( 0 == "exception thrown!" );
-  }
+	// SEE r.58 for tests, after Board singleton refactoring
 }
 
 //

@@ -35,10 +35,10 @@ namespace pulchess { namespace logic {
     int     GetKind();
     int     GetRank();
     coord_t GetValue();
-    bool    IsValidMove(coord_t pos, Board * b);
+    bool    IsValidMove(coord_t pos);
 	int     getPosEvaluation();
 	
-    void listMoves(Board* b, vector<Move *> *mList);
+    void listMoves(vector<Move *> *mList);
   };
 
 }; // end logic namespace
