@@ -1,6 +1,5 @@
 - terminare implementazione xboard
-- interfaccia con una scacchiera reale! (!)
+- velocizzare alcuni calcoli con bitboards
 - parallelizzabilita'
-- interfaccia 3D per console (Dreamcast, PS2, etc...)
-- correspondance chess
+- interfaccia 3D SDL per console (Dreamcast, PlayStation, Nintendo GameBoy/DS...)
 - elenco delle aperture (opening library)

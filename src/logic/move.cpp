@@ -313,7 +313,7 @@ void Move::Rewind()
 	
     // rimette il pezzo alla posizione originaria
     //
-    pulchess_board->GetPiece( srcI )->rollback(dstI);
+    pulchess_board->GetPiece( srcI )->Rollback(dstI);
     pulchess_board->SetPiece( dstI, pulchess_board->GetPiece(srcI) );
     pulchess_board->SetPiece( srcI, NULL );
 	

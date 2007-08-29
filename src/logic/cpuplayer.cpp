@@ -206,11 +206,6 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 		(*pList_iter)->listMoves( &mList );
     }
     sort(mList.begin(), mList.end());
-
-	/*if( bestMove != NULL && depth == startDepth )
-	{
-		mList.push_back(bestMove);
-	}*/
 	
     //
 	// per tutte le mosse
@@ -238,6 +233,11 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 		} 
 	}
 	
+	//
+	// Se si ritorna alla profondita' iniziale, e quindi stiamo nella chiamata
+	// che poi torna all'utente, allora controlliamo se la mossa va salvata
+	// (per poi essere applicata).
+	//
     if( depth == startDepth )
     {
      	if( myBest == NULL ) return 0;
@@ -251,6 +251,9 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
         }
     }
 
+	//
+	// Se la ricerca e' valida, allora inserisci la mossa nella hashtable.
+	//
 #ifdef PULCHESS_USEHASHTABLE
     if( IsSearchValid )
     {

@@ -20,11 +20,11 @@ FILETYPE VFT_APP
 			 VALUE "FileVersion", ""
 			 VALUE "FileDescription", "pulchess chess engine"
 			 VALUE "InternalName", "pulchess"
-			 VALUE "LegalCopyright", "2005-2006 (C) Moreno Carullo"
+			 VALUE "LegalCopyright", "2005-2007 (C) Moreno Carullo"
 			 VALUE "LegalTrademarks", ""
-			 VALUE "OriginalFilename", ""
+			 VALUE "OriginalFilename", "pulchess.exe"
 			 VALUE "ProductName", "pulchess"
-			 VALUE "ProductVersion", "1.0.0"
+			 VALUE "ProductVersion", "0.2c"
 		 }
 	 }
   BLOCK "VarFileInfo"

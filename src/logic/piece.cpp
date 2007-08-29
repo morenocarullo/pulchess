@@ -126,7 +126,7 @@ namespace pulchess { namespace logic {
     moveCount++;
   }
 
-  void Piece::rollback(coord_t newpos)
+  void Piece::Rollback(coord_t newpos)
   {
     this->x   = pos2x(newpos);
     this->y   = pos2y(newpos);
@@ -228,7 +228,7 @@ namespace pulchess { namespace logic {
 
   // C'e' almeno una mossa possibile ?
   //
-  bool Piece::hasNextMove()
+  bool Piece::HasNextMove()
   {
     vector<Move *> mList;
 	listMoves(&mList);

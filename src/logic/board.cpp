@@ -49,7 +49,7 @@ Board::Board(Player * white, Player * black)
 		// init board
 		for(int i=0; i<64; i++) 
 		{
-			_map[i] = NULL;
+			piece_dr(i) = NULL;
 		}
 		
 		/* White Player */
@@ -104,8 +104,8 @@ Board::~Board()
 
 	// delete pieces
     for(int i=0; i<64; i++) {
-		if( _map[i] != NULL)
-			delete _map[i];
+		if( piece_dr(i) != NULL)
+			delete piece_dr(i);
     }
 }
 
@@ -406,9 +406,9 @@ int Board::Evaluate(colour_t colour)
     
     // material
     for(int i=0; i<64; i++) {
-  		if(_map[i] != NULL) {			
-  			val += _map[i]->GetRank()          * _map[i]->GetColour();
-  			val += _map[i]->getPosEvaluation() * _map[i]->GetColour();
+  		if(piece_dr(i) != NULL) {			
+  			val += piece_dr(i)->GetRank()          * piece_dr(i)->GetColour();
+  			val += piece_dr(i)->getPosEvaluation() * piece_dr(i)->GetColour();
   		}
     }
     
@@ -429,7 +429,6 @@ int Board::Evaluate(colour_t colour)
     	tmppos = wkingpos-9;
     	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == WHITE) val += 1 * WHITE;	    	  
     }
-
 
     // black king protection
     if(_blackKing != NULL )

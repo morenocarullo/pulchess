@@ -85,26 +85,26 @@ namespace pulchess { namespace logic {
 		coord_t  getY();
 
         //! Get position (index) on chessboard
-		coord_t     getPos();
+		coord_t  getPos();
 		
         //! Move this piece to specified position (index)
-		void moveTo(coord_t pos);
+		void   moveTo(coord_t pos);
 		int    GetMoveCount();
 		void   setMoveCount(int ct);
 		char   getKindChr();
 		char   getColourChr();
 		
 		//! Bring me back to position pos
-		void   rollback(coord_t pos);
+		void   Rollback(coord_t pos);
 		
 		//! Can I reach "pos" from current position, moving in diagonal?
-		bool IsValidMove_diag(coord_t pos);
+		bool   IsValidMove_diag(coord_t pos);
 		
 		//! Can I reach "pos" from current position, moving hor. or vert.?
-		bool IsValidMove_croce(coord_t pos);
+		bool   IsValidMove_croce(coord_t pos);
 		
 		//! Is there another move left?
-		bool    hasNextMove();
+		bool   HasNextMove();
 		
 		//! What kind of piece am i?
 		virtual int     GetKind() = 0;
