@@ -3,7 +3,7 @@
  * AUTHOR:  Moreno Carullo
  * LICENSE: GPL, see license.txt in project root
  * FILE:	Piece interface
- **********************************************************************
+ *
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
  * the Free Software Foundation; either version 2 of the License, or         
@@ -14,7 +14,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
  * for more details.                                                         
- **********************************************************************
+ *
  * Created on 15-lug-2005
  * $Id$
  */
@@ -124,6 +124,104 @@ namespace pulchess { namespace logic {
 		//! Give an evaluation of current position	
 		virtual int	getPosEvaluation();
 	};
+
+
+  //! A pawn piece
+  class Pawn : public Piece
+  {
+    
+  public:
+    //! Create a new pawn, given its colour
+    Pawn(colour_t colour) : Piece(colour) {};
+
+    int     GetKind();
+    int     GetRank();
+    coord_t GetValue();
+    bool    IsValidMove(coord_t pos);
+    int     getPosEvaluation();
+
+    void listMoves(vector<Move *> *mList);
+  };
+
+
+  //! The Knight (N) piece.
+  class Knight : public Piece
+  {
+  
+  public:
+    Knight(colour_t colour) : Piece(colour) {};
+
+    int     GetKind();
+    int     GetRank();
+    coord_t GetValue();
+    bool    IsValidMove(coord_t pos);
+    int     getPosEvaluation();
+	
+    void listMoves(vector<Move *> *mList);
+  };
+  
+  
+  //! A bishop (B) piece	
+  class Bishop : public Piece
+  {
+    public:
+      Bishop(colour_t colour) : Piece(colour) {};
+	
+      int     GetKind();
+      int     GetRank();
+      coord_t GetValue();
+      bool    IsValidMove(coord_t pos);
+
+      void listMoves(vector<Move *> *mList);
+  };  
+
+
+  //! The Rook (R) piece
+  class Rook : public Piece
+  {
+    public:
+      Rook(colour_t colour) : Piece(colour) {};
+
+      int     GetRank();
+      int     GetKind();
+      coord_t GetValue();
+      bool    IsValidMove(coord_t pos);
+
+     void listMoves(vector<Move *> *mList);  
+  };  
+
+
+  //! The Queen (Q) piece
+  class Queen : public Piece
+  {
+
+  public:
+    Queen(colour_t colour) : Piece(colour) {};
+    ~Queen();
+    
+    int     GetKind();
+    int     GetRank();
+    coord_t GetValue();
+    bool    IsValidMove(coord_t pos);
+
+    void listMoves(vector<Move *> *mList);
+  };
+
+
+  //! The King (K) piece
+  class King : public Piece
+  {
+    
+  public:
+    King(colour_t colour) : Piece(colour) {};
+
+    int     GetKind();
+    int     GetRank();
+    coord_t GetValue();
+    int     getPosEvaluation();
+    void    listMoves(vector<Move *> *mList);
+    bool    IsValidMove(coord_t pos);
+  };	
 	
 }; // end logic namespace
 }; // end pulchess namespace

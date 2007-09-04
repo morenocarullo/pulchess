@@ -1,1 +1,9 @@
-Moreno - tweety at pulc dot it
+AUTHOR LIST
+
+Project author, main developer
+
+  Moreno Carullo
+  --
+  email: moreno.carullo (at) pulc (dot) it
+  web:   http://moreno.pulc.it/
+  blog:  http://morenocarullo.blogspot.com/

@@ -31,7 +31,7 @@ static char * suitename = "board suite";
 //
 static void test_moveRollback_one()
 {
-  Board b(new HumanPlayer(WHITE), new HumanPlayer(BLACK));
+  Board b;
   Move * m1;
   int moveCt1, moveCt2, moveCt3;
 
@@ -65,7 +65,7 @@ static void test_moveRollback_one()
 
 static void test_GetLastMove()
 {
-  Board b(new HumanPlayer(WHITE), new HumanPlayer(BLACK));
+  Board b;
   Move * m1;
 
   // status quo ante
@@ -81,7 +81,17 @@ static void test_GetLastMove()
   assert_true( m1->toString() == lastMove->toString() );
 }
 
+static void test_LoadFromEbd()
+{
+	Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+	
+	Piece *whiteRookSx = board.GetPiece(0,0);
+	assert_true( whiteRookSx->GetKind() == PIECE_ROOK );
+	assert_true( whiteRookSx->GetColour() == WHITE );
+}
+
 void testSuiteBoard() {
-	PULCHESS_CALLCASE(test_moveRollback_one, "board::test_moveRollback_one");
-    PULCHESS_CALLCASE(test_GetLastMove, "board::test_GetLastMove");
+	//PULCHESS_CALLCASE(test_moveRollback_one, "board::test_moveRollback_one");
+    //PULCHESS_CALLCASE(test_GetLastMove, "board::test_GetLastMove");
+    PULCHESS_CALLCASE(test_LoadFromEbd,  "board::test_LoadFromEbd");
 }

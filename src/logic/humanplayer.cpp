@@ -3,7 +3,7 @@
  * AUTHOR:  Moreno Carullo
  * LICENSE: GPL, see license.txt in project root
  * FILE: HumanPlayer implementation
- **********************************************************************
+ *
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
  * the Free Software Foundation; either version 2 of the License, or         
@@ -14,7 +14,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
  * for more details.                                                         
- **********************************************************************
+ *
  * Created on 15-lug-2005
  * $Id$
  */
@@ -24,15 +24,11 @@ namespace pulchess { namespace logic {
 	
 //! Class constructor
 //
-HumanPlayer::HumanPlayer(colour_t colour) : Player(colour)
-{
-}
+HumanPlayer::HumanPlayer(colour_t colour) : Player(colour) {}
 
 //! Class destructor
 //
-HumanPlayer::~HumanPlayer()
-{
-}
+HumanPlayer::~HumanPlayer() {}
 
 //! Play a move!
 //

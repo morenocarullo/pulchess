@@ -49,8 +49,18 @@ namespace pulchess { namespace logic {
     int      _moves;
 
   public:
+
+    //! Pointer to the (global) white Player
+    static Player* whitePlayer;
+
+    //! Pointer to the (global) black Player
+    static Player* blackPlayer;
+
+
     Player();
     Player(colour_t colour);
+    
+    //! Destructor
     virtual ~Player();
     
     //! Which is my colour?

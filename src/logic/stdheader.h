@@ -49,6 +49,8 @@ extern bool pulchess_log_on;
 #define WHITE_INCHECK -100000
 #define CHECK_PLUS		1000
 
+#define NO_POSITION  65
+
 #define pos2x(P)    ( P%8 )
 #define pos2y(P)    ( P/8 )
 #define xy2pos(X,Y) ( (Y) * 8 + (X) )
@@ -58,7 +60,9 @@ extern bool pulchess_log_on;
 #define COORDSOK(X,Y) ( (X) >=0 && (X) <8 && (Y) >= 0 && (Y) < 8 )
 #define OKCOORDS(I)   ( (I) >=0 && (I) <64 )
 
-#define pulchess_board Board::board
+#define pulchess_board     Board::board
+#define pulchess_the_white Player::whitePlayer
+#define pulchess_the_black Player::blackPlayer
 
 #define pulchess_log_on() { pulchess_log_on = true; }
 #define pulchess_log_off() { pulchess_log_on = false; }
@@ -72,12 +76,6 @@ extern bool pulchess_log_on;
 #endif
 
 #include "piece.H"
-#include "rook.H"
-#include "queen.H"
-#include "king.H"
-#include "knight.H"
-#include "pawn.H"
-#include "bishop.H"
 #include "board.H"
 #include "move.H"
 #include "cpuplayer.H"

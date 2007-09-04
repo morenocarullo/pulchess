@@ -19,16 +19,6 @@
  * $Id$
  */
 #include <stdio.h>
- 
-#define PULCHESS_RUNTESTS() {\
- testSuitePawn();\
- testSuiteKing();\
- testSuiteRook();\
- testSuiteBoard();\
- testSuiteMove();\
- testSuiteHumanPlayer();\
- testSuitePulchessPulchess();\
-}
 
 #define PULCHESS_CALLCASE(C,M) { printf("O"); C(); fflush(stdout); };
 #define assert_true(C) \

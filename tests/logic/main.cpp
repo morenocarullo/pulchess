@@ -24,7 +24,15 @@
 
 int main(int argc, char *argv[]) {
 	pulchess_log_off();
-	PULCHESS_RUNTESTS();
+
+ 	testSuitePawn();
+ 	testSuiteKing();
+ 	testSuiteRook();
+ 	testSuiteBoard();
+ 	testSuiteMove();
+ 	testSuiteHumanPlayer();
+ 	testSuitePulchessPulchess();
+
 	cout << endl << "test completed successfully." << endl;
 	return 0;
 }

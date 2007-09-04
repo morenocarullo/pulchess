@@ -3,7 +3,7 @@
  * AUTHOR:  Moreno Carullo
  * LICENSE: GPL, see license.txt in project root
  * FILE:    Board and BoardValue interfaces
- **********************************************************************
+ *
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
  * the Free Software Foundation; either version 2 of the License, or         
@@ -14,7 +14,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
  * for more details.                                                         
- **********************************************************************
+ *
  * Created on 15-lug-2005
  * $Id$
  */
@@ -50,31 +50,33 @@ namespace pulchess { namespace logic {
 
     //! Pointer to the black King
     King * _blackKing;
-
-    //! Pointer to the white Player
-    Player * _whitePlayer;
-
-    //! Pointer to the black Player
-    Player * _blackPlayer;
     
     //! Put the piece in the board, for first time insertion
-    void _putPiece(const coord_t x, const coord_t y, Piece* p);
+    void FirstInsertOfPiece(const coord_t x, const coord_t y, Piece* p);
 
   public:
-    //! Fast Singleton instance
-    static Board *board;
+    //! Fast (global) instance
+    static Board* board;
 
     //! Class ctor
-    Board(Player * white, Player * black);
+    Board();
+
+    //! Ebd class ctor
+	Board(string ebdString);
 
     //! Class d'stor
     ~Board();
+
+    void LoadFromEbd(string ebdString);
 
     //! Actual turn
     colour_t turn;
 
     //! Move count (total moves playied)
     int moveCount;
+    
+    //! Set if enpassant is possible on next turn
+    coord_t enpassant;
     
     //! Get the piece at position x,y
     Piece * GetPiece(const coord_t x, const coord_t y);

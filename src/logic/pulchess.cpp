@@ -24,7 +24,7 @@
 #include <sstream>
 
 /** pulchess static local vars */
-static const char version[] = "PulCHESS 0.2c";
+static const char version[] = "PulCHESS 0.2d";
 
 /** pulchess lobal vars */
 bool pulchess_log_on = true;
@@ -73,10 +73,10 @@ void Pulchess::ResetMode(gamemode_t gameMode)
 //
 void Pulchess::SetTimecontrol(int movesToPlay, int secondsForMoves)
 {
-  if( whitePlayer != NULL & blackPlayer != NULL )
+  if( pulchess_the_white != NULL & pulchess_the_black != NULL )
   {
-    whitePlayer->InitClock(movesToPlay, secondsForMoves);
-    blackPlayer->InitClock(movesToPlay, secondsForMoves);
+    pulchess_the_white->InitClock(movesToPlay, secondsForMoves);
+    pulchess_the_black->InitClock(movesToPlay, secondsForMoves);
   }
 }
 
@@ -85,37 +85,37 @@ void Pulchess::SetTimecontrol(int movesToPlay, int secondsForMoves)
 //
 void Pulchess::Init()
 {
-	const int DEFAULT_MAXPLY = 30;
+	const int DEFAULT_MAXPLY = 6;
 	
     // seleziona la modalita' di gioco.
     switch( gameMode )
 	{
 		// computer vs computer
 		case CPU_VS_CPU:
-			whitePlayer = new CPUPlayer(WHITE, DEFAULT_MAXPLY, 30, true);
-			blackPlayer = new CPUPlayer(BLACK, DEFAULT_MAXPLY, 30, true);
+			pulchess_the_white = new CPUPlayer(WHITE, DEFAULT_MAXPLY, 30, true);
+			pulchess_the_black = new CPUPlayer(BLACK, DEFAULT_MAXPLY, 30, true);
 			break;
 	
 		// umano vs computer
 		case HUM_VS_CPU:
-			whitePlayer = new HumanPlayer(WHITE);
-			blackPlayer = new CPUPlayer(BLACK, DEFAULT_MAXPLY, 30, true);
+			pulchess_the_white = new HumanPlayer(WHITE);
+			pulchess_the_black = new CPUPlayer(BLACK, DEFAULT_MAXPLY, 30, true);
 			break;
 			
 		// umano vs computer
 		case CPU_VS_HUM:
-			whitePlayer = new CPUPlayer(WHITE, DEFAULT_MAXPLY, 30, true);
-			blackPlayer = new HumanPlayer(BLACK);
+			pulchess_the_white = new CPUPlayer(WHITE, DEFAULT_MAXPLY, 30, true);
+			pulchess_the_black = new HumanPlayer(BLACK);
 			break;
 			
 		// umano vs umano
 		case HUM_VS_HUM:
-			whitePlayer = new HumanPlayer(WHITE);
-			blackPlayer = new HumanPlayer(BLACK);
+			pulchess_the_white = new HumanPlayer(WHITE);
+			pulchess_the_black = new HumanPlayer(BLACK);
 			break;
     }
 	
-    Board::board = new Board(whitePlayer, blackPlayer);
+    Board::board = new Board();
 	engineStatus = PULCHESS_STATUS_INIT;
 	Book::Load();
 	
@@ -138,10 +138,10 @@ bool Pulchess::loadGame(const char *gamePath)
 		return false;
 	}
 	
-	whitePlayer  = new HumanPlayer(WHITE);
-	blackPlayer  = new HumanPlayer(BLACK);
-    pulchess_board = new Board(whitePlayer, blackPlayer);
-    engineStatus = PULCHESS_STATUS_INIT;							
+	pulchess_the_white  = new HumanPlayer(WHITE);
+	pulchess_the_black  = new HumanPlayer(BLACK);
+    pulchess_board      = new Board();
+    engineStatus        = PULCHESS_STATUS_INIT;							
 										  
     // TODO: read from file game mode
     //       read from file timings
@@ -172,7 +172,7 @@ void Pulchess::StartGame()
 {
 	if( engineStatus & PULCHESS_STATUS_INIT )
     {
-      whitePlayer->PushClock();
+      pulchess_the_white->PushClock();
       engineStatus |= PULCHESS_STATUS_START;
     }
 }
@@ -237,10 +237,10 @@ bool Pulchess::gameCommand(string &cmd)
     }
 	
     if( pulchess_board->turn == WHITE ) {
-		retval = whitePlayer->DoMove(cmd);
+		retval = pulchess_the_white->DoMove(cmd);
     }
     else {
-		retval = blackPlayer->DoMove(cmd);
+		retval = pulchess_the_black->DoMove(cmd);
     }
 	
 	return retval;
@@ -275,9 +275,15 @@ bool Pulchess::IsMove(string &cmd)
 // Il prossimo giocatore e' umano?
 bool Pulchess::IsHuman()
 {
-	if( engineStatus == PULCHESS_STATUS_ZERO ) return false;
-	if( pulchess_board->turn == WHITE ) return whitePlayer->IsHuman();
-	else					   return blackPlayer->IsHuman();
+  if( engineStatus == PULCHESS_STATUS_ZERO ) {
+	return false;
+  }
+  if( pulchess_board->turn == WHITE ) {
+    return pulchess_the_white->IsHuman();
+  }
+  else {
+    return pulchess_the_black->IsHuman();
+  }
 }
 
 //
@@ -286,7 +292,7 @@ bool Pulchess::IsHuman()
 bool Pulchess::IsHuman(const colour_t colour)
 {
 	if( engineStatus == PULCHESS_STATUS_ZERO ) return false;
-	return (colour == WHITE) ? whitePlayer->IsHuman() : blackPlayer->IsHuman(); 
+	return (colour == WHITE) ? pulchess_the_white->IsHuman() : pulchess_the_black->IsHuman(); 
 }
 
 //

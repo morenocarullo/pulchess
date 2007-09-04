@@ -3,7 +3,7 @@
  * AUTHOR:  Moreno Carullo
  * LICENSE: GPL, see license.txt in project root
  * FILE:    Board and BoardValue implementation
- **********************************************************************
+ *
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
  * the Free Software Foundation; either version 2 of the License, or         
@@ -14,7 +14,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
  * for more details.                                                         
- ********************************************************************** 
+ * 
  * Created on 15-lug-2005
  * $Id$
  */
@@ -37,57 +37,105 @@ Board*	Board::board = NULL;
 //
 // Board ctor
 //	
-Board::Board(Player * white, Player * black)
+Board::Board()
+{		
+  LoadFromEbd("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+}
+
+//
+// Board ctor - FEN version
+//
+// C++ does not support calling of ctor inside of ctor, so a LoadFromEbd()
+// member has been implemented.
+//
+Board::Board(string ebdString)
 {
-		// assign players
-		_whitePlayer = white;
-		_blackPlayer = black;
-		
-		// il bianco inizia per primo!
-		turn = WHITE;
-		
-		// init board
-		for(int i=0; i<64; i++) 
-		{
-			piece_dr(i) = NULL;
-		}
-		
-		/* White Player */
-		_putPiece(0, 1, new Pawn(WHITE));
-		_putPiece(1, 1, new Pawn(WHITE));
-		_putPiece(2, 1, new Pawn(WHITE));
-		_putPiece(3, 1, new Pawn(WHITE));
-		_putPiece(4, 1, new Pawn(WHITE));
-		_putPiece(5, 1, new Pawn(WHITE));
-		_putPiece(6, 1, new Pawn(WHITE));
-		_putPiece(7, 1, new Pawn(WHITE));
-		_putPiece(0, 0, new Rook(WHITE));
-		_putPiece(1, 0, new Knight(WHITE));
-		_putPiece(2, 0, new Bishop(WHITE));
-		_putPiece(4, 0, new King(WHITE));
-		_putPiece(3, 0, new Queen(WHITE));
-		_putPiece(5, 0, new Bishop(WHITE));
-		_putPiece(6, 0, new Knight(WHITE));
-		_putPiece(7, 0, new Rook(WHITE));
-		
-		
-		/* Black Player */
-		_putPiece(0, 6, new Pawn(BLACK));
-		_putPiece(1, 6, new Pawn(BLACK));
-		_putPiece(2, 6, new Pawn(BLACK));
-		_putPiece(3, 6, new Pawn(BLACK));
-		_putPiece(4, 6, new Pawn(BLACK));
-		_putPiece(5, 6, new Pawn(BLACK));
-		_putPiece(6, 6, new Pawn(BLACK));
-		_putPiece(7, 6, new Pawn(BLACK));
-		_putPiece(0, 7, new Rook(BLACK));
-		_putPiece(1, 7, new Knight(BLACK));
-		_putPiece(2, 7, new Bishop(BLACK));
-		_putPiece(3, 7, new Queen(BLACK));
-		_putPiece(4, 7, new King(BLACK));
-		_putPiece(5, 7, new Bishop(BLACK));
-		_putPiece(6, 7, new Knight(BLACK));
-		_putPiece(7, 7, new Rook(BLACK));
+  LoadFromEbd(ebdString);
+}
+
+//
+// Load from FEN.
+// See: http://www.very-best.de/pgn-spec.htm#16.a
+//
+void Board::LoadFromEbd(string ebdString)
+{
+  int ct=0,row=7,col=0;
+  char c;
+  bool stop=false;
+  colour_t colour;
+
+  // nullset pieces
+  for(int i=0; i<64; i++) {
+    piece_dr(i) = NULL;
+  }
+  
+  // reset en passant
+  enpassant = NO_POSITION;
+
+  // start loading FEN position data
+  while(!stop) {
+    c=ebdString[ct];
+    switch(c) {
+      case 'p':
+      case 'P':
+        colour = (c == 'P') ? WHITE : BLACK; 
+        FirstInsertOfPiece(col,row,new Pawn(colour)); col++;
+        break;
+      case 'r':
+      case 'R':
+        colour = (c == 'R') ? WHITE : BLACK; 
+        FirstInsertOfPiece(col,row,new Rook(colour)); col++;
+        break;
+      case 'n':
+      case 'N':
+        colour = (c == 'N') ? WHITE : BLACK; 
+        FirstInsertOfPiece(col,row,new Knight(colour)); col++;
+        break;
+      case 'b':
+      case 'B':
+        colour = (c == 'B') ? WHITE : BLACK; 
+        FirstInsertOfPiece(col,row,new Bishop(colour)); col++;
+        break;
+      case 'q':
+      case 'Q':
+        colour = (c == 'Q') ? WHITE : BLACK; 
+        FirstInsertOfPiece(col,row,new Queen(colour)); col++;
+        break;
+      case 'k':
+      case 'K':
+        colour = (c == 'K') ? WHITE : BLACK; 
+        FirstInsertOfPiece(col,row,new King(colour)); col++;
+        break;
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+        col += ('0'-c);
+        break;
+      case '/':
+        row--; col=0;
+        break;
+      case ' ':
+        stop=true;
+        break;
+    }
+    ct++;
+  }
+
+  // turn
+  turn = ebdString[ct++] == 'w' ? WHITE : BLACK;
+
+  // castling
+
+  // en passant
+
+  // clock
+
+  // 50-move stuff	
 }
 
 //
@@ -95,18 +143,17 @@ Board::Board(Player * white, Player * black)
 //
 Board::~Board()
 {
-	// delete move list contents
-    list<Move *>::iterator it;
-    for(it = gameMoveList.begin(); it != gameMoveList.end(); it++)
-	{
-		delete (*it);
-    }
+  // delete move list contents
+  list<Move *>::iterator it;
+  for(it = gameMoveList.begin(); it != gameMoveList.end(); it++) {
+    delete (*it);
+  }
 
-	// delete pieces
-    for(int i=0; i<64; i++) {
-		if( piece_dr(i) != NULL)
-			delete piece_dr(i);
-    }
+  // delete pieces
+  for(int i=0; i<64; i++) {
+    if( piece_dr(i) != NULL)
+      delete piece_dr(i);
+  }
 }
 
 //
@@ -114,15 +161,15 @@ Board::~Board()
 //
 void Board::PieceListAdd(Piece *p)
 {
-    ADDPIECE(p);
-    if( p->GetKind() == PIECE_KING ) {
-      if( p->GetColour() == WHITE) {
-	_whiteKing = (King *)p;
-      }
-      else {
-	_blackKing = (King *)p;
-      }
+  ADDPIECE(p);
+  if( p->GetKind() == PIECE_KING ) {
+    if( p->GetColour() == WHITE) {
+      _whiteKing = (King *)p;
     }
+    else {
+      _blackKing = (King *)p;
+    }
+  }
 }
 
 //
@@ -141,22 +188,14 @@ void Board::PieceListDel(Piece *p)
 }
 
 //
-// Add a piece on the board, only for first time!
+// Add a piece on the board, only for first time (board creation)
 //
-void Board::_putPiece(const coord_t x, const coord_t y, Piece* p)
+void Board::FirstInsertOfPiece(const coord_t x, const coord_t y, Piece* p)
 {
     // inseriamo il pezzo
     piece_at(x,y) = p;
     p->moveTo( xy2pos(x,y) );
-    ADDPIECE(p);
-	
-    // se e' un re, va abbinato alla corrispettiva variabile
-    if( p->GetKind() == PIECE_KING ) {
-		if( p->GetColour() == WHITE )
-			_whiteKing = (King *)p;
-		else
-			_blackKing = (King *)p;
-    }
+    PieceListAdd(p);
 }
 
 //
@@ -193,7 +232,7 @@ void Board::SetPiece(const coord_t pos, Piece *p)
 //  
 Player * Board::GetPlayer(colour_t colour)
 {
-    return ( colour == WHITE ? _whitePlayer : _blackPlayer );
+    return ( colour == WHITE ? pulchess_the_white : pulchess_the_black );
 }
 
 //
@@ -257,8 +296,8 @@ void Board::MoveFinalize(Move *move)
   if( move != NULL )
 	gameMoveList.push_back(move);
   
-  if( turn == WHITE ) { _blackPlayer->StopClock(); _whitePlayer->PushClock(); }
-  else                { _whitePlayer->StopClock(); _blackPlayer->PushClock(); }
+  if( turn == WHITE ) { pulchess_the_black->StopClock(); pulchess_the_white->PushClock(); }
+  else                { pulchess_the_white->StopClock(); pulchess_the_black->PushClock(); }
 }
 
 //

@@ -3,7 +3,7 @@
  * AUTHOR:  Moreno Carullo
  * LICENSE: GPL, see license.txt in project root
  * FILE: Move implementations
- **********************************************************************
+ *
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
  * the Free Software Foundation; either version 2 of the License, or         
@@ -14,7 +14,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
  * for more details.                                                         
- ********************************************************************** 
+ * 
  * Created on 24-gen-2005
  * $Id$
  */
@@ -37,7 +37,10 @@ namespace pulchess { namespace logic {
   class Move
   {
 
-  protected:
+  public:
+    //! Move rating
+    int rating;
+    
 	//! Starting place
     coord_t src;
 
@@ -50,16 +53,15 @@ namespace pulchess { namespace logic {
 	//! The eventually promoted pawn
     Piece * promotedPawn;
     
-  public:
+    //! The eventually cleared enpassant status
+    coord_t enpassant;
+    
     Move();
     Move(coord_t src, coord_t dst, int rating);
     virtual ~Move();
 
-    //! Move rating
-    int rating;
-
-    coord_t    GetSrcIdx();
-    coord_t    GetDstIdx();
+    coord_t GetSrcIdx();
+    coord_t GetDstIdx();
 
     coord_t getX();
     coord_t getY();

@@ -3,7 +3,7 @@
  * AUTHOR:  Moreno Carullo
  * LICENSE: GPL, see license.txt in project root
  * FILE:    Pawn implementation
- **********************************************************************
+ *
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
  * the Free Software Foundation; either version 2 of the License, or         
@@ -14,7 +14,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
  * for more details.                                                         
- **********************************************************************
+ *
  * Created on 15-lug-2005
  * $Id$
  */
@@ -111,7 +111,7 @@ bool Pawn::IsValidMove(coord_t newpos)
 		if(  (newx == x+1 || newx == x-1)  &&
 			 (newy == y+GetColour())       &&
 			 (p == NULL)                   &&
-			 (ped != NULL && IsEnemy(ped) && ped->GetMoveCount() == 1) )
+			 (ped != NULL && IsEnemy(ped) && pulchess_board->enpassant == newpos - GetColour()*8) )
 		{
 			return true;
 		}
@@ -153,9 +153,10 @@ void Pawn::listMoves(vector<Move *> *mList)
 			// en passant e' valido se:
 			// o  c'e' un pezzo nemico al nostro fianco alla prima mossa
 			// o  la cella di destinazione e' libera
+			// OCCHIO: va fatto subito quando si presenta l'occasione!!!
 			//
 			dst = pulchess_board->GetPiece(i, y);
-			if( dst!=NULL && dst->GetMoveCount() == 1 &&
+			if( dst!=NULL && pulchess_board->enpassant == xy2pos(i,y) &&
 				IsEnemy(dst) &&
 				pulchess_board->GetPiece(i, y+GetColour()) == NULL )
 			{

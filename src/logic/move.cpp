@@ -154,6 +154,8 @@ Move * Move::copy()
 	
     m->setDeadPiece( this->deadPiece );
     m->setPromotedPawn( this->promotedPawn );
+    m->enpassant = this->enpassant;
+    
     return m;
 }
 
@@ -237,13 +239,15 @@ int Move::Play()
     //  6) la mossa deve essere valida per il pezzo scelto*
     //     *se la mossa e' generata, sappiamo gia' che e' valida
     //
+#ifdef DEBUG
     if( src == NULL      ||
-		VIOLATURNO(src)  ||
-		srcI == dstI )
-	{
+	VIOLATURNO(src)  ||
+	srcI == dstI )
+    {
 		pulchess_error( "tentata mossa non valida: " << this->toString() );
 		throw new InvalidMoveException("Mossa non valida!");
     }
+#endif
 	
     // abbiamo mangiato ?
     //
@@ -284,10 +288,19 @@ int Move::Play()
     // incrementiamo il contatore delle mosse ed il turno
     pulchess_board->moveCount++;
     pulchess_board->turn = ENEMY(pulchess_board->turn);
+    
+    // salviamo il flag per l'enpassant
+    enpassant = pulchess_board->enpassant;
+    pulchess_board->enpassant = NO_POSITION;  
+
+    // se e' un pedone, ev. settiamo il flag di enpassant
+    if( src->GetKind() == PIECE_PAWN && abs((int)srcI - dstI) == 16 ) {
+       enpassant = dstI;
+    }
 
     // return 1 if we ate a piece
     return getDeadPiece() != NULL ? getDeadPiece()->GetRank() : 0;
-  }
+}
 
 void Move::Rewind()
 {
@@ -330,6 +343,10 @@ void Move::Rewind()
     //
     pulchess_board->moveCount--;
     pulchess_board->turn = ENEMY(pulchess_board->turn);
+    
+    // aggiorna en passant flag
+    //
+    pulchess_board->enpassant = enpassant;
 }
 
 //
@@ -342,7 +359,8 @@ EPMove::EPMove(coord_t newpos, coord_t startpos, coord_t eat) : Move(newpos, sta
 	this->eat = eat;
 	this->deadPiece = NULL;
 	this->promotedPawn = NULL;
-	
+
+#ifdef DEBUG
 	if( newpos == startpos ) {
 		pulchess_error( "Mossa anomala!" );
 	}
@@ -351,6 +369,7 @@ EPMove::EPMove(coord_t newpos, coord_t startpos, coord_t eat) : Move(newpos, sta
 		pulchess_error( "Generata mossa anomala!" );
 		exit(1);
 	}
+#endif
 }
 
 int EPMove::Play()
@@ -361,6 +380,14 @@ int EPMove::Play()
     setDeadPiece( pEaten );
     CANCPIECE( pEaten );
     pulchess_board->SetPiece( getEatIdx(), NULL);
+    
+    // aggiorna contatore mosse e turno
+    pulchess_board->moveCount++;
+    pulchess_board->turn = ENEMY(pulchess_board->turn);    
+    
+    // resettiamo il flag per l'enpassant
+    enpassant = pulchess_board->enpassant;
+    pulchess_board->enpassant = NO_POSITION;
 
     return 1; // special effect: pawn eats pawn    
 }
@@ -385,7 +412,9 @@ Move * EPMove::copy()
     Move * m = new EPMove(dst, src, eat);
 	
     m->setDeadPiece( this->deadPiece );
-    m->setPromotedPawn( this->promotedPawn );
+    m->setPromotedPawn( this->promotedPawn );    
+    m->enpassant = this->enpassant;
+        
     return m;
 }
 
@@ -462,13 +491,20 @@ int RookMove::Play()
     pulchess_board->GetPiece( rkpos_dst )->moveTo( rkpos_dst );
 	pulchess_board->SetPiece( rkpos_src, NULL );
 	
+    // aggiorna mosse e turno
+    pulchess_board->moveCount++;
+    pulchess_board->turn = ENEMY(pulchess_board->turn);
+	
+    // resettiamo il flag per l'enpassant
+    enpassant = pulchess_board->enpassant;
+    pulchess_board->enpassant = NO_POSITION;
+	
 	return 0; // no special effect
 }
 
-
+//
 // "Disfa" la mossa, torna alla situazione precedente.
 //
-//////////////////////////////////////////////////////
 void RookMove::Rewind()
 {
     coord_t rkpos_src, kipos_src, rkpos_dst, kipos_dst;
@@ -504,16 +540,26 @@ void RookMove::Rewind()
 	
     pulchess_board->SetPiece( kipos_dst, pulchess_board->GetPiece( kipos_src ) );
     pulchess_board->GetPiece( kipos_dst )->moveTo( kipos_dst );
-	pulchess_board->SetPiece( kipos_src, NULL );
+    pulchess_board->SetPiece( kipos_src, NULL );
 	
     pulchess_board->SetPiece( rkpos_dst, pulchess_board->GetPiece( rkpos_src ) );
     pulchess_board->GetPiece( rkpos_dst )->moveTo( rkpos_dst );
-	pulchess_board->SetPiece( rkpos_src, NULL );
+    pulchess_board->SetPiece( rkpos_src, NULL );
+	
+    // aggiorna mosse e turno
+    //
+    pulchess_board->moveCount--;
+    pulchess_board->turn = ENEMY(pulchess_board->turn);	
+	
+    // aggiorna en passant flag
+    //
+    pulchess_board->enpassant = enpassant;
 }
 
 Move * RookMove::copy()
 {
-    return new RookMove(kind, pcol);
+  // TODO: settare l'enpassant flag
+  return new RookMove(kind, pcol);
 }
 
 };
