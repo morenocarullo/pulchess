@@ -37,10 +37,7 @@ HashCache::HashCache()
 
 HashCache::~HashCache()
 {
-	for(unsigned int i=0; i<size; i++) {
-		if( _vals[i] != NULL )
-			delete _vals[i];
-	}
+	Clear();
 }
 
 void HashCache::_Init()
@@ -70,6 +67,16 @@ void HashCache::Insert(BoardValue *t, int val)
 	
 	if( bv != NULL )
 		delete bv;
+}
+
+void HashCache::Clear()
+{
+	for(unsigned int i=0; i<size; i++) {
+		if( _vals[i] != NULL ) {
+			delete _vals[i];
+			_vals[i] = NULL;
+		}
+	}
 }
 
 BoardValue * HashCache::Get(unsigned int key)

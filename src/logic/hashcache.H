@@ -41,6 +41,7 @@ namespace pulchess { namespace logic {
     ~HashCache();
 
     void Insert(BoardValue *t, int value);
+	void Clear();
     BoardValue * Get(unsigned int key);
     int GetValue(unsigned int key);
     unsigned int getSize();

@@ -110,6 +110,7 @@ bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
       m->Play();
       pulchess_board->MoveFinalize(m);
       timec->resetTimer();
+      evc->Clear();
       pulchess_info("move " << m->toString() << " thought in " << timec->getRealTime() << " seconds");
     }
     catch(InvalidMoveException *e)
