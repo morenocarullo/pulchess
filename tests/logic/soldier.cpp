@@ -30,7 +30,7 @@ static char * suitename = "soldier suite";
 static void testListMoves_start()
 {
 	// SEE r.58 for tests, after Board singleton refactoring
-
+	assert_true( true );
 }
 
 void testSuitePawn() {

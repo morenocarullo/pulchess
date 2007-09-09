@@ -37,10 +37,6 @@ typedef signed char colour_t ;
 
 extern bool pulchess_log_on;
 
-#define MOVE_PAWN_EATS      10
-#define MOVE_PAWN_PROMOTION 1000
-#define MEAN_MOVE_NUMBER    15
-
 #define WHITE 1
 #define BLACK -1
 #define WHITE_WINS    1000000
@@ -56,7 +52,7 @@ extern bool pulchess_log_on;
 #define xy2pos(X,Y) ( (Y) * 8 + (X) )
 #define abs(A) ( (A)<0 ? -(A) : (A) )
 #define ENEMY(C) ( C == BLACK ? WHITE : BLACK )
-#define ISRELCELL(X) ( GetColour() == BLACK ? (getY() == 8-(X)) : (getY() == (X)-1) )
+#define ISRELCELL(X) ( colour == BLACK ? (getY() == 8-(X)) : (getY() == (X)-1) )
 #define COORDSOK(X,Y) ( (X) >=0 && (X) <8 && (Y) >= 0 && (Y) < 8 )
 #define OKCOORDS(I)   ( (I) >=0 && (I) <64 )
 
@@ -80,7 +76,7 @@ extern bool pulchess_log_on;
 #include "move.H"
 #include "cpuplayer.H"
 #include "humanplayer.H"
-#include "playerif.H"
+#include "player.H"
 #include "hashcache.H"
 
 #endif //_PULCHESS_LOGIC_STDHEADER_H_

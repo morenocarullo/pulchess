@@ -20,9 +20,9 @@
 # Created on 20-giu-2006
 # $Id$
 #
-CXXFLAGS= -g3 -O2 -fno-rtti -I src/logic -I src/ -Wall -DDEBUG #-DPULCHESS_NOTABLES
-LOGICPATH=src/logic/
-TXTUIPATH=src/ui/txt/
+CXXFLAGS= -g3 -O2 -fno-rtti -I src/ -Wall -DDEBUG #-DPULCHESS_NOTABLES
+LOGICPATH=src/
+TXTUIPATH=${LOGICPATH}
 TESTSPATH=tests/logic/
 
 PULCHESSLOGIC=${LOGICPATH}rook.o ${LOGICPATH}queen.o ${LOGICPATH}king.o ${LOGICPATH}pawn.o \

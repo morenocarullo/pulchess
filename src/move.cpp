@@ -23,7 +23,7 @@
 
 #define CANCPIECE(X) pulchess_board->PieceListDel((X));
 #define ADDPIECE(X) pulchess_board->PieceListAdd((X));
-#define VIOLATURNO(X) ( (X)->GetColour() != pulchess_board->turn )
+#define VIOLATURNO(X) ( (X)->colour != pulchess_board->turn )
 
 using namespace std;
 
@@ -267,13 +267,13 @@ int Move::Play()
     // ...va promosso!
     //
     if( src->GetKind() == PIECE_PAWN ) {
-		if(  (src->GetColour() == BLACK && src->getY() == 0) ||
-			 (src->GetColour() == WHITE && src->getY() == 7) )
+		if(  (src->colour == BLACK && src->getY() == 0) ||
+			 (src->colour == WHITE && src->getY() == 7) )
 		{	 
 			// chiede all'utente di scegliere che pezzo inserire
 			// al posto del fante appena "promosso".
 			Piece *newPiece;
-			newPiece = pulchess_board->GetPlayer( src->GetColour() )->ChoosePawnPiece();
+			newPiece = pulchess_board->GetPlayer( src->colour )->ChoosePawnPiece();
 			ADDPIECE( newPiece );
 			pulchess_board->SetPiece( dstI, newPiece );
 			newPiece->moveTo( dstI );

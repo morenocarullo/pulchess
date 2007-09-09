@@ -3,7 +3,7 @@
  * AUTHOR:  Moreno Carullo
  * LICENSE: GPL, see license.txt in project root
  * FILE:    Time constraint implementation
- **********************************************************************
+ *
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
  * the Free Software Foundation; either version 2 of the License, or         
@@ -14,7 +14,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
  * for more details.                                                         
- **********************************************************************
+ *
  * Created on 31-aug-2005
  * $Id$
  */
@@ -55,6 +55,11 @@ namespace pulchess { namespace logic {
     secToLive = 0;
   }
 
+  unsigned int TimeControl::GetThinkingTime()
+  {
+  	return time(NULL) - startTime;
+  }
+
   time_t TimeControl::getRequestedTime()
   {
     return lastSecToLive;
@@ -67,7 +72,7 @@ namespace pulchess { namespace logic {
 
   bool TimeControl::evalTimeRemaining(unsigned int depth)
   {
-    if( (deathTime - time(NULL)) < 1 )
+    if( (deathTime - time(NULL)) < 1.1 )
       return true;
     else
       return false;

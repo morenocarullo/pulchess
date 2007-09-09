@@ -27,8 +27,10 @@ namespace pulchess { namespace logic {
   //! Chess player abstract class
   class Player {
 
+  public:
+    colour_t colour;
+
   protected:
-    colour_t _colour;
 
     //! Remaining time
     unsigned int   _clock;
@@ -63,9 +65,6 @@ namespace pulchess { namespace logic {
     //! Destructor
     virtual ~Player();
     
-    //! Which is my colour?
-    colour_t GetColour();
-
     //! Which piece should I promote the pawn to?
     virtual Piece * ChoosePawnPiece() = 0;
 
@@ -78,7 +77,7 @@ namespace pulchess { namespace logic {
     //! Get the piece list for this player
     list<Piece *> * GetPieceList();
 
-    //! Init clock
+    //! Init clock (conventional mode)
     void InitClock(int moves, unsigned int secondsForMoves);
 
     //! Push the clock, start thinking a move
@@ -91,3 +90,38 @@ namespace pulchess { namespace logic {
 };
 };
 #endif
+
+/*
+	(MC) Until not fully implemented, here are the details of time controls:
+	
+xboard supports three styles of time control: conventional chess clocks, the ICS-style incremental clock,
+and an exact number of seconds per move.
+
+In conventional clock mode, every time control period is the same. That is, if the time control is 40 moves
+in 5 minutes, then after each side has made 40 moves, they each get an additional 5 minutes, and so on, ad infinitum.
+The command to set a conventional time control looks like this:
+
+	level 40 5 0
+	level 40 0:30 0
+		
+The 40 means that there are 40 moves per time control. The 5 means there are 5 minutes in the control.
+In the second example, the 0:30 means there are 30 seconds. The final 0 means that we are in conventional clock mode.
+
+The command to set an incremental time control looks like this:
+
+	level 0 2 12
+		
+Here the 0 means "play the whole game in this time control period", the 2 means "base=2 minutes",
+and the 12 means "inc=12 seconds". As in conventional clock mode, the second argument to level can
+be in minutes and seconds.
+
+At the start of the game, each player's clock is set to base minutes. Immediately after a player makes a move, inc seconds are added to his clock. A player's clock counts down while it is his turn. Your flag can be called whenever your clock is zero or negative. (Your clock can go negative and then become positive again because of the increment.)
+A special rule on some ICS implementations: if you ask for a game with base=0, the clocks really start at 10 seconds instead of 0.
+
+The command to set an exact number of seconds per move looks like this:
+
+	st 30
+		
+This means that each move must be made in at most 30 seconds.
+Time not used on one move does not accumulate for use on later moves.
+*/

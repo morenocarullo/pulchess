@@ -44,17 +44,12 @@ namespace pulchess { namespace logic {
   {
   }
   
-  colour_t Piece::GetColour()
-  {
-    return colour;
-  }
-
   //
   // NULL check MUST be done before calling this!
   //
   bool Piece::IsEnemy(Piece *p)
   {
-    return (GetColour() != p->GetColour());
+    return (colour != p->colour);
   }
 
   char Piece::getColourChr()
@@ -132,16 +127,6 @@ namespace pulchess { namespace logic {
     this->y   = pos2y(newpos);
     this->pos = newpos;
     moveCount--;
-  }
-
-  int Piece::GetMoveCount()
-  {
-    return moveCount;
-  }
-
-  void Piece::setMoveCount(int ct)
-  {
-    moveCount = ct;
   }
 
   bool Piece::IsValidMove_diag(coord_t newpos)
@@ -223,18 +208,6 @@ namespace pulchess { namespace logic {
     }
 
     return false;
-  }
-
-
-  // C'e' almeno una mossa possibile ?
-  //
-  bool Piece::HasNextMove()
-  {
-    vector<Move *> mList;
-	listMoves(&mList);
-    bool val = !mList.empty();
-	moveListDestroy(&mList);
-    return val;
   }
 };
 };

@@ -22,7 +22,12 @@
 #include <algorithm>
 
 namespace pulchess { namespace logic {
-	
+
+//
+// Global: XBOARD post option (default off)
+//
+bool CPUPlayer::xboardPost = false;
+
 //
 // Class constructor
 // TODO: param moveSeconds no more used
@@ -80,7 +85,7 @@ bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
 	
       timec->startTimer( _clock * (_moves+1) / 100 );
       
-      if(  pulchess_board->IsInCheck(GetColour()) )
+      if(  pulchess_board->IsInCheck(colour) )
       {
       	pulchess_info("I am in check, gotta do smth!");
       }
@@ -133,9 +138,30 @@ CPUPlayer::Idab(int maxDepth)
 	int depth, value;
 	for(depth=2; depth<=maxDepth; depth++)
 	{	
+		//
+		// Search!
 		pulchess_debug("IDAB iteration to depth " << depth);
 		IsSearchValid = true;
-		value = Alfabeta(depth, depth, GetColour(), BLACK_WINS, WHITE_WINS);
+		value = Alfabeta(depth, depth, colour, BLACK_WINS, WHITE_WINS);
+		
+		//
+		// Show thinking stuff?
+		if( CPUPlayer::xboardPost )
+		{
+			cout << depth     << " "; // ply
+			cout << value     << " "; // score
+			cout << timec->GetThinkingTime()       << " "; // time
+			cout << visitedNodes << " "; // nodes
+			cout << (bestMove!=NULL ? bestMove->toString() : "")     << " "; // pv   = mossa
+			cout << endl;
+		}
+		
+		//
+		// Reset search stats
+		visitedNodes = 0;
+		
+		//
+		// Look for quitting condition
 		if( timec->evalTimeRemaining(depth) )
 		{
 			return;
@@ -157,6 +183,10 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
     Move *currMove = NULL;
     Move *myBest = NULL;
     int val = 0;
+
+	//
+	// Stats
+	visitedNodes++;
 
 	//
     // Is it a final node?
@@ -275,7 +305,7 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 Piece *
 CPUPlayer::ChoosePawnPiece()
 {
-    return new Queen(GetColour());
+    return new Queen(colour);
 }
 
 }; // end logic namespace

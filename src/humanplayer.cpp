@@ -47,7 +47,7 @@ bool HumanPlayer::DoMove(string moveCmd)
 		}
 		nextPromotedPiece = getPromotion(moveCmd);
 		coords->Play();
-		if( pulchess_board->IsInCheck( GetColour() ) ) {
+		if( pulchess_board->IsInCheck( colour ) ) {
 			coords->Rewind();
 			delete coords;
 			pulchess_info( "Mossa non valida, vai/sei in scacco!" );			
@@ -112,7 +112,7 @@ Move * HumanPlayer::getMove(string moveCmd)
 	if( srcp == NULL ) return NULL;
 	
 	// errore: non possiamo muovere pezzi di altri!
-	if( srcp->GetColour() != this->GetColour() ) return NULL;
+	if( srcp->colour != this->colour ) return NULL;
 	
 	srcp->listMoves(&mList);
 	for(mListIt = mList.begin(); mListIt != mList.end(); mListIt++) {
@@ -143,16 +143,16 @@ Piece * HumanPlayer::ChoosePawnPiece()
     switch(nextPromotedPiece)
     {
       case PIECE_BISHOP:
-        return new Bishop(GetColour());
+        return new Bishop(colour);
         break;
       case PIECE_ROOK:
-        return new Rook(GetColour());
+        return new Rook(colour);
         break;
       case PIECE_KNIGHT:
-        return new Knight(GetColour());
+        return new Knight(colour);
         break;
     }
-    return new Queen(GetColour());
+    return new Queen(colour);
 }
 
 bool HumanPlayer::IsHuman()

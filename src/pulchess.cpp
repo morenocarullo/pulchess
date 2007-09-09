@@ -24,7 +24,7 @@
 #include <sstream>
 
 /** pulchess static local vars */
-static const char version[] = "PulCHESS 0.2d";
+static const char version[] = "PulCHESS 0.2e";
 
 /** pulchess lobal vars */
 bool pulchess_log_on = true;
@@ -71,8 +71,14 @@ void Pulchess::ResetMode(gamemode_t gameMode)
 //
 // Set time control. This has to be called before game starts.
 //
-void Pulchess::SetTimecontrol(int movesToPlay, int secondsForMoves)
+//  In conventional clock mode, increment=0.
+//  In increment mode, movesToPlay=0, secondsForMoves is the base.
+//  In exact seconds for move, secondsForMoves is the only positive number.
+//
+void Pulchess::SetTimecontrol(int movesToPlay, int secondsForMoves, int increment)
 {
+  pulchess_debug("Set time control to:" << movesToPlay << "," << secondsForMoves << "," << increment);
+
   if( pulchess_the_white != NULL & pulchess_the_black != NULL )
   {
     pulchess_the_white->InitClock(movesToPlay, secondsForMoves);
@@ -212,7 +218,7 @@ cellinfo_t Pulchess::getCellInfo(int x, int y)
 //
 bool Pulchess::IsGameFinished()
 {
-    return pulchess_board->IsGameFinished();
+    return (pulchess_board != NULL) ? pulchess_board->IsGameFinished() : true;
 }
 
 //

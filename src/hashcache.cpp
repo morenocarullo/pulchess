@@ -40,7 +40,7 @@ HashCache::~HashCache()
 	Clear();
 }
 
-void HashCache::_Init()
+void inline HashCache::_Init()
 {
 	_map  = new int[size]; 
 	_vals = new BoardValue*[size];

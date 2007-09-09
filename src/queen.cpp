@@ -61,7 +61,7 @@ namespace pulchess { namespace logic {
    if( COORDSOK((X)+x, (Y)+y) ) { \
      p = pulchess_board->GetPiece((X)+x,(Y)+y); \
      if( p == NULL ) \
-       mList->push_back( new Move( xy2pos((X)+x,(Y)+y), pos, 0) ); \
+       mList->push_back( new Move( xy2pos((X)+x,(Y)+y), pos, PULCHESS_RAT_STD) ); \
      else { \
        if( IsEnemy(p) ) \
          mList->push_back ( new Move( xy2pos((X)+x,(Y)+y), pos, 5)); \

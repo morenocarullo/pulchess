@@ -143,21 +143,36 @@ void XBoard::mainLoop()
 	
 	// start deciding on the first char
     switch(buff[0])
-    {
-	  // new
+    {  
 	  case 'n':
+	
+	    // new
 	    if( buff == "new" )
 	    {
 	      pulchess = new Pulchess(HUM_VS_CPU);
 	      pulchess->Init();
           pulchess->StartGame();
 	    }
+	
+	    // nopost
+		if( buff == "nopost" )
+		{
+		  CPUPlayer::xboardPost = false;
+		}
 	    break;
 
 	  // variant - UNSUPPORTED
 	  case 'v':
 	    unimplCommand(buff);
 	    break;
+	
+	  // post
+	  case 'p':
+	    if( buff == "post")
+	    {
+			CPUPlayer::xboardPost = true;
+        }
+		break;
 
 	  // quit 
 	  case 'q':
@@ -228,6 +243,12 @@ void XBoard::mainLoop()
         break;
 
 	case 'l':
+	    // level
+	    // -> type 1 or 2 of time control.
+		if( buff.find("level",0) )
+        {
+	
+        }
 		break;
 
 	case '?':

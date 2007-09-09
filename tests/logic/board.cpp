@@ -35,6 +35,8 @@ static void test_moveRollback_one()
   Move * m1;
   int moveCt1, moveCt2, moveCt3;
 
+  pulchess_board = &b;
+
   try
   {
     // status quo ante
@@ -68,6 +70,8 @@ static void test_GetLastMove()
   Board b;
   Move * m1;
 
+  pulchess_board = &b;
+
   // status quo ante
   BoardValue boardValueStart(99, 97);
 
@@ -87,11 +91,22 @@ static void test_LoadFromEbd()
 	
 	Piece *whiteRookSx = board.GetPiece(0,0);
 	assert_true( whiteRookSx->GetKind() == PIECE_ROOK );
-	assert_true( whiteRookSx->GetColour() == WHITE );
+	assert_true( whiteRookSx->colour == WHITE );
 }
 
-void testSuiteBoard() {
-	//PULCHESS_CALLCASE(test_moveRollback_one, "board::test_moveRollback_one");
-    //PULCHESS_CALLCASE(test_GetLastMove, "board::test_GetLastMove");
-    PULCHESS_CALLCASE(test_LoadFromEbd,  "board::test_LoadFromEbd");
+static void test_Evaluate()
+{
+	Board board;
+	
+	// posizione iniziale = 0
+	assert_true( board.Evaluate(WHITE) == 0 );
+	assert_true( board.Evaluate(BLACK) == 0 );
+}
+
+void testSuiteBoard()
+{
+	PULCHESS_CALLCASE(test_moveRollback_one,	"board::test_moveRollback_one");
+    PULCHESS_CALLCASE(test_GetLastMove,			"board::test_GetLastMove");
+    PULCHESS_CALLCASE(test_LoadFromEbd,			"board::test_LoadFromEbd");
+	PULCHESS_CALLCASE(test_Evaluate,			"board::test_Evaluate");
 }

@@ -34,8 +34,8 @@ namespace pulchess { namespace logic {
 
   Player::Player(colour_t colour)
   {
-    _colour = colour;
-    _moves  = 0;
+    this->colour = colour;
+    this->_moves  = 0;
     InitClock(40, 300);
   }
 
@@ -43,14 +43,6 @@ namespace pulchess { namespace logic {
   {
   }
   
-  //
-  // Get the piece colour (white or black)
-  //
-  colour_t Player::GetColour()
-  {
-    return _colour;
-  }
-
   //
   // Am I Human? By default, no.
   //
@@ -64,7 +56,7 @@ namespace pulchess { namespace logic {
   //
   list<Piece *> * Player::GetPieceList()
   {
-    return pulchess_board->ListPieces(GetColour());
+    return pulchess_board->ListPieces(colour);
   }
 
   //

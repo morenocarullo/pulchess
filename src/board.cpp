@@ -23,9 +23,9 @@
 #define piece_at(X,Y)  _map[ (Y)*8 + (X) ]
 #define piece_dr(I)    _map[ (I) ]
 
-#define CANCPIECE(X) { (X)->GetColour() == WHITE ? whiteList.remove(X) : blackList.remove(X); }
-#define ADDPIECE(X) { (X)->GetColour() == WHITE ? whiteList.push_back(X) : blackList.push_back(X); }
-#define VIOLATURNO(X) ( (X)->GetColour() != turn )
+#define CANCPIECE(X) { (X)->colour == WHITE ? whiteList.remove(X) : blackList.remove(X); }
+#define ADDPIECE(X) { (X)->colour == WHITE ? whiteList.push_back(X) : blackList.push_back(X); }
+#define VIOLATURNO(X) ( (X)->colour != turn )
 
 namespace pulchess { namespace logic {
 	
@@ -163,7 +163,7 @@ void Board::PieceListAdd(Piece *p)
 {
   ADDPIECE(p);
   if( p->GetKind() == PIECE_KING ) {
-    if( p->GetColour() == WHITE) {
+    if( p->colour == WHITE) {
       _whiteKing = (King *)p;
     }
     else {
@@ -179,7 +179,7 @@ void Board::PieceListDel(Piece *p)
 {
     CANCPIECE(p);
     if( p->GetKind() == PIECE_KING ) {
-      if( p->GetColour() == WHITE ) {
+      if( p->colour == WHITE ) {
 	_whiteKing = NULL;
       } else {
 	_blackKing = NULL;
@@ -190,9 +190,8 @@ void Board::PieceListDel(Piece *p)
 //
 // Add a piece on the board, only for first time (board creation)
 //
-void Board::FirstInsertOfPiece(const coord_t x, const coord_t y, Piece* p)
+void inline Board::FirstInsertOfPiece(const coord_t x, const coord_t y, Piece* p)
 {
-    // inseriamo il pezzo
     piece_at(x,y) = p;
     p->moveTo( xy2pos(x,y) );
     PieceListAdd(p);
@@ -446,8 +445,8 @@ int Board::Evaluate(colour_t colour)
     // material
     for(int i=0; i<64; i++) {
   		if(piece_dr(i) != NULL) {			
-  			val += piece_dr(i)->GetRank()          * piece_dr(i)->GetColour();
-  			val += piece_dr(i)->getPosEvaluation() * piece_dr(i)->GetColour();
+  			val += piece_dr(i)->GetRank()          * piece_dr(i)->colour;
+  			val += piece_dr(i)->getPosEvaluation() * piece_dr(i)->colour;
   		}
     }
     
@@ -456,17 +455,17 @@ int Board::Evaluate(colour_t colour)
     {
     	wkingpos = _whiteKing->getPos();
     	tmppos = wkingpos+7;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == WHITE) val += 1 * WHITE;	
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) val += 1 * WHITE;	
     	tmppos = wkingpos+8;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == WHITE) val += 1 * WHITE;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) val += 1 * WHITE;
     	tmppos = wkingpos+9;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == WHITE) val += 1 * WHITE;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) val += 1 * WHITE;
     	tmppos = wkingpos-7;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == WHITE) val += 1 * WHITE;	
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) val += 1 * WHITE;	
     	tmppos = wkingpos-8;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == WHITE) val += 1 * WHITE;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) val += 1 * WHITE;
     	tmppos = wkingpos-9;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == WHITE) val += 1 * WHITE;	    	  
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) val += 1 * WHITE;	    	  
     }
 
     // black king protection
@@ -474,17 +473,17 @@ int Board::Evaluate(colour_t colour)
     {
     	bkingpos = _blackKing->getPos();	
     	tmppos = bkingpos+7;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == BLACK) val += 1 * BLACK;	
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) val += 1 * BLACK;	
     	tmppos = bkingpos+8;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == BLACK) val += 1 * BLACK;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) val += 1 * BLACK;
     	tmppos = bkingpos+9;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == BLACK) val += 1 * BLACK;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) val += 1 * BLACK;
     	tmppos = bkingpos-7;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == BLACK) val += 1 * BLACK;	
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) val += 1 * BLACK;	
     	tmppos = bkingpos-8;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == BLACK) val += 1 * BLACK;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) val += 1 * BLACK;
     	tmppos = bkingpos-9;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->GetColour() == BLACK) val += 1 * BLACK;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) val += 1 * BLACK;
     }
     
 	

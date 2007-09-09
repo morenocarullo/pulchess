@@ -57,14 +57,21 @@ namespace pulchess { namespace logic {
 		
 		//! Y-coord
 		coord_t y;
+				
+		//! Can I reach "pos" from current position, moving in diagonal?
+		bool   IsValidMove_diag(coord_t pos);
 		
-		//! This piece's colour
-		colour_t colour;
+		//! Can I reach "pos" from current position, moving hor. or vert.?
+		bool   IsValidMove_croce(coord_t pos);
 		
+	public:
+	
 		//! How many times this piece has been moved?
 		int moveCount;
 		
-	public:
+		//! This piece's colour
+		colour_t colour;
+	
 		//! Instantiate a new piece (a white one)
 		Piece();
 		
@@ -72,9 +79,6 @@ namespace pulchess { namespace logic {
 		Piece(colour_t colour);
 		virtual ~Piece();
 		
-		//! Get player's colour (white or black)
-		colour_t GetColour();
-
         //! Is the supplied piece p an enemy?
 		bool IsEnemy(Piece *p);
 
@@ -89,37 +93,26 @@ namespace pulchess { namespace logic {
 		
         //! Move this piece to specified position (index)
 		void   moveTo(coord_t pos);
-		int    GetMoveCount();
-		void   setMoveCount(int ct);
 		char   getKindChr();
 		char   getColourChr();
 		
 		//! Bring me back to position pos
 		void   Rollback(coord_t pos);
 		
-		//! Can I reach "pos" from current position, moving in diagonal?
-		bool   IsValidMove_diag(coord_t pos);
-		
-		//! Can I reach "pos" from current position, moving hor. or vert.?
-		bool   IsValidMove_croce(coord_t pos);
-		
-		//! Is there another move left?
-		bool   HasNextMove();
-		
 		//! What kind of piece am i?
-		virtual int     GetKind() = 0;
+		virtual int  GetKind() = 0;
 
 		//! Get list of valid moves, providing an already allocated list
 		virtual void listMoves(vector<Move *> *mList) = 0;
 		
 		//! Says whether this move is valid or not
-		virtual bool    IsValidMove(coord_t pos) = 0;
+		virtual bool IsValidMove(coord_t pos) = 0;
 		
 		//! This piece's rank
-		virtual int     GetRank() = 0;
+		virtual int  GetRank() = 0;
 		
 		//! This piece value for hash function calc
-		virtual coord_t    GetValue() = 0;
+		virtual coord_t GetValue() = 0;
 		
 		//! Give an evaluation of current position	
 		virtual int	getPosEvaluation();

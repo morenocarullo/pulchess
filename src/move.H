@@ -23,6 +23,12 @@
 #ifndef _pulchess_logic_move_h_
 #define _pulchess_logic_move_h_
 
+// Heuristics for moves
+#define PULCHESS_RAT_STD	  0
+#define PULCHESS_RAT_PAWNEATS 5
+#define PULCHESS_RAT_PAWNPROM 1000
+#define MEAN_MOVE_NUMBER      15
+
 // Destroy a collection of Move pointers...
 #define moveListDestroy(X) {\
 Move * tmpMove = NULL;\

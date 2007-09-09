@@ -25,7 +25,10 @@
 
 namespace pulchess { namespace logic {
 
-  /**! Class used to control thinking duration
+  /**! Class used to control thinking duration.
+
+  This is NOT used to implement o represent "chess clocks", that is
+  handled in the Player class.
 
   */
   class TimeControl
@@ -59,6 +62,8 @@ namespace pulchess { namespace logic {
 
     //! Eval the remaining time and return true if we have to hurry up
     bool evalTimeRemaining(unsigned int depth);
+
+	unsigned int GetThinkingTime();
 
     //! Get the requested time between startTimer() and resetTimer()
     time_t getRequestedTime();

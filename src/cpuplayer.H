@@ -3,7 +3,7 @@
  * AUTHOR:  Moreno Carullo
  * LICENSE: GPL, see license.txt in project root
  * FILE:    CpuPlayer interface
- **********************************************************************
+ *
  * This program is free software; you can redistribute it and/or modify         
  * it under the terms of the GNU General Public License as published by      
  * the Free Software Foundation; either version 2 of the License, or         
@@ -14,7 +14,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
  * for more details.                                                         
- ********************************************************************** 
+ *
  * Created on 15-lug-2005
  * $Id$
 */
@@ -24,7 +24,7 @@
 #ifndef _pulchess_logic_cpuplayer_h_
 #define _pulchess_logic_cpuplayer_h_
 
-#include "playerif.H"
+#include "player.H"
 #include "hashcache.H"
 #include "timecontrol.H"
 
@@ -45,6 +45,9 @@ namespace pulchess { namespace logic {
 		//! Last result of a move
 		int moveResult;
 		
+		//! Num of visited nodes (states)
+		unsigned int visitedNodes;
+		
 		//! Ply depth
 		int plyDeep;
 		
@@ -61,6 +64,10 @@ namespace pulchess { namespace logic {
 		TimeControl *timec;
 		
 	public:
+		
+		//! XBOARD OPTION: post
+		static bool xboardPost;
+
 		//! Class constructor with almost no params, ok for dummy use
 		CPUPlayer(colour_t colour);
 	

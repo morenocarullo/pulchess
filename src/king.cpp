@@ -23,7 +23,7 @@
 static coord_t posvaltbl[2][64] = 
 {
 { /* bianco*/
-	0,15,1,1,1,1,15,0,
+	0,10,10,10,10,10,10,0,
 	0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,
@@ -40,7 +40,7 @@ static coord_t posvaltbl[2][64] =
 	0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,
-	0,15,1,1,1,1,15,0
+	0,10,10,10,10,10,10,0
 }
 };
 
@@ -112,14 +112,14 @@ void King::listMoves(vector<Move *> *mList)
 		
     // Kingside castling
     // 
-    if( GetMoveCount() == 0 &&
+    if( moveCount == 0 &&
 		pulchess_board->GetPiece(pos+1) == NULL &&
 		pulchess_board->GetPiece(pos+2) == NULL )
 	{
 		p = pulchess_board->GetPiece(pos+3);
 		if( p != NULL &&
 		    p->GetKind() == PIECE_ROOK &&
-		    p->GetMoveCount() == 0 &&
+		    p->moveCount == 0 &&
 		    !pulchess_board->CanEatThis(pos+1, colour) &&
 		    !pulchess_board->CanEatThis(pos+2, colour) )
 		{
@@ -129,7 +129,7 @@ void King::listMoves(vector<Move *> *mList)
 	
 	// Queenside castling
 	//
-	if( GetMoveCount() == 0 &&
+	if( moveCount == 0 &&
 		pulchess_board->GetPiece(pos-1) == NULL &&
 		pulchess_board->GetPiece(pos-2) == NULL &&
 		pulchess_board->GetPiece(pos-3) == NULL )
@@ -137,7 +137,7 @@ void King::listMoves(vector<Move *> *mList)
 		p = pulchess_board->GetPiece(pos-4);
 		if( p != NULL &&
 		    p->GetKind() == PIECE_ROOK &&
-		    p->GetMoveCount() == 0 &&
+		    p->moveCount == 0 &&
 		    !pulchess_board->CanEatThis(pos-1, colour) &&
 		    !pulchess_board->CanEatThis(pos-2, colour) &&
 		    !pulchess_board->CanEatThis(pos-3, colour) ) 

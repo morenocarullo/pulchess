@@ -34,6 +34,9 @@ bool Book::Load()
 }
 
 // Load a book file
+/*
+	TODO: load from EBD
+*/
 bool Book::Load(const char *filename)
 {
 	FILE *fp;

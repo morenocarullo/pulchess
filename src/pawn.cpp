@@ -83,9 +83,9 @@ bool Pawn::IsValidMove(coord_t newpos)
     // se la destinazione e' una pedina da mangiare (non e' del ns. colore)...
     // ed il "senso" di marcia e' giusto...
     if( p != NULL && IsEnemy(p) ) {
-		if( GetColour() == WHITE && diffX == 1 && newy - y == 1 )
+		if( colour == WHITE && diffX == 1 && newy - y == 1 )
 			return true;
-		if( GetColour() == BLACK && diffX == 1 && y - newy == 1 )
+		if( colour == BLACK && diffX == 1 && y - newy == 1 )
 			return true;
     }
     
@@ -93,25 +93,25 @@ bool Pawn::IsValidMove(coord_t newpos)
     // se e' la prima mossa, possiamo muovere di 2. altrimenti di 1 soltanto.
     if( x-newx == 0 && p == NULL ) {
 		// apertura di 2 celle
-		if( GetColour() == WHITE && GetMoveCount() == 0
+		if( colour == WHITE && moveCount == 0
 			&& newy - y == 16 && pulchess_board->GetPiece(newpos-8) == NULL) 
 			return true;
-		if( GetColour() == WHITE && GetMoveCount() >= 0 && newy - y == 8)
+		if( colour == WHITE && newy - y == 8)
 			return true;
-		if( GetColour() == BLACK && GetMoveCount() == 0
+		if( colour == BLACK && moveCount == 0
 			&& y - newy == 16 && pulchess_board->GetPiece(newpos+8) == NULL)
 			return true;
-		if( GetColour() == BLACK && GetMoveCount() >= 0 && y - newy == 8)
+		if( colour == BLACK && y - newy == 8)
 			return true;
     }
 	
     // se si tratta di un en passant...
     if( ISRELCELL(5) ) {
-		Piece *ped = pulchess_board->GetPiece( newpos - GetColour()*8 );
+		Piece *ped = pulchess_board->GetPiece( newpos - colour*8 );
 		if(  (newx == x+1 || newx == x-1)  &&
-			 (newy == y+GetColour())       &&
+			 (newy == y+colour)       &&
 			 (p == NULL)                   &&
-			 (ped != NULL && IsEnemy(ped) && pulchess_board->enpassant == newpos - GetColour()*8) )
+			 (ped != NULL && IsEnemy(ped) && pulchess_board->enpassant == newpos - colour*8) )
 		{
 			return true;
 		}
@@ -124,18 +124,19 @@ bool Pawn::IsValidMove(coord_t newpos)
 void Pawn::listMoves(vector<Move *> *mList)
 {
     Piece      *p = NULL, *op = NULL;
-    int  rating = 0;
+
+    int rating = 0;
 	
     // 1 - possiamo mangiare qualcuno ?
-    p = pulchess_board->GetPiece(x+1, y+GetColour());
+    p = pulchess_board->GetPiece(x+1, y+colour);
     if( p!=NULL && IsEnemy(p) ) {
-	    rating = MOVE_PAWN_EATS * p->GetRank();
-		mList->push_back( new Move( xy2pos( x+1, y+GetColour() ), pos, rating) );
+	    rating = PULCHESS_RAT_PAWNEATS * p->GetRank();
+		mList->push_back( new Move( xy2pos( x+1, y+colour ), pos, rating) );
     }
-    p = pulchess_board->GetPiece(x-1, y+GetColour());
+    p = pulchess_board->GetPiece(x-1, y+colour);
     if( p!=NULL && IsEnemy(p) ) {
-	    rating = MOVE_PAWN_EATS * p->GetRank();
-		mList->push_back( new Move( xy2pos( x-1, y+GetColour() ), pos, rating) );
+	    rating = PULCHESS_RAT_PAWNEATS * p->GetRank();
+		mList->push_back( new Move( xy2pos( x-1, y+colour ), pos, rating) );
     }
 	
     // 2 - possiamo mangiare con l'en passant ?
@@ -153,31 +154,31 @@ void Pawn::listMoves(vector<Move *> *mList)
 			// en passant e' valido se:
 			// o  c'e' un pezzo nemico al nostro fianco alla prima mossa
 			// o  la cella di destinazione e' libera
-			// OCCHIO: va fatto subito quando si presenta l'occasione!!!
+			// OCCHIO: va fatto subito quando si presenta l'occasione, poi non e' piu' valido.
 			//
 			dst = pulchess_board->GetPiece(i, y);
 			if( dst!=NULL && pulchess_board->enpassant == xy2pos(i,y) &&
 				IsEnemy(dst) &&
-				pulchess_board->GetPiece(i, y+GetColour()) == NULL )
+				pulchess_board->GetPiece(i, y+colour) == NULL )
 			{
-				mList->push_back( new EPMove( xy2pos(i, y+GetColour()), pos, xy2pos(i, y)) );
+				mList->push_back( new EPMove( xy2pos(i, y+colour), pos, xy2pos(i, y)) );
 			}
 		}
     }
 	
     // 3 - possiamo muoverci in avanti di 1?
-    p = pulchess_board->GetPiece(x, y + 1*GetColour());
+    p = pulchess_board->GetPiece(x, y + 1*colour);
     if( p == NULL ) {
-	    rating = ISRELCELL(8) ? MOVE_PAWN_PROMOTION : 0;
-  		Move * m  = new Move( xy2pos(x, y + 1*GetColour()), pos, rating);		
+	    rating = ISRELCELL(8) ? PULCHESS_RAT_PAWNPROM : 0;
+  		Move * m  = new Move( xy2pos(x, y + 1*colour), pos, PULCHESS_RAT_STD);		
 		mList->push_back(m);
     }
     
     // 4 - ... e di 2?
-    p  = pulchess_board->GetPiece(x, y + 2*GetColour());
-    op = pulchess_board->GetPiece(x, y + 1*GetColour());
-    if( p == NULL && op == NULL && GetMoveCount() == 0) {
-  		mList->push_back( new Move( xy2pos(x, y+2*GetColour()), pos, 0) );
+    p  = pulchess_board->GetPiece(x, y + 2*colour);
+    op = pulchess_board->GetPiece(x, y + 1*colour);
+    if( p == NULL && op == NULL && moveCount == 0) {
+  		mList->push_back( new Move( xy2pos(x, y+2*colour), pos, PULCHESS_RAT_STD) );
     }
 }
 
