@@ -25,11 +25,11 @@
 int main(int argc, char *argv[]) {
 	pulchess_log_off();
 
+ 	testSuiteBoard();
+ 	testSuiteMove();
  	testSuitePawn();
  	testSuiteKing();
  	testSuiteRook();
- 	testSuiteBoard();
- 	testSuiteMove();
  	testSuiteHumanPlayer();
  	testSuitePulchessPulchess();
 

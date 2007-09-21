@@ -40,6 +40,7 @@ class XBoard
     bool readCommand();   
     void unknownCommand(string &cmd);
     void unimplCommand(string &cmd);
+    void badCommand(string &cmd);
     
     //! Ask the engine to play a move
     void goCommand();

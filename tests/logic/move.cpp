@@ -27,6 +27,7 @@ using namespace std;
 
 static char * suitename = "move suite";
 
+
 //
 // Play a move, and check for "assertions"
 //
@@ -34,6 +35,37 @@ static void test_move_one()
 {
 	// SEE r.58 for tests, after Board singleton refactoring
 }
+
+
+//
+// Test sui contatori della regola delle 50 mosse.
+//
+static void test_50moves_params()
+{
+	Board b;
+	pulchess_board = &b;
+
+	//
+	// 	controllo lo stato della fiftyMovesRule.
+	//
+	assert_true(b.fiftyMovesRule == 0);
+	
+	//
+	// applico una mossa a caso non di pedone -> fiftyMovesRule + 1
+	// rollback -> controllo che sia uguale a prima
+	//
+	Move m1( xy2pos(0,2), xy2pos(1,0), 0); // cavallo: b1 -> a3
+	m1.Play();
+	assert_true(b.fiftyMovesRule == 1);
+	m1.Rewind();
+	assert_true(b.fiftyMovesRule == 0);
+	
+	//
+	// TODO: caricare un caso in cui si puo' mangiare,
+	//       e quindi testare che 50movesRule viene impostato a 0.
+	//
+}
+
 
 //
 // Test move ordering
@@ -59,5 +91,6 @@ static void test_move_ordering()
 
 void testSuiteMove() {
 	PULCHESS_CALLCASE(test_move_one, "move::test_move_one");
+	PULCHESS_CALLCASE(test_50moves_params, "move::test_50moves_params");
 	PULCHESS_CALLCASE(test_move_ordering, "move::test_move_ordering");
 }

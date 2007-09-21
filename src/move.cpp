@@ -152,9 +152,10 @@ Move * Move::copy()
 {
     Move * m = new Move(dst, src, rating);
 	
-    m->setDeadPiece( this->deadPiece );
-    m->setPromotedPawn( this->promotedPawn );
-    m->enpassant = this->enpassant;
+    m->deadPiece      = this->deadPiece;
+    m->promotedPawn   = this->promotedPawn;
+    m->enpassant      = this->enpassant;
+	m->fiftyMovesRule = this->fiftyMovesRule;
     
     return m;
 }
@@ -169,33 +170,6 @@ coord_t Move::GetSrcIdx()
 coord_t Move::GetDstIdx()
 {
     return dst;
-}
-
-//
-//
-//////////////////////////////////
-void Move::setDeadPiece(Piece * p)
-{
-    deadPiece = p;
-}
-
-
-//
-//
-////////////////////////////
-Piece * Move::getDeadPiece()
-{
-    return deadPiece;
-}
-
-void Move::setPromotedPawn(Piece * p)
-{
-    promotedPawn = p;
-}
-
-Piece * Move::getPromotedPawn()
-{
-    return promotedPawn;
 }
 
 coord_t Move::getSourceX()
@@ -240,7 +214,7 @@ int Move::Play()
     //     *se la mossa e' generata, sappiamo gia' che e' valida
     //
 #ifdef DEBUG
-    if( src == NULL      ||
+    if( src == NULL  ||
 	VIOLATURNO(src)  ||
 	srcI == dstI )
     {
@@ -248,13 +222,23 @@ int Move::Play()
 		throw new InvalidMoveException("Mossa non valida!");
     }
 #endif
+
+	// salvataggio stato 50 mosse
+	fiftyMovesRule = pulchess_board->fiftyMovesRule;
+	
+    // salviamo il flag per l'enpassant
+    enpassant = pulchess_board->enpassant;
+    pulchess_board->enpassant = NO_POSITION;
 	
     // abbiamo mangiato ?
-    //
-    if( dst != NULL ) {
-		setDeadPiece( dst );
+    if( dst != NULL ) {   
+		deadPiece = dst;
 		CANCPIECE( dst );
+		pulchess_board->fiftyMovesRule = 0;
     }
+	else { // altrimenti, proviamo ad incrementare il contatore 50mosse.
+		pulchess_board->fiftyMovesRule++;
+	}
 	
     // spostiamo il pezzo
     //
@@ -262,11 +246,14 @@ int Move::Play()
     pulchess_board->SetPiece(dstI, src);
     pulchess_board->SetPiece(srcI, NULL);
 	
-	
-    // se il fante arriva in fondo...
-    // ...va promosso!
+	// casi per il pedone
     //
     if( src->GetKind() == PIECE_PAWN ) {
+	
+		// se viene mosso un pedone si azzera la 50 move rule
+		pulchess_board->fiftyMovesRule = 0;
+	
+		// promozione del pedone
 		if(  (src->colour == BLACK && src->getY() == 0) ||
 			 (src->colour == WHITE && src->getY() == 7) )
 		{	 
@@ -281,7 +268,7 @@ int Move::Play()
 			// salva le info
 			// sul pezzo appena promosso.
 			CANCPIECE( src );
-			setPromotedPawn( src );
+			promotedPawn = src;
 		}
     }
 	
@@ -289,17 +276,13 @@ int Move::Play()
     pulchess_board->moveCount++;
     pulchess_board->turn = ENEMY(pulchess_board->turn);
     
-    // salviamo il flag per l'enpassant
-    enpassant = pulchess_board->enpassant;
-    pulchess_board->enpassant = NO_POSITION;  
-
     // se e' un pedone, ev. settiamo il flag di enpassant
     if( src->GetKind() == PIECE_PAWN && abs((int)srcI - dstI) == 16 ) {
        enpassant = dstI;
     }
 
     // return 1 if we ate a piece
-    return getDeadPiece() != NULL ? getDeadPiece()->GetRank() : 0;
+    return deadPiece != NULL ? deadPiece->GetRank() : 0;
 }
 
 void Move::Rewind()
@@ -310,15 +293,15 @@ void Move::Rewind()
 	
     Piece
 		*src = pulchess_board->GetPiece(srcI),
-		*pro = getPromotedPawn(),
-		*ddp = getDeadPiece();
+		*pro = promotedPawn,
+		*ddp = deadPiece;
     
     // "spromuove" il fante allo stato originario
     //
     if( pro != NULL ) {
 		CANCPIECE(src);
 		delete src;
-		setPromotedPawn( NULL );
+		promotedPawn = NULL;
 		
 		ADDPIECE( pro );
 		pulchess_board->SetPiece( srcI, pro );
@@ -336,17 +319,18 @@ void Move::Rewind()
     if( ddp != NULL ) {
 		pulchess_board->PieceListAdd( ddp );
 		pulchess_board->SetPiece( ddp->getPos(), ddp );
-		setDeadPiece( NULL );
+		deadPiece = NULL;
     }
 	
     // aggiorna mosse e turno
-    //
     pulchess_board->moveCount--;
     pulchess_board->turn = ENEMY(pulchess_board->turn);
     
-    // aggiorna en passant flag
-    //
+    // reimposta en passant flag
     pulchess_board->enpassant = enpassant;
+
+	// reimposta 50 move rule
+	pulchess_board->fiftyMovesRule = fiftyMovesRule;
 }
 
 //
@@ -377,19 +361,14 @@ int EPMove::Play()
     Piece *pEaten = NULL;
     pEaten = pulchess_board->GetPiece( getEatIdx() );
     Move::Play();
-    setDeadPiece( pEaten );
+    deadPiece = pEaten;
     CANCPIECE( pEaten );
     pulchess_board->SetPiece( getEatIdx(), NULL);
     
-    // aggiorna contatore mosse e turno
-    pulchess_board->moveCount++;
-    pulchess_board->turn = ENEMY(pulchess_board->turn);    
-    
-    // resettiamo il flag per l'enpassant
-    enpassant = pulchess_board->enpassant;
-    pulchess_board->enpassant = NO_POSITION;
-
-    return 1; // special effect: pawn eats pawn    
+	//  ATTENZIONE
+	//  contatori e stato aggiornati gia' nella Move::Play() !!!
+	//
+    return 1;    
 }
 
 coord_t EPMove::getEatIdx()
@@ -411,9 +390,10 @@ Move * EPMove::copy()
 {
     Move * m = new EPMove(dst, src, eat);
 	
-    m->setDeadPiece( this->deadPiece );
-    m->setPromotedPawn( this->promotedPawn );    
+    m->deadPiece = this->deadPiece;
+    m->promotedPawn = this->promotedPawn;
     m->enpassant = this->enpassant;
+	m->fiftyMovesRule = this->fiftyMovesRule;
         
     return m;
 }
@@ -498,6 +478,10 @@ int RookMove::Play()
     // resettiamo il flag per l'enpassant
     enpassant = pulchess_board->enpassant;
     pulchess_board->enpassant = NO_POSITION;
+
+	// regola delle 50 mosse, incrementiamo perche' l'arrocco non e' una cattura
+	fiftyMovesRule = pulchess_board->fiftyMovesRule;
+	pulchess_board->fiftyMovesRule++;
 	
 	return 0; // no special effect
 }
@@ -547,19 +531,26 @@ void RookMove::Rewind()
     pulchess_board->SetPiece( rkpos_src, NULL );
 	
     // aggiorna mosse e turno
-    //
     pulchess_board->moveCount--;
     pulchess_board->turn = ENEMY(pulchess_board->turn);	
 	
     // aggiorna en passant flag
-    //
     pulchess_board->enpassant = enpassant;
+
+	// flag 50 mosse
+	pulchess_board->fiftyMovesRule = fiftyMovesRule;
 }
 
 Move * RookMove::copy()
 {
-  // TODO: settare l'enpassant flag
-  return new RookMove(kind, pcol);
+  Move * m = new RookMove(kind, pcol);
+  
+  m->deadPiece = this->deadPiece;
+  m->promotedPawn = this->promotedPawn;
+  m->enpassant = this->enpassant;
+  m->fiftyMovesRule = this->fiftyMovesRule;
+ 
+  return m;
 }
 
 };

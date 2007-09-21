@@ -36,7 +36,7 @@ namespace pulchess { namespace logic {
   {
     this->colour = colour;
     this->_moves  = 0;
-    InitClock(40, 300);
+    InitClock(40, 300, 0);
   }
 
   Player::~Player()
@@ -62,11 +62,12 @@ namespace pulchess { namespace logic {
   //
   // Init clock
   //
-  void Player::InitClock(int moves, unsigned int secondsForMoves)
+  void Player::InitClock(int moves, unsigned int secondsForMoves, unsigned int incrSeconds)
   {
     _clockmoves = moves;
     _clock      = secondsForMoves;
     _clockbonus = secondsForMoves;
+    _clockincr   = incrSeconds;
     _clockpushed = false;
   }
 
@@ -88,9 +89,10 @@ namespace pulchess { namespace logic {
   void Player::StopClock()
   {
     _clock -= (time(NULL) - _clockpush);
+    _clock += _clockincr;
     _clockpushed = false;
     _moves ++;
-    if( _clock > 0 && _moves%_clockmoves==0 )
+    if( _clock > 0 && _clockmoves>0 && _moves%_clockmoves==0 )
     {
       _clock += _clockbonus;
     }

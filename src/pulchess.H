@@ -1,23 +1,18 @@
 /*
- * PROJECT: PulCHESS, a Computer Chess program
- * AUTHOR:  Moreno Carullo
- * LICENSE: GPL, see license.txt in project root
- * FILE:    Pulchess Logic facade interface
- *
- * This program is free software; you can redistribute it and/or modify         
- * it under the terms of the GNU General Public License as published by      
- * the Free Software Foundation; either version 2 of the License, or         
- * (at your option) any later version.                                       
- *                                                                           
- * This program is distributed in the hope that it will be useful,           
- * but WITHOUT ANY WARRANTY; without even the implied warranty of            
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
- * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
- * for more details.                                                         
- *
- * Created on 15-lug-2005
- * $Id$
- */
+  PulCHESS, a Computer Chess program
+                by Moreno Carullo
+ 
+  About this file:
+         This file contains the main pulchess facade (interface),  
+         used to expose to other programs the pulchess logic.
+ 
+  License:
+         GPL v2, see license.txt in project root.
+ 
+  Version:
+         $Id$
+
+*/
 #ifndef _pulchess_logic_pulchess_h_
 #define _pulchess_logic_pulchess_h_
 

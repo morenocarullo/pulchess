@@ -35,7 +35,10 @@ static void test_moveRollback_one()
   Move * m1;
   int moveCt1, moveCt2, moveCt3;
 
-  pulchess_board = &b;
+  // board & players setup
+  pulchess_board     = &b;
+  pulchess_the_white = new CPUPlayer(WHITE);
+  pulchess_the_black = new CPUPlayer(BLACK);
 
   try
   {
@@ -70,7 +73,10 @@ static void test_GetLastMove()
   Board b;
   Move * m1;
 
-  pulchess_board = &b;
+  // board & players setup
+  pulchess_board     = &b;
+  pulchess_the_white = new CPUPlayer(WHITE);
+  pulchess_the_black = new CPUPlayer(BLACK);
 
   // status quo ante
   BoardValue boardValueStart(99, 97);
@@ -85,7 +91,7 @@ static void test_GetLastMove()
   assert_true( m1->toString() == lastMove->toString() );
 }
 
-static void test_LoadFromEbd()
+static void test_LoadFromFen()
 {
 	Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 	
@@ -107,6 +113,6 @@ void testSuiteBoard()
 {
 	PULCHESS_CALLCASE(test_moveRollback_one,	"board::test_moveRollback_one");
     PULCHESS_CALLCASE(test_GetLastMove,			"board::test_GetLastMove");
-    PULCHESS_CALLCASE(test_LoadFromEbd,			"board::test_LoadFromEbd");
+    PULCHESS_CALLCASE(test_LoadFromFen,			"board::test_LoadFromFen");
 	PULCHESS_CALLCASE(test_Evaluate,			"board::test_Evaluate");
 }

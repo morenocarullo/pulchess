@@ -39,25 +39,25 @@ Board*	Board::board = NULL;
 //	
 Board::Board()
 {		
-  LoadFromEbd("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+  LoadFromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 }
 
 //
 // Board ctor - FEN version
 //
-// C++ does not support calling of ctor inside of ctor, so a LoadFromEbd()
+// C++ does not support calling of ctor inside of ctor, so a LoadFromFen()
 // member has been implemented.
 //
 Board::Board(string ebdString)
 {
-  LoadFromEbd(ebdString);
+  LoadFromFen(ebdString);
 }
 
 //
 // Load from FEN.
 // See: http://www.very-best.de/pgn-spec.htm#16.a
 //
-void Board::LoadFromEbd(string ebdString)
+void Board::LoadFromFen(string ebdString)
 {
   int ct=0,row=7,col=0;
   char c;
@@ -71,6 +71,10 @@ void Board::LoadFromEbd(string ebdString)
   
   // reset en passant
   enpassant = NO_POSITION;
+
+  // reset number of moves
+  moveCount      = 0;
+  fiftyMovesRule = 0;
 
   // start loading FEN position data
   while(!stop) {
@@ -154,6 +158,40 @@ Board::~Board()
     if( piece_dr(i) != NULL)
       delete piece_dr(i);
   }
+}
+
+//
+// Print board to standard output
+//
+void Board::Print()
+{
+  Piece *p = NULL;
+  cout << "" << endl;
+  for(int y=7; y>=0; y--) {
+    printf("%d   ", y+1);
+    for(int x=0; x<8; x++) {
+      p = GetPiece(x,y);
+      if( p == NULL ) {
+        cout << "-";
+      }
+      else {
+       if( p->colour == WHITE) {
+         cout << (char)toupper(p->getKindChr());
+       }
+       else {
+         cout << p->getKindChr();
+       }
+      }
+      cout << " ";
+    }
+    cout << endl;
+  }
+
+  cout << endl << "    ";
+  for(int x=0; x<8; x++) {
+    printf("%c ", 'a'+x);
+  }
+  cout << "" << endl << endl;
 }
 
 //
@@ -317,24 +355,26 @@ int Board::WhoWins()
 //
 bool Board::IsGameFinished()
 {
-	bool stopFewPieces = false;
+  // few pieces (two kings only)
+  list<Piece *> * lpWhite = ListPieces(WHITE), * lpBlack = ListPieces(BLACK);
+  if( lpWhite->size() == 1 && lpBlack->size() == 1 ) {
+    return true;
+  }
 	
-	// stop per poco materiale (solo i due re)
-	list<Piece *> * lpWhite = ListPieces(WHITE), * lpBlack = ListPieces(BLACK);
-	if( lpWhite->size() == 1 && lpBlack->size() == 1 )
-	{
-		stopFewPieces = true;
-	}
-	
-	// stop per matto
- 	pulchess_debug( "Is in check (WHITE): "      << IsInCheck(WHITE) );
-	pulchess_debug( "Is in check (BLACK): "      << IsInCheck(BLACK) );
-	pulchess_debug( "Can defend check (WHITE): " << CanDefendCheck(WHITE) ); 	
-	pulchess_debug( "Can defend check (BLACK): " << CanDefendCheck(BLACK) );
-	
-    return( IsInCheck(WHITE)>0 && !CanDefendCheck(WHITE) ||
- 			IsInCheck(BLACK)>0 && !CanDefendCheck(BLACK) ||
-			stopFewPieces );
+  // checkmate!
+  if( IsInCheck(WHITE)>0 && !CanDefendCheck(WHITE) ||
+      IsInCheck(BLACK)>0 && !CanDefendCheck(BLACK) ) {
+	pulchess_debug("Checkmate!");
+    return true;
+  }
+
+  // 50 moves draw rule!
+  if( fiftyMovesRule >= 50) {
+    pulchess_debug("Draw by 50 moves rule.");
+    return true;
+  }
+
+  return false;
 }
 
 //

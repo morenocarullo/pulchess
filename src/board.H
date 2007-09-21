@@ -67,13 +67,16 @@ namespace pulchess { namespace logic {
     //! Class d'stor
     ~Board();
 
-    void LoadFromEbd(string ebdString);
+    void LoadFromFen(string ebdString);
 
     //! Actual turn
     colour_t turn;
 
     //! Move count (total moves playied)
-    int moveCount;
+    unsigned int moveCount;
+
+	//! Move count since last capture ore pawn move (for 50 move draw rule)
+	unsigned char fiftyMovesRule;
     
     //! Set if enpassant is possible on next turn
     coord_t enpassant;
@@ -140,6 +143,9 @@ namespace pulchess { namespace logic {
 
     //! Get a move valid to save the King
     Move * CheckDefenseMove(const colour_t colour);
+
+    //! Print board to STDOUT
+    void Print();
   };
 
   /**! Represents the board in a compact way for caches and stuff like that

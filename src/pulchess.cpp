@@ -1,35 +1,31 @@
 /*
- * PROJECT: PulCHESS, a Computer Chess program
- * AUTHOR:  Moreno Carullo
- * LICENSE: GPL, see license.txt in project root
- * FILE:    Pulchess Logic Facade class
- **********************************************************************
- * This program is free software; you can redistribute it and/or modify         
- * it under the terms of the GNU General Public License as published by      
- * the Free Software Foundation; either version 2 of the License, or         
- * (at your option) any later version.                                       
- *                                                                           
- * This program is distributed in the hope that it will be useful,           
- * but WITHOUT ANY WARRANTY; without even the implied warranty of            
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
- * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
- * for more details.                                                         
- **********************************************************************
- * Created on 15-lug-2005
- * $Id$
- */
+  PulCHESS, a Computer Chess program
+                by Moreno Carullo
+ 
+  About this file:
+         This file contains the main pulchess facade (implementation),  
+         used to expose to other programs the pulchess logic.
+ 
+  License:
+         GPL v2, see license.txt in project root.
+ 
+  Version:
+         $Id$
+
+*/
 #include "stdheader.h"
 #include "pulchess.H"
 #include "book.H"
 #include <sstream>
 
 /** pulchess static local vars */
-static const char version[] = "PulCHESS 0.2e";
+static const char version[] = "PulCHESS 0.2f";
 
 /** pulchess lobal vars */
 bool pulchess_log_on = true;
 
-namespace pulchess { namespace logic {
+namespace pulchess {
+	namespace logic {
 
 // Pulchess costructor
 Pulchess::Pulchess(gamemode_t gameMode)
@@ -79,10 +75,19 @@ void Pulchess::SetTimecontrol(int movesToPlay, int secondsForMoves, int incremen
 {
   pulchess_debug("Set time control to:" << movesToPlay << "," << secondsForMoves << "," << increment);
 
-  if( pulchess_the_white != NULL & pulchess_the_black != NULL )
-  {
-    pulchess_the_white->InitClock(movesToPlay, secondsForMoves);
-    pulchess_the_black->InitClock(movesToPlay, secondsForMoves);
+  if( increment == 0 && movesToPlay>0 && secondsForMoves > 0) {
+   	pulchess_debug("Conventional clock mode: " << movesToPlay << " moves in " << secondsForMoves << " s.");
+  }
+  else if( movesToPlay == 0 && increment>0 && secondsForMoves > 0) {
+    pulchess_debug("Increment clock mode: base " << secondsForMoves << " s and increment " << increment << " s." );
+  }
+  else if( movesToPlay == 0 && increment == 0 && secondsForMoves > 0) {
+    pulchess_debug("Exact seconds clock mode: " << secondsForMoves << " s for move." );
+  }
+
+  if( pulchess_the_white != NULL & pulchess_the_black != NULL ) {
+    pulchess_the_white->InitClock(movesToPlay, secondsForMoves, increment);
+    pulchess_the_black->InitClock(movesToPlay, secondsForMoves, increment);
   }
 }
 
@@ -354,31 +359,9 @@ int Pulchess::gameInfo()
 //
 void Pulchess::printBoard()
 {
-  cout << "" << endl;
-  for(int y=7; y>=0; y--)
-  {
-    printf("%d   ", y+1);
-    for(int x=0; x<8; x++)
-    {
-      cellinfo_t c = getCellInfo(x,y);
-      if( c.colour == 'w')
-      {
-        cout << (char)toupper(c.kind);
-      }
-      else
-      {
-        cout << c.kind;
-      }
-      cout << " ";
-    }
-    cout << endl;
+  if( pulchess_board != NULL ) {
+    pulchess_board->Print();
   }
-
-  cout << endl << "    ";
-  for(int x=0; x<8; x++) {
-    printf("%c ", 'a'+x);
-  }
-  cout << "" << endl << endl;
 }
 
 };

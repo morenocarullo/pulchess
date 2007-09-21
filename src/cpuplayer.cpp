@@ -17,9 +17,10 @@
 * Created on 15-lug-2005
 * $Id$
 */
+#include <algorithm>
+#include <math.h>
 #include "stdheader.h"
 #include "book.H"
-#include <algorithm>
 
 namespace pulchess { namespace logic {
 
@@ -83,8 +84,19 @@ bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
    {
       pulchess_debug("Remaining seconds in timecontrol: " << _clock << " Moves so far: " << _moves);
 	
-      timec->startTimer( _clock * (_moves+1) / 100 );
-      
+	  // conventional clock
+	  if( _clockincr==0 && _clockmoves>0 && _clockbonus>0 ) {
+        timec->startTimer( (time_t)(_clock * 1/_clockmoves ) );		
+      }
+      // increment clock
+      else if( _clockmoves==0 && _clockincr>0 && _clockbonus>0) {
+        timec->startTimer( (time_t)(_clockincr + _clock * 0.2) );
+      }
+      // exact clock
+      else if( _clockmoves==0 && _clockincr==0 && _clockbonus>0) {
+        timec->startTimer( _clockbonus );
+      }
+
       if(  pulchess_board->IsInCheck(colour) )
       {
       	pulchess_info("I am in check, gotta do smth!");

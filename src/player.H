@@ -47,6 +47,9 @@ namespace pulchess { namespace logic {
     //! Moves in a timecontrol block
     int      _clockmoves;
 
+    //! Clock increment for each move
+    int      _clockincr;
+
     //! Moves so far
     int      _moves;
 
@@ -78,7 +81,7 @@ namespace pulchess { namespace logic {
     list<Piece *> * GetPieceList();
 
     //! Init clock (conventional mode)
-    void InitClock(int moves, unsigned int secondsForMoves);
+    void InitClock(int moves, unsigned int secondsForMoves, unsigned int incrSeconds);
 
     //! Push the clock, start thinking a move
     void PushClock();

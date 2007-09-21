@@ -34,6 +34,12 @@ static void testCastlings()
    Pulchess * pulchess = new Pulchess(HUM_VS_HUM);
    assert_true( pulchess->loadGame("./tests/games/game004-castling-1.game") );
    delete pulchess;
+
+   // carico gioco
+   //  
+   // il bianco deve muovere, e la mossa e1g1 deve essere OK!!!
+   //Board b("rnb1k1nr/p1qp1p1p/1p2p1p1/2p1P3/3P1B2/P1PB1N2/2P1QPPP/R4RK1 b kq - 1 11");
+
 }
 
 void testSuiteKing() {

@@ -21,6 +21,7 @@
 */
 #include "xboard.H"
 #include <iostream>
+#include <cstdio>
 
 using namespace std;
 using namespace pulchess::logic;
@@ -30,7 +31,7 @@ namespace pulchess {
 XBoard::XBoard()
 {
 	cout.setf(ios::unitbuf);
-	pulchess_log_off();
+	//pulchess_log_off();
 	sendFeatures();
 }
 
@@ -66,12 +67,21 @@ void XBoard::unimplCommand(string &cmd)
 	cout << "telluser unimplemented command!:" << cmd << endl;
 }
 
+void XBoard::badCommand(string &cmd)
+{
+	cout << "telluser bad syntax for command: " << cmd << endl;
+}
+
 //
 // Read command from standard input
 //
 bool XBoard::readCommand()
 {
-  cin >> buff;
+  do {
+    getline(cin, buff);
+  }
+  while( buff.length() == 0);
+
   return true;
 }
 
@@ -224,7 +234,7 @@ void XBoard::mainLoop()
       //
       // Set White on move. Set the engine to play Black. Stop clocks.
       case 'w':
-		if( buff == "white" )
+		if( buff == "white" && pulchess != NULL)
         {
           pulchess->ResetMode(HUM_VS_CPU);
 		  continue;
@@ -235,7 +245,7 @@ void XBoard::mainLoop()
       //
       // Set Black on move. Set the engine to play White. Stop clocks.
       case 'b':
-		if( buff == "black" )
+		if( buff == "black"  && pulchess != NULL)
         {
           pulchess->ResetMode(CPU_VS_HUM);
 		  continue;
@@ -245,9 +255,13 @@ void XBoard::mainLoop()
 	case 'l':
 	    // level
 	    // -> type 1 or 2 of time control.
-		if( buff.find("level",0) )
-        {
-	
+		if( buff.substr(0,5) == "level"  && pulchess != NULL) {
+          pulchess_debug("Trying to set the clock...");
+	      unsigned int _m=40, _s=300, _i=0;
+          if( sscanf(buff.c_str(), "level %d %d %d", &_m, &_s, &_i) == 3 ) {
+            pulchess->SetTimecontrol(_m,_s,_i);
+            continue;
+          }
         }
 		break;
 

@@ -30,6 +30,9 @@ namespace pulchess { namespace logic {
   This is NOT used to implement o represent "chess clocks", that is
   handled in the Player class.
 
+  TODO: merge this into CPUPlayer. This is CPU specific, since is used to
+		estimate when to go back in searching the best move.
+
   */
   class TimeControl
   {

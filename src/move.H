@@ -59,8 +59,11 @@ namespace pulchess { namespace logic {
 	//! The eventually promoted pawn
     Piece * promotedPawn;
     
-    //! The eventually cleared enpassant status
+    //! The eventually cleared enpassant status (for move's rewind)
     coord_t enpassant;
+
+	//! The old fifty moves counter (for move's rewind)
+	unsigned char fiftyMovesRule;
     
     Move();
     Move(coord_t src, coord_t dst, int rating);
@@ -82,18 +85,6 @@ namespace pulchess { namespace logic {
 
 	//! Copy me
     virtual Move * copy();
-
-	//! Set the eventually eaten piece
-    void setDeadPiece(Piece *p);
-
-	//! Get the eventually eaten piece
-    Piece * getDeadPiece();
-
-	//! Set the promoted pawn for move rollback
-    void setPromotedPawn(Piece *p);
-
-	//! Get back the eventually promoted pawn, or NULL
-    Piece * getPromotedPawn();
 
 	//! Get a string representation of the move
 	virtual string toString();
