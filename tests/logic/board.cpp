@@ -107,7 +107,14 @@ static void test_KingSafety()
     // board & players setup
     pulchess_board     = &b;
     pulchess_the_white = new CPUPlayer(WHITE);
-    pulchess_the_black = new CPUPlayer(BLACK);	
+    pulchess_the_black = new CPUPlayer(BLACK);
+
+	// this is in check
+    assert_true( b.IsInCheck(BLACK) );
+
+	// play a move, remove from check
+    pulchess_the_black->DoMove("");
+    assert_true( !b.IsInCheck(BLACK) );
 }
 
 static void test_Evaluate()

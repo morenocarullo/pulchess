@@ -130,6 +130,9 @@ void Pulchess::Init()
 	engineStatus = PULCHESS_STATUS_INIT;
 	Book::Load();
 	
+	// Default TC mode
+	SetTimecontrol(40,300,0);
+	
 	pulchess_debug("pulchess is in DEBUG mode!");
 #ifdef PULCHESS_USEHASHTABLE
 	pulchess_debug("pulchess is using hashtables.");

@@ -118,7 +118,7 @@ void Board::LoadFromFen(string ebdString)
       case '6':
       case '7':
       case '8':
-        col += ('0'-c);
+        col += (c-'0');
         break;
       case '/':
         row--; col=0;
