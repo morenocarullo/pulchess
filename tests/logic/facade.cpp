@@ -84,6 +84,7 @@ static void testResetGame()
    delete pulchess;
 }
 
+
 void testSuitePulchessPulchess() {
 	PULCHESS_CALLCASE(testLoadGame, "pulchess::loadGame()");
 	PULCHESS_CALLCASE(testResetGame, "pulchess::ResetGame()");

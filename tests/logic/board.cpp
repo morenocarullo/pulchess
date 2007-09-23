@@ -100,6 +100,16 @@ static void test_LoadFromFen()
 	assert_true( whiteRookSx->colour == WHITE );
 }
 
+static void test_KingSafety()
+{
+	Board b("5bnr/2Q1kp1p/1Npppp2/8/2Pr4/P7/1P1N1PPP/R1B1K2R b KQ - 0 20");
+	
+    // board & players setup
+    pulchess_board     = &b;
+    pulchess_the_white = new CPUPlayer(WHITE);
+    pulchess_the_black = new CPUPlayer(BLACK);	
+}
+
 static void test_Evaluate()
 {
 	Board board;
@@ -115,4 +125,5 @@ void testSuiteBoard()
     PULCHESS_CALLCASE(test_GetLastMove,			"board::test_GetLastMove");
     PULCHESS_CALLCASE(test_LoadFromFen,			"board::test_LoadFromFen");
 	PULCHESS_CALLCASE(test_Evaluate,			"board::test_Evaluate");
+	PULCHESS_CALLCASE(test_KingSafety,			"board::test_KingSafety");
 }

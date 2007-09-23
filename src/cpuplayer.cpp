@@ -44,8 +44,10 @@ CPUPlayer::CPUPlayer(colour_t colour, int plyDeep, int moveSeconds, bool hashtbl
 		this->evc = new HashCache(1);
 	}
 #endif	
-	this->timec = new TimeControl();
 	this->moveCalcTime = moveSeconds;
+	this->startTime = 0;
+    this->lastRealTime = 0;
+    this->secToLive = 0;
 }
 
 //
@@ -56,7 +58,9 @@ CPUPlayer::CPUPlayer(colour_t colour) : Player(colour)
 	this->plyDeep		= 6;
 	this->moveCalcTime	= 1;
 	this->evc	= new HashCache(1);
-	this->timec = new TimeControl();
+	this->startTime = 0;
+    this->lastRealTime = 0;
+    this->secToLive = 0;
 }
 
 //
@@ -67,7 +71,6 @@ CPUPlayer::~CPUPlayer()
 #ifdef PULCHESS_USEHASHTABLE
 	delete this->evc;
 #endif	
-	delete this->timec;
 }
 
 //
@@ -86,15 +89,15 @@ bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
 	
 	  // conventional clock
 	  if( _clockincr==0 && _clockmoves>0 && _clockbonus>0 ) {
-        timec->startTimer( (time_t)(_clock * 1/_clockmoves ) );		
+        TcStartTimer( (time_t)(_clock * 1/_clockmoves ) );		
       }
       // increment clock
       else if( _clockmoves==0 && _clockincr>0 && _clockbonus>0) {
-        timec->startTimer( (time_t)(_clockincr + _clock * 0.2) );
+        TcStartTimer( (time_t)(_clockincr + _clock * 0.2) );
       }
       // exact clock
       else if( _clockmoves==0 && _clockincr==0 && _clockbonus>0) {
-        timec->startTimer( _clockbonus );
+        TcStartTimer( _clockbonus );
       }
 
       if(  pulchess_board->IsInCheck(colour) )
@@ -126,9 +129,9 @@ bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
       
       m->Play();
       pulchess_board->MoveFinalize(m);
-      timec->resetTimer();
+      TcResetTimer();
       evc->Clear();
-      pulchess_info("move " << m->toString() << " thought in " << timec->getRealTime() << " seconds");
+      pulchess_info("move " << m->toString() << " thought in " << TcGetRealTime() << " seconds");
     }
     catch(InvalidMoveException *e)
     {
@@ -162,7 +165,7 @@ CPUPlayer::Idab(int maxDepth)
 		{
 			cout << depth     << " "; // ply
 			cout << value     << " "; // score
-			cout << timec->GetThinkingTime()       << " "; // time
+			cout << TcGetThinkingTime()       << " "; // time
 			cout << visitedNodes << " "; // nodes
 			cout << (bestMove!=NULL ? bestMove->toString() : "")     << " "; // pv   = mossa
 			cout << endl;
@@ -174,7 +177,7 @@ CPUPlayer::Idab(int maxDepth)
 		
 		//
 		// Look for quitting condition
-		if( timec->evalTimeRemaining(depth) )
+		if( TcEvalTimeRemaining(depth) )
 		{
 			return;
 		}
@@ -235,7 +238,7 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 	
     // Se il tempo stringe,  risaliamo l'albero.
     //
-    if( timec->evalTimeRemaining(depth) && (depth != startDepth) )
+    if( TcEvalTimeRemaining(depth) && (depth != startDepth) )
 	{
 		IsSearchValid = false;
 		return pulchess_board->Evaluate(turnColour) * turnColour;
@@ -318,6 +321,51 @@ Piece *
 CPUPlayer::ChoosePawnPiece()
 {
     return new Queen(colour);
+}
+
+//
+// Start the internal timer used for thinking.
+//
+void CPUPlayer::TcStartTimer(time_t secToLive)
+{
+  pulchess_debug("started timer with " << secToLive << " s.t.l.");
+	
+  this->startTime = time(NULL);
+  this->deathTime = time(NULL) + secToLive;
+  this->secToLive = secToLive;
+}
+
+//
+// Reset the internal timer used for thinking
+//
+void CPUPlayer::TcResetTimer()
+{
+  lastRealTime = time(NULL) - startTime;
+  lastSecToLive = secToLive;
+
+  deathTime = 0;
+  secToLive = 0;
+}
+
+inline unsigned int CPUPlayer::TcGetThinkingTime()
+{
+	return time(NULL) - startTime;
+}
+
+//
+// Do I have to stop thinking?
+//
+inline bool CPUPlayer::TcEvalTimeRemaining(unsigned int depth)
+{
+  return ( (deathTime - time(NULL)) < 1.1 );
+}
+
+//
+// Last total thinking time
+//
+inline unsigned int CPUPlayer::TcGetRealTime()
+{
+  return lastRealTime;
 }
 
 }; // end logic namespace

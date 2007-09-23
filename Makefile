@@ -27,7 +27,7 @@ TESTSPATH=tests/logic/
 
 PULCHESSLOGIC=${LOGICPATH}rook.o ${LOGICPATH}queen.o ${LOGICPATH}king.o ${LOGICPATH}pawn.o \
 	${LOGICPATH}bishop.o ${LOGICPATH}piece.o ${LOGICPATH}board.o ${LOGICPATH}move.o \
-	${LOGICPATH}cpuplayer.o ${LOGICPATH}timecontrol.o ${LOGICPATH}player.o ${LOGICPATH}knight.o \
+	${LOGICPATH}cpuplayer.o ${LOGICPATH}player.o ${LOGICPATH}knight.o \
 	${LOGICPATH}humanplayer.o ${LOGICPATH}pulchess.o \
 	${LOGICPATH}hashcache.o ${LOGICPATH}book.o \
 
