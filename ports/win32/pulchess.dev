@@ -1,7 +1,7 @@
 [Project]
 FileName=pulchess.dev
 Name=pulchess
-UnitCount=29
+UnitCount=27
 Type=1
 Ver=1
 ObjFiles=
@@ -30,26 +30,6 @@ CompilerSet=0
 CompilerSettings=00000000000100000001c1
 
 [Unit1]
-FileName=..\..\src\timecontrol.H
-CompileCpp=1
-Folder=logic
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit2]
-FileName=..\..\src\timecontrol.cpp
-CompileCpp=1
-Folder=logic
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit3]
 FileName=..\..\src\stdheader.h
 CompileCpp=1
 Folder=logic
@@ -59,7 +39,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit4]
+[Unit2]
 FileName=..\..\src\queen.cpp
 CompileCpp=1
 Folder=logic
@@ -69,7 +49,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit5]
+[Unit3]
 FileName=..\..\src\player.cpp
 CompileCpp=1
 Folder=logic
@@ -79,7 +59,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit6]
+[Unit4]
 FileName=..\..\src\piece.H
 CompileCpp=1
 Folder=logic
@@ -89,7 +69,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit7]
+[Unit5]
 FileName=..\..\src\move.H
 CompileCpp=1
 Folder=logic
@@ -99,7 +79,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit8]
+[Unit6]
 FileName=..\..\src\move.cpp
 CompileCpp=1
 Folder=logic
@@ -109,7 +89,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit9]
+[Unit7]
 FileName=..\..\src\knight.cpp
 CompileCpp=1
 Folder=logic
@@ -119,7 +99,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit10]
+[Unit8]
 FileName=..\..\src\king.cpp
 CompileCpp=1
 Folder=logic
@@ -129,7 +109,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit11]
+[Unit9]
 FileName=..\..\src\humanplayer.H
 CompileCpp=1
 Folder=logic
@@ -139,7 +119,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit12]
+[Unit10]
 FileName=..\..\src\humanplayer.cpp
 CompileCpp=1
 Folder=logic
@@ -149,7 +129,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit13]
+[Unit11]
 FileName=..\..\src\hashcache.H
 CompileCpp=1
 Folder=logic
@@ -159,7 +139,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit14]
+[Unit12]
 FileName=..\..\src\hashcache.cpp
 CompileCpp=1
 Folder=logic
@@ -169,7 +149,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit15]
+[Unit13]
 FileName=..\..\src\pulchess.H
 CompileCpp=1
 Folder=logic
@@ -179,7 +159,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit16]
+[Unit14]
 FileName=..\..\src\cpuplayer.H
 CompileCpp=1
 Folder=logic
@@ -189,7 +169,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit17]
+[Unit15]
 FileName=..\..\src\cpuplayer.cpp
 CompileCpp=1
 Folder=logic
@@ -199,7 +179,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit18]
+[Unit16]
 FileName=..\..\src\book.H
 CompileCpp=1
 Folder=logic
@@ -209,7 +189,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit19]
+[Unit17]
 FileName=..\..\src\book.cpp
 CompileCpp=1
 Folder=logic
@@ -219,7 +199,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit20]
+[Unit18]
 FileName=..\..\src\board.H
 CompileCpp=1
 Folder=logic
@@ -229,7 +209,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit21]
+[Unit19]
 FileName=..\..\src\board.cpp
 CompileCpp=1
 Folder=logic
@@ -239,7 +219,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit22]
+[Unit20]
 FileName=..\..\src\bishop.cpp
 CompileCpp=1
 Folder=logic
@@ -249,7 +229,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit23]
+[Unit21]
 FileName=..\..\src\main.cpp
 CompileCpp=1
 Folder=ui
@@ -259,7 +239,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit24]
+[Unit22]
 FileName=..\..\src\xboard.cpp
 CompileCpp=1
 Folder=ui
@@ -269,7 +249,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit25]
+[Unit23]
 FileName=..\..\src\xboard.H
 CompileCpp=1
 Folder=ui
@@ -279,7 +259,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit26]
+[Unit24]
 FileName=..\..\src\pulchess.cpp
 CompileCpp=1
 Folder=logic
@@ -289,8 +269,28 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit27]
+[Unit25]
 FileName=..\..\src\pawn.cpp
+CompileCpp=1
+Folder=logic
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit26]
+FileName=..\..\src\rook.cpp
+CompileCpp=1
+Folder=logic
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit27]
+FileName=..\..\src\piece.cpp
 CompileCpp=1
 Folder=logic
 Compile=1

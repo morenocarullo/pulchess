@@ -31,7 +31,7 @@ namespace pulchess {
 XBoard::XBoard()
 {
 	cout.setf(ios::unitbuf);
-	//pulchess_log_off();
+	pulchess_log_off();
 	sendFeatures();
 }
 
@@ -87,17 +87,33 @@ bool XBoard::readCommand()
 
 //
 // Go! Command
+// --
+// Leave force mode and set the engine to play the color that is on move.
+// Associate the engine's clock with the color that is on move, the opponent's clock with the color that is not on move.
+// Start the engine's clock. Start thinking and eventually make a move.
 //
 void XBoard::goCommand()
 {
-     if( pulchess == NULL ) return;
-     if( !pulchess->IsHuman() )
-     {
-       pulchess->gameCommand();
-       Move * lastMove = pulchess->GetLastMove();
-       cout << "move " << lastMove->toString() << endl;
-       CheckSendResult();
-     }
+  if( pulchess == NULL ) {
+	return;
+  }
+
+  delete pulchess_the_white;
+  delete pulchess_the_black;	
+
+  if( pulchess->whoPlaysNow() == PULCHESS_WHITE ) {
+    pulchess_the_white = new CPUPlayer(PULCHESS_WHITE);
+    pulchess_the_black = new HumanPlayer(PULCHESS_BLACK);   
+  }
+  else {
+    pulchess_the_white = new HumanPlayer(PULCHESS_WHITE);
+    pulchess_the_black = new CPUPlayer(PULCHESS_BLACK);
+  }
+     
+  pulchess->gameCommand();
+  Move * lastMove = pulchess->GetLastMove();
+  cout << "move " << lastMove->toString() << endl;
+  CheckSendResult();
 }
 
 //
@@ -178,9 +194,8 @@ void XBoard::mainLoop()
 	
 	  // post
 	  case 'p':
-	    if( buff == "post")
-	    {
-			CPUPlayer::xboardPost = true;
+	    if( buff == "post") {
+		  CPUPlayer::xboardPost = true;
         }
 		break;
 
@@ -217,11 +232,6 @@ void XBoard::mainLoop()
 	    break;
 
       // go
-      //
-      // Leave force mode and set the engine to play the color that is on move.
-      // Associate the engine's clock with the color that is on move,
-      // the opponent's clock with the color that is not on move.
-      // Start the engine's clock. Start thinking and eventually make a move.
       case 'g':
 		if( buff == "go" )
         {

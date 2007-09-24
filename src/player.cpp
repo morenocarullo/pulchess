@@ -24,19 +24,31 @@ namespace pulchess { namespace logic {
 	
   //
   // Global white player instance
-  //
   Player* Player::whitePlayer = NULL;
 
   //
-  // Global black player instance
+  // Global Timecontrol option. This sets the default number of moves.
+  unsigned int Player::ClockDefaultMoves = 40;
+
   //
+  // Global Timecontrol option. This sets the default seconds for each move.
+  unsigned int Player::ClockDefaultSeconds = 300;
+
+  //
+  // Global Timecontrol option. This sets the default increment.
+  unsigned int Player::ClockDefaultIncr = 0;
+
+  //
+  // Global black player instance
   Player* Player::blackPlayer = NULL;
 
   Player::Player(colour_t colour)
   {
     this->colour = colour;
     this->_moves  = 0;
-    InitClock(40, 300, 0);
+    InitClock(Player::ClockDefaultMoves,
+              Player::ClockDefaultSeconds,
+              Player::ClockDefaultIncr);
   }
 
   Player::~Player()
@@ -69,6 +81,11 @@ namespace pulchess { namespace logic {
     _clockbonus = secondsForMoves;
     _clockincr   = incrSeconds;
     _clockpushed = false;
+
+    // Save clock options
+	Player::ClockDefaultMoves = moves;
+    Player::ClockDefaultSeconds = secondsForMoves;
+    Player::ClockDefaultIncr = incrSeconds;
   }
 
   //

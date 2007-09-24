@@ -313,7 +313,7 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 	//
 	// Add "move's result distance" penalty to handle King mate cases
 	//
-    return alfa + turnColour * (startDepth - depth);
+    return alfa + (startDepth - depth);
 }
 
 

@@ -32,6 +32,10 @@ namespace pulchess { namespace logic {
 
   protected:
 
+	static unsigned int ClockDefaultMoves;
+    static unsigned int ClockDefaultSeconds;
+    static unsigned int ClockDefaultIncr;
+
     //! Remaining time
     unsigned int   _clock;
 

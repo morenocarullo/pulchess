@@ -19,7 +19,7 @@
 #include <sstream>
 
 /** pulchess static local vars */
-static const char version[] = "PulCHESS 0.2f";
+static const char version[] = "PulCHESS 0.2g";
 
 /** pulchess lobal vars */
 bool pulchess_log_on = true;
