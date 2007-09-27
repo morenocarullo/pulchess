@@ -123,7 +123,7 @@ void King::listMoves(vector<Move *> *mList)
 		    !pulchess_board->CanEatThis(pos+1, colour) &&
 		    !pulchess_board->CanEatThis(pos+2, colour) )
 		{
-			mList->push_back( new RookMove(KINGSIDE_ROOK, colour) );
+			mList->push_back( new CastlingMove(KINGSIDE_CASTLING, colour) );
 		}
 	}
 	
@@ -142,7 +142,7 @@ void King::listMoves(vector<Move *> *mList)
 		    !pulchess_board->CanEatThis(pos-2, colour) &&
 		    !pulchess_board->CanEatThis(pos-3, colour) ) 
 		{
-			mList->push_back( new RookMove(QUEENSIDE_ROOK, colour) );
+			mList->push_back( new CastlingMove(QUEENSIDE_CASTLING, colour) );
 		}
 	}
 }

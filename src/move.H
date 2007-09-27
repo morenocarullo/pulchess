@@ -125,19 +125,19 @@ namespace pulchess { namespace logic {
     CoordsMove(string move);
   };
 
-#define QUEENSIDE_ROOK true
-#define KINGSIDE_ROOK false
+#define QUEENSIDE_CASTLING true
+#define KINGSIDE_CASTLING false
   
   /**! The castling move
   
    */
-  class RookMove : public Move {
+  class CastlingMove : public Move {
   private:
     coord_t kind;
     colour_t pcol;
 
   public:
-    RookMove(bool rookKind, colour_t colour);
+    CastlingMove(bool rookKind, colour_t colour);
     int Play();
     void Rewind();
     Move * copy();

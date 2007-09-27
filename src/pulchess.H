@@ -16,6 +16,8 @@
 #ifndef _pulchess_logic_pulchess_h_
 #define _pulchess_logic_pulchess_h_
 
+#include <iostream>
+#include <fstream>
 #include <string>
 #include "player.H"
 
@@ -48,6 +50,7 @@ namespace pulchess { namespace logic {
   private:
 	int engineStatus;
     gamemode_t gameMode;
+    static ofstream log;
 
   public:
 
@@ -108,8 +111,16 @@ namespace pulchess { namespace logic {
     // chi vince?
     int gameInfo();
 
-	// carica un gioco
+	// carica un gioco ovvero una sequenza di mosse
 	bool loadGame(const char *gamePath);
+	
+	// pulchess logging facility
+	static void OpenLog(const char *logFile);
+	
+	static void CloseLog();
+	
+	// write to pulchess game log
+	static void WriteLog(string &message);
   };
 
 }; // end logic namespace

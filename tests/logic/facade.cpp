@@ -52,12 +52,22 @@ static void testLoadGame()
    assert_true( facade->IsGameFinished() );
    delete facade;
 
+   // carica gioco vero (Pulchess vs Spike - 27/10/2007)   (ex problema Queenside Castling)
+   facade = new Pulchess(HUM_VS_HUM);
+   assert_true( facade->loadGame("./tests/games/pulc-spike.game") );
+   delete facade;
+
+   // carica gioco vero (Pulchess vs Spike, 2 - 27/10/2007) (problema Queenside Castling)
+   facade = new Pulchess(HUM_VS_HUM);
+   assert_true( facade->loadGame("./tests/games/pulc-spike2.game") );
+   delete facade;
+
    // carica gioco prova enpassant
    // TODO: da spostare nel codice di test per il soldato
-   facade = new Pulchess(HUM_VS_HUM);
+   //facade = new Pulchess(HUM_VS_HUM);
    // TODO assert_true( facade->loadGame("./tests/games/game003-enpassant.game") ); --> DA RIVEDERE SECONDO LE REGOLE!!!
    //assert_true( !facade->IsGameFinished() );
-   delete facade;
+   //delete facade;
 }
 
 static void testResetGame()

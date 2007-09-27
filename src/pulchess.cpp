@@ -13,19 +13,21 @@
          $Id$
 
 */
+#include <sstream>
 #include "stdheader.h"
 #include "pulchess.H"
 #include "book.H"
-#include <sstream>
 
 /** pulchess static local vars */
-static const char version[] = "PulCHESS 0.2g";
+static const char version[] = "PulCHESS 0.2h";
 
-/** pulchess lobal vars */
+/** pulchess global vars */
 bool pulchess_log_on = true;
 
 namespace pulchess {
 	namespace logic {
+		
+ofstream Pulchess::log;
 
 // Pulchess costructor
 Pulchess::Pulchess(gamemode_t gameMode)
@@ -196,6 +198,7 @@ void Pulchess::StartGame()
 //
 void Pulchess::Shutdown()
 {
+	log.close();
     delete pulchess_board;
     pulchess_board = NULL;
 }
@@ -256,6 +259,12 @@ bool Pulchess::gameCommand(string &cmd)
     else {
 		retval = pulchess_the_black->DoMove(cmd);
     }
+
+    string logMsg("Move command (only for humans): ");
+    string messaggio;
+    string accepted( retval ? " (accepted)" : " (refused)" );
+    messaggio = logMsg + cmd + accepted;
+    WriteLog(messaggio);
 	
 	return retval;
 }
@@ -364,6 +373,36 @@ void Pulchess::printBoard()
 {
   if( pulchess_board != NULL ) {
     pulchess_board->Print();
+  }
+}
+
+//
+// Pulchess logging facility: open log
+//
+void Pulchess::OpenLog(const char *logFile)
+{
+  if( logFile == NULL ) return;
+  
+  log.open(logFile, ios_base::out | ios_base::trunc);
+  if( log.is_open() ) {
+    log << Pulchess::GetPulchessVersion() << " - started. "<< endl;
+  }
+}
+
+void Pulchess::CloseLog()
+{
+  if( log.is_open() ) {
+    log.close();
+  }
+}
+
+//	
+// Write to pulchess game log
+//
+void Pulchess::WriteLog(string &message)
+{
+  if( log.is_open() ) {
+    log << message << endl;
   }
 }
 

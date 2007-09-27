@@ -35,11 +35,14 @@ static void testCastlings()
    assert_true( pulchess->loadGame("./tests/games/game004-castling-1.game") );
    delete pulchess;
 
-   // carico gioco
-   //  
-   // il bianco deve muovere, e la mossa e1g1 deve essere OK!!!
-   //Board b("rnb1k1nr/p1qp1p1p/1p2p1p1/2p1P3/3P1B2/P1PB1N2/2P1QPPP/R4RK1 b kq - 1 11");
-
+   // castling lato nero
+   Board b("rnbqk2r/pppppppp/8/8/8/8/PPPPP3/RNBQKBNR b KQ - 0 1");
+   pulchess_board     = &b;
+   pulchess_the_white = new HumanPlayer(WHITE);
+   pulchess_the_black = new HumanPlayer(BLACK);
+   assert_true( pulchess_the_black->DoMove("e8g8") );
+   delete pulchess_the_white;
+   delete pulchess_the_black;
 }
 
 void testSuiteKing() {

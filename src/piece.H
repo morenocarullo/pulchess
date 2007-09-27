@@ -67,7 +67,7 @@ namespace pulchess { namespace logic {
 	public:
 	
 		//! How many times this piece has been moved?
-		int moveCount;
+		short int moveCount;
 		
 		//! This piece's colour
 		colour_t colour;

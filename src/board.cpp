@@ -19,6 +19,7 @@
  * $Id$
  */
 #include "stdheader.h"
+#include "pulchess.H"
 
 #define piece_at(X,Y)  _map[ (Y)*8 + (X) ]
 #define piece_dr(I)    _map[ (I) ]
@@ -330,8 +331,13 @@ Move * Board::GetLastMove()
 //
 void Board::MoveFinalize(Move *move)
 {
-  if( move != NULL )
+  if( move != NULL ) {
 	gameMoveList.push_back(move);
+
+    string messaggio1("Finalized move: ");
+    string messaggio = messaggio1 + move->toString();
+    Pulchess::WriteLog(messaggio);
+  }
   
   if( turn == WHITE ) { pulchess_the_black->StopClock(); pulchess_the_white->PushClock(); }
   else                { pulchess_the_white->StopClock(); pulchess_the_black->PushClock(); }

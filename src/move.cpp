@@ -399,7 +399,7 @@ Move * EPMove::copy()
 }
 
 
-RookMove::RookMove(bool rookKind, colour_t colour)
+CastlingMove::CastlingMove(bool rookKind, colour_t colour)
 {	
     kind = rookKind;
     pcol = colour;
@@ -407,14 +407,14 @@ RookMove::RookMove(bool rookKind, colour_t colour)
 	this->deadPiece = NULL;
 	this->promotedPawn = NULL;
 	
-	if( rookKind == QUEENSIDE_ROOK ) {
+	if( rookKind == QUEENSIDE_CASTLING ) {
 		if( pcol == WHITE ) {
 		  this->src = xy2pos(4,0);
-		  this->dst = xy2pos(1,0);
+		  this->dst = xy2pos(2,0);
 		}
 		else {
 		  this->src = xy2pos(4,7);
-		  this->dst = xy2pos(1,7);			
+		  this->dst = xy2pos(2,7);			
 		}
 	}
 	else {
@@ -430,11 +430,11 @@ RookMove::RookMove(bool rookKind, colour_t colour)
 }
 
 
-int RookMove::Play()
+int CastlingMove::Play()
 {
     coord_t rkpos_src, kipos_src, rkpos_dst, kipos_dst;
 	
-    if( kind == KINGSIDE_ROOK ) {
+    if( kind == KINGSIDE_CASTLING ) {
 		if(pcol == WHITE) {
 			kipos_src = xy2pos(4,0);
 			kipos_dst = xy2pos(6,0);
@@ -451,15 +451,15 @@ int RookMove::Play()
     else {
 		if( pcol == WHITE ) {
 			kipos_src = xy2pos(4,0);
-			kipos_dst = xy2pos(1,0);
+			kipos_dst = xy2pos(2,0);
 			rkpos_src = xy2pos(0,0);
-			rkpos_dst = xy2pos(2,0);
+			rkpos_dst = xy2pos(3,0);
 		}
 		else {
 			kipos_src = xy2pos(4,7);
-			kipos_dst = xy2pos(1,7);
+			kipos_dst = xy2pos(2,7);
 			rkpos_src = xy2pos(0,7);
-			rkpos_dst = xy2pos(2,7);
+			rkpos_dst = xy2pos(3,7);
 		}
     }
 	
@@ -489,11 +489,11 @@ int RookMove::Play()
 //
 // "Disfa" la mossa, torna alla situazione precedente.
 //
-void RookMove::Rewind()
+void CastlingMove::Rewind()
 {
     coord_t rkpos_src, kipos_src, rkpos_dst, kipos_dst;
 	
-    if( kind == KINGSIDE_ROOK ) {
+    if( kind == KINGSIDE_CASTLING ) { // Kingside
 		if( pcol == WHITE) {
 			kipos_src = xy2pos(6,0);
 			kipos_dst = xy2pos(4,0);
@@ -507,17 +507,17 @@ void RookMove::Rewind()
 			rkpos_dst = xy2pos(7,7);
 		}
     }
-    else {
+    else { // Queenside
 		if( pcol == WHITE ) {
-			kipos_src = xy2pos(1,0);
+			kipos_src = xy2pos(2,0);
 			kipos_dst = xy2pos(4,0);
-			rkpos_src = xy2pos(2,0);
+			rkpos_src = xy2pos(3,0);
 			rkpos_dst = xy2pos(0,0);
 		}
 		else {
-			kipos_src = xy2pos(1,7);
+			kipos_src = xy2pos(2,7);
 			kipos_dst = xy2pos(4,7);
-			rkpos_src = xy2pos(2,7);
+			rkpos_src = xy2pos(3,7);
 			rkpos_dst = xy2pos(0,7);
 		}
     }
@@ -541,9 +541,9 @@ void RookMove::Rewind()
 	pulchess_board->fiftyMovesRule = fiftyMovesRule;
 }
 
-Move * RookMove::copy()
+Move * CastlingMove::copy()
 {
-  Move * m = new RookMove(kind, pcol);
+  Move * m = new CastlingMove(kind, pcol);
   
   m->deadPiece = this->deadPiece;
   m->promotedPawn = this->promotedPawn;

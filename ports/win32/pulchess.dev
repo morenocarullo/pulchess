@@ -402,13 +402,13 @@ FileDescription=pulchess chess engine
 InternalName=pulchess
 LegalCopyright=2005-2006 (C) Moreno Carullo
 LegalTrademarks=
-OriginalFilename=
+OriginalFilename=pulchess.exe
 ProductName=pulchess
-ProductVersion=1.0.0
+ProductVersion=0.2.8
 AutoIncBuildNr=0
 
 [Unit37]
-FileName=..\..\src\ui\txt\main.cpp
+FileName=..\..\src\main.cpp
 CompileCpp=1
 Folder=ui
 Compile=1
@@ -418,7 +418,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit38]
-FileName=..\..\src\ui\txt\xboard.cpp
+FileName=..\..\src\xboard.cpp
 CompileCpp=1
 Folder=ui
 Compile=1
@@ -428,29 +428,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit39]
-FileName=..\..\src\ui\txt\xboard.H
+FileName=..\..\src\xboard.H
 CompileCpp=1
 Folder=ui
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit43]
-FileName=..\..\tests\logic\main.cpp
-CompileCpp=1
-Folder=tests/logic
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit44]
-FileName=..\..\tests\logic\tests.h
-CompileCpp=1
-Folder=tests/logic
 Compile=1
 Link=1
 Priority=1000

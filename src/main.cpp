@@ -40,11 +40,24 @@ static void printGreeting(void)
 //! Entry point for the CLI version of Pulchess
 int main(int argc, char *argv[])
 {
-  Pulchess * pulchess = NULL;
+  Pulchess *pulchess = NULL;
   string mode, cmd;
   bool menuOk = false;
+  int i;
+  const char *logFile = NULL;
 
+  //
+  // Parameter assignment
+  for(i=0; i<argc; i++) {
+    if(strcmp(argv[i], "-log") == 0 ) {
+      logFile = argv[i+1];
+    }
+  }
+
+  //
+  // Program starts
   printGreeting();
+  Pulchess::OpenLog(logFile);
 
   do
   {
@@ -83,7 +96,8 @@ int main(int argc, char *argv[])
 	  else if(mode == "xboard")
 	  {
 	    XBoard * xboard = new XBoard();
-	    xboard->mainLoop(); 
+	    xboard->mainLoop();
+        Pulchess::CloseLog();
 	    delete xboard;
 	    return 0;
 	  }
@@ -103,6 +117,7 @@ int main(int argc, char *argv[])
 
   while( !pulchess->IsGameFinished() ) {
     pulchess->printBoard();
+    cmd = "";
     if( pulchess->IsHuman() )
     {
       cout << "Mossa? > ";
@@ -118,4 +133,5 @@ int main(int argc, char *argv[])
   
   cout << (pulchess->gameInfo() == WHITE ? "White" : "Black") << " wins." << endl;
   pulchess->printBoard();
+  Pulchess::CloseLog();
 }

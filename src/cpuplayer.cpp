@@ -38,7 +38,10 @@ CPUPlayer::CPUPlayer(colour_t colour, int plyDeep, int moveSeconds, bool hashtbl
 	this->plyDeep = plyDeep;
 #ifdef PULCHESS_USEHASHTABLE
 	if( hashtbl ) {
-		this->evc = new HashCache(12317);
+		int numOfElements = 64007; // ~4 Mb
+		this->evc = new HashCache(numOfElements);
+        pulchess_debug("Created hashtable, total maximum size: " << 
+                       (numOfElements*sizeof(BoardValue*) + numOfElements*sizeof(BoardValue))/1024 << " Kb." );
 	}
 	else {
 		this->evc = new HashCache(1);
@@ -284,15 +287,14 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 	// che poi torna all'utente, allora controlliamo se la mossa va salvata
 	// (per poi essere applicata).
 	//
-    if( depth == startDepth )
-    {
-     	if( myBest == NULL ) return 0;
-    	if( IsSearchValid )
-        {
+    if( depth == startDepth ) {
+     	if( myBest == NULL ) {
+          return 0;
+        }
+    	if( IsSearchValid ) {
           bestMove = myBest->copy();
         }
-        else
-        {
+        else {
           pulchess_debug("No valid move selected due to timeout.");
         }
     }

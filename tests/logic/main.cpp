@@ -20,10 +20,13 @@
  */
 #include <iostream>
 #include "stdheader.h"
+#include "pulchess.H"
 #include "tests.h"
 
 int main(int argc, char *argv[]) {
 	pulchess_log_off();
+	
+	cout << pulchess::logic::Pulchess::GetPulchessVersion() << " - Unit Testing" << endl;
 
  	testSuiteBoard();
  	testSuiteMove();
