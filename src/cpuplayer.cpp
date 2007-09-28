@@ -96,7 +96,7 @@ bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
       }
       // increment clock
       else if( _clockmoves==0 && _clockincr>0 && _clockbonus>0) {
-        TcStartTimer( (time_t)(_clockincr + _clock * 0.2) );
+        TcStartTimer( (time_t)(_clockincr + _clock * 0.01) );
       }
       // exact clock
       else if( _clockmoves==0 && _clockincr==0 && _clockbonus>0) {

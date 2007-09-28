@@ -31,7 +31,7 @@ namespace pulchess {
 XBoard::XBoard()
 {
 	cout.setf(ios::unitbuf);
-	pulchess_log_off();
+	//pulchess_log_off();
 	sendFeatures();
 }
 
@@ -267,9 +267,9 @@ void XBoard::mainLoop()
 	    // -> type 1 or 2 of time control.
 		if( buff.substr(0,5) == "level"  && pulchess != NULL) {
           pulchess_debug("Trying to set the clock...");
-	      unsigned int _m=40, _s=300, _i=0;
+	      unsigned int _m=40, _s=5, _i=0;
           if( sscanf(buff.c_str(), "level %d %d %d", &_m, &_s, &_i) == 3 ) {
-            pulchess->SetTimecontrol(_m,_s,_i);
+            pulchess->SetTimecontrol(_m,_s*60,_i);
             continue;
           }
         }
