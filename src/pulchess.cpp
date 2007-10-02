@@ -19,10 +19,17 @@
 #include "book.H"
 
 /** pulchess static local vars */
-static const char version[] = "PulCHESS 0.2h";
+static const char version[] = "PulCHESS 0.2i";
 
 /** pulchess global vars */
 bool pulchess_log_on = true;
+
+/** IS DEBUGGING ON? */
+#ifdef DEBUG
+bool pulchess_debug = true;
+#else
+bool pulchess_debug = false;
+#endif
 
 namespace pulchess {
 	namespace logic {

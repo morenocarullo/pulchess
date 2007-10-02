@@ -35,13 +35,13 @@ class Book {
 	public:
 		static int bookSize;
 		static list<BookMove *> *map;
-		static bool usable;
 	
-		//! Load a book file 
+		//! Load a book file
+		static void Init(); 
 		static bool Load();
 		static bool Load(const char *filename);
-		static bool Save(const char *filename);
 		static void Insert(BoardValue *b, Move *m);
+		static void Insert(string fenBoard, string moveCmd);
 		static Move * Search(BoardValue *b);
 };
 

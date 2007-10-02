@@ -18,6 +18,7 @@
  * $Id$
  */
 #include "stdheader.h"
+#include "book.H"
 #include "tests.h"
 #include <iostream>
 
@@ -100,49 +101,6 @@ static void test_LoadFromFen()
 	assert_true( whiteRookSx->colour == WHITE );
 }
 
-// TODO: move in CPUPlayer tests
-static void test_KingSafety_as_black()
-{
-	Board b("5bnr/2Q1kp1p/1Npppp2/8/2Pr4/P7/1P1N1PPP/R1B1K2R b KQ - 0 20");
-	
-    // board & players setup
-    pulchess_board     = &b;
-    pulchess_the_white = new CPUPlayer(WHITE);
-    pulchess_the_black = new CPUPlayer(BLACK);
-
-	// this is in check
-    assert_true( b.IsInCheck(BLACK) );
-
-	// play a move, remove from check
-    pulchess_the_black->DoMove("");
-    assert_true( !b.IsInCheck(BLACK) );
-
-	delete pulchess_the_white;
-	delete pulchess_the_black;
-}
-
-// TODO: move in CPUPlayer tests
-static void test_KingSafety_as_white()
-{
-	Board b("rn1kqbnr/pp2pppp/2pp4/8/8/1b1pp3/P4PPP/RNBKQBNR w KQ - 0 20");
-	
-    // board & players setup
-    pulchess_board     = &b;
-    pulchess_the_white = new CPUPlayer(WHITE);
-    pulchess_the_black = new CPUPlayer(BLACK);
-
-	// this is in check
-    assert_true( b.IsInCheck(WHITE) );
-
-	// play a move, remove from check
-    pulchess_the_white->DoMove("");
-    assert_true( !b.IsInCheck(WHITE) );
-
-	delete pulchess_the_white;
-	delete pulchess_the_black;
-}
-
-
 static void test_Evaluate()
 {
 	Board board;
@@ -152,12 +110,24 @@ static void test_Evaluate()
 	assert_true( board.Evaluate(BLACK) == 0 );
 }
 
+static void test_BoardValue_basic()
+{
+	Board b1( "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+	Board b2( "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
+	
+	BoardValue *bv1 = new BoardValue(&b1, 99, Book::bookSize);
+	BoardValue *bv2 = new BoardValue(&b2, 99, Book::bookSize);
+	
+	assert_true(*bv1 != *bv2);
+	
+	delete bv1;
+}
+
 void testSuiteBoard()
 {
 	PULCHESS_CALLCASE(test_moveRollback_one,	"board::test_moveRollback_one");
     PULCHESS_CALLCASE(test_GetLastMove,			"board::test_GetLastMove");
     PULCHESS_CALLCASE(test_LoadFromFen,			"board::test_LoadFromFen");
 	PULCHESS_CALLCASE(test_Evaluate,			"board::test_Evaluate");
-	PULCHESS_CALLCASE(test_KingSafety_as_white, "board::test_KingSafety1");
-	PULCHESS_CALLCASE(test_KingSafety_as_black,	"board::test_KingSafety2");
+	PULCHESS_CALLCASE(test_BoardValue_basic,    "Book::test_basic");
 }

@@ -25,109 +25,81 @@ namespace pulchess { namespace logic {
 
 int					Book::bookSize = 97;
 list<BookMove *> *	Book::map = NULL;
-bool				Book::usable = false;
+
+void Book::Init()
+{
+  if(map == NULL) {
+	map = new list<BookMove *>[bookSize];
+  }
+}
 
 // Load default books
 bool Book::Load()
 {
+	Init();
+	
+	//
+	// ----- Load Defaults mini-book moves -----
+	// e2e4
+	Insert( "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "e2e4" );
+	Insert( "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1", "e7e5" );
+	
+	// ----- End Loading Defaults mini-book moves! -----
+	//
+	
 	return Load("data/book");
 }
 
+//
 // Load a book file
-/*
-	TODO: load from EBD
-*/
+//
 bool Book::Load(const char *filename)
 {
-	FILE *fp;
-	int ct=0;
-	coord_t buff[67];
-	BoardValue *bv;
-	Move *move;
-	
-	map = new list<BookMove *>[bookSize];
-	fp  = fopen(filename, "rb");
-	if( fp == NULL ) {
-		return false;
-	}
-	while(!feof(fp)) {
-		if( fread(buff, sizeof(coord_t), 67, fp) < 67 ) {
-			return false;
-		}
-		bv   = new BoardValue(buff, Book::bookSize);
-		move = new Move(*(buff+65), *(buff+66), 0);
-		Insert(bv, move);
-		ct++;
-	}
-	
-	fclose(fp);
-	
-	if( ct>0 ) {		
-		usable = true;
-		return true;
-	}
-	else {
-		return false;
-	}
+  /*
+	TODO: load from EBD or from COMPILED book!
+  */
+  return false;
 }
 
-bool Book::Save(const char *filename)
-{
-	FILE *fp;
-	int i;
-	coord_t buff[2];
-	list<BookMove *> * lst;
-	list<BookMove *>::iterator it;
-	
-	fp = fopen(filename, "wb+");
-	
-	if( fp == NULL ) {
-		return false;
-	}
-	
-	for(i=0; i<bookSize; i++) {
-		lst = &map[i];
-		for(it=lst->begin(); it!=lst->end(); it++) {
-			// scrive la boardvalue
-			buff[0] = 0;
-			fwrite((*it)->b->GetMap(), sizeof(coord_t), 64, fp);
-			fwrite(buff, sizeof(coord_t), 1, fp);	// TODO: castling state + turn state
-			
-			// scrive la mossa			
-			buff[0] = (*it)->m->GetSrcIdx();
-			buff[1] = (*it)->m->GetDstIdx();
-			fwrite(buff, sizeof(coord_t), 2, fp);
-		}
-	}
-	
-	fclose(fp);
-	return true;
-}
-
+//
 // Insert a new move
+//
 void Book::Insert(BoardValue *b, Move *m)
 {
-	if( !usable ) return;
-
 	BookMove * bm = new BookMove;
 	bm->m = m;
 	bm->b = b;
 	map[b->GetHashKey()].push_front( bm );
+	
+	pulchess_debug("Inserted move " << m->toString() << " in book. Hashkey is: " << b->GetHashKey());
 }
 
+//
+// Insert a move, given the FEN position and the simple algebrical notation.
+//
+void Book::Insert(string fenBoard, string moveCmd)
+{
+	Board _board(fenBoard);
+    Move *move = Move::GetMoveFactory(moveCmd, _board.turn);
+	Insert( new BoardValue(&_board, 99, bookSize), move );
+}
+
+//
 // Search for this move
+//
 Move * Book::Search(BoardValue *b)
 {
-	if( !usable ) return NULL;
-	
 	list<BookMove *> * lst = &map[b->GetHashKey()];
 	list<BookMove *>::iterator it;
 	
 	for(it=lst->begin(); it!=lst->end(); it++) {
+		pulchess_debug("Verifying move: " << (*it)->m->toString());
 		if( (*it)->b->UsableFor(b) ) {
 			return (*it)->m;
 		}
 	}
+	
+	pulchess_debug("Unsuccessful search in book with key: " << b->GetHashKey());
 	
 	return NULL;
 }

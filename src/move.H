@@ -68,6 +68,7 @@ namespace pulchess { namespace logic {
     Move();
     Move(coord_t src, coord_t dst, int rating);
     virtual ~Move();
+	static Move* GetMoveFactory(string moveCmd, colour_t colour);
 
     coord_t GetSrcIdx();
     coord_t GetDstIdx();

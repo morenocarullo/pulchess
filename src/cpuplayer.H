@@ -38,14 +38,17 @@ namespace pulchess { namespace logic {
 	{
 
 	private:
-		//! Pointer to best move
+		//! Pointer to best move  (search-specific)
 		Move *bestMove;
+		
+		//! Num of visited nodes  (search-specific)
+		unsigned int visitedNodes;
+		
+		//! Maximum depth reached with quiescence (search-specific)
+        int maxPlyReached;
 		
 		//! Last result of a move
 		int moveResult;
-		
-		//! Num of visited nodes (states)
-		unsigned int visitedNodes;
 		
 		//! Ply depth
 		int plyDeep;

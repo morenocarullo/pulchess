@@ -40,7 +40,7 @@ bool HumanPlayer::DoMove(string moveCmd)
 	
 	try
 	{
-		coords = getMove(moveCmd);
+		coords = Move::GetMoveFactory(moveCmd, colour);
 		if( coords == NULL ) {
 			pulchess_info( "Mossa non valida" );
 			return false;
@@ -85,54 +85,6 @@ int HumanPlayer::getPromotion(string moveCmd)
 		}
 	}
 	return PIECE_NONE;
-}
-
-//! Get a move out of legal ones
-//
-Move * HumanPlayer::getMove(string moveCmd)
-{
-	CoordsMove *coords;
-	vector<Move *> mList;
-	vector<Move *>::iterator mListIt;
-	Piece      *srcp;
-	
-    // interpreta la mossa
-	try {
-	   coords = new CoordsMove(moveCmd);
-    }
-    catch(InvalidMoveException *e)
-    {
-       pulchess_info("la mossa specificata non e' valida");
-	   return NULL;
-	}
-	
-	srcp = pulchess_board->GetPiece( coords->GetSrcIdx() );
-	
-	// errore: qui non c'e' nessun pezzo
-	if( srcp == NULL ) return NULL;
-	
-	// errore: non possiamo muovere pezzi di altri!
-	if( srcp->colour != this->colour ) return NULL;
-	
-	srcp->listMoves(&mList);
-	for(mListIt = mList.begin(); mListIt != mList.end(); mListIt++) {
-		if( (*mListIt)->GetSrcIdx() == coords->GetSrcIdx() &&
-			(*mListIt)->GetDstIdx() == coords->GetDstIdx() ) {
-			Move * copy = (*mListIt)->copy();
-			moveListDestroy(&mList);
-			return copy;
-		}
-	}
-	
-	pulchess_debug( "HumanPlayer::getMove() -- la mossa specificata non"
-                    << " e' stata trovata tra quelle valide: " << coords->toString() );
-
-	for(mListIt = mList.begin(); mListIt != mList.end(); mListIt++) {
-		pulchess_debug( "\tmossa disp: " << (*mListIt)->toString() );
-	}
-	
-	moveListDestroy(&mList);
-	return NULL;
 }
 
 //! Request new piece for soldier promotion

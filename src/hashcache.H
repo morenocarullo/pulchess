@@ -45,6 +45,7 @@ namespace pulchess { namespace logic {
     BoardValue * Get(unsigned int key);
     int GetValue(unsigned int key);
     unsigned int getSize();
+    double GetOccupation();
   };
 
 };

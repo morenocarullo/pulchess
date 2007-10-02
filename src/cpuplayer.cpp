@@ -102,38 +102,28 @@ bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
       else if( _clockmoves==0 && _clockincr==0 && _clockbonus>0) {
         TcStartTimer( _clockbonus );
       }
-
-      if(  pulchess_board->IsInCheck(colour) )
-      {
-      	pulchess_info("I am in check, gotta do smth!");
-      }
       
       // Prova a cercare la mossa nel libro
       BoardValue * bv = new BoardValue(99, Book::bookSize);
       m = Book::Search( bv );
       delete bv;	
       
-      // Se non c'e', usa alphabeta
-      if( m == NULL )
-      {
-      	pulchess_debug("move not found in book.");
+      // Se non c'e', usa IDAB
+      if( m == NULL ) {
       	this->Idab( plyDeep );
       	m = bestMove;   
-      	if( m == NULL )
-        {
+      	if( m == NULL ) {
       	  pulchess_debug("No move was found by cpu!");
           return false;
       	}			
       }
-      else
-      {
+      else {
       	pulchess_debug("found move in book!");
       }
       
       m->Play();
       pulchess_board->MoveFinalize(m);
       TcResetTimer();
-      evc->Clear();
       pulchess_info("move " << m->toString() << " thought in " << TcGetRealTime() << " seconds");
     }
     catch(InvalidMoveException *e)
@@ -143,6 +133,10 @@ bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
   		delete e;
   		exit(1);
     }
+
+#ifdef PULCHESS_USEHASHTABLE
+      evc->Clear();
+#endif
 	
 	return true;
 }
@@ -153,37 +147,47 @@ bool CPUPlayer::DoMove(string moveCmd) /* throws ... */
 void
 CPUPlayer::Idab(int maxDepth) 
 {	
-	int depth, value;
-	for(depth=2; depth<=maxDepth; depth++)
-	{	
-		//
+	int depth, value, window=0;
+	//const int ASP_WINDOW = 10000;
+    string strBestMove;
+	for(depth=2; depth<=maxDepth; depth++) {	
+		
 		// Search!
-		pulchess_debug("IDAB iteration to depth " << depth);
-		IsSearchValid = true;
-		value = Alfabeta(depth, depth, colour, BLACK_WINS, WHITE_WINS);
+        //for(window=ASP_WINDOW; window>=0; window -= ASP_WINDOW) {
+			pulchess_debug("IDAB iteration to depth " << depth << ", window is " << window);
+			
+			IsSearchValid = true;
+			maxPlyReached = 0;
+			value = Alfabeta(depth, depth, colour, BLACK_WINS+window, WHITE_WINS-window);
+			strBestMove = (bestMove!=NULL ? bestMove->toString() : "");
+			
+			pulchess_debug("  Results: MaxPLY=" << maxPlyReached << ", VisitedNodes=" << visitedNodes << ", BestMove=" << strBestMove);
 		
-		//
-		// Show thinking stuff?
-		if( CPUPlayer::xboardPost )
-		{
-			cout << depth     << " "; // ply
-			cout << value     << " "; // score
-			cout << TcGetThinkingTime()       << " "; // time
-			cout << visitedNodes << " "; // nodes
-			cout << (bestMove!=NULL ? bestMove->toString() : "")     << " "; // pv   = mossa
-			cout << endl;
-		}
+			// Show thinking stuff?
+			if( CPUPlayer::xboardPost )
+			{
+				cout << maxPlyReached << " "; // ply
+				cout << value         << " "; // score
+				cout << TcGetThinkingTime()       << " "; // time
+				cout << visitedNodes << " "; // nodes
+				cout << strBestMove   << " "; // pv   = mossa
+				cout << endl;
+			}
+					
+			//
+			// Reset search stats
+			visitedNodes = 0;
 		
-		//
-		// Reset search stats
-		visitedNodes = 0;
-		
-		//
-		// Look for quitting condition
-		if( TcEvalTimeRemaining(depth) )
-		{
-			return;
-		}
+			//
+			// Look for quitting condition
+			if( TcEvalTimeRemaining(depth) ) {
+				return;
+			}
+			
+#ifdef PULCHESS_USEHASHTABLE
+			pulchess_debug("  Hashcache usage is " << evc->GetOccupation()*100 << "%%");
+#endif
+        //}
 	}
 }
 
@@ -205,6 +209,7 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 	//
 	// Stats
 	visitedNodes++;
+	maxPlyReached = MAX(maxPlyReached,startDepth-depth);
 
 	//
     // Is it a final node?
@@ -266,7 +271,7 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 		currMove = (*mList_iter);
 		
 		moveResult = currMove->Play();
-		val = -Alfabeta( depth, depth-1, ENEMY(turnColour), -beta, -alfa );
+		val = -Alfabeta( startDepth, depth-1, ENEMY(turnColour), -beta, -alfa );
 		currMove->Rewind();
 		
 		if( val >= beta ) {

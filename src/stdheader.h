@@ -36,6 +36,7 @@ typedef unsigned char byte;
 typedef signed char colour_t ;
 
 extern bool pulchess_log_on;
+extern bool pulchess_debug;
 
 #define WHITE 1
 #define BLACK -1
@@ -51,6 +52,7 @@ extern bool pulchess_log_on;
 #define pos2y(P)    ( P/8 )
 #define xy2pos(X,Y) ( (Y) * 8 + (X) )
 #define abs(A) ( (A)<0 ? -(A) : (A) )
+#define MAX(A,B) ((A)>(B) ? (A) : (B))
 #define ENEMY(C) ( C == BLACK ? WHITE : BLACK )
 #define ISRELCELL(X) ( colour == BLACK ? (getY() == 8-(X)) : (getY() == (X)-1) )
 #define COORDSOK(X,Y) ( (X) >=0 && (X) <8 && (Y) >= 0 && (Y) < 8 )

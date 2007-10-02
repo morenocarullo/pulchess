@@ -19,6 +19,7 @@
  * $Id$
  */
 #include "stdheader.h"
+#include <sstream>
 
 namespace pulchess { namespace logic {
 
@@ -209,5 +210,21 @@ namespace pulchess { namespace logic {
 
     return false;
   }
+
+string Piece::ToString()
+{
+  stringstream strs;
+  string ris = (colour==WHITE) ?"white":"black";
+
+  strs << ris;
+  strs << " ";
+  strs << getKindChr();
+  strs << getX();
+  strs << getY();
+
+  strs >> ris;
+  return ris;
+}
+
 };
 };

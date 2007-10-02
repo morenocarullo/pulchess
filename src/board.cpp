@@ -1,23 +1,18 @@
 /*
- * PROJECT: PulCHESS, a Computer Chess program
- * AUTHOR:  Moreno Carullo
- * LICENSE: GPL, see license.txt in project root
- * FILE:    Board and BoardValue implementation
- *
- * This program is free software; you can redistribute it and/or modify         
- * it under the terms of the GNU General Public License as published by      
- * the Free Software Foundation; either version 2 of the License, or         
- * (at your option) any later version.                                       
- *                                                                           
- * This program is distributed in the hope that it will be useful,           
- * but WITHOUT ANY WARRANTY; without even the implied warranty of            
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
- * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
- * for more details.                                                         
- * 
- * Created on 15-lug-2005
- * $Id$
- */
+  PulCHESS, a Computer Chess program
+                by Moreno Carullo
+ 
+  About this file:
+         Board and BoardValue implementation.
+         The game board and game status are kept here.
+ 
+  License:
+         GPL v2, see license.txt in project root.
+ 
+  Version:
+         $Id$
+
+*/
 #include "stdheader.h"
 #include "pulchess.H"
 
@@ -549,23 +544,38 @@ int Board::GetMoveCount()
 // *** Start of BoardValue class implementation ***
 //
 
+BoardValue::BoardValue(Board *b, coord_t depth, unsigned int dstTableSize)
+{
+  Init(b, depth, dstTableSize);
+}
+
 //
 // Class ctor
 //
 BoardValue::BoardValue(coord_t depth, unsigned int dstTableSize)
+{
+  Init(pulchess_board, depth, dstTableSize);
+}
+
+//
+// General ctor (init)
+//
+inline void BoardValue::Init(Board *b, coord_t depth, unsigned int dstTableSize)
 {
 	int base = 127;
     this->depth = depth;
     
     hashkey = 0;
     for(int i=0; i<64; i++) {
-		if( pulchess_board->GetPiece(i) != NULL )
-			map[i] = pulchess_board->GetPiece(i)->GetValue();
+		if( b->GetPiece(i) != NULL )
+			map[i] = b->GetPiece(i)->GetValue();
 		else
 			map[i] = 0;
 		
-		hashkey = (base * hashkey + map[i]) % dstTableSize;
+		hashkey = (base * hashkey + map[i]*i + i) % dstTableSize;
     }
+
+    map[64] = b->turn;
 }
 
 //
@@ -579,6 +589,7 @@ BoardValue::BoardValue(const coord_t * rec, unsigned int dstTableSize)
 		map[i] = rec[i];
 		hashkey = (base * hashkey + map[i]) % dstTableSize;
 	}
+    map[64] = rec[64];
 }
 
 //
@@ -633,7 +644,7 @@ coord_t * BoardValue::GetMap()
 //
 bool BoardValue::UsableFor(BoardValue *b)
 {
-    for(int i=0; i<64; i++) {
+    for(int i=0; i<65; i++) {
 		if( map[i] != b->GetMap()[i] ) return false;
     }
 	

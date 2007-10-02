@@ -96,6 +96,8 @@ namespace pulchess { namespace logic {
 		char   getKindChr();
 		char   getColourChr();
 		
+		string ToString();
+		
 		//! Bring me back to position pos
 		void   Rollback(coord_t pos);
 		

@@ -34,7 +34,7 @@ PULCHESSLOGIC=${LOGICPATH}rook.o ${LOGICPATH}queen.o ${LOGICPATH}king.o ${LOGICP
 PULCHESSTXT=${TXTUIPATH}main.o ${TXTUIPATH}xboard.o
 
 PULCHESSTEST=${TESTSPATH}board.o ${TESTSPATH}soldier.o ${TESTSPATH}king.o ${TESTSPATH}move.o \
-			 ${TESTSPATH}rook.o ${TESTSPATH}facade.o ${TESTSPATH}main.o ${TESTSPATH}humanplayer.o
+			 ${TESTSPATH}rook.o ${TESTSPATH}facade.o ${TESTSPATH}main.o ${TESTSPATH}humanplayer.o ${TESTSPATH}cpuplayer.o
 
 all: deploy
 	@echo "Making pulchess..."

@@ -89,5 +89,20 @@ int HashCache::GetValue(unsigned int key)
 	return _map[ key ];
 }
 
+//
+// Get % of occupation of hash cache.
+//
+double HashCache::GetOccupation()
+{
+  unsigned int used=0, ct=0;
+  for(unsigned int i=0; i<size; i++) {
+    if( _vals[i] != NULL ) {
+      used++;
+    }
+	ct++;
+  }
+  return (double)used/ct;
+}
+
 };
 };

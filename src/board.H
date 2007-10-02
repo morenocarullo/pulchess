@@ -154,14 +154,17 @@ namespace pulchess { namespace logic {
   class BoardValue
   {
   private:
-    coord_t map[64];
+    coord_t map[65];
     coord_t depth;
     int hashkey;
+	void Init(Board *b, coord_t depth, unsigned int dstTableSize);
 
   public:
+    BoardValue(Board *b, coord_t depth, unsigned int dstTableSize);
     BoardValue(coord_t depth, unsigned int dstTableSize);
 	BoardValue(const coord_t * rec, unsigned int dstTableSize);
     ~BoardValue();
+
 	bool operator== (BoardValue &a);
 	bool operator!= (BoardValue &a);
 

@@ -30,5 +30,6 @@ void testSuiteKing(void);
 void testSuiteRook(void);
 void testSuitePulchessPulchess(void);
 void testSuiteHumanPlayer(void);
+void testSuiteCpuPlayer(void);
 void testSuiteBoard(void);
 void testSuiteMove(void);

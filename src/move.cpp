@@ -110,6 +110,56 @@ Move::Move(coord_t newpos, coord_t startpos, int rating)
 Move::~Move() {}
 
 //
+// Move factory: given a text command it instantiates the correspoinding Move.
+//    TODO: refactor here the code needed by PAWN PROMOTION !
+//
+Move * Move::GetMoveFactory(string moveCmd, colour_t colour)
+{
+	CoordsMove *coords;
+	vector<Move *> mList;
+	vector<Move *>::iterator mListIt;
+	Piece      *srcp;
+	
+    // interpreta la mossa
+	try {
+	   coords = new CoordsMove(moveCmd);
+    }
+    catch(InvalidMoveException *e)
+    {
+       pulchess_info("la mossa specificata non e' valida");
+	   return NULL;
+	}
+	
+	srcp = pulchess_board->GetPiece( coords->GetSrcIdx() );
+	
+	// errore: qui non c'e' nessun pezzo
+	if( srcp == NULL ) return NULL;
+	
+	// errore: non possiamo muovere pezzi di altri!
+	if( srcp->colour != colour ) return NULL;
+	
+	srcp->listMoves(&mList);
+	for(mListIt = mList.begin(); mListIt != mList.end(); mListIt++) {
+		if( (*mListIt)->GetSrcIdx() == coords->GetSrcIdx() &&
+			(*mListIt)->GetDstIdx() == coords->GetDstIdx() ) {
+			Move * copy = (*mListIt)->copy();
+			moveListDestroy(&mList);
+			return copy;
+		}
+	}
+	
+	pulchess_debug( "Move::" << __func__ << " -- la mossa specificata non"
+                    << " e' stata trovata tra quelle valide: " << coords->toString() );
+
+	for(mListIt = mList.begin(); mListIt != mList.end(); mListIt++) {
+		pulchess_debug( "\tmossa disp: " << (*mListIt)->toString() );
+	}
+	
+	moveListDestroy(&mList);
+	return NULL;
+}
+
+//
 // Get a string representation of the move
 //
 string Move::toString()
@@ -281,8 +331,8 @@ int Move::Play()
        enpassant = dstI;
     }
 
-    // return 1 if we ate a piece
-    return deadPiece != NULL ? deadPiece->GetRank() : 0;
+    // return rating
+    return rating;
 }
 
 void Move::Rewind()
@@ -523,11 +573,11 @@ void CastlingMove::Rewind()
     }
 	
     pulchess_board->SetPiece( kipos_dst, pulchess_board->GetPiece( kipos_src ) );
-    pulchess_board->GetPiece( kipos_dst )->moveTo( kipos_dst );
+    pulchess_board->GetPiece( kipos_dst )->Rollback( kipos_dst );
     pulchess_board->SetPiece( kipos_src, NULL );
 	
     pulchess_board->SetPiece( rkpos_dst, pulchess_board->GetPiece( rkpos_src ) );
-    pulchess_board->GetPiece( rkpos_dst )->moveTo( rkpos_dst );
+    pulchess_board->GetPiece( rkpos_dst )->Rollback( rkpos_dst );
     pulchess_board->SetPiece( rkpos_src, NULL );
 	
     // aggiorna mosse e turno
