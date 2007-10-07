@@ -191,6 +191,14 @@ void Board::Print()
 }
 
 //
+// Builds a FEN representation of the board
+//
+string Board::ToFen()
+{
+  return "TODO!";
+}
+
+//
 // Add a piece to the pieceList
 //
 void Board::PieceListAdd(Piece *p)
@@ -478,57 +486,75 @@ Move * Board::CheckDefenseMove(const colour_t colour)
 //
 // Evaluates board status
 //
-int Board::Evaluate(colour_t colour)
+int Board::Evaluate()
 {
-    int val = 0, tmppos = 0;
+    int val = 0, tmppos = 0, material = 0, kingprot = 0, kingpressure = 0, control = 0;
     coord_t wkingpos, bkingpos;
-    
-    // material
+
+    // kings position
+    wkingpos = (_whiteKing != NULL) ? _whiteKing->getPos() : NO_POSITION;
+	bkingpos = (_blackKing != NULL) ? _blackKing->getPos() : NO_POSITION;
+
+    // material and "control"
     for(int i=0; i<64; i++) {
-  		if(piece_dr(i) != NULL) {			
-  			val += piece_dr(i)->GetRank()          * piece_dr(i)->colour;
-  			val += piece_dr(i)->getPosEvaluation() * piece_dr(i)->colour;
-  		}
+      if(piece_dr(i) != NULL) {			
+        // pure material
+        material += piece_dr(i)->GetRank()          * piece_dr(i)->colour;
+        material += piece_dr(i)->getPosEvaluation() * piece_dr(i)->colour;
+
+        // give a bonus for pieces on the opposite side of the board
+        //control += ((i<32?WHITE:BLACK) == piece_dr(i)->colour) ? 0 : piece_dr(i)->colour;
+
+        // king distance (king's attackability)
+        /*if( piece_dr(i)->colour == BLACK && wkingpos != NO_POSITION) {
+          kingpressure -= abs(pos2x(wkingpos) - pos2x(i));
+          kingpressure -= abs(pos2y(wkingpos) - pos2y(i));
+        }
+        if( piece_dr(i)->colour == WHITE && bkingpos != NO_POSITION) {
+          kingpressure += abs(pos2x(bkingpos) - pos2x(i));
+          kingpressure += abs(pos2y(bkingpos) - pos2y(i));
+        }*/
+      }
     }
     
     // white king protection
     if( _whiteKing != NULL)
     {
-    	wkingpos = _whiteKing->getPos();
     	tmppos = wkingpos+7;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) val += 1 * WHITE;	
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) kingprot += 1 * WHITE;	
     	tmppos = wkingpos+8;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) val += 1 * WHITE;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) kingprot += 1 * WHITE;
     	tmppos = wkingpos+9;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) val += 1 * WHITE;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) kingprot += 1 * WHITE;
     	tmppos = wkingpos-7;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) val += 1 * WHITE;	
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) kingprot += 1 * WHITE;	
     	tmppos = wkingpos-8;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) val += 1 * WHITE;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) kingprot += 1 * WHITE;
     	tmppos = wkingpos-9;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) val += 1 * WHITE;	    	  
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == WHITE) kingprot += 1 * WHITE;	    	  
     }
 
     // black king protection
     if(_blackKing != NULL )
     {
-    	bkingpos = _blackKing->getPos();	
     	tmppos = bkingpos+7;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) val += 1 * BLACK;	
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) kingprot += 1 * BLACK;	
     	tmppos = bkingpos+8;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) val += 1 * BLACK;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) kingprot += 1 * BLACK;
     	tmppos = bkingpos+9;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) val += 1 * BLACK;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) kingprot += 1 * BLACK;
     	tmppos = bkingpos-7;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) val += 1 * BLACK;	
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) kingprot += 1 * BLACK;	
     	tmppos = bkingpos-8;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) val += 1 * BLACK;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) kingprot += 1 * BLACK;
     	tmppos = bkingpos-9;
-    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) val += 1 * BLACK;
+    	if( OKCOORDS(tmppos) && _map[tmppos] != NULL && _map[tmppos]->colour == BLACK) kingprot += 1 * BLACK;
     }
     
+    // final evaluation value
+    val = control + material + kingprot + kingpressure;
 	
-    return val;
+    return val * turn;
 }
 
 //

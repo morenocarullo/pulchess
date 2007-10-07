@@ -106,8 +106,7 @@ static void test_Evaluate()
 	Board board;
 	
 	// posizione iniziale = 0
-	assert_true( board.Evaluate(WHITE) == 0 );
-	assert_true( board.Evaluate(BLACK) == 0 );
+	assert_true( board.Evaluate() == 0 );
 }
 
 static void test_BoardValue_basic()

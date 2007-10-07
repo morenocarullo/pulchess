@@ -23,7 +23,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "PCChessView.h"
-#import "../../src/logic/pulchess.H"
+#import "../../src/pulchess.H"
 
 @interface PCMainUiController : NSObject
 {

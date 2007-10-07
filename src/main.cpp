@@ -59,56 +59,48 @@ int main(int argc, char *argv[])
   printGreeting();
   Pulchess::OpenLog(logFile);
 
-  do
-  {
-  	cout << "Game mode? (hc, cc, ch, hh, quit) > ";
-	  cin >> mode;
-	  cout << endl;
+  do {
+  	cout << "Game mode? (hc, cc, ch, hh, xboard, quit) > ";
+    cin >> mode;
+    cout << endl;
   
-	  if( mode == "hc"  )
-	  {
-	    pulchess = new Pulchess(HUM_VS_CPU);
-	    menuOk = true;
-	    cout << "Human Vs CPU" << endl;
-	    cout << endl;
-	  }
-	  else if( mode == "cc" )
-	  {
-	    pulchess = new Pulchess(CPU_VS_CPU);
-	    menuOk = true;
-	    cout << "CPU Vs CPU" << endl;
-	    cout << endl; 
-	  }
-	  else if(mode == "hh")
-	  {
-	    pulchess = new Pulchess(HUM_VS_HUM);
-	    menuOk = true;
-	    cout << "Human Vs Human" << endl;
-	    cout << endl;
-	  }
-	  else if( mode == "ch"  )
-	  {
-	    pulchess = new Pulchess(CPU_VS_HUM);
-	    menuOk = true;
-	    cout << "CPU Vs Human" << endl;
-	    cout << endl;
-	  }
-	  else if(mode == "xboard")
-	  {
-	    XBoard * xboard = new XBoard();
-	    xboard->mainLoop();
-        Pulchess::CloseLog();
-	    delete xboard;
-	    return 0;
-	  }
-	  else if(mode == "quit")
-	  {
-	    return 0;
-	  }
-	  else
-	  {
-	     cout << "Command not valid! Please choose another one..." << endl;	
-	  }
+    if( mode == "hc"  ) {
+      pulchess = new Pulchess(HUM_VS_CPU);
+      menuOk = true;
+      cout << "Human Vs CPU" << endl;
+      cout << endl;
+    }
+    else if( mode == "cc" ) {
+      pulchess = new Pulchess(CPU_VS_CPU);
+      menuOk = true;
+      cout << "CPU Vs CPU" << endl;
+      cout << endl; 
+    }
+    else if(mode == "hh") {
+      pulchess = new Pulchess(HUM_VS_HUM);
+      menuOk = true;
+      cout << "Human Vs Human" << endl;
+      cout << endl;
+    }
+    else if( mode == "ch"  ) {
+      pulchess = new Pulchess(CPU_VS_HUM);
+	  menuOk = true;
+	  cout << "CPU Vs Human" << endl;
+	  cout << endl;
+	}
+    else if(mode == "xboard") {
+      XBoard * xboard = new XBoard();
+	  xboard->mainLoop();
+      Pulchess::CloseLog();
+	  delete xboard;
+	  return 0;
+	}
+    else if(mode == "quit") {
+	  return 0;
+	}
+	else {
+      cout << "Command not valid! Please choose another one..." << endl;	
+	}
   }
   while(!menuOk);
 
@@ -118,15 +110,13 @@ int main(int argc, char *argv[])
   while( !pulchess->IsGameFinished() ) {
     pulchess->printBoard();
     cmd = "";
-    if( pulchess->IsHuman() )
-    {
+    if( pulchess->IsHuman() ) {
       cout << "Mossa? > ";
 	  cin >> cmd;
 	  cout << endl;
 	  if( cmd == "quit" ) return 0;
     }
-    if( !pulchess->gameCommand(cmd) )
-    {
+    if( !pulchess->gameCommand(cmd) ) {
         cout << "Invalid move." << endl;
     }
   }

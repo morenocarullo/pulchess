@@ -20,6 +20,30 @@
  */
 #include "stdheader.h"
 
+static coord_t posvaltbl[2][64] = 
+{
+{ /* bianco */
+	1,0,0,0,0,0,0,1,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0
+},	
+{ /* nero */
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	1,0,0,0,0,0,0,1
+}
+};
+
 namespace pulchess { namespace logic {
 
   int Rook::GetKind()
@@ -42,6 +66,10 @@ namespace pulchess { namespace logic {
     return IsValidMove_croce(pos);
   }
 
+int Rook::getPosEvaluation()
+{
+	return posvaltbl[ colour == WHITE ? 0 : 1 ][pos];
+}
 
   void Rook::listMoves(vector<Move *> *mList)
   {

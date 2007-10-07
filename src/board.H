@@ -127,7 +127,7 @@ namespace pulchess { namespace logic {
     Move * GetLastMove();
 
     //! Evaluate board status
-    int    Evaluate(colour_t colour);
+    int    Evaluate();
     
     //! Is the specified king in check?
     int    IsInCheck(const colour_t colour);
@@ -145,7 +145,10 @@ namespace pulchess { namespace logic {
     Move * CheckDefenseMove(const colour_t colour);
 
     //! Print board to STDOUT
-    void Print();
+    void   Print();
+
+    //! Builds a FEN representation of the board
+    string ToFen();
   };
 
   /**! Represents the board in a compact way for caches and stuff like that

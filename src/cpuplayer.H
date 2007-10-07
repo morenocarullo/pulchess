@@ -50,8 +50,11 @@ namespace pulchess { namespace logic {
 		//! Last result of a move
 		int moveResult;
 		
-		//! Ply depth
+		//! (max) Ply depth
 		int plyDeep;
+		
+		//! Last search's target ply depth
+		int startDepth;
 		
 		//! Search validity
 		bool IsSearchValid;
@@ -113,7 +116,7 @@ namespace pulchess { namespace logic {
 		void Idab(int depth);		
 		
 		//! Do alphabeta search
-		int Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, int beta);
+		int Alfabeta(int depth, int alfa, int beta);
 		
 		//! Choose a piece in place of a soldier
 		Piece * ChoosePawnPiece();

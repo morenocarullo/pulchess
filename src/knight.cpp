@@ -20,30 +20,6 @@
  */
 #include "stdheader.h"
 
-static coord_t posvaltbl[2][64] = 
-{
-{
-	0,8,0,0,0,0,8,0,
-	0,0,0,8,8,0,0,0,
-	0,0,0,8,8,0,0,0,
-	0,0,8,8,8,8,0,0,
-	0,0,8,8,8,8,0,0,
-	0,0,0,8,8,0,0,0,
-	0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0
-},	
-{
-	0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,
-	0,0,0,8,8,0,0,0,
-	0,0,8,8,8,8,0,0,
-	0,0,8,8,8,8,0,0,
-	0,0,0,8,8,0,0,0,
-	0,0,0,8,8,0,0,0,
-	0,8,0,0,0,0,8,0
-}
-};
-
 namespace pulchess { namespace logic {
 
   int Knight::GetKind()
@@ -60,11 +36,6 @@ namespace pulchess { namespace logic {
   {
     return (coord_t)7 + colour*2;
   }
-  
-int Knight::getPosEvaluation()
-{
-	return posvaltbl[ colour == WHITE ? 0 : 1 ][int(pos)];
-}
 
   bool Knight::IsValidMove(coord_t newpos) 
   {

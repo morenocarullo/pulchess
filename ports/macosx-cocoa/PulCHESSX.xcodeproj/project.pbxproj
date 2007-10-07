@@ -11,22 +11,21 @@
 		474CE74809B640CD002677CF /* board-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 474CE74709B640CD002677CF /* board-x.png */; };
 		474CE74A09B6421E002677CF /* board-y.png in Resources */ = {isa = PBXBuildFile; fileRef = 474CE74909B6421E002677CF /* board-y.png */; };
 		4757BB7609994D38009C099B /* PCGameThread.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4757BB7509994D38009C099B /* PCGameThread.mm */; };
-		4768FD150ADA972C00B4371E /* bishop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FCF40ADA972C00B4371E /* bishop.cpp */; };
-		4768FD160ADA972C00B4371E /* board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FCF60ADA972C00B4371E /* board.cpp */; };
-		4768FD170ADA972C00B4371E /* book.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FCF80ADA972C00B4371E /* book.cpp */; };
-		4768FD180ADA972C00B4371E /* cpuplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FCFA0ADA972C00B4371E /* cpuplayer.cpp */; };
-		4768FD190ADA972C00B4371E /* hashcache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FCFC0ADA972C00B4371E /* hashcache.cpp */; };
-		4768FD1A0ADA972C00B4371E /* humanplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FCFE0ADA972C00B4371E /* humanplayer.cpp */; };
-		4768FD1B0ADA972C00B4371E /* king.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD000ADA972C00B4371E /* king.cpp */; };
-		4768FD1C0ADA972C00B4371E /* knight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD020ADA972C00B4371E /* knight.cpp */; };
-		4768FD1D0ADA972C00B4371E /* move.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD040ADA972C00B4371E /* move.cpp */; };
-		4768FD1E0ADA972C00B4371E /* pawn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD060ADA972C00B4371E /* pawn.cpp */; };
-		4768FD1F0ADA972C00B4371E /* piece.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD080ADA972C00B4371E /* piece.cpp */; };
-		4768FD200ADA972C00B4371E /* player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD0A0ADA972C00B4371E /* player.cpp */; };
-		4768FD210ADA972C00B4371E /* pulchess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD0C0ADA972C00B4371E /* pulchess.cpp */; };
-		4768FD220ADA972C00B4371E /* queen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD0E0ADA972C00B4371E /* queen.cpp */; };
-		4768FD230ADA972C00B4371E /* rook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD100ADA972C00B4371E /* rook.cpp */; };
-		4768FD240ADA972C00B4371E /* timecontrol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4768FD130ADA972C00B4371E /* timecontrol.cpp */; };
+		476D812F0CB8D38200FAED9C /* bishop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 476D81160CB8D38200FAED9C /* bishop.cpp */; };
+		476D81300CB8D38200FAED9C /* board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 476D81170CB8D38200FAED9C /* board.cpp */; };
+		476D81310CB8D38200FAED9C /* book.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 476D81190CB8D38200FAED9C /* book.cpp */; };
+		476D81320CB8D38200FAED9C /* cpuplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 476D811B0CB8D38200FAED9C /* cpuplayer.cpp */; };
+		476D81330CB8D38200FAED9C /* hashcache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 476D811D0CB8D38200FAED9C /* hashcache.cpp */; };
+		476D81340CB8D38200FAED9C /* humanplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 476D811F0CB8D38200FAED9C /* humanplayer.cpp */; };
+		476D81350CB8D38200FAED9C /* king.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 476D81210CB8D38200FAED9C /* king.cpp */; };
+		476D81360CB8D38200FAED9C /* knight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 476D81220CB8D38200FAED9C /* knight.cpp */; };
+		476D81370CB8D38200FAED9C /* move.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 476D81230CB8D38200FAED9C /* move.cpp */; };
+		476D81380CB8D38200FAED9C /* pawn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 476D81250CB8D38200FAED9C /* pawn.cpp */; };
+		476D81390CB8D38200FAED9C /* piece.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 476D81260CB8D38200FAED9C /* piece.cpp */; };
+		476D813A0CB8D38200FAED9C /* player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 476D81280CB8D38200FAED9C /* player.cpp */; };
+		476D813B0CB8D38200FAED9C /* pulchess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 476D812A0CB8D38200FAED9C /* pulchess.cpp */; };
+		476D813C0CB8D38200FAED9C /* queen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 476D812C0CB8D38200FAED9C /* queen.cpp */; };
+		476D813D0CB8D38200FAED9C /* rook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 476D812D0CB8D38200FAED9C /* rook.cpp */; };
 		47CA5C4C098D83BD00F9E669 /* pulchessx-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 47CA5C4B098D83BD00F9E669 /* pulchessx-icon.png */; };
 		47D01A19099261D6006384DE /* PCMainUiController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 47D01A18099261D6006384DE /* PCMainUiController.mm */; };
 		47D01A510992661D006384DE /* PCChessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D01A500992661D006384DE /* PCChessView.m */; };
@@ -91,39 +90,31 @@
 		474CE74909B6421E002677CF /* board-y.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "board-y.png"; sourceTree = "<group>"; };
 		4757BB7409994D38009C099B /* PCGameThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCGameThread.h; sourceTree = "<group>"; };
 		4757BB7509994D38009C099B /* PCGameThread.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCGameThread.mm; sourceTree = "<group>"; };
-		4768FCF40ADA972C00B4371E /* bishop.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = bishop.cpp; path = ../../src/logic/bishop.cpp; sourceTree = SOURCE_ROOT; };
-		4768FCF50ADA972C00B4371E /* bishop.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = bishop.H; path = ../../src/logic/bishop.H; sourceTree = SOURCE_ROOT; };
-		4768FCF60ADA972C00B4371E /* board.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = board.cpp; path = ../../src/logic/board.cpp; sourceTree = SOURCE_ROOT; };
-		4768FCF70ADA972C00B4371E /* board.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = board.H; path = ../../src/logic/board.H; sourceTree = SOURCE_ROOT; };
-		4768FCF80ADA972C00B4371E /* book.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = book.cpp; path = ../../src/logic/book.cpp; sourceTree = SOURCE_ROOT; };
-		4768FCF90ADA972C00B4371E /* book.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = book.H; path = ../../src/logic/book.H; sourceTree = SOURCE_ROOT; };
-		4768FCFA0ADA972C00B4371E /* cpuplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cpuplayer.cpp; path = ../../src/logic/cpuplayer.cpp; sourceTree = SOURCE_ROOT; };
-		4768FCFB0ADA972C00B4371E /* cpuplayer.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = cpuplayer.H; path = ../../src/logic/cpuplayer.H; sourceTree = SOURCE_ROOT; };
-		4768FCFC0ADA972C00B4371E /* hashcache.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = hashcache.cpp; path = ../../src/logic/hashcache.cpp; sourceTree = SOURCE_ROOT; };
-		4768FCFD0ADA972C00B4371E /* hashcache.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = hashcache.H; path = ../../src/logic/hashcache.H; sourceTree = SOURCE_ROOT; };
-		4768FCFE0ADA972C00B4371E /* humanplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = humanplayer.cpp; path = ../../src/logic/humanplayer.cpp; sourceTree = SOURCE_ROOT; };
-		4768FCFF0ADA972C00B4371E /* humanplayer.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = humanplayer.H; path = ../../src/logic/humanplayer.H; sourceTree = SOURCE_ROOT; };
-		4768FD000ADA972C00B4371E /* king.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = king.cpp; path = ../../src/logic/king.cpp; sourceTree = SOURCE_ROOT; };
-		4768FD010ADA972C00B4371E /* king.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = king.H; path = ../../src/logic/king.H; sourceTree = SOURCE_ROOT; };
-		4768FD020ADA972C00B4371E /* knight.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = knight.cpp; path = ../../src/logic/knight.cpp; sourceTree = SOURCE_ROOT; };
-		4768FD030ADA972C00B4371E /* knight.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = knight.H; path = ../../src/logic/knight.H; sourceTree = SOURCE_ROOT; };
-		4768FD040ADA972C00B4371E /* move.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = move.cpp; path = ../../src/logic/move.cpp; sourceTree = SOURCE_ROOT; };
-		4768FD050ADA972C00B4371E /* move.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = move.H; path = ../../src/logic/move.H; sourceTree = SOURCE_ROOT; };
-		4768FD060ADA972C00B4371E /* pawn.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = pawn.cpp; path = ../../src/logic/pawn.cpp; sourceTree = SOURCE_ROOT; };
-		4768FD070ADA972C00B4371E /* pawn.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = pawn.H; path = ../../src/logic/pawn.H; sourceTree = SOURCE_ROOT; };
-		4768FD080ADA972C00B4371E /* piece.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = piece.cpp; path = ../../src/logic/piece.cpp; sourceTree = SOURCE_ROOT; };
-		4768FD090ADA972C00B4371E /* piece.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = piece.H; path = ../../src/logic/piece.H; sourceTree = SOURCE_ROOT; };
-		4768FD0A0ADA972C00B4371E /* player.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = player.cpp; path = ../../src/logic/player.cpp; sourceTree = SOURCE_ROOT; };
-		4768FD0B0ADA972C00B4371E /* playerif.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = playerif.H; path = ../../src/logic/playerif.H; sourceTree = SOURCE_ROOT; };
-		4768FD0C0ADA972C00B4371E /* pulchess.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = pulchess.cpp; path = ../../src/logic/pulchess.cpp; sourceTree = SOURCE_ROOT; };
-		4768FD0D0ADA972C00B4371E /* pulchess.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = pulchess.H; path = ../../src/logic/pulchess.H; sourceTree = SOURCE_ROOT; };
-		4768FD0E0ADA972C00B4371E /* queen.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = queen.cpp; path = ../../src/logic/queen.cpp; sourceTree = SOURCE_ROOT; };
-		4768FD0F0ADA972C00B4371E /* queen.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = queen.H; path = ../../src/logic/queen.H; sourceTree = SOURCE_ROOT; };
-		4768FD100ADA972C00B4371E /* rook.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = rook.cpp; path = ../../src/logic/rook.cpp; sourceTree = SOURCE_ROOT; };
-		4768FD110ADA972C00B4371E /* rook.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = rook.H; path = ../../src/logic/rook.H; sourceTree = SOURCE_ROOT; };
-		4768FD120ADA972C00B4371E /* stdheader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = stdheader.h; path = ../../src/logic/stdheader.h; sourceTree = SOURCE_ROOT; };
-		4768FD130ADA972C00B4371E /* timecontrol.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = timecontrol.cpp; path = ../../src/logic/timecontrol.cpp; sourceTree = SOURCE_ROOT; };
-		4768FD140ADA972C00B4371E /* timecontrol.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = timecontrol.H; path = ../../src/logic/timecontrol.H; sourceTree = SOURCE_ROOT; };
+		476D81160CB8D38200FAED9C /* bishop.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = bishop.cpp; path = ../../src/bishop.cpp; sourceTree = SOURCE_ROOT; };
+		476D81170CB8D38200FAED9C /* board.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = board.cpp; path = ../../src/board.cpp; sourceTree = SOURCE_ROOT; };
+		476D81180CB8D38200FAED9C /* board.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = board.H; path = ../../src/board.H; sourceTree = SOURCE_ROOT; };
+		476D81190CB8D38200FAED9C /* book.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = book.cpp; path = ../../src/book.cpp; sourceTree = SOURCE_ROOT; };
+		476D811A0CB8D38200FAED9C /* book.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = book.H; path = ../../src/book.H; sourceTree = SOURCE_ROOT; };
+		476D811B0CB8D38200FAED9C /* cpuplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cpuplayer.cpp; path = ../../src/cpuplayer.cpp; sourceTree = SOURCE_ROOT; };
+		476D811C0CB8D38200FAED9C /* cpuplayer.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = cpuplayer.H; path = ../../src/cpuplayer.H; sourceTree = SOURCE_ROOT; };
+		476D811D0CB8D38200FAED9C /* hashcache.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = hashcache.cpp; path = ../../src/hashcache.cpp; sourceTree = SOURCE_ROOT; };
+		476D811E0CB8D38200FAED9C /* hashcache.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = hashcache.H; path = ../../src/hashcache.H; sourceTree = SOURCE_ROOT; };
+		476D811F0CB8D38200FAED9C /* humanplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = humanplayer.cpp; path = ../../src/humanplayer.cpp; sourceTree = SOURCE_ROOT; };
+		476D81200CB8D38200FAED9C /* humanplayer.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = humanplayer.H; path = ../../src/humanplayer.H; sourceTree = SOURCE_ROOT; };
+		476D81210CB8D38200FAED9C /* king.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = king.cpp; path = ../../src/king.cpp; sourceTree = SOURCE_ROOT; };
+		476D81220CB8D38200FAED9C /* knight.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = knight.cpp; path = ../../src/knight.cpp; sourceTree = SOURCE_ROOT; };
+		476D81230CB8D38200FAED9C /* move.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = move.cpp; path = ../../src/move.cpp; sourceTree = SOURCE_ROOT; };
+		476D81240CB8D38200FAED9C /* move.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = move.H; path = ../../src/move.H; sourceTree = SOURCE_ROOT; };
+		476D81250CB8D38200FAED9C /* pawn.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = pawn.cpp; path = ../../src/pawn.cpp; sourceTree = SOURCE_ROOT; };
+		476D81260CB8D38200FAED9C /* piece.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = piece.cpp; path = ../../src/piece.cpp; sourceTree = SOURCE_ROOT; };
+		476D81270CB8D38200FAED9C /* piece.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = piece.H; path = ../../src/piece.H; sourceTree = SOURCE_ROOT; };
+		476D81280CB8D38200FAED9C /* player.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = player.cpp; path = ../../src/player.cpp; sourceTree = SOURCE_ROOT; };
+		476D81290CB8D38200FAED9C /* player.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = player.H; path = ../../src/player.H; sourceTree = SOURCE_ROOT; };
+		476D812A0CB8D38200FAED9C /* pulchess.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = pulchess.cpp; path = ../../src/pulchess.cpp; sourceTree = SOURCE_ROOT; };
+		476D812B0CB8D38200FAED9C /* pulchess.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = pulchess.H; path = ../../src/pulchess.H; sourceTree = SOURCE_ROOT; };
+		476D812C0CB8D38200FAED9C /* queen.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = queen.cpp; path = ../../src/queen.cpp; sourceTree = SOURCE_ROOT; };
+		476D812D0CB8D38200FAED9C /* rook.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = rook.cpp; path = ../../src/rook.cpp; sourceTree = SOURCE_ROOT; };
+		476D812E0CB8D38200FAED9C /* stdheader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = stdheader.h; path = ../../src/stdheader.h; sourceTree = SOURCE_ROOT; };
 		47CA5C4B098D83BD00F9E669 /* pulchessx-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pulchessx-icon.png"; path = "stuff/pulchessx-icon.png"; sourceTree = "<group>"; };
 		47D01A17099261D6006384DE /* PCMainUiController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PCMainUiController.h; sourceTree = "<group>"; };
 		47D01A18099261D6006384DE /* PCMainUiController.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = PCMainUiController.mm; sourceTree = "<group>"; };
@@ -212,39 +203,31 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				4768FCF40ADA972C00B4371E /* bishop.cpp */,
-				4768FCF50ADA972C00B4371E /* bishop.H */,
-				4768FCF60ADA972C00B4371E /* board.cpp */,
-				4768FCF70ADA972C00B4371E /* board.H */,
-				4768FCF80ADA972C00B4371E /* book.cpp */,
-				4768FCF90ADA972C00B4371E /* book.H */,
-				4768FCFA0ADA972C00B4371E /* cpuplayer.cpp */,
-				4768FCFB0ADA972C00B4371E /* cpuplayer.H */,
-				4768FCFC0ADA972C00B4371E /* hashcache.cpp */,
-				4768FCFD0ADA972C00B4371E /* hashcache.H */,
-				4768FCFE0ADA972C00B4371E /* humanplayer.cpp */,
-				4768FCFF0ADA972C00B4371E /* humanplayer.H */,
-				4768FD000ADA972C00B4371E /* king.cpp */,
-				4768FD010ADA972C00B4371E /* king.H */,
-				4768FD020ADA972C00B4371E /* knight.cpp */,
-				4768FD030ADA972C00B4371E /* knight.H */,
-				4768FD040ADA972C00B4371E /* move.cpp */,
-				4768FD050ADA972C00B4371E /* move.H */,
-				4768FD060ADA972C00B4371E /* pawn.cpp */,
-				4768FD070ADA972C00B4371E /* pawn.H */,
-				4768FD080ADA972C00B4371E /* piece.cpp */,
-				4768FD090ADA972C00B4371E /* piece.H */,
-				4768FD0A0ADA972C00B4371E /* player.cpp */,
-				4768FD0B0ADA972C00B4371E /* playerif.H */,
-				4768FD0C0ADA972C00B4371E /* pulchess.cpp */,
-				4768FD0D0ADA972C00B4371E /* pulchess.H */,
-				4768FD0E0ADA972C00B4371E /* queen.cpp */,
-				4768FD0F0ADA972C00B4371E /* queen.H */,
-				4768FD100ADA972C00B4371E /* rook.cpp */,
-				4768FD110ADA972C00B4371E /* rook.H */,
-				4768FD120ADA972C00B4371E /* stdheader.h */,
-				4768FD130ADA972C00B4371E /* timecontrol.cpp */,
-				4768FD140ADA972C00B4371E /* timecontrol.H */,
+				476D81160CB8D38200FAED9C /* bishop.cpp */,
+				476D81170CB8D38200FAED9C /* board.cpp */,
+				476D81180CB8D38200FAED9C /* board.H */,
+				476D81190CB8D38200FAED9C /* book.cpp */,
+				476D811A0CB8D38200FAED9C /* book.H */,
+				476D811B0CB8D38200FAED9C /* cpuplayer.cpp */,
+				476D811C0CB8D38200FAED9C /* cpuplayer.H */,
+				476D811D0CB8D38200FAED9C /* hashcache.cpp */,
+				476D811E0CB8D38200FAED9C /* hashcache.H */,
+				476D811F0CB8D38200FAED9C /* humanplayer.cpp */,
+				476D81200CB8D38200FAED9C /* humanplayer.H */,
+				476D81210CB8D38200FAED9C /* king.cpp */,
+				476D81220CB8D38200FAED9C /* knight.cpp */,
+				476D81230CB8D38200FAED9C /* move.cpp */,
+				476D81240CB8D38200FAED9C /* move.H */,
+				476D81250CB8D38200FAED9C /* pawn.cpp */,
+				476D81260CB8D38200FAED9C /* piece.cpp */,
+				476D81270CB8D38200FAED9C /* piece.H */,
+				476D81280CB8D38200FAED9C /* player.cpp */,
+				476D81290CB8D38200FAED9C /* player.H */,
+				476D812A0CB8D38200FAED9C /* pulchess.cpp */,
+				476D812B0CB8D38200FAED9C /* pulchess.H */,
+				476D812C0CB8D38200FAED9C /* queen.cpp */,
+				476D812D0CB8D38200FAED9C /* rook.cpp */,
+				476D812E0CB8D38200FAED9C /* stdheader.h */,
 				32CA4F630368D1EE00C91783 /* PulCHESSX_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
@@ -388,22 +371,21 @@
 				47D01A19099261D6006384DE /* PCMainUiController.mm in Sources */,
 				47D01A510992661D006384DE /* PCChessView.m in Sources */,
 				4757BB7609994D38009C099B /* PCGameThread.mm in Sources */,
-				4768FD150ADA972C00B4371E /* bishop.cpp in Sources */,
-				4768FD160ADA972C00B4371E /* board.cpp in Sources */,
-				4768FD170ADA972C00B4371E /* book.cpp in Sources */,
-				4768FD180ADA972C00B4371E /* cpuplayer.cpp in Sources */,
-				4768FD190ADA972C00B4371E /* hashcache.cpp in Sources */,
-				4768FD1A0ADA972C00B4371E /* humanplayer.cpp in Sources */,
-				4768FD1B0ADA972C00B4371E /* king.cpp in Sources */,
-				4768FD1C0ADA972C00B4371E /* knight.cpp in Sources */,
-				4768FD1D0ADA972C00B4371E /* move.cpp in Sources */,
-				4768FD1E0ADA972C00B4371E /* pawn.cpp in Sources */,
-				4768FD1F0ADA972C00B4371E /* piece.cpp in Sources */,
-				4768FD200ADA972C00B4371E /* player.cpp in Sources */,
-				4768FD210ADA972C00B4371E /* pulchess.cpp in Sources */,
-				4768FD220ADA972C00B4371E /* queen.cpp in Sources */,
-				4768FD230ADA972C00B4371E /* rook.cpp in Sources */,
-				4768FD240ADA972C00B4371E /* timecontrol.cpp in Sources */,
+				476D812F0CB8D38200FAED9C /* bishop.cpp in Sources */,
+				476D81300CB8D38200FAED9C /* board.cpp in Sources */,
+				476D81310CB8D38200FAED9C /* book.cpp in Sources */,
+				476D81320CB8D38200FAED9C /* cpuplayer.cpp in Sources */,
+				476D81330CB8D38200FAED9C /* hashcache.cpp in Sources */,
+				476D81340CB8D38200FAED9C /* humanplayer.cpp in Sources */,
+				476D81350CB8D38200FAED9C /* king.cpp in Sources */,
+				476D81360CB8D38200FAED9C /* knight.cpp in Sources */,
+				476D81370CB8D38200FAED9C /* move.cpp in Sources */,
+				476D81380CB8D38200FAED9C /* pawn.cpp in Sources */,
+				476D81390CB8D38200FAED9C /* piece.cpp in Sources */,
+				476D813A0CB8D38200FAED9C /* player.cpp in Sources */,
+				476D813B0CB8D38200FAED9C /* pulchess.cpp in Sources */,
+				476D813C0CB8D38200FAED9C /* queen.cpp in Sources */,
+				476D813D0CB8D38200FAED9C /* rook.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

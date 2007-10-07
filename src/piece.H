@@ -31,12 +31,12 @@
 #define PIECE_QUEEN   16
 #define PIECE_KING    32
 
-#define PIECE_RANK_PAWN 16
+#define PIECE_RANK_PAWN   16
 #define PIECE_RANK_BISHOP 50
 #define PIECE_RANK_KNIGHT 50
-#define PIECE_RANK_ROOK 75
-#define PIECE_RANK_QUEEN 250
-#define PIECE_RANK_KING 10000000
+#define PIECE_RANK_ROOK   80
+#define PIECE_RANK_QUEEN  250
+#define PIECE_RANK_KING   1000000
 
 using namespace std;
 
@@ -150,7 +150,6 @@ namespace pulchess { namespace logic {
     int     GetRank();
     coord_t GetValue();
     bool    IsValidMove(coord_t pos);
-    int     getPosEvaluation();
 	
     void listMoves(vector<Move *> *mList);
   };
@@ -181,6 +180,7 @@ namespace pulchess { namespace logic {
       int     GetKind();
       coord_t GetValue();
       bool    IsValidMove(coord_t pos);
+      int     getPosEvaluation();
 
      void listMoves(vector<Move *> *mList);  
   };  

@@ -148,25 +148,26 @@ void
 CPUPlayer::Idab(int maxDepth) 
 {	
 	int depth, value, window=0;
-	//const int ASP_WINDOW = 10000;
+	const int ASP_WINDOW = 10;
     string strBestMove;
 	for(depth=2; depth<=maxDepth; depth++) {	
 		
 		// Search!
-        //for(window=ASP_WINDOW; window>=0; window -= ASP_WINDOW) {
+        for(window=ASP_WINDOW; window>=0; window -= ASP_WINDOW) {
 			pulchess_debug("IDAB iteration to depth " << depth << ", window is " << window);
 			
 			IsSearchValid = true;
 			maxPlyReached = 0;
-			value = Alfabeta(depth, depth, colour, BLACK_WINS+window, WHITE_WINS-window);
-			strBestMove = (bestMove!=NULL ? bestMove->toString() : "");
+			startDepth    = depth;
+			value         = Alfabeta(depth, BLACK_WINS+window, WHITE_WINS-window);
+			strBestMove   = (bestMove!=NULL ? bestMove->toString() : "");
 			
 			pulchess_debug("  Results: MaxPLY=" << maxPlyReached << ", VisitedNodes=" << visitedNodes << ", BestMove=" << strBestMove);
 		
 			// Show thinking stuff?
 			if( CPUPlayer::xboardPost )
 			{
-				cout << maxPlyReached << " "; // ply
+				cout << depth << " "; // ply
 				cout << value         << " "; // score
 				cout << TcGetThinkingTime()       << " "; // time
 				cout << visitedNodes << " "; // nodes
@@ -187,7 +188,7 @@ CPUPlayer::Idab(int maxDepth)
 #ifdef PULCHESS_USEHASHTABLE
 			pulchess_debug("  Hashcache usage is " << evc->GetOccupation()*100 << "%%");
 #endif
-        //}
+        }
 	}
 }
 
@@ -195,21 +196,22 @@ CPUPlayer::Idab(int maxDepth)
 // Alfa-beta pruning search
 //
 int
-CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, int beta) 
+CPUPlayer::Alfabeta(int depth, int alfa, int beta) 
 {	
-    list<Piece *> * pList = pulchess_board->ListPieces(turnColour);
+    list<Piece *> * pList = pulchess_board->ListPieces(pulchess_board->turn);
     list<Piece *>::iterator pList_iter;
     vector<Move *> mList;
     vector<Move *>::iterator mList_iter;
-
+    BoardValue *thisBoardVal = NULL, *hashBoardVal = NULL;
     Move *currMove = NULL;
-    Move *myBest = NULL;
+    Move *myBest   = NULL;
+    int realDepth  = startDepth - depth;
     int val = 0;
 
 	//
 	// Stats
 	visitedNodes++;
-	maxPlyReached = MAX(maxPlyReached,startDepth-depth);
+	maxPlyReached = MAX(maxPlyReached,realDepth);
 
 	//
     // Is it a final node?
@@ -218,19 +220,17 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 	//  o  the moveResult parameter is helping us with "quiescienza" in order
 	//     to prevent to be eated early.
 	//
-	if( pulchess_board->GetKing(WHITE) == NULL ) return BLACK_WINS * turnColour;
-	if( pulchess_board->GetKing(BLACK) == NULL ) return WHITE_WINS * turnColour;
-    if( depth <= 0 && moveResult <= PIECE_RANK_BISHOP )
-	{
-		return pulchess_board->Evaluate(turnColour) * turnColour;
+    if( (depth <= 0 && moveResult <= PIECE_RANK_BISHOP) ||
+        (pulchess_board->GetKing(WHITE) == NULL) ||
+        (pulchess_board->GetKing(BLACK) == NULL) )
+    {
+		return pulchess_board->Evaluate();
     }
 	
     //
     // fase di lettura dalla cache
     //
 #ifdef PULCHESS_USEHASHTABLE
-    BoardValue *thisBoardVal = NULL, *hashBoardVal = NULL;
-
     if(depth != startDepth) {
 		int retVal;
 		thisBoardVal = new BoardValue(depth, evc->getSize());
@@ -240,23 +240,20 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 			delete thisBoardVal;
 			return retVal;
 		}
-		delete thisBoardVal;
     }
 #endif
 	
     // Se il tempo stringe,  risaliamo l'albero.
     //
-    if( TcEvalTimeRemaining(depth) && (depth != startDepth) )
-	{
+    if( TcEvalTimeRemaining(depth) && (depth != startDepth) ) {
 		IsSearchValid = false;
-		return pulchess_board->Evaluate(turnColour) * turnColour;
+		return pulchess_board->Evaluate();
     }
 	
     // per tutti i miei pezzi
     // preleva tutte le mosse possibili, ed aggiungile alla lista (mList)
     //
-    for(pList_iter = pList->begin(); pList_iter != pList->end(); pList_iter++)
-	{
+    for(pList_iter = pList->begin(); pList_iter != pList->end(); pList_iter++) {
 		(*pList_iter)->listMoves( &mList );
     }
     sort(mList.begin(), mList.end());
@@ -266,12 +263,10 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 	// se la mossa e' buona, migliore delle altre, viene promossa
 	// come mossa migliore (bestMove)
 	//
-	for(mList_iter = mList.begin(); mList_iter != mList.end(); mList_iter++)
-    {
-		currMove = (*mList_iter);
-		
+	for(mList_iter = mList.begin(); mList_iter != mList.end(); mList_iter++) {
+		currMove   = (*mList_iter);
 		moveResult = currMove->Play();
-		val = -Alfabeta( startDepth, depth-1, ENEMY(turnColour), -beta, -alfa );
+		val        = -Alfabeta( depth-1, -beta, -alfa );
 		currMove->Rewind();
 		
 		if( val >= beta ) {
@@ -308,10 +303,13 @@ CPUPlayer::Alfabeta(int startDepth, int depth, colour_t turnColour, int alfa, in
 	// Se la ricerca e' valida, allora inserisci la mossa nella hashtable.
 	//
 #ifdef PULCHESS_USEHASHTABLE
-    if( IsSearchValid )
-    {
-      thisBoardVal = new BoardValue(depth, evc->getSize());
+    if( depth != startDepth && IsSearchValid ) {
       evc->Insert(thisBoardVal, alfa);
+    }
+    else {
+      if( thisBoardVal != NULL ) {
+        delete thisBoardVal;
+      }
     }
 #endif
 
