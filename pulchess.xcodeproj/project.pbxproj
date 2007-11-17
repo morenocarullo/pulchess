@@ -1,0 +1,324 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		47EB9F940CEFA0E7007E6CD7 /* bishop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F780CEFA0E7007E6CD7 /* bishop.cpp */; };
+		47EB9F950CEFA0E7007E6CD7 /* board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F790CEFA0E7007E6CD7 /* board.cpp */; };
+		47EB9F960CEFA0E7007E6CD7 /* board.H in CopyFiles */ = {isa = PBXBuildFile; fileRef = 47EB9F7A0CEFA0E7007E6CD7 /* board.H */; };
+		47EB9F970CEFA0E7007E6CD7 /* book.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F7B0CEFA0E7007E6CD7 /* book.cpp */; };
+		47EB9F980CEFA0E7007E6CD7 /* book.H in CopyFiles */ = {isa = PBXBuildFile; fileRef = 47EB9F7C0CEFA0E7007E6CD7 /* book.H */; };
+		47EB9F990CEFA0E7007E6CD7 /* cpuplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F7D0CEFA0E7007E6CD7 /* cpuplayer.cpp */; };
+		47EB9F9A0CEFA0E7007E6CD7 /* cpuplayer.H in CopyFiles */ = {isa = PBXBuildFile; fileRef = 47EB9F7E0CEFA0E7007E6CD7 /* cpuplayer.H */; };
+		47EB9F9B0CEFA0E7007E6CD7 /* hashcache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F7F0CEFA0E7007E6CD7 /* hashcache.cpp */; };
+		47EB9F9C0CEFA0E7007E6CD7 /* hashcache.H in CopyFiles */ = {isa = PBXBuildFile; fileRef = 47EB9F800CEFA0E7007E6CD7 /* hashcache.H */; };
+		47EB9F9D0CEFA0E7007E6CD7 /* humanplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F810CEFA0E7007E6CD7 /* humanplayer.cpp */; };
+		47EB9F9E0CEFA0E7007E6CD7 /* humanplayer.H in CopyFiles */ = {isa = PBXBuildFile; fileRef = 47EB9F820CEFA0E7007E6CD7 /* humanplayer.H */; };
+		47EB9F9F0CEFA0E7007E6CD7 /* king.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F830CEFA0E7007E6CD7 /* king.cpp */; };
+		47EB9FA00CEFA0E7007E6CD7 /* knight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F840CEFA0E7007E6CD7 /* knight.cpp */; };
+		47EB9FA10CEFA0E7007E6CD7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F850CEFA0E7007E6CD7 /* main.cpp */; };
+		47EB9FA20CEFA0E7007E6CD7 /* move.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F860CEFA0E7007E6CD7 /* move.cpp */; };
+		47EB9FA30CEFA0E7007E6CD7 /* move.H in CopyFiles */ = {isa = PBXBuildFile; fileRef = 47EB9F870CEFA0E7007E6CD7 /* move.H */; };
+		47EB9FA40CEFA0E7007E6CD7 /* pawn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F880CEFA0E7007E6CD7 /* pawn.cpp */; };
+		47EB9FA50CEFA0E7007E6CD7 /* piece.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F890CEFA0E7007E6CD7 /* piece.cpp */; };
+		47EB9FA60CEFA0E7007E6CD7 /* piece.H in CopyFiles */ = {isa = PBXBuildFile; fileRef = 47EB9F8A0CEFA0E7007E6CD7 /* piece.H */; };
+		47EB9FA70CEFA0E7007E6CD7 /* player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F8B0CEFA0E7007E6CD7 /* player.cpp */; };
+		47EB9FA80CEFA0E7007E6CD7 /* player.H in CopyFiles */ = {isa = PBXBuildFile; fileRef = 47EB9F8C0CEFA0E7007E6CD7 /* player.H */; };
+		47EB9FA90CEFA0E7007E6CD7 /* pulchess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F8D0CEFA0E7007E6CD7 /* pulchess.cpp */; };
+		47EB9FAA0CEFA0E7007E6CD7 /* pulchess.H in CopyFiles */ = {isa = PBXBuildFile; fileRef = 47EB9F8E0CEFA0E7007E6CD7 /* pulchess.H */; };
+		47EB9FAB0CEFA0E7007E6CD7 /* queen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F8F0CEFA0E7007E6CD7 /* queen.cpp */; };
+		47EB9FAC0CEFA0E7007E6CD7 /* rook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F900CEFA0E7007E6CD7 /* rook.cpp */; };
+		47EB9FAD0CEFA0E7007E6CD7 /* stdheader.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 47EB9F910CEFA0E7007E6CD7 /* stdheader.h */; };
+		47EB9FAE0CEFA0E7007E6CD7 /* xboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47EB9F920CEFA0E7007E6CD7 /* xboard.cpp */; };
+		47EB9FAF0CEFA0E7007E6CD7 /* xboard.H in CopyFiles */ = {isa = PBXBuildFile; fileRef = 47EB9F930CEFA0E7007E6CD7 /* xboard.H */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		014CEA460018CE2711CA2923 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		014CEA470018CE2711CA2923 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8DD76F690486A84900D96B5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				47EB9F960CEFA0E7007E6CD7 /* board.H in CopyFiles */,
+				47EB9F980CEFA0E7007E6CD7 /* book.H in CopyFiles */,
+				47EB9F9A0CEFA0E7007E6CD7 /* cpuplayer.H in CopyFiles */,
+				47EB9F9C0CEFA0E7007E6CD7 /* hashcache.H in CopyFiles */,
+				47EB9F9E0CEFA0E7007E6CD7 /* humanplayer.H in CopyFiles */,
+				47EB9FA30CEFA0E7007E6CD7 /* move.H in CopyFiles */,
+				47EB9FA60CEFA0E7007E6CD7 /* piece.H in CopyFiles */,
+				47EB9FA80CEFA0E7007E6CD7 /* player.H in CopyFiles */,
+				47EB9FAA0CEFA0E7007E6CD7 /* pulchess.H in CopyFiles */,
+				47EB9FAD0CEFA0E7007E6CD7 /* stdheader.h in CopyFiles */,
+				47EB9FAF0CEFA0E7007E6CD7 /* xboard.H in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		47EB9F780CEFA0E7007E6CD7 /* bishop.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = bishop.cpp; path = src/bishop.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F790CEFA0E7007E6CD7 /* board.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = board.cpp; path = src/board.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F7A0CEFA0E7007E6CD7 /* board.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = board.H; path = src/board.H; sourceTree = SOURCE_ROOT; };
+		47EB9F7B0CEFA0E7007E6CD7 /* book.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = book.cpp; path = src/book.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F7C0CEFA0E7007E6CD7 /* book.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = book.H; path = src/book.H; sourceTree = SOURCE_ROOT; };
+		47EB9F7D0CEFA0E7007E6CD7 /* cpuplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cpuplayer.cpp; path = src/cpuplayer.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F7E0CEFA0E7007E6CD7 /* cpuplayer.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = cpuplayer.H; path = src/cpuplayer.H; sourceTree = SOURCE_ROOT; };
+		47EB9F7F0CEFA0E7007E6CD7 /* hashcache.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = hashcache.cpp; path = src/hashcache.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F800CEFA0E7007E6CD7 /* hashcache.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = hashcache.H; path = src/hashcache.H; sourceTree = SOURCE_ROOT; };
+		47EB9F810CEFA0E7007E6CD7 /* humanplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = humanplayer.cpp; path = src/humanplayer.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F820CEFA0E7007E6CD7 /* humanplayer.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = humanplayer.H; path = src/humanplayer.H; sourceTree = SOURCE_ROOT; };
+		47EB9F830CEFA0E7007E6CD7 /* king.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = king.cpp; path = src/king.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F840CEFA0E7007E6CD7 /* knight.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = knight.cpp; path = src/knight.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F850CEFA0E7007E6CD7 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F860CEFA0E7007E6CD7 /* move.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = move.cpp; path = src/move.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F870CEFA0E7007E6CD7 /* move.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = move.H; path = src/move.H; sourceTree = SOURCE_ROOT; };
+		47EB9F880CEFA0E7007E6CD7 /* pawn.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = pawn.cpp; path = src/pawn.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F890CEFA0E7007E6CD7 /* piece.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = piece.cpp; path = src/piece.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F8A0CEFA0E7007E6CD7 /* piece.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = piece.H; path = src/piece.H; sourceTree = SOURCE_ROOT; };
+		47EB9F8B0CEFA0E7007E6CD7 /* player.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = player.cpp; path = src/player.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F8C0CEFA0E7007E6CD7 /* player.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = player.H; path = src/player.H; sourceTree = SOURCE_ROOT; };
+		47EB9F8D0CEFA0E7007E6CD7 /* pulchess.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = pulchess.cpp; path = src/pulchess.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F8E0CEFA0E7007E6CD7 /* pulchess.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = pulchess.H; path = src/pulchess.H; sourceTree = SOURCE_ROOT; };
+		47EB9F8F0CEFA0E7007E6CD7 /* queen.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = queen.cpp; path = src/queen.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F900CEFA0E7007E6CD7 /* rook.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = rook.cpp; path = src/rook.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F910CEFA0E7007E6CD7 /* stdheader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = stdheader.h; path = src/stdheader.h; sourceTree = SOURCE_ROOT; };
+		47EB9F920CEFA0E7007E6CD7 /* xboard.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = xboard.cpp; path = src/xboard.cpp; sourceTree = SOURCE_ROOT; };
+		47EB9F930CEFA0E7007E6CD7 /* xboard.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = xboard.H; path = src/xboard.H; sourceTree = SOURCE_ROOT; };
+		8DD76F6C0486A84900D96B5E /* pulchess */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = pulchess; path = /Users/moreno/Documents/Progetti/pulchess/trunk/build/Debug/pulchess; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DD76F660486A84900D96B5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* pulchess */ = {
+			isa = PBXGroup;
+			children = (
+				08FB7795FE84155DC02AAC07 /* Source */,
+				C6859E8C029090F304C91782 /* Documentation */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+			);
+			name = pulchess;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				47EB9F780CEFA0E7007E6CD7 /* bishop.cpp */,
+				47EB9F790CEFA0E7007E6CD7 /* board.cpp */,
+				47EB9F7A0CEFA0E7007E6CD7 /* board.H */,
+				47EB9F7B0CEFA0E7007E6CD7 /* book.cpp */,
+				47EB9F7C0CEFA0E7007E6CD7 /* book.H */,
+				47EB9F7D0CEFA0E7007E6CD7 /* cpuplayer.cpp */,
+				47EB9F7E0CEFA0E7007E6CD7 /* cpuplayer.H */,
+				47EB9F7F0CEFA0E7007E6CD7 /* hashcache.cpp */,
+				47EB9F800CEFA0E7007E6CD7 /* hashcache.H */,
+				47EB9F810CEFA0E7007E6CD7 /* humanplayer.cpp */,
+				47EB9F820CEFA0E7007E6CD7 /* humanplayer.H */,
+				47EB9F830CEFA0E7007E6CD7 /* king.cpp */,
+				47EB9F840CEFA0E7007E6CD7 /* knight.cpp */,
+				47EB9F850CEFA0E7007E6CD7 /* main.cpp */,
+				47EB9F860CEFA0E7007E6CD7 /* move.cpp */,
+				47EB9F870CEFA0E7007E6CD7 /* move.H */,
+				47EB9F880CEFA0E7007E6CD7 /* pawn.cpp */,
+				47EB9F890CEFA0E7007E6CD7 /* piece.cpp */,
+				47EB9F8A0CEFA0E7007E6CD7 /* piece.H */,
+				47EB9F8B0CEFA0E7007E6CD7 /* player.cpp */,
+				47EB9F8C0CEFA0E7007E6CD7 /* player.H */,
+				47EB9F8D0CEFA0E7007E6CD7 /* pulchess.cpp */,
+				47EB9F8E0CEFA0E7007E6CD7 /* pulchess.H */,
+				47EB9F8F0CEFA0E7007E6CD7 /* queen.cpp */,
+				47EB9F900CEFA0E7007E6CD7 /* rook.cpp */,
+				47EB9F910CEFA0E7007E6CD7 /* stdheader.h */,
+				47EB9F920CEFA0E7007E6CD7 /* xboard.cpp */,
+				47EB9F930CEFA0E7007E6CD7 /* xboard.H */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C6859E8C029090F304C91782 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8DD76F620486A84900D96B5E /* pulchess */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "pulchess" */;
+			buildPhases = (
+				8DD76F640486A84900D96B5E /* Sources */,
+				8DD76F660486A84900D96B5E /* Frameworks */,
+				8DD76F690486A84900D96B5E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+			};
+			dependencies = (
+			);
+			name = pulchess;
+			productInstallPath = "$(HOME)/bin";
+			productName = pulchess;
+			productReference = 8DD76F6C0486A84900D96B5E /* pulchess */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB923508733DC60010E9CD /* Build configuration list for PBXProject "pulchess" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				014CEA460018CE2711CA2923 /* Debug */,
+				014CEA470018CE2711CA2923 /* Release */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* pulchess */;
+			projectDirPath = "";
+			targets = (
+				8DD76F620486A84900D96B5E /* pulchess */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DD76F640486A84900D96B5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47EB9F940CEFA0E7007E6CD7 /* bishop.cpp in Sources */,
+				47EB9F950CEFA0E7007E6CD7 /* board.cpp in Sources */,
+				47EB9F970CEFA0E7007E6CD7 /* book.cpp in Sources */,
+				47EB9F990CEFA0E7007E6CD7 /* cpuplayer.cpp in Sources */,
+				47EB9F9B0CEFA0E7007E6CD7 /* hashcache.cpp in Sources */,
+				47EB9F9D0CEFA0E7007E6CD7 /* humanplayer.cpp in Sources */,
+				47EB9F9F0CEFA0E7007E6CD7 /* king.cpp in Sources */,
+				47EB9FA00CEFA0E7007E6CD7 /* knight.cpp in Sources */,
+				47EB9FA10CEFA0E7007E6CD7 /* main.cpp in Sources */,
+				47EB9FA20CEFA0E7007E6CD7 /* move.cpp in Sources */,
+				47EB9FA40CEFA0E7007E6CD7 /* pawn.cpp in Sources */,
+				47EB9FA50CEFA0E7007E6CD7 /* piece.cpp in Sources */,
+				47EB9FA70CEFA0E7007E6CD7 /* player.cpp in Sources */,
+				47EB9FA90CEFA0E7007E6CD7 /* pulchess.cpp in Sources */,
+				47EB9FAB0CEFA0E7007E6CD7 /* queen.cpp in Sources */,
+				47EB9FAC0CEFA0E7007E6CD7 /* rook.cpp in Sources */,
+				47EB9FAE0CEFA0E7007E6CD7 /* xboard.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB923208733DC60010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = "$(HOME)/bin";
+				PRODUCT_NAME = pulchess;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		1DEB923308733DC60010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				PRODUCT_NAME = pulchess;
+			};
+			name = Release;
+		};
+		1DEB923608733DC60010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		1DEB923708733DC60010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "pulchess" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB923208733DC60010E9CD /* Debug */,
+				1DEB923308733DC60010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB923508733DC60010E9CD /* Build configuration list for PBXProject "pulchess" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB923608733DC60010E9CD /* Debug */,
+				1DEB923708733DC60010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}

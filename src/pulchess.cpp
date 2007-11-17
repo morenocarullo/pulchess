@@ -19,7 +19,7 @@
 #include "book.H"
 
 /** pulchess static local vars */
-static const char version[] = "PulCHESS 0.2j";
+static const char version[] = "PulCHESS 0.2k";
 
 /** pulchess global vars */
 bool pulchess_log_on = true;
