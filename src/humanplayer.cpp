@@ -38,8 +38,7 @@ bool HumanPlayer::DoMove(string moveCmd)
 	
 	pulchess_debug("Remaining seconds in timecontrol: " << _clock << " Moves so far: " << _moves);
 	
-	try
-	{
+	try {
 		coords = Move::GetMoveFactory(moveCmd, colour);
 		if( coords == NULL ) {
 			pulchess_info( "Mossa non valida" );

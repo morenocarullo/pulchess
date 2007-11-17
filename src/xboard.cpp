@@ -31,7 +31,7 @@ namespace pulchess {
 XBoard::XBoard()
 {
 	cout.setf(ios::unitbuf);
-	//pulchess_log_off();
+	pulchess_log_off();
 	sendFeatures();
 }
 

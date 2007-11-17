@@ -1,23 +1,18 @@
 /*
- * PROJECT: PulCHESS, a Computer Chess program
- * AUTHOR:  Moreno Carullo
- * LICENSE: GPL, see license.txt in project root
- * FILE:    Board and BoardValue interfaces
- *
- * This program is free software; you can redistribute it and/or modify         
- * it under the terms of the GNU General Public License as published by      
- * the Free Software Foundation; either version 2 of the License, or         
- * (at your option) any later version.                                       
- *                                                                           
- * This program is distributed in the hope that it will be useful,           
- * but WITHOUT ANY WARRANTY; without even the implied warranty of            
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
- * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
- * for more details.                                                         
- *
- * Created on 15-lug-2005
- * $Id$
- */
+  PulCHESS, a Computer Chess program
+                by Moreno Carullo
+ 
+  About this file:
+         Board and BoardValue interfaces.
+         The game board and game status are kept here.
+ 
+  License:
+         GPL v2, see license.txt in project root.
+ 
+  Version:
+         $Id$
+
+*/
 #include "stdheader.h"
 
 #ifndef _pulchess_logic_board_h_
