@@ -104,7 +104,7 @@
 		47EB9F910CEFA0E7007E6CD7 /* stdheader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = stdheader.h; path = src/stdheader.h; sourceTree = SOURCE_ROOT; };
 		47EB9F920CEFA0E7007E6CD7 /* xboard.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = xboard.cpp; path = src/xboard.cpp; sourceTree = SOURCE_ROOT; };
 		47EB9F930CEFA0E7007E6CD7 /* xboard.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = xboard.H; path = src/xboard.H; sourceTree = SOURCE_ROOT; };
-		8DD76F6C0486A84900D96B5E /* pulchess */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = pulchess; path = /Users/moreno/Documents/Progetti/pulchess/trunk/build/Debug/pulchess; sourceTree = "<absolute>"; };
+		47F4EBA00CF02F63000C0A20 /* pulchess */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = pulchess; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +166,7 @@
 		1AB674ADFE9D54B511CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				47F4EBA00CF02F63000C0A20 /* pulchess */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -197,7 +198,7 @@
 			name = pulchess;
 			productInstallPath = "$(HOME)/bin";
 			productName = pulchess;
-			productReference = 8DD76F6C0486A84900D96B5E /* pulchess */;
+			productReference = 47F4EBA00CF02F63000C0A20 /* pulchess */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -280,6 +281,7 @@
 		1DEB923608733DC60010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = i386;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
@@ -290,6 +292,7 @@
 		1DEB923708733DC60010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = i386;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;

@@ -149,7 +149,7 @@ void Pulchess::Init()
 }
 
 // carica un gioco
-bool Pulchess::loadGame(const char *gamePath)
+bool Pulchess::LoadGame(const char *gamePath)
 {
 	// crea una classe "controller" che carica le mosse da file
 	bool endLoading = false;

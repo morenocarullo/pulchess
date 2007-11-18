@@ -112,7 +112,7 @@ namespace pulchess { namespace logic {
     int gameInfo();
 
 	// carica un gioco ovvero una sequenza di mosse
-	bool loadGame(const char *gamePath);
+	bool LoadGame(const char *gamePath);
 	
 	// pulchess logging facility
 	static void OpenLog(const char *logFile);

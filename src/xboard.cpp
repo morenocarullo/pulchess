@@ -1,23 +1,15 @@
 /*
- * PROJECT: PulCHESS, a Computer Chess program
- * AUTHOR:  Moreno Carullo
- * LICENSE: GPL, see license.txt in project root
- * FILE:	XBoard interface
- * NOTES:   Not finished yet!
- *
- * This program is free software; you can redistribute it and/or modify         
- * it under the terms of the GNU General Public License as published by      
- * the Free Software Foundation; either version 2 of the License, or         
- * (at your option) any later version.                                       
- *                                                                           
- * This program is distributed in the hope that it will be useful,           
- * but WITHOUT ANY WARRANTY; without even the implied warranty of            
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
- * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
- * for more details.                                                         
- *
- * Created on 20-giu-2006
- * $Id$
+  PulCHESS, a Computer Chess program
+                by Moreno Carullo
+ 
+  About this file:
+         XBoard module implementation.
+ 
+  License:
+         GPL v2, see license.txt in project root.
+ 
+  Version:
+         $Id$
 */
 #include "xboard.H"
 #include <iostream>
@@ -28,6 +20,11 @@ using namespace pulchess::logic;
 
 namespace pulchess {
 
+//
+// Create a new instance of the XBoard object:
+// - no logging
+// - start sending features to the XBoard GUI
+//
 XBoard::XBoard()
 {
 	cout.setf(ios::unitbuf);
@@ -35,8 +32,12 @@ XBoard::XBoard()
 	sendFeatures();
 }
 
+//
+// Exit Xboard and reset stuff
+//
 XBoard::~XBoard()
 {
+    pulchess_log_on();
 }
 
 //
