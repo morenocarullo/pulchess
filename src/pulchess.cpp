@@ -39,7 +39,7 @@ ofstream Pulchess::log;
 // Pulchess costructor
 Pulchess::Pulchess(gamemode_t gameMode)
 {
-    this->gameMode = gameMode;
+  this->gameMode = gameMode;
 	this->engineStatus = PULCHESS_STATUS_ZERO;
 }
 
@@ -380,6 +380,79 @@ void Pulchess::printBoard()
 {
   if( pulchess_board != NULL ) {
     pulchess_board->Print();
+  }
+}
+
+//
+// Compute the Perft test
+// The perft is the number of generated nodes.
+//
+int Pulchess::Perft(int depth)
+{
+  /* Short list of perft values
+      1: 20
+      2: 400
+      3: 8902
+      4: 197281
+      5: 4865609
+  */
+  list<Piece *> * pList = pulchess_board->ListPieces(pulchess_board->turn);
+  list<Piece *>::iterator pList_iter;
+  vector<Move *> mList;
+  vector<Move *>::iterator mList_iter;
+  Move *currMove = NULL;
+  int computedMoves = 0;
+  
+  //
+  // Leaf node
+  if( depth == 0 )
+  {
+    return 1;
+  }
+  
+  //
+  // Generate moves
+  for(pList_iter = pList->begin(); pList_iter != pList->end(); pList_iter++)
+  {
+    (*pList_iter)->listMoves( &mList );
+  }
+
+  //
+  // Play moves and count them
+  for(mList_iter = mList.begin(); mList_iter != mList.end(); mList_iter++)
+  {
+    currMove = (*mList_iter);
+    currMove->Play();
+    computedMoves += Perft( depth - 1 );
+    currMove->Rewind();
+  }
+
+  return computedMoves;
+}
+
+//
+// Print on standard output the list of generated moves.
+//
+void Pulchess::PrintMovesForPosition(string fenPosition)
+{
+  pulchess_info("You requested position: " << fenPosition);
+  Board::board = new Board(fenPosition);
+  
+  list<Piece *> * pList = pulchess_board->ListPieces(pulchess_board->turn);
+  list<Piece *>::iterator pList_iter;
+  vector<Move *> mList;
+  vector<Move *>::iterator mList_iter;
+  Move *currMove = NULL;
+
+  for(pList_iter = pList->begin(); pList_iter != pList->end(); pList_iter++)
+  {
+    (*pList_iter)->listMoves( &mList );
+  }
+  
+  for(mList_iter = mList.begin(); mList_iter != mList.end(); mList_iter++)
+  {
+    currMove = (*mList_iter);
+    cout << currMove->toString() << endl;
   }
 }
 

@@ -44,9 +44,9 @@ Board::Board()
 // C++ does not support calling of ctor inside of ctor, so a LoadFromFen()
 // member has been implemented.
 //
-Board::Board(string ebdString)
+Board::Board(string sFenString)
 {
-  LoadFromFen(ebdString);
+  LoadFromFen(sFenString);
 }
 
 //

@@ -93,34 +93,43 @@ namespace pulchess { namespace logic {
 	//! Is the requested player human?
 	bool IsHuman(const colour_t colour);
 
-    // gioca la mossa del turno attuale
-    bool gameCommand(string &cmd);
+  // gioca la mossa del turno attuale
+  bool gameCommand(string &cmd);
 
-    //! Try to play an empty command
-    bool gameCommand();
+  //! Try to play an empty command
+  bool gameCommand();
 
-    // e' una mossa?
-    bool IsMove(string &cmd);
+  // e' una mossa?
+  bool IsMove(string &cmd);
 
-    //! Ritorna l'ultima mossa
-    Move * GetLastMove();
+  //! Ritorna l'ultima mossa
+  Move * GetLastMove();
 
-    //! Returns a string containing game history report
-    string GetGameMovesReport();
-	
-    // chi vince?
-    int gameInfo();
+  //! Returns a string containing game history report
+  string GetGameMovesReport();
+
+  // chi vince?
+  int gameInfo();
 
 	// carica un gioco ovvero una sequenza di mosse
-	bool LoadGame(const char *gamePath);
+	bool LoadGame(const char *pcGamePath);
+    
+  //! Compute the perft value for a given depth
+  /*
+      See: http://www.albert.nu/programs/sharper/perft.htm
+  */    
+  int Perft(int depth);
+  
+  //! Print on standard output the list of moves from a given FEN
+  void PrintMovesForPosition(string fenPosition);
 	
 	// pulchess logging facility
-	static void OpenLog(const char *logFile);
+	static void OpenLog(const char *pcLogFile);
 	
 	static void CloseLog();
 	
 	// write to pulchess game log
-	static void WriteLog(string &message);
+	static void WriteLog(string &sMessage);
   };
 
 }; // end logic namespace

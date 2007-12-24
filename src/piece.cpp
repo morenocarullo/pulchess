@@ -66,32 +66,19 @@ namespace pulchess { namespace logic {
 
     case PIECE_QUEEN:
       return 'q';
-      break;
-
     case PIECE_KING:
       return 'k';
-      break;
-
     case PIECE_KNIGHT:
       return 'n';
-      break;
-
     case PIECE_ROOK:
       return 'r';
-      break;
-
     case PIECE_PAWN:
       return 'p';
-      break;
-
     case PIECE_BISHOP:
       return 'b';
-      break;
-
-    default:
-      return '-';
-      break;
     }
+    
+    return '-';
   }
 
   coord_t Piece::getX()

@@ -94,9 +94,9 @@ namespace pulchess { namespace logic {
 		unsigned int TcGetRealTime();
 		
 		unsigned int TcGetThinkingTime();
-		
+
+
 	public:
-		
 		//! XBOARD OPTION: post
 		static bool xboardPost;
 
@@ -120,7 +120,6 @@ namespace pulchess { namespace logic {
 		
 		//! Choose a piece in place of a soldier
 		Piece * ChoosePawnPiece();
-		
 	}; // end class
 	
 }; // end ns logic

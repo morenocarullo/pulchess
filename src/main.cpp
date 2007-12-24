@@ -1,23 +1,17 @@
 /*
- * PROJECT: PulCHESS, a Computer Chess program
- * AUTHOR:  Moreno Carullo
- * LICENSE: GPL, see license.txt in project root
- * FILE:    CLI pulchess main file
- **********************************************************************
- * This program is free software; you can redistribute it and/or modify         
- * it under the terms of the GNU General Public License as published by      
- * the Free Software Foundation; either version 2 of the License, or         
- * (at your option) any later version.                                       
- *                                                                           
- * This program is distributed in the hope that it will be useful,           
- * but WITHOUT ANY WARRANTY; without even the implied warranty of            
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
- * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)          
- * for more details.                                                         
- **********************************************************************
- * Created on 20-giu-2006
- * $Id$
- */
+  PulCHESS, a Computer Chess program
+                by Moreno Carullo
+ 
+  About this file:
+         Command-line pulchess main file.
+ 
+  License:
+         GPL v2, see license.txt in project root.
+ 
+  Version:
+         $Id$
+
+*/
 #include "pulchess.H"
 #include "xboard.H"
 #include <iostream>
@@ -60,47 +54,75 @@ int main(int argc, char *argv[])
   Pulchess::OpenLog(logFile);
 
   do {
-  	cout << "Game mode? (hc, cc, ch, hh, xboard, quit) > ";
+  	cout << "Game mode? (hc, cc, ch, hh, quit) > ";
     cin >> mode;
     cout << endl;
   
+    // Human Vs CPU: Human as white
     if( mode == "hc"  ) {
       pulchess = new Pulchess(HUM_VS_CPU);
       menuOk = true;
       cout << "Human Vs CPU" << endl;
       cout << endl;
     }
+    // CPU vs CPU
     else if( mode == "cc" ) {
       pulchess = new Pulchess(CPU_VS_CPU);
       menuOk = true;
       cout << "CPU Vs CPU" << endl;
       cout << endl; 
     }
+    // Human vs Human
     else if(mode == "hh") {
       pulchess = new Pulchess(HUM_VS_HUM);
       menuOk = true;
       cout << "Human Vs Human" << endl;
       cout << endl;
     }
+    // Cpu Vs Human: Human as black
     else if( mode == "ch"  ) {
       pulchess = new Pulchess(CPU_VS_HUM);
-	  menuOk = true;
-	  cout << "CPU Vs Human" << endl;
-	  cout << endl;
-	}
+      menuOk = true;
+      cout << "CPU Vs Human" << endl;
+      cout << endl;
+    }
+    // Xboard mode
     else if(mode == "xboard") {
       XBoard * xboard = new XBoard();
-	  xboard->mainLoop();
+      xboard->mainLoop();
       Pulchess::CloseLog();
-	  delete xboard;
-	  return 0;
-	}
+      delete xboard;
+      return 0;
+    }
+    // Perft test
+    else if(mode == "perft") {
+      pulchess = new Pulchess(CPU_VS_CPU);
+      pulchess->Init();
+      int depth;
+      cout << "Perft depth = ? ";
+      cin >> depth;
+      cout << endl;
+      pulchess_info("Perft(" << depth << ") = " << pulchess->Perft(depth) );
+      delete pulchess;
+    }
+    // See moves for fen
+    else if(mode == "seemoves") {
+      string sFenPosition;
+      cout << "See moves for FEN position: ";
+      cin >> sFenPosition;
+      cout << endl;
+      pulchess = new Pulchess(CPU_VS_CPU);
+      pulchess->Init();
+      pulchess->PrintMovesForPosition(sFenPosition);
+      delete pulchess;
+    }
+    // Quit
     else if(mode == "quit") {
-	  return 0;
-	}
-	else {
+      return 0;
+    }
+    else {
       cout << "Command not valid! Please choose another one..." << endl;	
-	}
+    }
   }
   while(!menuOk);
 

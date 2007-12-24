@@ -321,7 +321,6 @@ CPUPlayer::Alfabeta(int depth, int alfa, int beta)
     return alfa + (startDepth - depth);
 }
 
-
 //
 // Always give a new Queen for pawn promotions
 //
@@ -355,6 +354,9 @@ void CPUPlayer::TcResetTimer()
   secToLive = 0;
 }
 
+//
+// Get the total thinking time
+//
 inline unsigned int CPUPlayer::TcGetThinkingTime()
 {
 	return time(NULL) - startTime;
