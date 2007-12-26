@@ -101,14 +101,22 @@ void Pulchess::SetTimecontrol(int movesToPlay, int secondsForMoves, int incremen
 }
 
 //
-// Init engine
+// Init engine from a given position
 //
 void Pulchess::Init()
 {
-	const int DEFAULT_MAXPLY = 6;
-	
-    // seleziona la modalita' di gioco.
-    switch( gameMode )
+  Init((string)Board::STARTING_FEN);
+}
+
+//
+// Init engine
+//
+void Pulchess::Init(string sFenStartPosition)
+{
+  const int DEFAULT_MAXPLY = 6;
+
+  // seleziona la modalita' di gioco.
+  switch( gameMode )
 	{
 		// computer vs computer
 		case CPU_VS_CPU:
@@ -133,9 +141,9 @@ void Pulchess::Init()
 			pulchess_the_white = new HumanPlayer(WHITE);
 			pulchess_the_black = new HumanPlayer(BLACK);
 			break;
-    }
+  }
 	
-    Board::board = new Board();
+  Board::board = new Board(sFenStartPosition);
 	engineStatus = PULCHESS_STATUS_INIT;
 	Book::Load();
 	
@@ -163,11 +171,11 @@ bool Pulchess::LoadGame(const char *gamePath)
 	
 	pulchess_the_white  = new HumanPlayer(WHITE);
 	pulchess_the_black  = new HumanPlayer(BLACK);
-    pulchess_board      = new Board();
-    engineStatus        = PULCHESS_STATUS_INIT;							
+  pulchess_board      = new Board();
+  engineStatus        = PULCHESS_STATUS_INIT;							
 										  
-    // TODO: read from file game mode
-    //       read from file timings
+  // TODO: read from file game mode
+  //       read from file timings
 	
 	while(!feof(fp) && !endLoading)
 	{
@@ -396,8 +404,6 @@ int Pulchess::Perft(int depth)
       4: 197281
       5: 4865609
   */
-  list<Piece *> * pList = pulchess_board->ListPieces(pulchess_board->turn);
-  list<Piece *>::iterator pList_iter;
   vector<Move *> mList;
   vector<Move *>::iterator mList_iter;
   Move *currMove = NULL;
@@ -412,10 +418,7 @@ int Pulchess::Perft(int depth)
   
   //
   // Generate moves
-  for(pList_iter = pList->begin(); pList_iter != pList->end(); pList_iter++)
-  {
-    (*pList_iter)->listMoves( &mList );
-  }
+  pulchess_board->GenerateMoves(mList, true);
 
   //
   // Play moves and count them
@@ -431,6 +434,57 @@ int Pulchess::Perft(int depth)
 }
 
 //
+// Compute the "divide" task for the perft test
+//
+/*
+  from start position:
+  
+  Move Nodes
+  Nc3  234656
+  Na3  198572
+  Nh3  198502
+  Nf3  233491
+  a3   181046
+  a4   217832
+  b3   215255
+  b4   216145
+  c3   222861
+  c4   240082
+  d3   328511
+  d4   361790
+  e3   402988
+  e4   405385
+  f3   178889
+  f4   198473
+  g3   217210
+  g4   214048
+  h3   181044
+  h4   218829
+
+  Total nodes: 4865609
+*/
+void Pulchess::PerftDivide(int nDepth)
+{
+  vector<Move *> mList;
+  vector<Move *>::iterator mList_iter;
+  Move *currMove = NULL;
+  int computedMoves = 0;
+  pulchess_board->GenerateMoves(mList, true);
+  
+  for(mList_iter = mList.begin(); mList_iter != mList.end(); mList_iter++)
+  {
+    int subNodesCount;
+    currMove = (*mList_iter);
+    currMove->Play();
+    computedMoves += (subNodesCount = Perft( nDepth - 1 ));
+    currMove->Rewind();
+    cout << currMove->toString() << "\t" << subNodesCount << endl;
+  }
+  
+  cout << "Total computed moves: " << computedMoves << endl;
+}
+
+//
 // Print on standard output the list of generated moves.
 //
 void Pulchess::PrintMovesForPosition(string fenPosition)
@@ -438,16 +492,11 @@ void Pulchess::PrintMovesForPosition(string fenPosition)
   pulchess_info("You requested position: " << fenPosition);
   Board::board = new Board(fenPosition);
   
-  list<Piece *> * pList = pulchess_board->ListPieces(pulchess_board->turn);
-  list<Piece *>::iterator pList_iter;
   vector<Move *> mList;
   vector<Move *>::iterator mList_iter;
   Move *currMove = NULL;
 
-  for(pList_iter = pList->begin(); pList_iter != pList->end(); pList_iter++)
-  {
-    (*pList_iter)->listMoves( &mList );
-  }
+  pulchess_board->GenerateMoves(mList, true);
   
   for(mList_iter = mList.begin(); mList_iter != mList.end(); mList_iter++)
   {
@@ -484,6 +533,19 @@ void Pulchess::WriteLog(string &message)
   if( log.is_open() ) {
     log << message << endl;
   }
+}
+
+//
+// Read a line from std input
+//
+string Pulchess::StdinReadLine()
+{
+  string buff;
+  do {
+    getline(cin, buff);
+  }
+  while( buff.length() == 0);
+  return buff;
 }
 
 };

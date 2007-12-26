@@ -272,13 +272,6 @@ int Move::Play()
 		throw new InvalidMoveException("Mossa non valida!");
     }
 #endif
-
-	// salvataggio stato 50 mosse
-	fiftyMovesRule = pulchess_board->fiftyMovesRule;
-	
-    // salviamo il flag per l'enpassant
-    enpassant = pulchess_board->enpassant;
-    pulchess_board->enpassant = NO_POSITION;
 	
     // abbiamo mangiato ?
     if( dst != NULL ) {   
@@ -321,6 +314,13 @@ int Move::Play()
 			promotedPawn = src;
 		}
     }
+
+    // salvataggio stato 50 mosse
+    fiftyMovesRule = pulchess_board->fiftyMovesRule;
+	
+    // salviamo il flag per l'enpassant
+    enpassant = pulchess_board->enpassant;
+    pulchess_board->enpassant = NO_POSITION;
 	
     // incrementiamo il contatore delle mosse ed il turno
     pulchess_board->moveCount++;
@@ -513,21 +513,21 @@ int CastlingMove::Play()
 		}
     }
 	
-    pulchess_board->SetPiece( kipos_dst, pulchess_board->GetPiece(kipos_src) );
-    pulchess_board->GetPiece( kipos_dst )->moveTo( kipos_dst );
-	pulchess_board->SetPiece( kipos_src, NULL );
+  pulchess_board->SetPiece( kipos_dst, pulchess_board->GetPiece(kipos_src) );
+  pulchess_board->GetPiece( kipos_dst )->moveTo( kipos_dst );
+  pulchess_board->SetPiece( kipos_src, NULL );
+
+  pulchess_board->SetPiece( rkpos_dst, pulchess_board->GetPiece( rkpos_src ) );
+  pulchess_board->GetPiece( rkpos_dst )->moveTo( rkpos_dst );
+  pulchess_board->SetPiece( rkpos_src, NULL );
 	
-    pulchess_board->SetPiece( rkpos_dst, pulchess_board->GetPiece( rkpos_src ) );
-    pulchess_board->GetPiece( rkpos_dst )->moveTo( rkpos_dst );
-	pulchess_board->SetPiece( rkpos_src, NULL );
-	
-    // aggiorna mosse e turno
-    pulchess_board->moveCount++;
-    pulchess_board->turn = ENEMY(pulchess_board->turn);
-	
-    // resettiamo il flag per l'enpassant
-    enpassant = pulchess_board->enpassant;
-    pulchess_board->enpassant = NO_POSITION;
+  // aggiorna mosse e turno
+  pulchess_board->moveCount++;
+  pulchess_board->turn = ENEMY(pulchess_board->turn);
+
+  // resettiamo il flag per l'enpassant
+  enpassant = pulchess_board->enpassant;
+  pulchess_board->enpassant = NO_POSITION;
 
 	// regola delle 50 mosse, incrementiamo perche' l'arrocco non e' una cattura
 	fiftyMovesRule = pulchess_board->fiftyMovesRule;
@@ -572,20 +572,20 @@ void CastlingMove::Rewind()
 		}
     }
 	
-    pulchess_board->SetPiece( kipos_dst, pulchess_board->GetPiece( kipos_src ) );
-    pulchess_board->GetPiece( kipos_dst )->Rollback( kipos_dst );
-    pulchess_board->SetPiece( kipos_src, NULL );
-	
-    pulchess_board->SetPiece( rkpos_dst, pulchess_board->GetPiece( rkpos_src ) );
-    pulchess_board->GetPiece( rkpos_dst )->Rollback( rkpos_dst );
-    pulchess_board->SetPiece( rkpos_src, NULL );
-	
-    // aggiorna mosse e turno
-    pulchess_board->moveCount--;
-    pulchess_board->turn = ENEMY(pulchess_board->turn);	
-	
-    // aggiorna en passant flag
-    pulchess_board->enpassant = enpassant;
+  pulchess_board->SetPiece( kipos_dst, pulchess_board->GetPiece( kipos_src ) );
+  pulchess_board->GetPiece( kipos_dst )->Rollback( kipos_dst );
+  pulchess_board->SetPiece( kipos_src, NULL );
+
+  pulchess_board->SetPiece( rkpos_dst, pulchess_board->GetPiece( rkpos_src ) );
+  pulchess_board->GetPiece( rkpos_dst )->Rollback( rkpos_dst );
+  pulchess_board->SetPiece( rkpos_src, NULL );
+
+  // aggiorna mosse e turno
+  pulchess_board->moveCount--;
+  pulchess_board->turn = ENEMY(pulchess_board->turn);	
+
+  // aggiorna en passant flag
+  pulchess_board->enpassant = enpassant;
 
 	// flag 50 mosse
 	pulchess_board->fiftyMovesRule = fiftyMovesRule;

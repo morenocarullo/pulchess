@@ -62,6 +62,9 @@ namespace pulchess { namespace logic {
 
     //! Init game
     void Init();
+    
+    //! Init game with a specified starting pos
+    void Init(string sFenStartPosition);
 
     //! Reset game
     void ResetMode(gamemode_t gameMode);
@@ -74,62 +77,76 @@ namespace pulchess { namespace logic {
 
     //! Close engine
     void Shutdown();
-    
+
     // ricostruisce la scacchiera
     cellinfo_t getCellInfo(int x, int y);
 
-	// stampa su output
-	void printBoard();
+    // stampa su output
+    void printBoard();
 
     // il gioco e' finito?
     bool IsGameFinished();
 
     // a chi tocca?
     int whoPlaysNow();
-	
-	// il prossimo giocatore e' umano?
-	bool IsHuman();
-	
-	//! Is the requested player human?
-	bool IsHuman(const colour_t colour);
 
-  // gioca la mossa del turno attuale
-  bool gameCommand(string &cmd);
+    // il prossimo giocatore e' umano?
+    bool IsHuman();
 
-  //! Try to play an empty command
-  bool gameCommand();
+    //! Is the requested player human?
+    bool IsHuman(const colour_t colour);
 
-  // e' una mossa?
-  bool IsMove(string &cmd);
+    // gioca la mossa del turno attuale
+    bool gameCommand(string &cmd);
 
-  //! Ritorna l'ultima mossa
-  Move * GetLastMove();
+    //! Try to play an empty command
+    bool gameCommand();
 
-  //! Returns a string containing game history report
-  string GetGameMovesReport();
+    // e' una mossa?
+    bool IsMove(string &cmd);
 
-  // chi vince?
-  int gameInfo();
+    //! Ritorna l'ultima mossa
+    Move * GetLastMove();
 
-	// carica un gioco ovvero una sequenza di mosse
-	bool LoadGame(const char *pcGamePath);
-    
-  //! Compute the perft value for a given depth
-  /*
+    //! Returns a string containing game history report
+    string GetGameMovesReport();
+
+    // chi vince?
+    int gameInfo();
+
+    // carica un gioco ovvero una sequenza di mosse
+    bool LoadGame(const char *pcGamePath);
+
+    //! Compute the perft value for a given depth
+    /*
       See: http://www.albert.nu/programs/sharper/perft.htm
-  */    
-  int Perft(int depth);
-  
-  //! Print on standard output the list of moves from a given FEN
-  void PrintMovesForPosition(string fenPosition);
-	
-	// pulchess logging facility
-	static void OpenLog(const char *pcLogFile);
-	
-	static void CloseLog();
-	
-	// write to pulchess game log
-	static void WriteLog(string &sMessage);
+    */    
+    int Perft(int nDepth);
+    
+    //! Compute the "divide" task for the perft test
+    void PerftDivide(int nDepth);
+
+    //! Print on standard output the list of moves from a given FEN
+    void PrintMovesForPosition(string sFenPosition);
+
+
+    /**********************************************
+
+      UTILITY FUNCTION MEMBERS
+
+    ***********************************************/
+
+    //! LOG - pulchess logging facility
+    static void OpenLog(const char *pcLogFile);
+
+    //! LOG - close the pulchess logging
+    static void CloseLog();
+
+    //! LOG - write to pulchess game log
+    static void WriteLog(string &sMessage);
+    
+    //! IO - read an entire line from input
+    static string StdinReadLine();
   };
 
 }; // end logic namespace

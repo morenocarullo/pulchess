@@ -28,14 +28,16 @@ namespace pulchess { namespace logic {
 //
 // Global, singleton instance.
 //
-Board*	Board::board = NULL;
+Board*  Board::board = NULL;
+
+const string Board::STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 //
 // Board ctor
 //	
 Board::Board()
 {		
-  LoadFromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+  LoadFromFen(STARTING_FEN);
 }
 
 //
@@ -481,6 +483,41 @@ Move * Board::CheckDefenseMove(const colour_t colour)
     turn = backupTurn;
 	moveListDestroy(&mList);
     return NULL;
+}
+
+//
+// Generate moves for current status
+//
+bool Board::GenerateMoves(vector<Move *> &vMovesList, bool bOnlyLegalMoves)
+{
+  list<Piece *> * pList = pulchess_board->ListPieces(turn);
+  list<Piece *>::iterator pList_iter;
+
+  for(pList_iter = pList->begin(); pList_iter != pList->end(); pList_iter++)
+  {
+    (*pList_iter)->listMoves( &vMovesList );
+  }
+  
+  sort(vMovesList.begin(), vMovesList.end());
+  
+  if( bOnlyLegalMoves && IsInCheck(turn) )
+  {
+    cout << "rimuovo mosse illegali" << endl;
+    vector<Move *>::iterator mList_iter;  
+    Move *currMove;
+    for(mList_iter = vMovesList.begin(); mList_iter != vMovesList.end(); mList_iter++)
+    {
+      currMove = (*mList_iter);
+      currMove->Play();
+      if( IsInCheck(turn) )
+      {
+        vMovesList.erase(mList_iter);
+      }
+      currMove->Rewind();
+    }
+  }
+  
+  return true;
 }
 
 //

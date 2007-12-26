@@ -198,72 +198,65 @@ CPUPlayer::Idab(int maxDepth)
 int
 CPUPlayer::Alfabeta(int depth, int alfa, int beta) 
 {	
-    list<Piece *> * pList = pulchess_board->ListPieces(pulchess_board->turn);
-    list<Piece *>::iterator pList_iter;
-    vector<Move *> mList;
-    vector<Move *>::iterator mList_iter;
-    BoardValue *thisBoardVal = NULL, *hashBoardVal = NULL;
-    Move *currMove = NULL;
-    Move *myBest   = NULL;
-    int realDepth  = startDepth - depth;
-    int val = 0;
+  vector<Move *> mList;
+  vector<Move *>::iterator mList_iter;
+  BoardValue *thisBoardVal = NULL, *hashBoardVal = NULL;
+  Move *currMove = NULL, *myBest = NULL;
+  int realDepth  = startDepth - depth;
+  int val = 0;
 
 	//
 	// Stats
 	visitedNodes++;
 	maxPlyReached = MAX(maxPlyReached,realDepth);
 
-	//
-    // Is it a final node?
-    //  o  the King is missing
-	//  o  we are in the alphabeta leaves
-	//  o  the moveResult parameter is helping us with "quiescienza" in order
-	//     to prevent to be eated early.
-	//
-    if( (depth <= 0 && moveResult <= PIECE_RANK_BISHOP) ||
-        (pulchess_board->GetKing(WHITE) == NULL) ||
-        (pulchess_board->GetKing(BLACK) == NULL) )
-    {
-		return pulchess_board->Evaluate();
-    }
+  //
+  // Is it a final node?
+  //  o  the King is missing
+  //  o  we are in the alphabeta leaves
+  //  o  the moveResult parameter is helping us with "quiescienza" in order
+  //     to prevent to be eated early.
+  //
+  if( (depth <= 0 && moveResult <= PIECE_RANK_BISHOP) ||
+      (pulchess_board->GetKing(WHITE) == NULL) ||
+      (pulchess_board->GetKing(BLACK) == NULL) )
+  {
+    return pulchess_board->Evaluate();
+  }
 	
-    //
-    // fase di lettura dalla cache
-    //
 #ifdef PULCHESS_USEHASHTABLE
-    if(depth != startDepth) {
-		int retVal;
-		thisBoardVal = new BoardValue(depth, evc->getSize());
-		hashBoardVal = evc->Get( thisBoardVal->GetHashKey() );
-		if( hashBoardVal != NULL && hashBoardVal->UsableFor( thisBoardVal ) ) {
-			retVal = evc->GetValue( thisBoardVal->GetHashKey() );               
-			delete thisBoardVal;
-			return retVal;
-		}
+  if(depth != startDepth)
+  {
+    int retVal;
+    thisBoardVal = new BoardValue(depth, evc->getSize());
+    hashBoardVal = evc->Get( thisBoardVal->GetHashKey() );
+    if( hashBoardVal != NULL && hashBoardVal->UsableFor( thisBoardVal ) )
+    {
+      retVal = evc->GetValue( thisBoardVal->GetHashKey() );               
+      delete thisBoardVal;
+      return retVal;
     }
+  }
 #endif
 	
-    // Se il tempo stringe,  risaliamo l'albero.
-    //
-    if( TcEvalTimeRemaining(depth) && (depth != startDepth) ) {
-		IsSearchValid = false;
-		return pulchess_board->Evaluate();
-    }
-	
-    // per tutti i miei pezzi
-    // preleva tutte le mosse possibili, ed aggiungile alla lista (mList)
-    //
-    for(pList_iter = pList->begin(); pList_iter != pList->end(); pList_iter++) {
-		(*pList_iter)->listMoves( &mList );
-    }
-    sort(mList.begin(), mList.end());
-	
-    //
+  // Se il tempo stringe,  risaliamo l'albero.
+  //
+  if( TcEvalTimeRemaining(depth) && (depth != startDepth) )
+  {
+    IsSearchValid = false;
+    return pulchess_board->Evaluate();
+  }
+
+  // Generate moves
+  pulchess_board->GenerateMoves(mList, false);
+
+  //
 	// per tutte le mosse
 	// se la mossa e' buona, migliore delle altre, viene promossa
 	// come mossa migliore (bestMove)
 	//
-	for(mList_iter = mList.begin(); mList_iter != mList.end(); mList_iter++) {
+	for(mList_iter = mList.begin(); mList_iter != mList.end(); mList_iter++)
+  {
 		currMove   = (*mList_iter);
 		moveResult = currMove->Play();
 		val        = -Alfabeta( depth-1, -beta, -alfa );
@@ -287,17 +280,17 @@ CPUPlayer::Alfabeta(int depth, int alfa, int beta)
 	// che poi torna all'utente, allora controlliamo se la mossa va salvata
 	// (per poi essere applicata).
 	//
-    if( depth == startDepth ) {
-     	if( myBest == NULL ) {
-          return 0;
-        }
-    	if( IsSearchValid ) {
-          bestMove = myBest->copy();
-        }
-        else {
-          pulchess_debug("No valid move selected due to timeout.");
-        }
-    }
+  if( depth == startDepth ) {
+    if( myBest == NULL ) {
+        return 0;
+      }
+    if( IsSearchValid ) {
+        bestMove = myBest->copy();
+      }
+      else {
+        pulchess_debug("No valid move selected due to timeout.");
+      }
+  }
 
 	//
 	// Se la ricerca e' valida, allora inserisci la mossa nella hashtable.
@@ -313,12 +306,12 @@ CPUPlayer::Alfabeta(int depth, int alfa, int beta)
     }
 #endif
 
-    moveListDestroy(&mList);
+  moveListDestroy(&mList);
 	
 	//
 	// Add "move's result distance" penalty to handle King mate cases
 	//
-    return alfa + (startDepth - depth);
+  return alfa + (startDepth - depth);
 }
 
 //

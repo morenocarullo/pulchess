@@ -52,6 +52,9 @@ namespace pulchess { namespace logic {
   public:
     //! Fast (global) instance
     static Board* board;
+  
+    //! Fen start position  
+    static const string STARTING_FEN;
 
     //! Class ctor
     Board();
@@ -120,6 +123,9 @@ namespace pulchess { namespace logic {
 
     //! Returns last played move
     Move * GetLastMove();
+    
+    //! Generate moves for current status
+    bool GenerateMoves(vector<Move *> &vMovesList, bool bOnlyLegalMoves);
 
     //! Evaluate board status
     int    Evaluate();

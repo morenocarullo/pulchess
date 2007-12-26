@@ -96,20 +96,35 @@ int main(int argc, char *argv[])
     }
     // Perft test
     else if(mode == "perft") {
-      pulchess = new Pulchess(CPU_VS_CPU);
-      pulchess->Init();
-      int depth;
+      int nDepth;
+      string sFenPosition;
+      string sUseDivide;
       cout << "Perft depth = ? ";
-      cin >> depth;
+      cin >> nDepth;
       cout << endl;
-      pulchess_info("Perft(" << depth << ") = " << pulchess->Perft(depth) );
+      cout << "FEN to start from (enter a FEN or \"start\") = ";
+      sFenPosition = Pulchess::StdinReadLine();
+      cout << endl;
+      cout << "Use divide mode? (yes/no)";
+      cin >> sUseDivide;
+      cout << endl;
+      pulchess = new Pulchess(CPU_VS_CPU);
+      pulchess->Init( sFenPosition == "start" ? Board::STARTING_FEN : sFenPosition );
+      if( sUseDivide == "yes")
+      {
+        pulchess->PerftDivide(nDepth);
+      }
+      else
+      {
+        pulchess_info("Perft(" << nDepth << ") = " << pulchess->Perft(nDepth) );      
+      }
       delete pulchess;
     }
-    // See moves for fen
+    // See moves for a given FEN
     else if(mode == "seemoves") {
       string sFenPosition;
       cout << "See moves for FEN position: ";
-      cin >> sFenPosition;
+      sFenPosition = Pulchess::StdinReadLine();
       cout << endl;
       pulchess = new Pulchess(CPU_VS_CPU);
       pulchess->Init();
