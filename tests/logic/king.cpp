@@ -32,7 +32,7 @@ static void testCastlings()
 {
    // carico gioco corretto, non deve dare errori	
    Pulchess * pulchess = new Pulchess(HUM_VS_HUM);
-   assert_true( pulchess->loadGame("./tests/games/game004-castling-1.game") );
+   assert_true( pulchess->LoadGame("./tests/games/game004-castling-1.game") );
    delete pulchess;
 
    // castling lato nero

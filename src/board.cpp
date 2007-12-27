@@ -500,18 +500,20 @@ bool Board::GenerateMoves(vector<Move *> &vMovesList, bool bOnlyLegalMoves)
   
   sort(vMovesList.begin(), vMovesList.end());
   
-  if( bOnlyLegalMoves && IsInCheck(turn) )
+  if( bOnlyLegalMoves && IsInCheck(turn) > 0)
   {
-    cout << "rimuovo mosse illegali" << endl;
+    vector<Move *> vTmpMovesList = vMovesList;		
     vector<Move *>::iterator mList_iter;  
     Move *currMove;
-    for(mList_iter = vMovesList.begin(); mList_iter != vMovesList.end(); mList_iter++)
+    vMovesList.clear();
+	
+    for(mList_iter = vTmpMovesList.begin(); mList_iter != vTmpMovesList.end(); mList_iter++)
     {
       currMove = (*mList_iter);
       currMove->Play();
-      if( IsInCheck(turn) )
+      if( IsInCheck(ENEMY(turn)) == 0 ) // <-- Move::Play() inverts the turn!
       {
-        vMovesList.erase(mList_iter);
+        vMovesList.push_back( currMove );
       }
       currMove->Rewind();
     }

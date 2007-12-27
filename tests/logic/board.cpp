@@ -109,6 +109,47 @@ static void test_Evaluate()
 	assert_true( board.Evaluate() == 0 );
 }
 
+static void test_IsInCheck_black()
+{
+  Board board( "rnbqkbnr/pp3ppp/2B1p3/3p4/8/4P2P/PPPP1PP1/RNBQK1NR b KQkq - 0 4" );
+  pulchess_board     = &board;
+  pulchess_the_white = new CPUPlayer(WHITE);
+  pulchess_the_black = new CPUPlayer(BLACK);
+
+  assert_true( board.IsInCheck(BLACK) > 0 );
+  assert_true( board.CanDefendCheck(BLACK) );
+  assert_true( board.IsInCheck(WHITE) == 0 );
+}
+
+static void test_IsInCheck_black_2() 
+{
+  Board board( "rnbqkbnr/pp3ppp/2B1p3/8/3p4/4P2P/PPPP1PP1/RNBQK1NR w KQkq - 0 5" );
+  pulchess_board     = &board;
+  pulchess_the_white = new CPUPlayer(WHITE);
+  pulchess_the_black = new CPUPlayer(BLACK);
+
+  assert_true( board.IsInCheck(BLACK) > 0 );
+  assert_true( board.IsInCheck(WHITE) == 0 );
+}
+
+static void test_GenerateMoves_InCheck()
+{
+  Board board( "rnbqkbnr/pp3ppp/2B1p3/3p4/8/4P2P/PPPP1PP1/RNBQK1NR b KQkq - 0 4" );
+  pulchess_board     = &board;
+  pulchess_the_white = new CPUPlayer(WHITE);
+  pulchess_the_black = new CPUPlayer(BLACK);
+
+  vector<Move *> mList;
+  vector<Move *>::iterator mList_iter;
+ 
+  board.GenerateMoves(mList, true);
+
+  cout << endl << "Num of moves: " << mList.size() << endl;
+
+  /* 6 legal moves: b8c6, b8d7, c8d7, d8c7, e8e7, b7c6 */
+  assert_true( mList.size() == 6 );
+}
+
 static void test_BoardValue_basic()
 {
 	Board b1( "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
@@ -128,5 +169,8 @@ void testSuiteBoard()
     PULCHESS_CALLCASE(test_GetLastMove,			"board::test_GetLastMove");
     PULCHESS_CALLCASE(test_LoadFromFen,			"board::test_LoadFromFen");
 	PULCHESS_CALLCASE(test_Evaluate,			"board::test_Evaluate");
-	PULCHESS_CALLCASE(test_BoardValue_basic,    "Book::test_basic");
+	PULCHESS_CALLCASE(test_IsInCheck_black,    "board::test_IsInCheck_black");
+	PULCHESS_CALLCASE(test_IsInCheck_black_2,    "board::test_IsInCheck_black_2");
+	PULCHESS_CALLCASE(test_GenerateMoves_InCheck, "board::test_test_GenerateMoves_InCheck");
+	PULCHESS_CALLCASE(test_BoardValue_basic,    "boardvalue::test_basic");
 }

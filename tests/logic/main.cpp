@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
  	testSuiteHumanPlayer();
  	testSuitePulchessPulchess();
  	testSuiteCpuPlayer();
-
+ 
 	cout << endl << "test completed successfully." << endl;
 	return 0;
 }

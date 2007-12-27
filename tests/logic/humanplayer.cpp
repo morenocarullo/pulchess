@@ -32,7 +32,7 @@ static char * suitename = "humanplayer suite";
 static void testGetPawnPromotion()
 {
    Pulchess * facade = new Pulchess(HUM_VS_HUM);
-   assert_true( facade->loadGame("./tests/games/game005-pawnprom.game") );
+   assert_true( facade->LoadGame("./tests/games/game005-pawnprom.game") );
    assert_true( !facade->IsGameFinished() );
    
    cellinfo_t cell = facade->getCellInfo(0, 7);

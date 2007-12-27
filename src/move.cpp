@@ -272,6 +272,9 @@ int Move::Play()
 		throw new InvalidMoveException("Mossa non valida!");
     }
 #endif
+
+    // salvataggio stato 50 mosse
+    fiftyMovesRule = pulchess_board->fiftyMovesRule;
 	
     // abbiamo mangiato ?
     if( dst != NULL ) {   
@@ -314,9 +317,6 @@ int Move::Play()
 			promotedPawn = src;
 		}
     }
-
-    // salvataggio stato 50 mosse
-    fiftyMovesRule = pulchess_board->fiftyMovesRule;
 	
     // salviamo il flag per l'enpassant
     enpassant = pulchess_board->enpassant;

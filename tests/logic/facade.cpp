@@ -30,42 +30,42 @@ static void testLoadGame()
 {	
    // carico gioco corretto, non deve dare errori	
    Pulchess * facade = new Pulchess(HUM_VS_HUM);
-   assert_true( facade->loadGame("./tests/games/game000.game") );
+   assert_true( facade->LoadGame("./tests/games/game000.game") );
    assert_true( !facade->IsGameFinished() );
    delete facade;
 
    // carico gioco errato, deve bloccarsi
    facade = new Pulchess(HUM_VS_HUM);
-   assert_true( !facade->loadGame("./tests/games/igame000.game") );
+   assert_true( !facade->LoadGame("./tests/games/igame000.game") );
    assert_true( !facade->IsGameFinished() );
    delete facade;
 
    // carica gioco vero (Immortal Game)
    facade = new Pulchess(HUM_VS_HUM);
-   assert_true( facade->loadGame("./tests/games/game001-immortal.game") );
+   assert_true( facade->LoadGame("./tests/games/game001-immortal.game") );
    assert_true( facade->IsGameFinished() );
    delete facade;
 
    // carica gioco vero (Moreno vs Pulchess - 21/9/2006)
    facade = new Pulchess(HUM_VS_HUM);
-   assert_true( facade->loadGame("./tests/games/game002-morec.game") );
+   assert_true( facade->LoadGame("./tests/games/game002-morec.game") );
    assert_true( facade->IsGameFinished() );
    delete facade;
 
    // carica gioco vero (Pulchess vs Spike - 27/10/2007)   (ex problema Queenside Castling)
    facade = new Pulchess(HUM_VS_HUM);
-   assert_true( facade->loadGame("./tests/games/pulc-spike.game") );
+   assert_true( facade->LoadGame("./tests/games/pulc-spike.game") );
    delete facade;
 
    // carica gioco vero (Pulchess vs Spike, 2 - 27/10/2007) (problema Queenside Castling)
    facade = new Pulchess(HUM_VS_HUM);
-   assert_true( facade->loadGame("./tests/games/pulc-spike2.game") );
+   assert_true( facade->LoadGame("./tests/games/pulc-spike2.game") );
    delete facade;
 
    // carica gioco prova enpassant
    // TODO: da spostare nel codice di test per il soldato
    //facade = new Pulchess(HUM_VS_HUM);
-   // TODO assert_true( facade->loadGame("./tests/games/game003-enpassant.game") ); --> DA RIVEDERE SECONDO LE REGOLE!!!
+   // TODO assert_true( facade->LoadGame("./tests/games/game003-enpassant.game") ); --> DA RIVEDERE SECONDO LE REGOLE!!!
    //assert_true( !facade->IsGameFinished() );
    //delete facade;
 }
@@ -96,6 +96,6 @@ static void testResetGame()
 
 
 void testSuitePulchessPulchess() {
-	PULCHESS_CALLCASE(testLoadGame, "pulchess::loadGame()");
+	PULCHESS_CALLCASE(testLoadGame, "pulchess::LoadGame()");
 	PULCHESS_CALLCASE(testResetGame, "pulchess::ResetGame()");
 }
