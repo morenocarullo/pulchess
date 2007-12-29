@@ -328,7 +328,7 @@ int Move::Play()
     
     // se e' un pedone, ev. settiamo il flag di enpassant
     if( src->GetKind() == PIECE_PAWN && abs((int)srcI - dstI) == 16 ) {
-       enpassant = dstI;
+       pulchess_board->enpassant = dstI;
     }
 
     // return rating

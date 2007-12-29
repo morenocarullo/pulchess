@@ -132,8 +132,24 @@ void Board::LoadFromFen(string ebdString)
   turn = ebdString[ct++] == 'w' ? WHITE : BLACK;
 
   // castling
+  ct++;
+  if( ebdString[ct] != '-' )
+  {
+    while(ebdString[ct] != ' ')
+    {
+      ct++;	
+    }
+  }
+  else ct++;
 
   // en passant
+  ct++;
+  if( ebdString[ct] != '-' )
+  {
+    int posx  = ebdString[ct++] - 'a';
+    int posy  = ebdString[ct++] - '1';
+    enpassant = xy2pos(posx,posy);
+  }
 
   // clock
 
@@ -500,7 +516,7 @@ bool Board::GenerateMoves(vector<Move *> &vMovesList, bool bOnlyLegalMoves)
   
   sort(vMovesList.begin(), vMovesList.end());
   
-  if( bOnlyLegalMoves && IsInCheck(turn) > 0)
+  if( bOnlyLegalMoves )
   {
     vector<Move *> vTmpMovesList = vMovesList;		
     vector<Move *>::iterator mList_iter;  
@@ -514,8 +530,13 @@ bool Board::GenerateMoves(vector<Move *> &vMovesList, bool bOnlyLegalMoves)
       if( IsInCheck(ENEMY(turn)) == 0 ) // <-- Move::Play() inverts the turn!
       {
         vMovesList.push_back( currMove );
+        currMove->Rewind();
       }
-      currMove->Rewind();
+      else
+      {
+        currMove->Rewind();
+        delete currMove;
+      }
     }
   }
   

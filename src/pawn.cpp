@@ -158,6 +158,7 @@ void Pawn::listMoves(vector<Move *> *mList)
         {
           continue;
         }
+        
         dst = pulchess_board->GetPiece(i, y);
         if( dst!=NULL &&
             pulchess_board->enpassant == xy2pos(i,y) &&

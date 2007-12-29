@@ -429,6 +429,8 @@ int Pulchess::Perft(int depth)
     computedMoves += Perft( depth - 1 );
     currMove->Rewind();
   }
+  
+  moveListDestroy(&mList);
 
   return computedMoves;
 }
@@ -436,33 +438,6 @@ int Pulchess::Perft(int depth)
 //
 // Compute the "divide" task for the perft test
 //
-/*
-  from start position:
-  
-  Move Nodes
-  Nc3  234656
-  Na3  198572
-  Nh3  198502
-  Nf3  233491
-  a3   181046
-  a4   217832
-  b3   215255
-  b4   216145
-  c3   222861
-  c4   240082
-  d3   328511
-  d4   361790
-  e3   402988
-  e4   405385
-  f3   178889
-  f4   198473
-  g3   217210
-  g4   214048
-  h3   181044
-  h4   218829
-
-  Total nodes: 4865609
-*/
 void Pulchess::PerftDivide(int nDepth)
 {
   vector<Move *> mList;
@@ -482,6 +457,8 @@ void Pulchess::PerftDivide(int nDepth)
   }
   
   cout << "Total computed moves: " << computedMoves << endl;
+  
+  moveListDestroy(&mList);
 }
 
 //
@@ -503,6 +480,8 @@ void Pulchess::PrintMovesForPosition(string fenPosition)
     currMove = (*mList_iter);
     cout << currMove->toString() << endl;
   }
+  
+  moveListDestroy(&mList);
 }
 
 //

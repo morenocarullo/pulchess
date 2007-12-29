@@ -101,6 +101,24 @@ static void test_LoadFromFen()
 	assert_true( whiteRookSx->colour == WHITE );
 }
 
+static void test_LoadFromFen_TurnFlag()
+{
+  Board b1( "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+  Board b2( "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
+
+  assert_true( b1.turn == WHITE );
+  assert_true( b2.turn == BLACK );
+}
+
+static void test_LoadFromFen_EnpassantFlag()
+{
+  Board board_with_ep( "8/7p/p5pb/4k3/P1pPn3/8/P5PP/1rB2RK1 b - d3 0 28" );
+  Board board_wo_ep( "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+
+  assert_true( board_with_ep.enpassant == xy2pos(3,2) );
+  assert_true( board_wo_ep.enpassant == NO_POSITION );
+}
+
 static void test_Evaluate()
 {
 	Board board;
@@ -144,10 +162,36 @@ static void test_GenerateMoves_InCheck()
  
   board.GenerateMoves(mList, true);
 
-  cout << endl << "Num of moves: " << mList.size() << endl;
-
   /* 6 legal moves: b8c6, b8d7, c8d7, d8c7, e8e7, b7c6 */
   assert_true( mList.size() == 6 );
+}
+
+static void test_GenerateMoves_perft_strange_1()
+{
+  Board board( "r3k2r/p1ppqpb1/bn2pnp1/1B1PN3/1p2P3/2N2Q1p/PPPB1PPP/R3K2R b KQkq -" );
+  pulchess_board     = &board;
+  pulchess_the_white = new CPUPlayer(WHITE);
+  pulchess_the_black = new CPUPlayer(BLACK);
+
+  vector<Move *> mList;
+  vector<Move *>::iterator mList_iter;
+
+  board.GenerateMoves(mList, true);
+
+  /* 39 legal moves */
+  assert_true( mList.size() == 39 );
+}
+
+static void test_EnpassantFlag()
+{
+  Board board( "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -" );
+  pulchess_board     = &board;
+  pulchess_the_white = new HumanPlayer(WHITE);
+  pulchess_the_black = new HumanPlayer(BLACK);
+
+  assert_true( pulchess_the_white->DoMove("a2a4") );
+  assert_true( pulchess_board->enpassant != NO_POSITION );
+  assert_true( pulchess_board->enpassant == xy2pos(0,3) );
 }
 
 static void test_BoardValue_basic()
@@ -168,9 +212,13 @@ void testSuiteBoard()
 	PULCHESS_CALLCASE(test_moveRollback_one,	"board::test_moveRollback_one");
     PULCHESS_CALLCASE(test_GetLastMove,			"board::test_GetLastMove");
     PULCHESS_CALLCASE(test_LoadFromFen,			"board::test_LoadFromFen");
+    PULCHESS_CALLCASE(test_LoadFromFen_TurnFlag, "board::test_LoadFromFen_TurnFlag");
+	PULCHESS_CALLCASE(test_LoadFromFen_EnpassantFlag, "board::test_LoadFromFen_EnpassantFlag");
 	PULCHESS_CALLCASE(test_Evaluate,			"board::test_Evaluate");
 	PULCHESS_CALLCASE(test_IsInCheck_black,    "board::test_IsInCheck_black");
 	PULCHESS_CALLCASE(test_IsInCheck_black_2,    "board::test_IsInCheck_black_2");
 	PULCHESS_CALLCASE(test_GenerateMoves_InCheck, "board::test_test_GenerateMoves_InCheck");
+	PULCHESS_CALLCASE(test_GenerateMoves_perft_strange_1, "board::test_GenerateMoves_perft_strange_1");
+	PULCHESS_CALLCASE(test_EnpassantFlag, "board::test_EnpassantFlag");
 	PULCHESS_CALLCASE(test_BoardValue_basic,    "boardvalue::test_basic");
 }
