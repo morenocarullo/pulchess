@@ -18,6 +18,11 @@
 #ifndef _pulchess_logic_board_h_
 #define _pulchess_logic_board_h_
 
+#define CASTLING_WHITE_Q  1
+#define CASTLING_WHITE_K  2
+#define CASTLING_BLACK_Q  4
+#define CASTLING_BLACK_K  8
+
 namespace pulchess { namespace logic {
 
   // class pre definition
@@ -73,8 +78,11 @@ namespace pulchess { namespace logic {
     //! Move count (total moves playied)
     unsigned int moveCount;
 
-	//! Move count since last capture ore pawn move (for 50 move draw rule)
-	unsigned char fiftyMovesRule;
+    //! Move count since last capture ore pawn move (for 50 move draw rule)
+    unsigned char fiftyMovesRule;
+    
+    //! Castling status
+    unsigned int castlingFlags;
     
     //! Set if enpassant is possible on next turn
     coord_t enpassant;

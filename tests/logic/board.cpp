@@ -172,14 +172,26 @@ static void test_GenerateMoves_perft_strange_1()
   pulchess_board     = &board;
   pulchess_the_white = new CPUPlayer(WHITE);
   pulchess_the_black = new CPUPlayer(BLACK);
-
   vector<Move *> mList;
-  vector<Move *>::iterator mList_iter;
 
   board.GenerateMoves(mList, true);
 
   /* 39 legal moves */
   assert_true( mList.size() == 39 );
+}
+
+static void test_GenerateMoves_perft_strange_2()
+{
+  Board board( "r3k2r/p1pNqpb1/bn2pnp1/3P4/1p2P3/2N2Q1p/PPPBBPPP/R3K2R b KQkq -" );
+  pulchess_board     = &board;
+  pulchess_the_white = new CPUPlayer(WHITE);
+  pulchess_the_black = new CPUPlayer(BLACK);
+  vector<Move *> mList;
+
+  board.GenerateMoves(mList, true);
+
+  /* 45 legal moves */
+  assert_true( mList.size() == 45 );
 }
 
 static void test_EnpassantFlag()
@@ -192,6 +204,38 @@ static void test_EnpassantFlag()
   assert_true( pulchess_the_white->DoMove("a2a4") );
   assert_true( pulchess_board->enpassant != NO_POSITION );
   assert_true( pulchess_board->enpassant == xy2pos(0,3) );
+}
+
+static void test_CastlingsFlag_Start()
+{
+  Board board;
+  pulchess_board     = &board;
+  pulchess_the_white = new HumanPlayer(WHITE);
+  pulchess_the_black = new HumanPlayer(BLACK);
+
+  assert_true( pulchess_board->castlingFlags ==
+				CASTLING_WHITE_K | CASTLING_WHITE_Q | CASTLING_BLACK_K | CASTLING_BLACK_Q );
+}
+
+static void test_CastlingsFlag_AfterRookMove_1()
+{
+  Board board( "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -" );
+  pulchess_board     = &board;
+  pulchess_the_white = new HumanPlayer(WHITE);
+  pulchess_the_black = new HumanPlayer(BLACK);
+
+  assert_true( pulchess_board->castlingFlags ==
+				CASTLING_WHITE_K | CASTLING_WHITE_Q | CASTLING_BLACK_K | CASTLING_BLACK_Q );
+				
+  // white moves, castling white queenside drops
+  assert_true( pulchess_the_white->DoMove("a1b1") );
+  assert_true( pulchess_board->castlingFlags ==
+ 				CASTLING_WHITE_K | CASTLING_BLACK_K | CASTLING_BLACK_Q );
+
+  // black moves, castling black queenside drops
+  assert_true( pulchess_the_black->DoMove("a8b8") );
+  assert_true( pulchess_board->castlingFlags ==
+ 				CASTLING_WHITE_K | CASTLING_BLACK_K );
 }
 
 static void test_BoardValue_basic()
@@ -219,6 +263,9 @@ void testSuiteBoard()
 	PULCHESS_CALLCASE(test_IsInCheck_black_2,    "board::test_IsInCheck_black_2");
 	PULCHESS_CALLCASE(test_GenerateMoves_InCheck, "board::test_test_GenerateMoves_InCheck");
 	PULCHESS_CALLCASE(test_GenerateMoves_perft_strange_1, "board::test_GenerateMoves_perft_strange_1");
+	PULCHESS_CALLCASE(test_GenerateMoves_perft_strange_2, "board::test_GenerateMoves_perft_strange_2");
 	PULCHESS_CALLCASE(test_EnpassantFlag, "board::test_EnpassantFlag");
+	PULCHESS_CALLCASE(test_CastlingsFlag_Start, "board::test_CastlingsFlag_Start");
+	PULCHESS_CALLCASE(test_CastlingsFlag_AfterRookMove_1, "board::test_CastlingsFlag_AfterRookMove_1");
 	PULCHESS_CALLCASE(test_BoardValue_basic,    "boardvalue::test_basic");
 }

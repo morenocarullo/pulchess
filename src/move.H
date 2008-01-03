@@ -64,6 +64,9 @@ namespace pulchess { namespace logic {
 
 	//! The old fifty moves counter (for move's rewind)
 	unsigned char fiftyMovesRule;
+  
+  //! The castling status (for move's rewind)
+  unsigned int castlingFlags;
     
     Move();
     Move(coord_t src, coord_t dst, int rating);

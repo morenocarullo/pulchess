@@ -93,12 +93,12 @@ bool Pawn::IsValidMove(coord_t newpos)
     // se e' la prima mossa, possiamo muovere di 2. altrimenti di 1 soltanto.
     if( x-newx == 0 && p == NULL ) {
 		// apertura di 2 celle
-		if( colour == WHITE && moveCount == 0 && y == 1
+		if( colour == WHITE && y == 1
 			&& newy - y == 16 && pulchess_board->GetPiece(newpos-8) == NULL) 
 			return true;
 		if( colour == WHITE && newy - y == 8)
 			return true;
-		if( colour == BLACK && moveCount == 0 && y == 6
+		if( colour == BLACK && y == 6
 			&& y - newy == 16 && pulchess_board->GetPiece(newpos+8) == NULL)
 			return true;
 		if( colour == BLACK && y - newy == 8)
@@ -182,7 +182,7 @@ void Pawn::listMoves(vector<Move *> *mList)
     p  = pulchess_board->GetPiece(x, y + 2*colour);
     op = pulchess_board->GetPiece(x, y + 1*colour);
     if( 
-        p == NULL && op == NULL && moveCount == 0
+        p == NULL && op == NULL
         && (  (colour == WHITE && y == 1) ||
               (colour == BLACK && y == 6) )
       )

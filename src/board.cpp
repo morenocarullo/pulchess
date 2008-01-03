@@ -135,6 +135,7 @@ void Board::LoadFromFen(string ebdString)
   ct++;
   if( ebdString[ct] != '-' )
   {
+    castlingFlags = CASTLING_WHITE_K | CASTLING_WHITE_Q | CASTLING_BLACK_K | CASTLING_BLACK_Q;
     while(ebdString[ct] != ' ')
     {
       ct++;	

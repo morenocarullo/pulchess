@@ -47,16 +47,7 @@ namespace pulchess { namespace logic {
 	//! Represents a generic piece on chessboard
 	class Piece
 	{
-		
 	protected:
-		//! Indexed coord
-		coord_t pos;
-		
-		//! X-coord
-		coord_t x;
-		
-		//! Y-coord
-		coord_t y;
 				
 		//! Can I reach "pos" from current position, moving in diagonal?
 		bool   IsValidMove_diag(coord_t pos);
@@ -65,7 +56,16 @@ namespace pulchess { namespace logic {
 		bool   IsValidMove_croce(coord_t pos);
 		
 	public:
-	
+  
+		//! Indexed coord (here for speed, should be protected)
+		coord_t pos;
+		
+		//! X-coord (here for speed, should be protected)
+		coord_t x;
+		
+		//! Y-coord (here for speed, should be protected)
+		coord_t y;
+  
 		//! How many times this piece has been moved?
 		short int moveCount;
 		

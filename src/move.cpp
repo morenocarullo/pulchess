@@ -205,7 +205,8 @@ Move * Move::copy()
     m->deadPiece      = this->deadPiece;
     m->promotedPawn   = this->promotedPawn;
     m->enpassant      = this->enpassant;
-	m->fiftyMovesRule = this->fiftyMovesRule;
+	  m->fiftyMovesRule = this->fiftyMovesRule;
+    m->castlingFlags  = this->castlingFlags;
     
     return m;
 }
@@ -244,95 +245,117 @@ coord_t Move::getY()
 
 int Move::Play()
 {
-    coord_t
+  coord_t
 	srcI = GetSrcIdx(),
 	dstI = GetDstIdx();
 	
-    Piece 
-		*src = pulchess_board->GetPiece(srcI),
-		*dst = pulchess_board->GetPiece(dstI);
-	
-    // 
-    // Precondizioni :
-    //  1) le coordinate sorgenti devono essere ok (gia' vero in Move)
-    //  2) le coordinate di destinazione devono essere ok (gia' vero in Move)
-    //
-    //  3) il pezzo scelto deve essere valido
-    //  4) deve essere del colore giusto
-    //  5) non deve essere una mossa da A ad A
-    //  6) la mossa deve essere valida per il pezzo scelto*
-    //     *se la mossa e' generata, sappiamo gia' che e' valida
-    //
-#ifdef DEBUG
-    if( src == NULL  ||
-	VIOLATURNO(src)  ||
-	srcI == dstI )
-    {
-		pulchess_error( "tentata mossa non valida: " << this->toString() );
-		throw new InvalidMoveException("Mossa non valida!");
-    }
-#endif
+  Piece 
+  *src = pulchess_board->GetPiece(srcI),
+  *dst = pulchess_board->GetPiece(dstI);
 
-    // salvataggio stato 50 mosse
-    fiftyMovesRule = pulchess_board->fiftyMovesRule;
-	
-    // abbiamo mangiato ?
-    if( dst != NULL ) {   
-		deadPiece = dst;
-		CANCPIECE( dst );
-		pulchess_board->fiftyMovesRule = 0;
-    }
-	else { // altrimenti, proviamo ad incrementare il contatore 50mosse.
+  // salvataggio stato 50 mosse
+  fiftyMovesRule = pulchess_board->fiftyMovesRule;
+  
+  // salviamo il flag per i castlings
+  castlingFlags = pulchess_board->castlingFlags;
+
+  // abbiamo mangiato ?
+  if( dst != NULL )
+  {   
+    deadPiece = dst;
+    CANCPIECE( dst );
+    pulchess_board->fiftyMovesRule = 0;
+  }
+	else
+  { // altrimenti, proviamo ad incrementare il contatore 50mosse.
 		pulchess_board->fiftyMovesRule++;
 	}
 	
-    // spostiamo il pezzo
-    //
-    src->moveTo( dstI );
-    pulchess_board->SetPiece(dstI, src);
-    pulchess_board->SetPiece(srcI, NULL);
-	
-	// casi per il pedone
-    //
-    if( src->GetKind() == PIECE_PAWN ) {
-	
-		// se viene mosso un pedone si azzera la 50 move rule
-		pulchess_board->fiftyMovesRule = 0;
-	
-		// promozione del pedone
-		if(  (src->colour == BLACK && src->getY() == 0) ||
-			 (src->colour == WHITE && src->getY() == 7) )
-		{	 
-			// chiede all'utente di scegliere che pezzo inserire
-			// al posto del fante appena "promosso".
-			Piece *newPiece;
-			newPiece = pulchess_board->GetPlayer( src->colour )->ChoosePawnPiece();
-			ADDPIECE( newPiece );
-			pulchess_board->SetPiece( dstI, newPiece );
-			newPiece->moveTo( dstI );
-			
-			// salva le info
-			// sul pezzo appena promosso.
-			CANCPIECE( src );
-			promotedPawn = src;
-		}
-    }
-	
-    // salviamo il flag per l'enpassant
-    enpassant = pulchess_board->enpassant;
-    pulchess_board->enpassant = NO_POSITION;
-	
-    // incrementiamo il contatore delle mosse ed il turno
-    pulchess_board->moveCount++;
-    pulchess_board->turn = ENEMY(pulchess_board->turn);
-    
-    // se e' un pedone, ev. settiamo il flag di enpassant
-    if( src->GetKind() == PIECE_PAWN && abs((int)srcI - dstI) == 16 ) {
-       pulchess_board->enpassant = dstI;
-    }
+  // spostiamo il pezzo
+  //
+  src->moveTo( dstI );
+  pulchess_board->SetPiece(dstI, src);
+  pulchess_board->SetPiece(srcI, NULL);
 
-    // return rating
-    return rating;
+  // casi per il pedone
+  //
+  if( src->GetKind() == PIECE_PAWN )
+  {    
+    // se viene mosso un pedone si azzera la 50 move rule
+    pulchess_board->fiftyMovesRule = 0;
+  
+    // promozione del pedone
+    if(  (src->colour == BLACK && src->getY() == 0) ||
+       (src->colour == WHITE && src->getY() == 7) )
+    {	 
+      // chiede all'utente di scegliere che pezzo inserire
+      // al posto del fante appena "promosso".
+      Piece *newPiece;
+      newPiece = pulchess_board->GetPlayer( src->colour )->ChoosePawnPiece();
+      ADDPIECE( newPiece );
+      pulchess_board->SetPiece( dstI, newPiece );
+      newPiece->moveTo( dstI );
+      
+      // salva le info
+      // sul pezzo appena promosso.
+      CANCPIECE( src );
+      promotedPawn = src;
+    }
+  }
+  
+  // if rook, see and reset castling flags
+  //
+  else if( src->GetKind() == PIECE_ROOK )
+  {
+    if( src->colour == WHITE && src->pos == xy2pos(0,0) )
+    {
+      pulchess_board->castlingFlags ^= CASTLING_WHITE_Q;
+    }
+    if( src->colour == WHITE && src->pos == xy2pos(7,0) )
+    {
+      pulchess_board->castlingFlags ^= CASTLING_WHITE_K;
+    }
+    if( src->colour == BLACK && src->pos == xy2pos(0,7) )
+    {
+      pulchess_board->castlingFlags ^= CASTLING_BLACK_Q;
+    }
+    if( src->colour == BLACK && src->pos == xy2pos(7,7) )
+    {
+      pulchess_board->castlingFlags ^= CASTLING_BLACK_K;
+    }
+  }
+  
+  // if king, see and reset castling flags
+  //
+  else if( src->GetKind() == PIECE_KING )
+  {
+    if( src->colour == WHITE && src->pos == xy2pos(4,0) )
+    {
+      pulchess_board->castlingFlags ^= CASTLING_WHITE_K;
+      pulchess_board->castlingFlags ^= CASTLING_WHITE_Q;
+    }
+    if( src->colour == BLACK && src->pos == xy2pos(4,7) )
+    {
+      pulchess_board->castlingFlags ^= CASTLING_BLACK_K;
+      pulchess_board->castlingFlags ^= CASTLING_BLACK_Q;
+    }
+  }
+
+  // salviamo il flag per l'enpassant
+  enpassant = pulchess_board->enpassant;
+  pulchess_board->enpassant = NO_POSITION;
+
+  // incrementiamo il contatore delle mosse ed il turno
+  pulchess_board->moveCount++;
+  pulchess_board->turn = ENEMY(pulchess_board->turn);
+  
+  // se e' un pedone, ev. settiamo il flag di enpassant
+  if( src->GetKind() == PIECE_PAWN && abs((int)srcI - dstI) == 16 ) {
+     pulchess_board->enpassant = dstI;
+  }
+
+  // return rating
+  return rating;
 }
 
 void Move::Rewind()
@@ -372,12 +395,15 @@ void Move::Rewind()
 		deadPiece = NULL;
     }
 	
-    // aggiorna mosse e turno
-    pulchess_board->moveCount--;
-    pulchess_board->turn = ENEMY(pulchess_board->turn);
-    
-    // reimposta en passant flag
-    pulchess_board->enpassant = enpassant;
+  // aggiorna mosse e turno
+  pulchess_board->moveCount--;
+  pulchess_board->turn = ENEMY(pulchess_board->turn);
+  
+  // reimposta en passant flag
+  pulchess_board->enpassant = enpassant;
+  
+  // reset the castling flags
+  pulchess_board->castlingFlags = castlingFlags;
 
 	// reimposta 50 move rule
 	pulchess_board->fiftyMovesRule = fiftyMovesRule;
@@ -443,7 +469,8 @@ Move * EPMove::copy()
     m->deadPiece = this->deadPiece;
     m->promotedPawn = this->promotedPawn;
     m->enpassant = this->enpassant;
-	m->fiftyMovesRule = this->fiftyMovesRule;
+	  m->fiftyMovesRule = this->fiftyMovesRule;
+    m->castlingFlags = this->castlingFlags;
         
     return m;
 }
@@ -483,34 +510,41 @@ CastlingMove::CastlingMove(bool rookKind, colour_t colour)
 int CastlingMove::Play()
 {
     coord_t rkpos_src, kipos_src, rkpos_dst, kipos_dst;
+    
+    castlingFlags = pulchess_board->castlingFlags;
 	
-    if( kind == KINGSIDE_CASTLING ) {
-		if(pcol == WHITE) {
-			kipos_src = xy2pos(4,0);
-			kipos_dst = xy2pos(6,0);
-			rkpos_src = xy2pos(7,0);
-			rkpos_dst = xy2pos(5,0);
-		}
-		else {
-			kipos_src = xy2pos(4,7);
-			kipos_dst = xy2pos(6,7);
-			rkpos_src = xy2pos(7,7);
-			rkpos_dst = xy2pos(5,7);
-		}
-    }
-    else {
-		if( pcol == WHITE ) {
-			kipos_src = xy2pos(4,0);
-			kipos_dst = xy2pos(2,0);
-			rkpos_src = xy2pos(0,0);
-			rkpos_dst = xy2pos(3,0);
-		}
-		else {
-			kipos_src = xy2pos(4,7);
-			kipos_dst = xy2pos(2,7);
-			rkpos_src = xy2pos(0,7);
-			rkpos_dst = xy2pos(3,7);
-		}
+    if( kind == KINGSIDE_CASTLING )
+    {
+      if(pcol == WHITE) {
+        kipos_src = xy2pos(4,0);
+        kipos_dst = xy2pos(6,0);
+        rkpos_src = xy2pos(7,0);
+        rkpos_dst = xy2pos(5,0);
+        pulchess_board->castlingFlags ^= CASTLING_WHITE_K;
+      }
+      else {
+        kipos_src = xy2pos(4,7);
+        kipos_dst = xy2pos(6,7);
+        rkpos_src = xy2pos(7,7);
+        rkpos_dst = xy2pos(5,7);
+        pulchess_board->castlingFlags ^= CASTLING_BLACK_K;
+      }
+      }
+      else {
+      if( pcol == WHITE ) {
+        kipos_src = xy2pos(4,0);
+        kipos_dst = xy2pos(2,0);
+        rkpos_src = xy2pos(0,0);
+        rkpos_dst = xy2pos(3,0);
+        pulchess_board->castlingFlags ^= CASTLING_WHITE_Q;
+      }
+      else {
+        kipos_src = xy2pos(4,7);
+        kipos_dst = xy2pos(2,7);
+        rkpos_src = xy2pos(0,7);
+        rkpos_dst = xy2pos(3,7);
+        pulchess_board->castlingFlags ^= CASTLING_BLACK_Q;
+      }
     }
 	
   pulchess_board->SetPiece( kipos_dst, pulchess_board->GetPiece(kipos_src) );
@@ -589,6 +623,9 @@ void CastlingMove::Rewind()
 
 	// flag 50 mosse
 	pulchess_board->fiftyMovesRule = fiftyMovesRule;
+  
+  // castling flags
+  pulchess_board->castlingFlags = castlingFlags;
 }
 
 Move * CastlingMove::copy()
@@ -599,7 +636,8 @@ Move * CastlingMove::copy()
   m->promotedPawn = this->promotedPawn;
   m->enpassant = this->enpassant;
   m->fiftyMovesRule = this->fiftyMovesRule;
- 
+  m->castlingFlags = this->castlingFlags;
+    
   return m;
 }
 

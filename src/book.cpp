@@ -23,7 +23,10 @@ list<BookMove *> *	Book::map = NULL;
 void Book::Init()
 {
   if(map == NULL) {
-	map = new list<BookMove *>[bookSize];
+    map = new list<BookMove *>[bookSize];
+  }
+  else {
+    map->clear(); // delete all contained BookMove(s)
   }
 }
 
@@ -52,7 +55,7 @@ bool Book::Load(const char *filename)
   /*
 	TODO: load from EBD or from COMPILED book!
   */
-  return false;
+  return true;
 }
 
 //

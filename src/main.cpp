@@ -116,7 +116,10 @@ int main(int argc, char *argv[])
       }
       else
       {
-        pulchess_info("Perft(" << nDepth << ") = " << pulchess->Perft(nDepth) );      
+        int startTime = time(NULL);
+        pulchess_info("Perft(" << nDepth << ") = " << pulchess->Perft(nDepth) );
+        int totalTime = time(NULL) - startTime;
+        pulchess_info("Total time: " << totalTime << "s");
       }
       delete pulchess;
     }
