@@ -67,8 +67,9 @@ void Board::LoadFromFen(string ebdString)
     piece_dr(i) = NULL;
   }
   
-  // reset en passant
+  // reset en passant & castling flags
   enpassant = NO_POSITION;
+  castlingFlags =  0;
 
   // reset number of moves
   moveCount      = 0;
@@ -135,9 +136,26 @@ void Board::LoadFromFen(string ebdString)
   ct++;
   if( ebdString[ct] != '-' )
   {
-    castlingFlags = CASTLING_WHITE_K | CASTLING_WHITE_Q | CASTLING_BLACK_K | CASTLING_BLACK_Q;
     while(ebdString[ct] != ' ')
     {
+	  switch(ebdString[ct])
+      {
+	    case 'K':
+	      castlingFlags |= CASTLING_WHITE_K;
+	      break;
+	    case 'Q':
+	      castlingFlags |= CASTLING_WHITE_Q;
+	      break;
+	    case 'k':
+	      castlingFlags |= CASTLING_BLACK_K;
+	      break;
+	    case 'q':
+	      castlingFlags |= CASTLING_BLACK_Q;
+	      break;
+	    default:
+	      pulchess_debug("strange castling char: " << ebdString[ct]);
+	      break;
+      }
       ct++;	
     }
   }

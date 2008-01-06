@@ -86,6 +86,7 @@ bool King::IsValidMove(coord_t newpos) /* TODO: and the castling??? */
 void King::listMoves(vector<Move *> *mList)
 {
     Piece *p;
+	unsigned int castlingFlags = pulchess_board->castlingFlags;
 	
     // mosse normali
     //
@@ -109,22 +110,18 @@ void King::listMoves(vector<Move *> *mList)
 			}
 		}
     }	
-		
-    unsigned int castlingFlags = pulchess_board->castlingFlags;
-    
+   
     // Kingside castling
     // 
-    if( moveCount == 0
-        //(( colour == WHITE && (castlingFlags&CASTLING_WHITE_K) ) || ( colour == BLACK && (castlingFlags&CASTLING_BLACK_K) )) 
-        &&
-        pulchess_board->GetPiece(pos+1) == NULL
-        &&
+    if( //moveCount == 0 &&
+        (( colour == WHITE && (castlingFlags&CASTLING_WHITE_K) ) || ( colour == BLACK && (castlingFlags&CASTLING_BLACK_K) )) &&
+        pulchess_board->GetPiece(pos+1) == NULL &&
         pulchess_board->GetPiece(pos+2) == NULL )
     {
       p = pulchess_board->GetPiece(pos+3);
       if( p != NULL &&
-		    p->GetKind() == PIECE_ROOK &&
-        p->moveCount == 0 &&
+          p->GetKind() == PIECE_ROOK &&
+          //p->moveCount == 0 &&
 		    !pulchess_board->CanEatThis(pos+1, colour) &&
 		    !pulchess_board->CanEatThis(pos+2, colour) )
       {
@@ -134,17 +131,13 @@ void King::listMoves(vector<Move *> *mList)
 	
 	// Queenside castling
 	//
-	if(moveCount == 0 &&
-    // (( colour == WHITE && (castlingFlags&CASTLING_WHITE_Q) ) || ( colour == BLACK && (castlingFlags&CASTLING_BLACK_Q) )) &&
+	if(( ( colour == WHITE && (castlingFlags&CASTLING_WHITE_Q) ) ||
+         ( colour == BLACK && (castlingFlags&CASTLING_BLACK_Q) ) ) &&
 		pulchess_board->GetPiece(pos-1) == NULL &&
 		pulchess_board->GetPiece(pos-2) == NULL &&
 		pulchess_board->GetPiece(pos-3) == NULL )
 	{
-		p = pulchess_board->GetPiece(pos-4);
-		if( p != NULL &&
-		    p->GetKind() == PIECE_ROOK &&
-        p->moveCount == 0 &&
-		    !pulchess_board->CanEatThis(pos-1, colour) &&
+		if( !pulchess_board->CanEatThis(pos-1, colour) &&
 		    !pulchess_board->CanEatThis(pos-2, colour) )
 		{
 			mList->push_back( new CastlingMove(QUEENSIDE_CASTLING, colour) );

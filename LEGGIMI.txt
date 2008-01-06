@@ -1,6 +1,6 @@
-Pulchess 0.1
+Pulchess 0.3
 
-2005-2006 (C) Moreno Carullo
+2005-2008 (C) Moreno Carullo
 
 LICENZA GPL -- vedi licenza.txt
 **
@@ -39,6 +39,6 @@ k = re
 
 I pezzi del bianco sono in maiuscolo, quelli del nero in minuscolo.
 
-Qualsiasi osservazione e' gradita via email: tweety@pulc.it
+Qualsiasi osservazione e' gradita via email: moreno.carullo (atNOSPAM) pulc.it
 
 -- Moreno

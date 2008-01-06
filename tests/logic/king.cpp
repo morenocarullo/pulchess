@@ -36,11 +36,12 @@ static void testCastlings()
    delete pulchess;
 
    // castling lato nero
-   Board b("rnbqk2r/pppppppp/8/8/8/8/PPPPP3/RNBQKBNR b KQ - 0 1");
+   Board b("rnbqk2r/pppppppp/8/8/8/8/PPPPP3/RNBQKBNR b KQkq - 0 1");
    pulchess_board     = &b;
    pulchess_the_white = new HumanPlayer(WHITE);
    pulchess_the_black = new HumanPlayer(BLACK);
    assert_true( pulchess_the_black->DoMove("e8g8") );
+   assert_true( pulchess_board->castlingFlags == (CASTLING_WHITE_Q | CASTLING_WHITE_K) );
    delete pulchess_the_white;
    delete pulchess_the_black;
 }

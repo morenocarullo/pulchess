@@ -25,7 +25,7 @@ namespace pulchess { namespace logic {
 
   Piece::Piece()
   {
-    moveCount = -1;
+    //moveCount = -1;
     x = -1;
     y = -1;
     pos = -1;
@@ -34,7 +34,7 @@ namespace pulchess { namespace logic {
 
   Piece::Piece(colour_t colour)
   {
-    moveCount = -1;
+    //moveCount = -1;
     x = -1;
     y = -1;
     pos = -1;  
@@ -106,7 +106,7 @@ namespace pulchess { namespace logic {
     this->x   = pos2x(newpos);
     this->y   = pos2y(newpos);
     this->pos = newpos;
-    moveCount++;
+    //moveCount++;
   }
 
   void Piece::Rollback(coord_t newpos)
@@ -114,7 +114,7 @@ namespace pulchess { namespace logic {
     this->x   = pos2x(newpos);
     this->y   = pos2y(newpos);
     this->pos = newpos;
-    moveCount--;
+    //moveCount--;
   }
 
   bool Piece::IsValidMove_diag(coord_t newpos)

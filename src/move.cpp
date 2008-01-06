@@ -259,6 +259,44 @@ int Move::Play()
   // salviamo il flag per i castlings
   castlingFlags = pulchess_board->castlingFlags;
 
+  // if rook, see and reset castling flags
+  //
+  if( src->GetKind() == PIECE_ROOK )
+  {
+    if( src->colour == WHITE && src->pos == xy2pos(0,0) )
+    {
+      pulchess_board->castlingFlags &= ~CASTLING_WHITE_Q;
+    }
+    if( src->colour == WHITE && src->pos == xy2pos(7,0) )
+    {
+      pulchess_board->castlingFlags &= ~CASTLING_WHITE_K;
+    }
+    if( src->colour == BLACK && src->pos == xy2pos(0,7) )
+    {
+      pulchess_board->castlingFlags &= ~CASTLING_BLACK_Q;
+    }
+    if( src->colour == BLACK && src->pos == xy2pos(7,7) )
+    {
+      pulchess_board->castlingFlags &= ~CASTLING_BLACK_K;
+    }
+  }
+  
+  // if king, see and reset castling flags
+  //
+  else if( src->GetKind() == PIECE_KING )
+  {
+    if( src->colour == WHITE ) //&& src->pos == xy2pos(4,0) )
+    {
+      pulchess_board->castlingFlags &= ~CASTLING_WHITE_K;
+      pulchess_board->castlingFlags &= ~CASTLING_WHITE_Q;
+    }
+    if( src->colour == BLACK ) //&& src->pos == xy2pos(4,7) )
+    {
+      pulchess_board->castlingFlags &= ~CASTLING_BLACK_K;
+      pulchess_board->castlingFlags &= ~CASTLING_BLACK_Q;
+    }
+  }
+
   // abbiamo mangiato ?
   if( dst != NULL )
   {   
@@ -303,44 +341,6 @@ int Move::Play()
     }
   }
   
-  // if rook, see and reset castling flags
-  //
-  else if( src->GetKind() == PIECE_ROOK )
-  {
-    if( src->colour == WHITE && src->pos == xy2pos(0,0) )
-    {
-      pulchess_board->castlingFlags ^= CASTLING_WHITE_Q;
-    }
-    if( src->colour == WHITE && src->pos == xy2pos(7,0) )
-    {
-      pulchess_board->castlingFlags ^= CASTLING_WHITE_K;
-    }
-    if( src->colour == BLACK && src->pos == xy2pos(0,7) )
-    {
-      pulchess_board->castlingFlags ^= CASTLING_BLACK_Q;
-    }
-    if( src->colour == BLACK && src->pos == xy2pos(7,7) )
-    {
-      pulchess_board->castlingFlags ^= CASTLING_BLACK_K;
-    }
-  }
-  
-  // if king, see and reset castling flags
-  //
-  else if( src->GetKind() == PIECE_KING )
-  {
-    if( src->colour == WHITE && src->pos == xy2pos(4,0) )
-    {
-      pulchess_board->castlingFlags ^= CASTLING_WHITE_K;
-      pulchess_board->castlingFlags ^= CASTLING_WHITE_Q;
-    }
-    if( src->colour == BLACK && src->pos == xy2pos(4,7) )
-    {
-      pulchess_board->castlingFlags ^= CASTLING_BLACK_K;
-      pulchess_board->castlingFlags ^= CASTLING_BLACK_Q;
-    }
-  }
-
   // salviamo il flag per l'enpassant
   enpassant = pulchess_board->enpassant;
   pulchess_board->enpassant = NO_POSITION;
@@ -386,7 +386,6 @@ void Move::Rewind()
     pulchess_board->SetPiece( dstI, pulchess_board->GetPiece(srcI) );
     pulchess_board->SetPiece( srcI, NULL );
 	
-	
     // se era stato mangiato un pezzo, lo rimette a posto
     //
     if( ddp != NULL ) {
@@ -405,8 +404,8 @@ void Move::Rewind()
   // reset the castling flags
   pulchess_board->castlingFlags = castlingFlags;
 
-	// reimposta 50 move rule
-	pulchess_board->fiftyMovesRule = fiftyMovesRule;
+  // reimposta 50 move rule
+  pulchess_board->fiftyMovesRule = fiftyMovesRule;
 }
 
 //
@@ -469,7 +468,7 @@ Move * EPMove::copy()
     m->deadPiece = this->deadPiece;
     m->promotedPawn = this->promotedPawn;
     m->enpassant = this->enpassant;
-	  m->fiftyMovesRule = this->fiftyMovesRule;
+    m->fiftyMovesRule = this->fiftyMovesRule;
     m->castlingFlags = this->castlingFlags;
         
     return m;
@@ -520,14 +519,14 @@ int CastlingMove::Play()
         kipos_dst = xy2pos(6,0);
         rkpos_src = xy2pos(7,0);
         rkpos_dst = xy2pos(5,0);
-        pulchess_board->castlingFlags ^= CASTLING_WHITE_K;
+        pulchess_board->castlingFlags &= ~(CASTLING_WHITE_K | CASTLING_WHITE_Q);
       }
       else {
         kipos_src = xy2pos(4,7);
         kipos_dst = xy2pos(6,7);
         rkpos_src = xy2pos(7,7);
         rkpos_dst = xy2pos(5,7);
-        pulchess_board->castlingFlags ^= CASTLING_BLACK_K;
+        pulchess_board->castlingFlags &= ~(CASTLING_BLACK_K | CASTLING_BLACK_Q);
       }
       }
       else {
@@ -536,14 +535,14 @@ int CastlingMove::Play()
         kipos_dst = xy2pos(2,0);
         rkpos_src = xy2pos(0,0);
         rkpos_dst = xy2pos(3,0);
-        pulchess_board->castlingFlags ^= CASTLING_WHITE_Q;
+        pulchess_board->castlingFlags &= ~(CASTLING_WHITE_K | CASTLING_WHITE_Q);
       }
       else {
         kipos_src = xy2pos(4,7);
         kipos_dst = xy2pos(2,7);
         rkpos_src = xy2pos(0,7);
         rkpos_dst = xy2pos(3,7);
-        pulchess_board->castlingFlags ^= CASTLING_BLACK_Q;
+        pulchess_board->castlingFlags &= ~(CASTLING_BLACK_K | CASTLING_BLACK_Q);
       }
     }
 	

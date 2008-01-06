@@ -119,6 +119,15 @@ static void test_LoadFromFen_EnpassantFlag()
   assert_true( board_wo_ep.enpassant == NO_POSITION );
 }
 
+static void test_LoadFromFen_CastlingFlags()
+{
+  Board board_KQ( "rn1kqbnr/pp2pppp/2pp4/8/8/1b1pp3/P4PPP/RNBKQBNR w KQ - 0 20" );
+  Board board_none( "8/7p/p5pb/4k3/P1pPn3/8/P5PP/1rB2RK1 b - d3 0 28" );
+
+  assert_true( board_KQ.castlingFlags == (CASTLING_WHITE_Q | CASTLING_WHITE_K) );
+  assert_true( board_none.castlingFlags == 0 );
+}
+
 static void test_Evaluate()
 {
 	Board board;
@@ -156,9 +165,7 @@ static void test_GenerateMoves_InCheck()
   pulchess_board     = &board;
   pulchess_the_white = new CPUPlayer(WHITE);
   pulchess_the_black = new CPUPlayer(BLACK);
-
   vector<Move *> mList;
-  vector<Move *>::iterator mList_iter;
  
   board.GenerateMoves(mList, true);
 
@@ -194,6 +201,34 @@ static void test_GenerateMoves_perft_strange_2()
   assert_true( mList.size() == 45 );
 }
 
+static void test_GenerateMoves_KingSafety_1()
+{
+  Board board( "rn1kqbnr/pp2pppp/2pp4/8/8/1b1pp3/P4PPP/RNBKQBNR w KQ - 0 20" );
+  pulchess_board     = &board;
+  pulchess_the_white = new CPUPlayer(WHITE);
+  pulchess_the_black = new CPUPlayer(BLACK);
+  vector<Move *> mList;
+
+  board.GenerateMoves(mList, true);
+
+  /* only 1 legal move because under check */
+  assert_true( mList.size() == 1 );
+}
+
+static void test_GenerateMoves_KingSafety_2()
+{
+  Board board( "5bnr/2Q1kp1p/1Npppp2/8/2Pr4/P7/1P1N1PPP/R1B1K2R b KQ - 0 20" );
+  pulchess_board     = &board;
+  pulchess_the_white = new CPUPlayer(WHITE);
+  pulchess_the_black = new CPUPlayer(BLACK);
+  vector<Move *> mList;
+
+  board.GenerateMoves(mList, true);
+
+  /* only 1 legal move because under check */
+  assert_true( mList.size() == 1 );
+}
+
 static void test_EnpassantFlag()
 {
   Board board( "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -" );
@@ -206,7 +241,7 @@ static void test_EnpassantFlag()
   assert_true( pulchess_board->enpassant == xy2pos(0,3) );
 }
 
-static void test_CastlingsFlag_Start()
+static void test_CastlingFlags_Start()
 {
   Board board;
   pulchess_board     = &board;
@@ -214,10 +249,42 @@ static void test_CastlingsFlag_Start()
   pulchess_the_black = new HumanPlayer(BLACK);
 
   assert_true( pulchess_board->castlingFlags ==
-				CASTLING_WHITE_K | CASTLING_WHITE_Q | CASTLING_BLACK_K | CASTLING_BLACK_Q );
+				(CASTLING_WHITE_K | CASTLING_WHITE_Q | CASTLING_BLACK_K | CASTLING_BLACK_Q) );
+  assert_true( pulchess_board->castlingFlags != CASTLING_WHITE_K );
+  assert_true( pulchess_board->castlingFlags != CASTLING_WHITE_Q );
+  assert_true( pulchess_board->castlingFlags != CASTLING_BLACK_K );
+  assert_true( pulchess_board->castlingFlags != CASTLING_BLACK_Q );
+  assert_true( pulchess_board->castlingFlags & CASTLING_WHITE_K );
+  assert_true( pulchess_board->castlingFlags & CASTLING_WHITE_Q );
+  assert_true( pulchess_board->castlingFlags & CASTLING_BLACK_K );
+  assert_true( pulchess_board->castlingFlags & CASTLING_BLACK_Q );
 }
 
-static void test_CastlingsFlag_AfterRookMove_1()
+static void test_CastlingFlags_AfterRookMove_1()
+{
+  Board board( "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -" );
+  pulchess_board     = &board;
+  pulchess_the_white = new HumanPlayer(WHITE);
+  pulchess_the_black = new HumanPlayer(BLACK);
+				
+  // white moves, castling white queenside drops
+  assert_true( pulchess_the_white->DoMove("a1b1") );
+  assert_true( pulchess_board->castlingFlags ==
+				(CASTLING_WHITE_K | CASTLING_BLACK_K | CASTLING_BLACK_Q) );
+
+  // rolls back an forth, and test flags.
+  pulchess_board->MoveRollback();
+  assert_true( pulchess_board->castlingFlags ==
+				(CASTLING_WHITE_K | CASTLING_WHITE_Q | CASTLING_BLACK_K | CASTLING_BLACK_Q) );
+  assert_true( pulchess_the_white->DoMove("a1b1") );
+
+  // black moves, castling black queenside drops
+  assert_true( pulchess_the_black->DoMove("a8b8") );
+  assert_true( pulchess_board->castlingFlags ==
+ 				(CASTLING_WHITE_K | CASTLING_BLACK_K) );
+}
+
+static void test_CastlingFlags_AfterKingMove_1()
 {
   Board board( "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -" );
   pulchess_board     = &board;
@@ -225,17 +292,10 @@ static void test_CastlingsFlag_AfterRookMove_1()
   pulchess_the_black = new HumanPlayer(BLACK);
 
   assert_true( pulchess_board->castlingFlags ==
-				CASTLING_WHITE_K | CASTLING_WHITE_Q | CASTLING_BLACK_K | CASTLING_BLACK_Q );
-				
-  // white moves, castling white queenside drops
-  assert_true( pulchess_the_white->DoMove("a1b1") );
+				( CASTLING_WHITE_Q | CASTLING_WHITE_K | CASTLING_BLACK_K | CASTLING_BLACK_Q) );
+  assert_true( pulchess_the_white->DoMove("e1d1") );
   assert_true( pulchess_board->castlingFlags ==
- 				CASTLING_WHITE_K | CASTLING_BLACK_K | CASTLING_BLACK_Q );
-
-  // black moves, castling black queenside drops
-  assert_true( pulchess_the_black->DoMove("a8b8") );
-  assert_true( pulchess_board->castlingFlags ==
- 				CASTLING_WHITE_K | CASTLING_BLACK_K );
+				( CASTLING_BLACK_K | CASTLING_BLACK_Q ) );  
 }
 
 static void test_BoardValue_basic()
@@ -258,14 +318,18 @@ void testSuiteBoard()
     PULCHESS_CALLCASE(test_LoadFromFen,			"board::test_LoadFromFen");
     PULCHESS_CALLCASE(test_LoadFromFen_TurnFlag, "board::test_LoadFromFen_TurnFlag");
 	PULCHESS_CALLCASE(test_LoadFromFen_EnpassantFlag, "board::test_LoadFromFen_EnpassantFlag");
+	PULCHESS_CALLCASE(test_LoadFromFen_CastlingFlags, "board::test_LoadFromFen_CastlingFlags");
 	PULCHESS_CALLCASE(test_Evaluate,			"board::test_Evaluate");
 	PULCHESS_CALLCASE(test_IsInCheck_black,    "board::test_IsInCheck_black");
 	PULCHESS_CALLCASE(test_IsInCheck_black_2,    "board::test_IsInCheck_black_2");
 	PULCHESS_CALLCASE(test_GenerateMoves_InCheck, "board::test_test_GenerateMoves_InCheck");
 	PULCHESS_CALLCASE(test_GenerateMoves_perft_strange_1, "board::test_GenerateMoves_perft_strange_1");
 	PULCHESS_CALLCASE(test_GenerateMoves_perft_strange_2, "board::test_GenerateMoves_perft_strange_2");
+	PULCHESS_CALLCASE(test_GenerateMoves_KingSafety_1, "board::test_GenerateMoves_KingSafety_1");
+	PULCHESS_CALLCASE(test_GenerateMoves_KingSafety_2, "board::test_GenerateMoves_KingSafety_2");
 	PULCHESS_CALLCASE(test_EnpassantFlag, "board::test_EnpassantFlag");
-	PULCHESS_CALLCASE(test_CastlingsFlag_Start, "board::test_CastlingsFlag_Start");
-	PULCHESS_CALLCASE(test_CastlingsFlag_AfterRookMove_1, "board::test_CastlingsFlag_AfterRookMove_1");
+	PULCHESS_CALLCASE(test_CastlingFlags_Start, "board::test_CastlingsFlag_Start");
+	PULCHESS_CALLCASE(test_CastlingFlags_AfterRookMove_1, "board::test_CastlingsFlag_AfterRookMove_1");
+	PULCHESS_CALLCASE(test_CastlingFlags_AfterKingMove_1, "board::test_CastlingsFlag_AfterKingMove_1");
 	PULCHESS_CALLCASE(test_BoardValue_basic,    "boardvalue::test_basic");
 }

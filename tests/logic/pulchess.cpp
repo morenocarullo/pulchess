@@ -94,8 +94,28 @@ static void testResetGame()
    delete pulchess;
 }
 
+static void testPerft_1()
+{
+	Pulchess *pulchess = new Pulchess(HUM_VS_HUM);
+	pulchess->Init( "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -" );
+	assert_true( pulchess->Perft(1) == 48 );
+	assert_true( pulchess->Perft(2) == 2039 );
+	// FAILS :(  assert_true( pulchess->Perft(3) == 97862 );
+}
+
+static void testPerft_start()
+{
+	Pulchess *pulchess = new Pulchess(HUM_VS_HUM);
+	pulchess->Init();
+	assert_true( pulchess->Perft(3) == 8902 );
+	assert_true( pulchess->Perft(4) == 197281 );
+	assert_true( pulchess->Perft(5) == 4865609 );
+}
+
 
 void testSuitePulchessPulchess() {
 	PULCHESS_CALLCASE(testLoadGame, "pulchess::LoadGame()");
 	PULCHESS_CALLCASE(testResetGame, "pulchess::ResetGame()");
+	PULCHESS_CALLCASE(testPerft_1, "pulchess::testPerft_1()");
+	PULCHESS_CALLCASE(testPerft_start, "pulchess::testPerft_start()");
 }
