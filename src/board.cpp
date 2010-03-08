@@ -408,8 +408,8 @@ bool Board::IsGameFinished()
   }
 	
   // checkmate!
-  if( IsInCheck(WHITE)>0 && !CanDefendCheck(WHITE) ||
-      IsInCheck(BLACK)>0 && !CanDefendCheck(BLACK) ) {
+  if( (IsInCheck(WHITE)>0 && !CanDefendCheck(WHITE)) ||
+      (IsInCheck(BLACK)>0 && !CanDefendCheck(BLACK)) ) {
 	pulchess_debug("Checkmate!");
     return true;
   }

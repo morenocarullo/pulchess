@@ -19,6 +19,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstring>
 #include "player.H"
 
 const unsigned char CPU_VS_CPU = 0;
