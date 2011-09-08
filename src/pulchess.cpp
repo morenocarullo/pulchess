@@ -94,7 +94,7 @@ void Pulchess::SetTimecontrol(int movesToPlay, int secondsForMoves, int incremen
     pulchess_debug("Exact seconds clock mode: " << secondsForMoves << " s for move." );
   }
 
-  if( pulchess_the_white != NULL & pulchess_the_black != NULL ) {
+  if( pulchess_the_white != NULL && pulchess_the_black != NULL ) {
     pulchess_the_white->InitClock(movesToPlay, secondsForMoves, increment);
     pulchess_the_black->InitClock(movesToPlay, secondsForMoves, increment);
   }

@@ -1,5 +1,2 @@
-- terminare implementazione xboard
-- velocizzare alcuni calcoli con bitboards (?)
-- parallelizzabilita'
-- interfaccia 3D SDL per console (Dreamcast, PlayStation, Nintendo GameBoy/DS...).
-- elenco delle aperture (opening library)
+- opening book
+- perft correctness

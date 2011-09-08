@@ -42,7 +42,8 @@ all: deploy
 pulchess: ${PULCHESSTXT} ${PULCHESSLOGIC}
 	@mkdir -p build
 	@g++ ${CXXFLAGS} -o build/pulchess ${PULCHESSTXT} ${PULCHESSLOGIC}
-	#strip pulchess
+	@strip build/pulchess
+	if [ -f /usr/bin/upx ]; then upx build/pulchess; fi
 	
 deploy: pulchess
 		
