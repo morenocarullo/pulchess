@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <iostream>
 #include <cstdio>
+#include <time.h>
 
 typedef signed char coord_t;
 typedef unsigned char byte;
